@@ -22,7 +22,10 @@ shapiro_test_df <- function(data, digits = 3) {
   # extract variable name
   variable = names(data)
   #list to data.frame
-  df = rbindlist(results)[,1:2]
+  # df = data.table::rbindlist(results)[,1:2]
+  # 2nd method
+  df = (do.call(rbind, results) |> data.frame())[,1:2]
+
   #bind data
   res = cbind(variable, df)|>
     dplyr::mutate_if(is.numeric, round, digits)
