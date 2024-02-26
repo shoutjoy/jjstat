@@ -13,14 +13,12 @@
 #' library(dplyr)
 #' library(rstatix)
 #'
-#' # ToothGrowth %>%
+#'  ToothGrowth %>%
 #'   group_by(dose) %>%
 #'   t_test(data =., len ~ supp) %>%
 #'   p_mark_sig("p")
 #'
-#' ToothGrowth %>%
-#'   group_by(dose) %>%
-#'   p_mark_sig()
+
 #' }
 #'
 #'

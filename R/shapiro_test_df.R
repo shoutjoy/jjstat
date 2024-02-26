@@ -22,15 +22,15 @@ shapiro_test_df <- function(data, digits = 3) {
   # extract variable name
   variable = names(data)
   #list to data.frame
-  # df = data.table::rbindlist(results)[,1:2]
+  df = data.table::rbindlist(results)[,1:2]
   # 2nd method
-  df = (do.call(rbind, results) |> data.frame())[,1:2]
+  # df = (do.call(rbind, results) |> data.frame())[,1:2]
 
   #bind data
-  res = cbind(variable, df)|>
+  res = cbind(variable, df) |> data.frame() |>
     dplyr::mutate_if(is.numeric, round, digits)
 
-  res = res|> transform(hypotheses= ifelse(p.value >0.05, "Normality * ", "reject"))
+  res = res |> transform(hypotheses= ifelse(p.value >0.05, "Normality * ", "reject"))
   #
   return(res)
 }
