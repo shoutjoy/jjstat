@@ -142,7 +142,10 @@ Describe <- function(myobject, ...){
                              MIN = sapply(myobject[myvars], min),
                              MAX = sapply(myobject[myvars], max),
                              Skew = sapply(myobject[myvars], SKEW),
-                             Kurt = sapply(myobject[myvars], KURT)
+                             Kurt = sapply(myobject[myvars], KURT),
+                             SE = sapply(myobject[myvars], sd)/sqrt(sapply(myobject[myvars], length)),
+                             Lci =  sapply(myobject[myvars], mean) - 1.96*SE,
+                             Uci =  sapply(myobject[myvars], mean) + 1.96*SE
 
   )
   myresult
