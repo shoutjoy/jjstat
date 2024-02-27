@@ -44,3 +44,19 @@ p_mark_sig <-function(data, col="p.value"){
 }
 
 
+
+#' star add usign vector
+#'
+#' @param p.value p value
+#'
+#' @return star
+#' @export
+#'
+p_star <- function(p.value){
+  ifelse(p.value < 0.001, "***",
+         ifelse(p.value < 0.01, "**",
+                ifelse(p.value < 0.05, "*",
+                       "ns")))
+}
+
+
