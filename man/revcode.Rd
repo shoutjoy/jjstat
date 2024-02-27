@@ -4,7 +4,7 @@
 \alias{revcode}
 \title{Custom function to perform reverse coding for multiple variables with custom n values}
 \usage{
-revcode(data, n, ...)
+revcode(data, n = 8, ..., postfix = "_r")
 }
 \arguments{
 \item{data}{Data frame containing the variables}
@@ -12,6 +12,8 @@ revcode(data, n, ...)
 \item{n}{Vector of maximum scale values (one for each variable), c("v1","v2",...)}
 
 \item{...}{Variable names to be reverse coded}
+
+\item{postfix}{postfix is reverse variable name default '_r'}
 }
 \value{
 add reverse data in data.frame

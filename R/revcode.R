@@ -3,6 +3,7 @@
 #' @param data Data frame containing the variables
 #' @param n Vector of maximum scale values (one for each variable), c("v1","v2",...)
 #' @param ... Variable names to be reverse coded
+#' @param postfix postfix is reverse variable name default '_r'
 #'
 #' @return add reverse data in data.frame
 #' @export
@@ -28,7 +29,7 @@
 #' revcode(mtcars[,c("cyl", "gear","carb")],
 #'             n = c(12, 6, 9),"cyl","gear","carb")
 #' }
-revcode <- function(data, n, ...) {
+revcode <- function(data, n = 8, ..., postfix="_r") {
   # Arguments:
   #   data: Data frame containing the variables
   #   n: Vector of maximum scale values (one for each variable)
@@ -37,7 +38,7 @@ revcode <- function(data, n, ...) {
     # Loop through each variable
     for (var in c(...)) {
       # Reverse code the variable
-      data[[paste0(var, "_r")]] <- n - data[[var]]
+      data[[paste0(var, postfix)]] <- n - data[[var]]
     }
   }else{
     # Loop through each variable
@@ -46,7 +47,7 @@ revcode <- function(data, n, ...) {
       n_val <- n[i]
 
       # Reverse code the variable
-      data[[paste0(var, "_r")]] <- n_val - data[[var]]
+      data[[paste0(var, postfix)]] <- n_val - data[[var]]
     }
 
   }
