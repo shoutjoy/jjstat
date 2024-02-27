@@ -45,13 +45,16 @@ bind_alpha_table = function(data, ...){
   form = list(...)
 
   if(length(form)==1){
-    result = jjstat::alpha_table( subset(data, select = form[[1]]), show="data"  )
+    result = jjstat::alpha_table( subset(data, select = form[[1]]),
+                                  show="data", variable = letters[1] )
 
   }else if(length(form) > 1 ){
-    result = jjstat::alpha_table(subset(data,select = form[[1]]),show="data" )
+    result = jjstat::alpha_table(subset(data,select = form[[1]]),
+                                 show="data", variable = letters[1] )
     for (i in 2:length(form)) {
       result <- rbind(result,
-                      jjstat::alpha_table(subset(data, select = form[[i]]),show="data" ))
+                      jjstat::alpha_table(subset(data, select = form[[i]]),
+                                          show="data", variable = letters[i] ))
     }
   }
 
