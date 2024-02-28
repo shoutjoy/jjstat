@@ -39,7 +39,7 @@ report_aov <- function(data, digits = 2, trans=FALSE) {
 
     result_sentence[i] <- paste0("one-way analysis of variance result for dv[",
                                  dv,"]~[",term[i],"], ",
-                                 significance, "(F (",
+                                 significance, "(F(",
                                  df[i],
                                  ", ",
                                  df[nrow(Data)],

@@ -58,6 +58,8 @@ report_stat <- function(data, type="normality",
   method <- data$method
   statistic <- data$statistic
   p_value <- data$p.value
+
+
   if(p_value < 0.001){p_value_res <- "< .001"
   }else{
     p_value_res <- paste0("= ", round(data$p.value, digits))}
