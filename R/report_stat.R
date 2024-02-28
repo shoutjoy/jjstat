@@ -89,3 +89,6 @@ report_stat <- function(data, type="normality", digits = 3, trans=FALSE) {
   }
 
 }
+
+
+

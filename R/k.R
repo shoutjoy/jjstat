@@ -37,8 +37,9 @@ k = function (text="",
   if(show ==" normal"){
     cat("Source language: \n\n",resin,"\n\n")
     cat("Translate language: \n\n", resout)
+
   }else if(show == "data"){
-    res= list(source= resin,
+    res = list(source = resin,
               translate = resout)
     res
   }
@@ -89,6 +90,6 @@ kakaoi = function (text="",
   }else if(show == "data"){
     res = list(source = resin,
               translate = resout)
-    cat( "\n\n", res, "\n\n")
+    cat( "\n\n", res[2], "\n\n")
   }
 }
