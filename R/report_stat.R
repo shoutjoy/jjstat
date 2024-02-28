@@ -43,7 +43,7 @@
 #' }
 #'
 report_stat <- function(data, type="normality", digits = 3,
-                        trans=FALSE, show="nomal") {
+                        trans=FALSE, show="data") {
   # Extract relevant information from the data
   data = broom::tidy(data)
   #   #

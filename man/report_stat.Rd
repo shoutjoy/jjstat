@@ -4,13 +4,7 @@
 \alias{report_stat}
 \title{report nomality , t.test , var.test}
 \usage{
-report_stat(
-  data,
-  type = "normality",
-  digits = 3,
-  trans = FALSE,
-  show = "nomal"
-)
+report_stat(data, type = "normality", digits = 3, trans = FALSE, show = "data")
 }
 \arguments{
 \item{data}{test result}
