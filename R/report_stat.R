@@ -4,6 +4,7 @@
 #' @param type normality, t.test, var.test(leven)
 #' @param digits  default 3
 #' @param trans translate TRUE korean language
+#' @param show  normal is source and output, data is output
 #'
 #' @return report data
 #' @export
@@ -41,7 +42,8 @@
 #'
 #' }
 #'
-report_stat <- function(data, type="normality", digits = 3, trans=FALSE) {
+report_stat <- function(data, type="normality", digits = 3,
+                        trans=FALSE, show="nomal") {
   # Extract relevant information from the data
   data = broom::tidy(data)
   #   #
@@ -83,7 +85,7 @@ report_stat <- function(data, type="normality", digits = 3, trans=FALSE) {
 
   # Print the result
   if(trans){
-    jjstat::k(result_sentence,"en","ko")
+    jjstat::kakaoi(result_sentence,"en","ko", show=show)
   }else{
     result_sentence
   }

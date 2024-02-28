@@ -4,7 +4,13 @@
 \alias{report_stat}
 \title{report nomality , t.test , var.test}
 \usage{
-report_stat(data, type = "normality", digits = 3, trans = FALSE)
+report_stat(
+  data,
+  type = "normality",
+  digits = 3,
+  trans = FALSE,
+  show = "nomal"
+)
 }
 \arguments{
 \item{data}{test result}
@@ -14,6 +20,8 @@ report_stat(data, type = "normality", digits = 3, trans = FALSE)
 \item{digits}{default 3}
 
 \item{trans}{translate TRUE korean language}
+
+\item{show}{normal is source and output, data is output}
 }
 \value{
 report data
