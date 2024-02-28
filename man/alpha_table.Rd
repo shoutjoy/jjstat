@@ -31,6 +31,11 @@ Function to tabulate reliability
 }
 \examples{
 \dontrun{
+
+stat_onl \%>\% select(S_Review, S_Add_learn, S_Feedback) \%>\%
+   jjstat::alpha_table(show="data", variable = "A" )
+
+
 bind_rows(
  stat_onl \%>\% select(S_Review, S_Add_learn, S_Feedback) \%>\%
    jjstat::alpha_table(show="data", variable = "A" ),
