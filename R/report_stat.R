@@ -42,7 +42,8 @@
 #'
 #' }
 #'
-report_stat <- function(data, type="normality", digits = 3,
+report_stat <- function(data, type="normality",
+                        digits = 3,
                         trans=FALSE, show="data") {
   # Extract relevant information from the data
   data = broom::tidy(data)
@@ -63,14 +64,14 @@ report_stat <- function(data, type="normality", digits = 3,
   # Determine the significance based on p-value
 
   if(type=="t.test"){
-    significance <- ifelse(p_value < 0.05, "It was statistically significant", "It was not statistically significant. t = ")
+    significance <- ifelse(p_value < 0.05, "It was statistically significant t = ", "It was not statistically significant. t = ")
 
   }else if(type =="normality"){
-    significance <- ifelse(p_value < 0.05, "Statistically significant, the null hypothesis was rejected and normality was not secured.",
+    significance <- ifelse(p_value < 0.05, "Statistically significant, the null hypothesis was rejected and normality was not secured.  statistic = ",
                            "the normality was secured by rejecting the alternative hypothesis because it was not statistically significant. statistic = ")
 
   }else if(type =="var.test"| type=="leven.test"){
-    significance <- ifelse(p_value < 0.05, "Statistically significant, the null hypothesis is rejected, so equidistribution can not be assumed.",
+    significance <- ifelse(p_value < 0.05, "Statistically significant, the null hypothesis is rejected, so equidistribution can not be assumed.  F = ",
                            "It was not statistically significant, and the null hypothesis can be adopted to assume equal variance. F = ")
   }
   # Create the sentence based on the method and p-value
