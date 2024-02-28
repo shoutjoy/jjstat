@@ -43,7 +43,7 @@ pcfa <- function(R,
                  cex=1,
                  pos=1){
 
-  # library(tidyverse)
+  library(tidyverse)
 
   if(nfactor==1){
     return(cat("다시 입력하세요 2이상으로 하세요"))
@@ -60,8 +60,8 @@ pcfa <- function(R,
     colnames(Gof.c)="Value"
 
     Gof.c <- Gof.c%>%
-      mutate(eig.prop= paste0("Dim",1: ncol(R))) %>%
-      select(eig.prop, Value)
+      dplyr::mutate(eig.prop= paste0("Dim",1: ncol(R))) %>%
+      dplyr::select(eig.prop, Value)
 
 
 
@@ -78,17 +78,17 @@ pcfa <- function(R,
 
     # calculation main component
     LoadingMatrix = V_main %*% E
-    colnames(LoadingMatrix)=paste0("PC",1:nfactor)
+    colnames(LoadingMatrix) = paste0("PC",1:nfactor)
     if(name=="auto"){
-      rownames(LoadingMatrix)= rownames(R)}
+      rownames(LoadingMatrix) = rownames(R)}
     if(name=="manual"){
-      rownames(LoadingMatrix)= rowname}
+      rownames(LoadingMatrix) = rowname}
 
     # LoadingMatrix %>% round(digits)
 
 
     # communality
-    communality= LoadingMatrix%*%t(LoadingMatrix)
+    communality = LoadingMatrix%*%t(LoadingMatrix)
 
     # specific variance :PSi
     psi = diag(R-LoadingMatrix%*%t(LoadingMatrix))
@@ -106,7 +106,8 @@ pcfa <- function(R,
     geom_bar(stat="identity",
              aes(colour=eig.prop, fill=eig.prop))+
     geom_text(aes(label= paste0(round(Value,1),"(%)"),
-                  vjust= -0.5 ))
+                  vjust= -0.5 ))+
+    theme_bw()
 
   #2 dimension graph
   plot(-LoadingMatrix[,1], -LoadingMatrix[,2],
@@ -183,12 +184,12 @@ pcfa_porp_plot <- function(Data,
     colnames(Gof.c)="Value"
 
     Gof.c <- Gof.c%>%
-      mutate(eig.prop= paste0("Dim",1: length(data))) %>%
-      select(eig.prop, Value)
+      dplyr::mutate(eig.prop= paste0("Dim",1: length(data))) %>%
+      dplyr::select(eig.prop, Value)
 
     g<-Gof.c %>%
-      mutate(eig.prop = fct_reorder(eig.prop,
-                                    desc(Value))) %>%
+      dplyr::mutate(eig.prop = forcats::fct_reorder(eig.prop,
+                                                    dplyr::desc(Value))) %>%
       ggplot( aes(x= eig.prop, y=Value))+
       geom_bar(stat="identity",
                aes(colour=eig.prop, fill=eig.prop))+
@@ -200,14 +201,14 @@ pcfa_porp_plot <- function(Data,
 
   }else if(prop==TRUE){
     #pre calculation porp
-    Gof.c <-   data %>% as_tibble() %>%
-      mutate("eig.prop" = rownames(R)) %>% select(2,1) %>%
-      rename(Value=value)
+    Gof.c <-   data %>% tibble::as_tibble() %>%
+      dplyr::mutate("eig.prop" = rownames(R)) %>% select(2,1) %>%
+      dplyr::rename(Value=value)
     # Gof.c <- Gof.c %>%  fct_reorder(eig.prop, Value)
 
     g<-Gof.c %>%
-      mutate(eig.prop = fct_reorder(eig.prop,
-                                    desc(Value))) %>%
+      dplyr::mutate(eig.prop = forcats::fct_reorder(eig.prop,
+                                           dplyr::desc(Value))) %>%
       ggplot( aes(x= eig.prop, y=Value))+
       geom_bar(stat="identity",
                aes(colour=eig.prop, fill=eig.prop))+
