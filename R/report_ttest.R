@@ -33,11 +33,11 @@ report_ttest <- function(ttest_result,
   #iv variable group
   iv_name1 = paste0( gsub("mean in group ","g",
                           attributes(ttest_result$estimate)[[1]][1]),
-                     "(", round(ttt$estimate[1],2),")" )
+                     "(", round(ttest_result$estimate[1],2),")" )
 
   iv_name2 = paste0( gsub("mean in group ","g",
                           attributes(ttest_result$estimate)[[1]][2]),
-                     "(", round(ttt$estimate[2],2),")" )
+                     "(", round(ttest_result$estimate[2],2),")" )
   ## t.test table
   t_test_result_tibble <- tibble::tibble(
     DV = dv,
