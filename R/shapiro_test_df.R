@@ -24,13 +24,13 @@ shapiro_test_df <- function(data, digits = 3) {
   #list to data.frame
   df = data.table::rbindlist(results)[,1:2]
   # 2nd method
-  # df = (do.call(rbind, results) |> data.frame())[,1:2]
+  # df = (do.call(rbind, results) %>% data.frame())[,1:2]
 
   #bind data
-  res = cbind(variable, df) |> data.frame() |>
+  res = cbind(variable, df) %>% data.frame() %>%
     dplyr::mutate_if(is.numeric, round, digits)
 
-  res = res |> transform(hypotheses= ifelse(p.value >0.05, "Normality * ", "reject"))
+  res = res %>% transform(hypotheses= ifelse(p.value >0.05, "Normality * ", "reject"))
   #
   return(res)
 }
@@ -77,12 +77,12 @@ shapiro_test_all<- function(data, digits=3) {
                        data.frame(
                          variable = col,
                          W = W,
-                         p.value = p_value))|>
+                         p.value = p_value))%>%
       dplyr::mutate_if(is.numeric, round, digits)
   }
 
 
-  result_df<- result_df|>
+  result_df<- result_df%>%
     transform(hypotheses= ifelse(p.value >0.05,
                                  "Normality * ", "reject"))
   result_df
