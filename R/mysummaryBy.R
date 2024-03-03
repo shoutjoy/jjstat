@@ -45,7 +45,7 @@ mysummaryBy <- function(formula,data,
   # Aggregate with summary statistics
   func = formula(formula) #formula extraction
 
-  # analysis
+  # analysis SKEW, KURT
   result <- aggregate(formula(formula), data,
                       FUN = function(x) {
                         c(
@@ -79,7 +79,9 @@ mysummaryBy <- function(formula,data,
       mutate(across(where(is.numeric), round, digits))%>%
       t()%>%
       data.frame() %>%
-      tibble::rownames_to_column("stat_var")%>%tibble::tibble()
+      tibble::rownames_to_column("stat_var") %>% 
+      tibble::tibble()
+    
     res %>% print(n=Inf)
 
   }else{
