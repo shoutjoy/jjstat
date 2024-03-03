@@ -28,6 +28,23 @@
 #' mysummaryBy(mpg ~ vs+am, data = mtcars, stat="aov")
 #' mysummaryBy(mpg ~ vs*cyl, data = mtcars, stat="aov")
 #'
+#' ##new group mean by group
+#'#' group_by(mtcars, am) %>%
+#'  summarise(mpg = mean(mpg)) %>%
+#'   summarise(mean(mpg),sd(mpg),length(mpg), min(mpg),max(mpg))
+#'
+#' ### A tibble: 1 × 5
+#' ###`mean(mpg)` `sd(mpg)` `length(mpg)` `min(mpg)` `max(mpg)`
+#' ###<dbl>     <dbl>         <int>      <dbl>      <dbl>
+#' ###  1        20.8      5.12             2       17.1       24.4
+#'
+#' mysummaryBy(mpg ~ am , data= mtcars) %>%
+#'     rename(mpg = Mean) %>%   #change name
+#'       mysummaryBy(formula = mpg ~ 1)  # mean of mpg
+#'
+#'
+#'
+#'
 #' }
 #'
 #'
@@ -79,9 +96,9 @@ mysummaryBy <- function(data,formula,
       mutate(across(where(is.numeric), round, digits))%>%
       t()%>%
       data.frame() %>%
-      tibble::rownames_to_column("stat_var") %>% 
+      tibble::rownames_to_column("stat_var") %>%
       tibble::tibble()
-    
+
     res %>% print(n=Inf)
 
   }else{

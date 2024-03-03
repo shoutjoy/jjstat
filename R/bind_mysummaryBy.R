@@ -23,14 +23,9 @@
 #'  ## 1     0  17.1
 #'  ##2     1  24.4
 #'
-#' group_by(mtcars, am) %>%
-#'  summarise(mpg =mean(mpg)) %>%
-#'   summarise(mean(mpg),sd(mpg),length(mpg), min(mpg),max(mpg))
+
 #'
-#' ### A tibble: 1 × 5
-#' ###`mean(mpg)` `sd(mpg)` `length(mpg)` `min(mpg)` `max(mpg)`
-#' ###<dbl>     <dbl>         <int>      <dbl>      <dbl>
-#' ###  1        20.8      5.12             2       17.1       24.4
+#'
 #'
 #' bind_mysummaryBy(mtcars, mpg ~ am, mpg ~ vs)
 #'

@@ -19,14 +19,14 @@ var.test report
 }
 \examples{
 \dontrun{
-var.test(mpg ~ vs, data = mtcars)|>
+var.test(mpg ~ vs, data = mtcars)\%>\%
      report_vartest()
 
-var.test(mpg ~ vs, data = mtcars)|>
-     report_vartest() |>
+var.test(mpg ~ vs, data = mtcars)\%>\%
+     report_vartest() \%>\%
      jjstat::kakaoi()
 
-var.test(mpg ~ vs, data = mtcars)|>
+var.test(mpg ~ vs, data = mtcars)\%>\%
 report_vartest(trans=TRUE)
 
 }

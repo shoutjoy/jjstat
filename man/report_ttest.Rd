@@ -22,13 +22,13 @@ report_ttest
 \examples{
 \dontrun{
 ## english report
-t.test(mpg ~ vs, mtcars, var.equal=TRUE) |>
+t.test(mpg ~ vs, mtcars, var.equal=TRUE) \%>\%
         report_ttest()
 
 ## translation
-t.test(mpg ~ vs, mtcars, var.equal=TRUE) |>
+t.test(mpg ~ vs, mtcars, var.equal=TRUE) \%>\%
 report_ttest(trans=T)
 
-t.test(mpg ~ vs, mtcars) |> report_ttest("all")
+t.test(mpg ~ vs, mtcars) \%>\% report_ttest("all")
 }
 }

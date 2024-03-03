@@ -26,31 +26,31 @@ report nomality , t.test , var.test
 \examples{
 \dontrun{
 
-shapiro.test(final) |> report_stat()
+shapiro.test(final) \%>\% report_stat()
 
-var.test(mpg ~ vs, data = mtcars)|>
+var.test(mpg ~ vs, data = mtcars)\%>\%
 report_stat("var.test")
 
-car::leveneTest(mpg~ factor(vs), mtcars)|>
+car::leveneTest(mpg~ factor(vs), mtcars)\%>\%
  report_stat("leven.test")
 
-car::leveneTest(mpg~ factor(vs), mtcars)|>
+car::leveneTest(mpg~ factor(vs), mtcars)\%>\%
 report_stat("leven.test", trans=TRUE)
 
 
-fligner.test(mpg ~ vs,data= mtcars) |>
+fligner.test(mpg ~ vs,data= mtcars) \%>\%
 report_stat("t.test")
 
-t.test(mpg ~ vs, data= mtcars, var.equal = FALSE)|>
+t.test(mpg ~ vs, data= mtcars, var.equal = FALSE)\%>\%
 report_stat("t.test")
 
-t.test(len ~ supp, data = ToothGrowth, var.equal=TRUE) |>
+t.test(len ~ supp, data = ToothGrowth, var.equal=TRUE) \%>\%
 report_stat("t.test")
 
-shapiro.test(final) |> report_stat()|> jjstat::k("en","ko")
-shapiro.test(final) |> report_stat(trans =TRUE)
+shapiro.test(final) \%>\% report_stat()\%>\% jjstat::k("en","ko")
+shapiro.test(final) \%>\% report_stat(trans =TRUE)
 
-car::leveneTest(mpg~ factor(vs), mtcars)|>
+car::leveneTest(mpg~ factor(vs), mtcars)\%>\%
 report_stat("leven.test", trans=TRUE)
 
 
