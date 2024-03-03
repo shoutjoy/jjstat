@@ -32,7 +32,7 @@
 #'
 #'
 #'
-mysummaryBy <- function(formula,data,
+mysummaryBy <- function(data,formula,
                         add_var = NULL,
                         stat = FALSE,
                         agg = FALSE,
