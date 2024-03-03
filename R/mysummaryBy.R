@@ -61,9 +61,9 @@ mysummaryBy <- function(formula,data,
 
 
   if(stat=="t.test"){
-    stat_res = t.test(formula, data = data) |> broom::tidy()|>select(1:5)
+    stat_res = t.test(formula, data = data) %>% broom::tidy()%>%select(1:5)
   }else if(stat=="aov"){
-    stat_res = aov(formula(formula), data = data) |> broom::tidy()
+    stat_res = aov(formula(formula), data = data) %>% broom::tidy()
   }else{
     stat_res=NULL
   }
@@ -71,21 +71,21 @@ mysummaryBy <- function(formula,data,
 
   # Use when there are too many independent and dependent variables
   if(agg){
-    res = result |>
-      # t() |>
+    res = result %>%
+      # t() %>%
       data.frame()
 
     res <- res %>%
-      mutate(across(where(is.numeric), round, digits))|>
-      t()|>
-      data.frame() |>
-      tibble::rownames_to_column("stat_var")|>tibble::tibble()
-    res |> print(n=Inf)
+      mutate(across(where(is.numeric), round, digits))%>%
+      t()%>%
+      data.frame() %>%
+      tibble::rownames_to_column("stat_var")%>%tibble::tibble()
+    res %>% print(n=Inf)
 
   }else{
     if(func[3]!='1()'){
       res = dplyr::bind_cols(var = result[,1: (ncol(result)-1) ],
-                             result[[ncol(result)]] ) |> tibble::tibble()
+                             result[[ncol(result)]] ) %>% tibble::tibble()
 
       if(is.null(stat_res)){
         res
@@ -96,7 +96,7 @@ mysummaryBy <- function(formula,data,
 
     }else{ #Used to obtain statistics for one variable
       res = dplyr::bind_cols(stat_var = add_var,
-                             result[[ncol(result)]] ) |> tibble::tibble()
+                             result[[ncol(result)]] ) %>% tibble::tibble()
       if(is.null(stat_res)){
         res
       }else{
@@ -111,7 +111,7 @@ mysummaryBy <- function(formula,data,
   Res = res
 
   if(gm){
-    Res = Res |> mysummary("Mean")
+    Res = Res %>% mysummary("Mean")
     Res = bind_cols(
       grp = as.character(func[3]),
       dv = as.character(func[2]),
@@ -150,9 +150,9 @@ mysummaryBy <- function(formula,data,
 #
 # #statistic data
 #   if(stat=="t.test"){
-#     stat_res = t.test(formula, data = data) |> broom::tidy()|>select(1:5)
+#     stat_res = t.test(formula, data = data) %>% broom::tidy()%>%select(1:5)
 #   }else if(stat=="aov"){
-#     stat_res = aov(formula(formula), data = data) |> broom::tidy()
+#     stat_res = aov(formula(formula), data = data) %>% broom::tidy()
 #   }else{
 #     stat_res=NULL
 #   }
@@ -161,7 +161,7 @@ mysummaryBy <- function(formula,data,
 #
 #   if(func[3]!='1()'){
 #     res = dplyr::bind_cols(var=result[,1: (ncol(result)-1) ],
-#                            result[[ncol(result)]] ) |> tibble::tibble()
+#                            result[[ncol(result)]] ) %>% tibble::tibble()
 #
 #     if(is.null(stat_res)){
 #       res
@@ -172,7 +172,7 @@ mysummaryBy <- function(formula,data,
 #
 #   }else{ #Used to obtain statistics for one variable
 #     res = dplyr::bind_cols(stat_var=add_var,
-#                            result[[ncol(result)]] ) |> tibble::tibble()
+#                            result[[ncol(result)]] ) %>% tibble::tibble()
 #     if(is.null(stat_res)){
 #       res
 #     }else{
@@ -209,12 +209,12 @@ mysummaryBy <- function(formula,data,
 #'
 #'   if(func[3]!='1()'){
 #'     res = dplyr::bind_cols(var=result[,1: (ncol(result)-1) ],
-#'                            result[[ncol(result)]] ) |> tibble::tibble()
+#'                            result[[ncol(result)]] ) %>% tibble::tibble()
 #'     return(res)
 #'
 #'   }else{ #Used to obtain statistics for one variable
 #'     res = dplyr::bind_cols(stat_var=add_var,
-#'                            result[[ncol(result)]] ) |> tibble::tibble()
+#'                            result[[ncol(result)]] ) %>% tibble::tibble()
 #'     return(res)
 #'   }
 #' }
