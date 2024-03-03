@@ -56,7 +56,7 @@ bind_mysummaryBy <- function(data, ..., unite=FALSE) {
     }
   } #if
   if(unite){
-    result = result |> tidyr::unite(var, grp:dv)
+    result = result %>%  tidyr::unite(var, grp:dv)
   }else{
     result
   }
