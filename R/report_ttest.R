@@ -11,14 +11,14 @@
 #' @examples
 #' \dontrun{
 #' ## english report
-#' t.test(mpg ~ vs, mtcars, var.equal=TRUE) |>
+#' t.test(mpg ~ vs, mtcars, var.equal=TRUE) %>%
 #'         report_ttest()
 #'
 #' ## translation
-#' t.test(mpg ~ vs, mtcars, var.equal=TRUE) |>
+#' t.test(mpg ~ vs, mtcars, var.equal=TRUE) %>%
 #' report_ttest(trans=T)
 #'
-#' t.test(mpg ~ vs, mtcars) |> report_ttest("all")
+#' t.test(mpg ~ vs, mtcars) %>% report_ttest("all")
 #' }
 report_ttest <- function(ttest_result,
                          trans = FALSE,
@@ -27,7 +27,7 @@ report_ttest <- function(ttest_result,
   ## t-test result
   t_test_result <- broom::tidy(ttest_result)
   ## processing
-  dd = ttest_result$data.name|> strsplit(" by ") |> unlist()
+  dd = ttest_result$data.name%>% strsplit(" by ") %>% unlist()
   dv = dd[1]
   iv = dd[2]
   #iv variable group
@@ -52,7 +52,7 @@ report_ttest <- function(ttest_result,
                              p.value < 0.05 ~ "*",
                              TRUE ~ "ns" ),
     test_type = t_test_result$method
-  ) |> tidyr::unite(t.value, t.value, sig, sep="")
+  ) %>% tidyr::unite(t.value, t.value, sig, sep="")
   ### using result report
   t_test_report <- paste0(
     t_test_result$method," results between the two groups '",
