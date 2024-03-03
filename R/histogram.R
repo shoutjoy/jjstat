@@ -16,7 +16,8 @@
 histogram = function(data, color="gray60"){
   # library(tidyverse)
   Data = data.frame(data)
-  Data = Data|> tibble::rowid_to_column() |>
+  Data = Data %>%
+    tibble::rowid_to_column() %>%
     tibble::tibble()
 
 
