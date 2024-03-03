@@ -12,31 +12,31 @@
 #' @examples
 #' \dontrun{
 #'
-#' shapiro.test(final) |> report_stat()
+#' shapiro.test(final) %>% report_stat()
 #'
-#' var.test(mpg ~ vs, data = mtcars)|>
+#' var.test(mpg ~ vs, data = mtcars)%>%
 #' report_stat("var.test")
 #'
-#' car::leveneTest(mpg~ factor(vs), mtcars)|>
+#' car::leveneTest(mpg~ factor(vs), mtcars)%>%
 #'  report_stat("leven.test")
 #'
-#' car::leveneTest(mpg~ factor(vs), mtcars)|>
+#' car::leveneTest(mpg~ factor(vs), mtcars)%>%
 #' report_stat("leven.test", trans=TRUE)
 #'
 #'
-#' fligner.test(mpg ~ vs,data= mtcars) |>
+#' fligner.test(mpg ~ vs,data= mtcars) %>%
 #' report_stat("t.test")
 #'
-#' t.test(mpg ~ vs, data= mtcars, var.equal = FALSE)|>
+#' t.test(mpg ~ vs, data= mtcars, var.equal = FALSE)%>%
 #' report_stat("t.test")
 #'
-#' t.test(len ~ supp, data = ToothGrowth, var.equal=TRUE) |>
+#' t.test(len ~ supp, data = ToothGrowth, var.equal=TRUE) %>%
 #' report_stat("t.test")
 #'
-#' shapiro.test(final) |> report_stat()|> jjstat::k("en","ko")
-#' shapiro.test(final) |> report_stat(trans =TRUE)
+#' shapiro.test(final) %>% report_stat()%>% jjstat::k("en","ko")
+#' shapiro.test(final) %>% report_stat(trans =TRUE)
 #'
-#' car::leveneTest(mpg~ factor(vs), mtcars)|>
+#' car::leveneTest(mpg~ factor(vs), mtcars)%>%
 #' report_stat("leven.test", trans=TRUE)
 #'
 #'
@@ -49,8 +49,8 @@ report_stat <- function(data, type="normality",
   data = broom::tidy(data)
   #   #
   if(type=="leven.test"){
-    data<- data |> dplyr::mutate(method="Leven test")
-    # data <- data |> transform(method="Leven test")
+    data<- data %>% dplyr::mutate(method="Leven test")
+    # data <- data %>% transform(method="Leven test")
   }else{
     data
   }
@@ -108,14 +108,14 @@ report_stat <- function(data, type="normality",
 #'
 #' @examples
 #' \dontrun{
-#' var.test(mpg ~ vs, data = mtcars)|>
+#' var.test(mpg ~ vs, data = mtcars)%>%
 #'      report_vartest()
 #'
-#' var.test(mpg ~ vs, data = mtcars)|>
-#'      report_vartest() |>
+#' var.test(mpg ~ vs, data = mtcars)%>%
+#'      report_vartest() %>%
 #'      jjstat::kakaoi()
 #'
-#' var.test(mpg ~ vs, data = mtcars)|>
+#' var.test(mpg ~ vs, data = mtcars)%>%
 #' report_vartest(trans=TRUE)
 #'
 #' }
@@ -123,7 +123,7 @@ report_vartest = function(var_test, trans = FALSE){
   var_test_resul0<-  broom::tidy(var_test)
   var_test_result<-  var_test
 
-  dd = var_test_result$data.name|> strsplit(" by ") |> unlist()
+  dd = var_test_result$data.name%>% strsplit(" by ") %>% unlist()
   dv = dd[1]
   iv = dd[2]
   iv_name_1 =  attributes(var_test_result$parameter)[[1]][1]
