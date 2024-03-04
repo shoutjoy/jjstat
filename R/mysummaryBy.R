@@ -220,10 +220,10 @@ DescribeBy <- function(data,formula,
                           Kurt = KURT(x)
                           )
                       })
- result <- result%>% dplyr::mutate(SE = sd(x)/sqrt(n()),
+ result <- result%>% dplyr::mutate(SE = Mean /sqrt(SD),
                                   Lower = Mean - 1.96*SE,
                                   Upper = Mean + 1.96*SE,
-                                  var = var(x, na.rm = TRUE),
+                                  var =  SD^2,
                                   df = N-1)
 
   if(stat=="t.test"){
