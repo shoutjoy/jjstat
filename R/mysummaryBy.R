@@ -142,106 +142,6 @@ mysummaryBy <- function(data,formula,
 
 }
 
-# mysummaryBy <- function(formula,
-#                         data,
-#                         add_var = NULL,
-#                         stat = FALSE) {
-#   # Make sure the data object is provided
-#   if (missing(data)) stop("Please provide the data object as an argument.")
-#   # Import dplyr if needed
-#   if (requireNamespace("dplyr")) library(dplyr)
-#   # Aggregate with summary statistics
-#   func = formula(formula) #formula extraction
-#
-#   #analysis
-#   result <- aggregate(formula(formula), data,
-#                       FUN = function(x) {
-#                         c(
-#                           Mean = mean(x, na.rm = TRUE),
-#                           SD = sd(x, na.rm = TRUE),
-#                           N = length(x),
-#                           Min = min(x, na.rm = TRUE),
-#                           Max = max(x, na.rm = TRUE),
-#                           Skew = SKEW(x),
-#                           Kurt = KURT(x)
-#                           )
-#                       })
-#
-# #statistic data
-#   if(stat=="t.test"){
-#     stat_res = t.test(formula, data = data) %>% broom::tidy()%>%select(1:5)
-#   }else if(stat=="aov"){
-#     stat_res = aov(formula(formula), data = data) %>% broom::tidy()
-#   }else{
-#     stat_res=NULL
-#   }
-#
-# #aggregate data : many ~ one
-#
-#   if(func[3]!='1()'){
-#     res = dplyr::bind_cols(var=result[,1: (ncol(result)-1) ],
-#                            result[[ncol(result)]] ) %>% tibble::tibble()
-#
-#     if(is.null(stat_res)){
-#       res
-#     }else{
-#       res = list(descriptive = res, statistic = stat_res)
-#       res
-#     }
-#
-#   }else{ #Used to obtain statistics for one variable
-#     res = dplyr::bind_cols(stat_var=add_var,
-#                            result[[ncol(result)]] ) %>% tibble::tibble()
-#     if(is.null(stat_res)){
-#       res
-#     }else{
-#       res = list(descriptive = res, statistic = stat_res)
-#       res
-#     }
-#     #  res = list(res, stat_res)
-#     #  return(res)
-#   }
-# }
-#
-
-
-
-#' #'
-#' mysummaryBy <- function(formula, data, add_var=NULL) {
-#'   # Make sure the data object is provided
-#'   if (missing(data)) stop("Please provide the data object as an argument.")
-#'   # Import dplyr if needed
-#'   if (requireNamespace("dplyr")) library(dplyr)
-#'   # Aggregate with summary statistics
-#'   func = formula(formula) #formula extraction
-#'
-#'   #analysis
-#'   result <- aggregate(formula(formula), data,
-#'                       FUN = function(x) {
-#'                         c(
-#'                           Mean = mean(x, na.rm = TRUE),
-#'                           SD = sd(x, na.rm = TRUE),
-#'                           N = length(x),
-#'                           Min = min(x, na.rm = TRUE),
-#'                           Max = max(x, na.rm = TRUE))
-#'                       })
-#'
-#'   if(func[3]!='1()'){
-#'     res = dplyr::bind_cols(var=result[,1: (ncol(result)-1) ],
-#'                            result[[ncol(result)]] ) %>% tibble::tibble()
-#'     return(res)
-#'
-#'   }else{ #Used to obtain statistics for one variable
-#'     res = dplyr::bind_cols(stat_var=add_var,
-#'                            result[[ncol(result)]] ) %>% tibble::tibble()
-#'     return(res)
-#'   }
-#' }
-
-
-
-
-
 
 
 
@@ -262,20 +162,20 @@ mysummaryBy <- function(data,formula,
 #' @examples
 #' \dontrun{
 #' ## Used to obtain statistics for one variable
-#' mysummaryBy(mpg ~ 1, data = mtcars)
-#' mysummaryBy(mpg ~ 1, data = mtcars, "mpg")
-#' mysummaryBy(mpg ~ 1, data = mtcars, add_var = "mpg")
+#' DescribeBy(mpg ~ 1, data = mtcars)
+#' DescribeBy(mpg ~ 1, data = mtcars, "mpg")
+#' DescribeBy(mpg ~ 1, data = mtcars, add_var = "mpg")
 #'
 #' ##The group variable is 2 or greater
-#' mysummaryBy(mpg ~ vs, data = mtcars)
-#' mysummaryBy(mpg ~ vs+am, data = mtcars)
-#' mysummaryBy(mpg ~ vs+am+cyl, data = mtcars)
+#' DescribeBy(mpg ~ vs, data = mtcars)
+#' DescribeBy(mpg ~ vs+am, data = mtcars)
+#' DescribeBy(mpg ~ vs+am+cyl, data = mtcars)
 #'
 #' ##statistic data output
-#' mysummaryBy(mpg ~ 1, data = mtcars, "mpg", stat="t.test")
-#' mysummaryBy(mpg ~ vs, data = mtcars, stat="t.test")
-#' mysummaryBy(mpg ~ vs+am, data = mtcars, stat="aov")
-#' mysummaryBy(mpg ~ vs*cyl, data = mtcars, stat="aov")
+#' DescribeBy(mpg ~ 1, data = mtcars, "mpg", stat="t.test")
+#' DescribeBy(mpg ~ vs, data = mtcars, stat="t.test")
+#' DescribeBy(mpg ~ vs+am, data = mtcars, stat="aov")
+#' DescribeBy(mpg ~ vs*cyl, data = mtcars, stat="aov")
 #'
 #' ##new group mean by group
 #'#' group_by(mtcars, am) %>%
@@ -287,13 +187,9 @@ mysummaryBy <- function(data,formula,
 #' ###<dbl>     <dbl>         <int>      <dbl>      <dbl>
 #' ###  1        20.8      5.12             2       17.1       24.4
 #'
-#' mysummaryBy(mpg ~ am , data= mtcars) %>%
+#' DescribeBy(mpg ~ am , data= mtcars) %>%
 #'     rename(mpg = Mean) %>%   #change name
-#'       mysummaryBy(formula = mpg ~ 1)  # mean of mpg
-#'
-#'
-#'
-#'
+#'       DescribeBy(formula = mpg ~ 1)  # mean of mpg
 #' }
 #'
 #'
@@ -321,7 +217,13 @@ DescribeBy <- function(data,formula,
                           Min = min(x, na.rm = TRUE),
                           Max = max(x, na.rm = TRUE),
                           Skew = SKEW(x),
-                          Kurt = KURT(x)
+                          Kurt = KURT(x),
+                          SE = sd(x)/sqrt(n()),
+                          Lower = mean(x)-1.96*SE,
+                          Upper = mean(x)+1.96*SE,
+                          var = var(x, na.rm = TRUE),
+                          df = N-1
+
                         )
                       })
 
@@ -374,7 +276,6 @@ DescribeBy <- function(data,formula,
     }
   }
 
-
   # Measure the average of each group - Measure the average of group level with the average of each group
   Res = res
 
@@ -390,99 +291,3 @@ DescribeBy <- function(data,formula,
   }
 
 }
-
-# mysummaryBy <- function(formula,
-#                         data,
-#                         add_var = NULL,
-#                         stat = FALSE) {
-#   # Make sure the data object is provided
-#   if (missing(data)) stop("Please provide the data object as an argument.")
-#   # Import dplyr if needed
-#   if (requireNamespace("dplyr")) library(dplyr)
-#   # Aggregate with summary statistics
-#   func = formula(formula) #formula extraction
-#
-#   #analysis
-#   result <- aggregate(formula(formula), data,
-#                       FUN = function(x) {
-#                         c(
-#                           Mean = mean(x, na.rm = TRUE),
-#                           SD = sd(x, na.rm = TRUE),
-#                           N = length(x),
-#                           Min = min(x, na.rm = TRUE),
-#                           Max = max(x, na.rm = TRUE),
-#                           Skew = SKEW(x),
-#                           Kurt = KURT(x)
-#                           )
-#                       })
-#
-# #statistic data
-#   if(stat=="t.test"){
-#     stat_res = t.test(formula, data = data) %>% broom::tidy()%>%select(1:5)
-#   }else if(stat=="aov"){
-#     stat_res = aov(formula(formula), data = data) %>% broom::tidy()
-#   }else{
-#     stat_res=NULL
-#   }
-#
-# #aggregate data : many ~ one
-#
-#   if(func[3]!='1()'){
-#     res = dplyr::bind_cols(var=result[,1: (ncol(result)-1) ],
-#                            result[[ncol(result)]] ) %>% tibble::tibble()
-#
-#     if(is.null(stat_res)){
-#       res
-#     }else{
-#       res = list(descriptive = res, statistic = stat_res)
-#       res
-#     }
-#
-#   }else{ #Used to obtain statistics for one variable
-#     res = dplyr::bind_cols(stat_var=add_var,
-#                            result[[ncol(result)]] ) %>% tibble::tibble()
-#     if(is.null(stat_res)){
-#       res
-#     }else{
-#       res = list(descriptive = res, statistic = stat_res)
-#       res
-#     }
-#     #  res = list(res, stat_res)
-#     #  return(res)
-#   }
-# }
-#
-
-
-
-#' #'
-#' mysummaryBy <- function(formula, data, add_var=NULL) {
-#'   # Make sure the data object is provided
-#'   if (missing(data)) stop("Please provide the data object as an argument.")
-#'   # Import dplyr if needed
-#'   if (requireNamespace("dplyr")) library(dplyr)
-#'   # Aggregate with summary statistics
-#'   func = formula(formula) #formula extraction
-#'
-#'   #analysis
-#'   result <- aggregate(formula(formula), data,
-#'                       FUN = function(x) {
-#'                         c(
-#'                           Mean = mean(x, na.rm = TRUE),
-#'                           SD = sd(x, na.rm = TRUE),
-#'                           N = length(x),
-#'                           Min = min(x, na.rm = TRUE),
-#'                           Max = max(x, na.rm = TRUE))
-#'                       })
-#'
-#'   if(func[3]!='1()'){
-#'     res = dplyr::bind_cols(var=result[,1: (ncol(result)-1) ],
-#'                            result[[ncol(result)]] ) %>% tibble::tibble()
-#'     return(res)
-#'
-#'   }else{ #Used to obtain statistics for one variable
-#'     res = dplyr::bind_cols(stat_var=add_var,
-#'                            result[[ncol(result)]] ) %>% tibble::tibble()
-#'     return(res)
-#'   }
-#' }
