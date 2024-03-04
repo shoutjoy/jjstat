@@ -153,7 +153,7 @@ mysummaryBy <- function(data,formula,
 #' @param data data.frame
 #' @param add_var one sample name, Used to obtain statistics for one variable
 #' @param stat TRUE t.test and aov(), thes stat ="t.test", or 'aov'
-#' @param agg TRUE, mnay to many variable is showed. This functuion tha makes aggregate() work full
+#' @param agg TRUE, mnay to many variable is showed. This functuion that makes aggregate() work full
 #' @param gm default FALSE, TRUE Use group data obtained from group descriptive statistics to obtain group-level descriptive statistics (means, standard deviations, etc.) and to analyze a mixed model
 #' @param digits Troundings
 #' @return Mea, SD, N, min, max, skew, kurt
@@ -208,23 +208,24 @@ DescribeBy <- function(data,formula,
   func = formula(formula) #formula extraction
 
   # analysis SKEW, KURT
-  result <- aggregate(formula(formula), data,
+  result<- aggregate(formula(formula), data,
                       FUN = function(x) {
                         c(
-                          Mean = mean(x, na.rm = TRUE),
-                          SD = sd(x, na.rm = TRUE),
-                          N = length(x),
-                          Min = min(x, na.rm = TRUE),
-                          Max = max(x, na.rm = TRUE),
-                          Skew = SKEW(x),
-                          Kurt = KURT(x)
-                          )
+      Mean = mean(x, na.rm = TRUE),
+      SD = sd(x, na.rm = TRUE),
+      N = length(x),
+      Min = min(x, na.rm = TRUE),
+      Max = max(x, na.rm = TRUE),
+      Skew = SKEW(x),
+      Kurt = KURT(x),
+      Variance = var(x, na.rm=TRUE),
+      SE = mean(x, na.rm = TRUE)/sqrt(sd(x, na.rm = TRUE)),
+      LCI = mean(x, na.rm = TRUE) - 1.96* mean(x, na.rm = TRUE)/sqrt(sd(x, na.rm = TRUE)),
+      UCI = mean(x, na.rm = TRUE) + 1.96* mean(x, na.rm = TRUE)/sqrt(sd(x, na.rm = TRUE))
+                        )
                       })
- result <- result%>% dplyr::mutate(SE = Mean /sqrt(SD),
-                                  Lower = Mean - 1.96*SE,
-                                  Upper = Mean + 1.96*SE,
-                                  var =  SD^2,
-                                  df = N-1)
+
+
 
   if(stat=="t.test"){
     stat_res = t.test(formula, data = data) %>% broom::tidy()%>%select(1:5)
@@ -268,7 +269,8 @@ DescribeBy <- function(data,formula,
       if(is.null(stat_res)){
         res
       }else{
-        res = list(descriptive=res, statistic= stat_res)
+        res = list(descriptive = res,
+                   statistic = stat_res)
         res
       }
     }
