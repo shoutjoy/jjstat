@@ -217,16 +217,14 @@ DescribeBy <- function(data,formula,
                           Min = min(x, na.rm = TRUE),
                           Max = max(x, na.rm = TRUE),
                           Skew = SKEW(x),
-                          Kurt = KURT(x),
-                          SE = sd(x)/sqrt(n()),
-                          Lower = mean(x)-1.96*SE,
-                          Upper = mean(x)+1.96*SE,
-                          var = var(x, na.rm = TRUE),
-                          df = N-1
-
-                        )
+                          Kurt = KURT(x)
+                          )
                       })
-
+ result <- rsult%>% dplyr::mutate(SE = sd(x)/sqrt(n()),
+                                  Lower = Mean - 1.96*SE,
+                                  Upper = Mean + 1.96*SE,
+                                  var = var(x, na.rm = TRUE),
+                                  df = N-1)
 
   if(stat=="t.test"){
     stat_res = t.test(formula, data = data) %>% broom::tidy()%>%select(1:5)
