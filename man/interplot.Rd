@@ -16,7 +16,8 @@ interplot(
   xlab = "x_variable",
   ylab = "y_variable",
   size_element = 12,
-  t = FALSE
+  t = FALSE,
+  xy = FALSE
 )
 }
 \arguments{
@@ -41,6 +42,8 @@ interplot(
 \item{size_element}{axis element size}
 
 \item{t}{matrix transpose efault FALSE, use when matrix data is wide format}
+
+\item{xy}{plot ranspose default FALSE}
 }
 \value{
 plot

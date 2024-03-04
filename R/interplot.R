@@ -10,6 +10,7 @@
 #' @param ylab  plot ylab
 #' @param size_element  plot element text size
 #' @param byrow  byrow=TRUE is default
+#' @param xy  plot transpose default FALSE
 #'
 #' @return  data and plot
 #' @export
@@ -51,9 +52,8 @@ interplot_data = function(...,
                           xlab = "x",
                           ylab = "y",
                           size_element = 12,
-                          byrow = TRUE){
-  library(tidyverse)
-
+                          byrow= TRUE,
+                          xy=FALSE){
   a = c(...)
 
   # ddf = data.frame(
@@ -73,27 +73,40 @@ interplot_data = function(...,
                         names_to = "v2", values_to="value")
   # list(ddf, a[1],a[2],a[3],a[4])
 
+  #plot transpose default FALSE
+  if(xy){
 
-  g = ddf_long%>%
-    ggplot(aes(x = v1, y = value))+
-    geom_point(size = 4, aes(color=v2))+
-    geom_line(aes(group = v2, linetype = v2 ), linewidth = 1)+
-    geom_text(aes(label = value), vjust= -0.4, hjust = 2, size= 5)+
-    labs(title = title, x = xlab, y = ylab)+
-    theme_bw()+
-    theme(axis.text = element_text(size = size_element),
-          axis.title = element_text(size = size_element+2) )
+    g = ddf_long%>%
+      ggplot(aes(x = v1, y = value))+
+      geom_point(size = 4, aes(color=v2))+
+      geom_line(aes(group = v2, linetype = v2 ), linewidth = 1)+
+      geom_text(aes(label = value), vjust= -0.4, hjust = 2, size= 5)+
+      labs(title = title, x = xlab, y = ylab)+
+      theme_bw()+
+      theme(axis.text = element_text(size = size_element),
+            axis.title = element_text(size = size_element+2) )
 
+  }else{
 
-  res = list(mat=ddf, long_format= ddf_long, plot=g)
+    g = ddf_long%>%
+      ggplot(aes(x = v2, y = value))+
+      geom_point(size = 4, aes(color=v1))+
+      geom_line(aes(group = v1, linetype = v1 ), linewidth = 1)+
+      geom_text(aes(label = value), vjust= -0.4, hjust = 2, size= 5)+
+      labs(title = title, x = xlab, y = ylab)+
+      theme_bw()+
+      theme(axis.text = element_text(size = size_element),
+            axis.title = element_text(size = size_element+2) )
 
+  }
+
+  res = list(ddf, ddf_long, g)
   switch(type,
          all = res,
          mat = ddf,
          long = ddf_long,
          plot = g )
 }
-
 
 
 
@@ -110,6 +123,7 @@ interplot_data = function(...,
 #' @param ylab ylab
 #' @param size_element axis element size
 #' @param t matrix transpose efault FALSE, use when matrix data is wide format
+#' @param xy plot ranspose default FALSE
 #'
 #' @return plot
 #' @export
@@ -186,7 +200,8 @@ interplot = function(data_long,
                      xlab = "x_variable",
                      ylab = "y_variable",
                      size_element = 12,
-                     t = FALSE
+                     t = FALSE,
+                     xy = FALSE
 
 ){
 
@@ -216,7 +231,7 @@ interplot = function(data_long,
 
   view_mat = t(mat)
 
-
+if(xy){
   g =  data_long %>%
     ggplot(aes(x = v1, y = value))+
     geom_point(size = size_point , aes(color = v2))+
@@ -230,6 +245,23 @@ interplot = function(data_long,
     theme_bw()+
     theme(axis.text = element_text(size = size_element),
           axis.title = element_text(size = size_element + 3))
+}else{
+  g =  data_long %>%
+    ggplot(aes(x = v2, y = value))+
+    geom_point(size = size_point , aes(color = v1))+
+    geom_line(aes(group = v1, linetype = v1),
+              linewidth = linewidth)+
+    geom_text(aes(label = value),
+              vjust= vjust,
+              hjust = hjust,
+              size = size_text)+
+    labs(title= title, x = xlab, y = ylab)+
+    theme_bw()+
+    theme(axis.text = element_text(size = size_element),
+          axis.title = element_text(size = size_element + 3))
+
+}
+
 
   res = list(martrix = mat, plot = view_mat, plot = g)
 

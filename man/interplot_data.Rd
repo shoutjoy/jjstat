@@ -13,7 +13,8 @@ interplot_data(
   xlab = "x",
   ylab = "y",
   size_element = 12,
-  byrow = TRUE
+  byrow = TRUE,
+  xy = FALSE
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ interplot_data(
 \item{size_element}{plot element text size}
 
 \item{byrow}{byrow=TRUE is default}
+
+\item{xy}{plot transpose default FALSE}
 }
 \value{
 data and plot
