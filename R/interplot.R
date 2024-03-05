@@ -84,7 +84,8 @@ interplot_data = function(...,
       labs(title = title, x = xlab, y = ylab)+
       theme_bw()+
       theme(axis.text = element_text(size = size_element),
-            axis.title = element_text(size = size_element+2) )
+            axis.title = element_text(size = size_element+2) )+
+      ylim(min(ddf_long$value)-0.5, max(ddf_long$value)+0.5)
 
   }else{
 
@@ -96,7 +97,8 @@ interplot_data = function(...,
       labs(title = title, x = xlab, y = ylab)+
       theme_bw()+
       theme(axis.text = element_text(size = size_element),
-            axis.title = element_text(size = size_element+2) )
+            axis.title = element_text(size = size_element+2) )+
+      ylim(min(ddf_long$value)-0.5, max(ddf_long$value)+0.5)
 
   }
 
@@ -244,7 +246,8 @@ if(xy){
     labs(title= title, x = xlab, y = ylab)+
     theme_bw()+
     theme(axis.text = element_text(size = size_element),
-          axis.title = element_text(size = size_element + 3))
+          axis.title = element_text(size = size_element + 3))+
+    ylim(min(data_long$value)-0.5, max(data_long$value)+0.5)
 }else{
   g =  data_long %>%
     ggplot(aes(x = v2, y = value))+
@@ -258,8 +261,8 @@ if(xy){
     labs(title= title, x = xlab, y = ylab)+
     theme_bw()+
     theme(axis.text = element_text(size = size_element),
-          axis.title = element_text(size = size_element + 3))
-
+          axis.title = element_text(size = size_element + 3))+
+    ylim(min(data_long$value)-0.5, max(data_long$value)+0.5)
 }
 
 
