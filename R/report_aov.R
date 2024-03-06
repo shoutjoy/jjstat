@@ -9,11 +9,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' aov(len ~ supp*factor(dose), data= ToothGrowth)|>report_aov()
-#' aov(len ~ supp*factor(dose), data= ToothGrowth)|>report_aov(trans=TRUE)
+#' aov(len ~ supp*factor(dose), data= ToothGrowth) %>% report_aov()
+#' aov(len ~ supp*factor(dose), data= ToothGrowth) %>% report_aov(trans=TRUE)
 #'
 #'
 #' }
+#'
 #'
 report_aov <- function(data, digits = 2, trans=FALSE) {
   data0 = data
@@ -25,8 +26,7 @@ report_aov <- function(data, digits = 2, trans=FALSE) {
   # Extract relevant information from the data
   term <- Data$term
   df <- Data$df
-  statistic <- Data$statistic
-
+  statistic <- format(Data$statistic, 3, trim=TRUE)
   p_value <- Data$p.value
 
   # Create the sentence based on the method and p-value
@@ -37,24 +37,28 @@ report_aov <- function(data, digits = 2, trans=FALSE) {
                            "It was statistically significant",
                            "It was not statistically significant")
 
-    result_sentence[i] <- paste0("one-way analysis of variance result for dv[",
+    # Determine if the term is an interaction effect or a main effect
+    effect <- ifelse(grepl(":", term[i]),
+                     "Interaction effect",
+                     "Main effect")
+
+    result_sentence[i] <- paste0(effect, ": one-way analysis of variance result for dv[",
                                  dv,"]~[",term[i],"], ",
                                  significance, "(F(",
                                  df[i],
                                  ", ",
                                  df[nrow(Data)],
                                  ") = ",
-                                 round(statistic[i], digits),
+                                 statistic[i],
                                  ", p = ",
-                                 round(p_value[i], digits),
+                                 format(p_value[i], 3, trim=TRUE),
                                  "). \n")
-    #  significance = rbind(significance,)
   }
   # Print the result
   res = c(do.call(rbind, result_sentence))
 
   if(trans){
-    cat( jjstat::k(res,"en","ko")[2] ,  "\n")
+    cat( jjstat::k(res,"en","ko")[2] , "\n")
   }else{
     cat(res ,"\n")
   }

@@ -21,10 +21,11 @@ anova report ,report_aov
 }
 \examples{
 \dontrun{
-aov(len ~ supp*factor(dose), data= ToothGrowth)|>report_aov()
-aov(len ~ supp*factor(dose), data= ToothGrowth)|>report_aov(trans=TRUE)
+aov(len ~ supp*factor(dose), data= ToothGrowth) \%>\% report_aov()
+aov(len ~ supp*factor(dose), data= ToothGrowth) \%>\% report_aov(trans=TRUE)
 
 
 }
+
 
 }
