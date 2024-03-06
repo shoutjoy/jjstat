@@ -137,6 +137,7 @@ mysummaryBy <- function(data,formula,
       Res[,-1])
     Res%>%  mutate_if(is.numeric, round, digits)
   }else{
+    Res%>%  mutate_if(is.numeric, round, digits)
         }
 
 }
