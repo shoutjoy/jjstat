@@ -8,6 +8,8 @@
 #' @param title plot title
 #' @param xlab  plot xlab
 #' @param ylab  plot ylab
+#' @param vjust  vjust text in plot postion
+#' @param hjust  hjust text in plot position
 #' @param size_element  plot element text size
 #' @param byrow  byrow=TRUE is default
 #' @param xy  plot transpose default FALSE
@@ -51,6 +53,8 @@ interplot_data = function(...,
                           title = NULL,
                           xlab = "x",
                           ylab = "y",
+                          vjust= -0.4,
+                          hjust = 0.5,
                           size_element = 12,
                           byrow= TRUE,
                           xy=FALSE){
@@ -78,9 +82,9 @@ interplot_data = function(...,
 
     g = ddf_long%>%
       ggplot(aes(x = v1, y = value))+
-      geom_point(size = 4, aes(color=v2))+
+      geom_point(size = 4, aes(shape = v2, col= v2),show.legend = FALSE)+
       geom_line(aes(group = v2, linetype = v2 ), linewidth = 1)+
-      geom_text(aes(label = value), vjust= -0.4, hjust = 2, size= 5)+
+      geom_text(aes(label = value), vjust = vjust, hjust = hjust, size= 5)+
       labs(title = title, x = xlab, y = ylab)+
       theme_bw()+
       theme(axis.text = element_text(size = size_element),
@@ -91,9 +95,9 @@ interplot_data = function(...,
 
     g = ddf_long%>%
       ggplot(aes(x = v2, y = value))+
-      geom_point(size = 4, aes(color=v1))+
+      geom_point(size = 4, aes(shape = v1, col =v1),show.legend = FALSE)+
       geom_line(aes(group = v1, linetype = v1 ), linewidth = 1)+
-      geom_text(aes(label = value), vjust= -0.4, hjust = 2, size= 5)+
+      geom_text(aes(label = value), vjust= vjust, hjust = hjust, size= 5)+
       labs(title = title, x = xlab, y = ylab)+
       theme_bw()+
       theme(axis.text = element_text(size = size_element),
@@ -123,6 +127,7 @@ interplot_data = function(...,
 #' @param title title null
 #' @param xlab xlab
 #' @param ylab ylab
+#' @param legend_title Change legend_title
 #' @param size_element axis element size
 #' @param t matrix transpose efault FALSE, use when matrix data is wide format
 #' @param xy plot ranspose default FALSE
@@ -196,11 +201,12 @@ interplot = function(data_long,
                      size_point = 4,
                      size_text = 5,
                      linewidth = 1,
-                     vjust = -0.4,
-                     hjust = 2,
+                     vjust = - 0.4,
+                     hjust = -2,
                      title = NULL,
                      xlab = "x_variable",
                      ylab = "y_variable",
+                     legend_title= NULL,
                      size_element = 12,
                      t = FALSE,
                      xy = FALSE
@@ -219,7 +225,7 @@ interplot = function(data_long,
       tidyr::pivot_longer(cols = 2:all_of(longcol),
                           names_to = "v2", values_to="value")
   }else{
-    data_long <- as.data.frame(data_long)
+    data_long <- as.data.frame(data_long %>% dplyr::select(1:3))
     colnames(data_long) = c("v1", "v2", "value")
   }
 
@@ -236,8 +242,9 @@ interplot = function(data_long,
 if(xy){
   g =  data_long %>%
     ggplot(aes(x = v1, y = value))+
-    geom_point(size = size_point , aes(color = v2))+
-    geom_line(aes(group = v2, linetype =v2),
+    geom_point(size = size_point , aes(shape = v2, col = v2),
+               show.legend = FALSE)+
+    geom_line(aes(group = v2, linetype = v2),
               linewidth = linewidth)+
     geom_text(aes(label = value),
               vjust= vjust,
@@ -247,11 +254,13 @@ if(xy){
     theme_bw()+
     theme(axis.text = element_text(size = size_element),
           axis.title = element_text(size = size_element + 3))+
-    ylim(min(data_long$value)-0.5, max(data_long$value)+0.5)
+    ylim(min(data_long$value)-0.5, max(data_long$value)+0.5)+
+    guides(col= guide_legend(title= legend_title))
+
 }else{
   g =  data_long %>%
     ggplot(aes(x = v2, y = value))+
-    geom_point(size = size_point , aes(color = v1))+
+    geom_point(size = size_point , aes(shape = v1, col = v1),show.legend = FALSE)+
     geom_line(aes(group = v1, linetype = v1),
               linewidth = linewidth)+
     geom_text(aes(label = value),
@@ -262,7 +271,8 @@ if(xy){
     theme_bw()+
     theme(axis.text = element_text(size = size_element),
           axis.title = element_text(size = size_element + 3))+
-    ylim(min(data_long$value)-0.5, max(data_long$value)+0.5)
+    ylim(min(data_long$value)-0.5, max(data_long$value)+0.5)+
+    guides(col= guide_legend(title= legend_title))
 }
 
 

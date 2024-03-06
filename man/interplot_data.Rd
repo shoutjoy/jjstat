@@ -12,6 +12,8 @@ interplot_data(
   title = NULL,
   xlab = "x",
   ylab = "y",
+  vjust = -0.4,
+  hjust = 0.5,
   size_element = 12,
   byrow = TRUE,
   xy = FALSE
@@ -31,6 +33,10 @@ interplot_data(
 \item{xlab}{plot xlab}
 
 \item{ylab}{plot ylab}
+
+\item{vjust}{vjust text in plot postion}
+
+\item{hjust}{hjust text in plot position}
 
 \item{size_element}{plot element text size}
 

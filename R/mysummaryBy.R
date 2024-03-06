@@ -135,9 +135,8 @@ mysummaryBy <- function(data,formula,
       grp = as.character(func[3]),
       dv = as.character(func[2]),
       Res[,-1])
-    Res
+    Res%>%  mutate_if(is.numeric, round, digits)
   }else{
-    Res
         }
 
 }
@@ -285,9 +284,9 @@ DescribeBy <- function(data,formula,
       grp = as.character(func[3]),
       dv = as.character(func[2]),
       Res[,-1])
-    Res
+    Res %>%  mutate_if(is.numeric, round, digits)
   }else{
-    Res
+    Res %>%  mutate_if(is.numeric, round, digits)
   }
 
 }

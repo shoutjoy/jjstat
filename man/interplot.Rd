@@ -11,10 +11,11 @@ interplot(
   size_text = 5,
   linewidth = 1,
   vjust = -0.4,
-  hjust = 2,
+  hjust = -2,
   title = NULL,
   xlab = "x_variable",
   ylab = "y_variable",
+  legend_title = NULL,
   size_element = 12,
   t = FALSE,
   xy = FALSE
@@ -38,6 +39,8 @@ interplot(
 \item{xlab}{xlab}
 
 \item{ylab}{ylab}
+
+\item{legend_title}{Change legend_title}
 
 \item{size_element}{axis element size}
 
