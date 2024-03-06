@@ -4,12 +4,14 @@
 \alias{p_mark_sig}
 \title{p_mark_sig is Function that displays significance in data}
 \usage{
-p_mark_sig(data, col = "p.value")
+p_mark_sig(data, col = "p.value", unite = FALSE)
 }
 \arguments{
 \item{data}{input data.frame or matrix}
 
 \item{col}{'col' specifies the name of the column representing the p value in the data. By default, it is set to p.value. For example, if it is written as p, pvalue, p_value, etc., you can change the name.}
+
+\item{unite}{TRUE combine pvalue and sig}
 }
 \description{
 p_mark_sig is Function that displays significance in data
@@ -21,11 +23,17 @@ p_mark_sig is Function that displays significance in data
 library(dplyr)
 library(rstatix)
 
+##method 1
  ToothGrowth \%>\%
   group_by(dose) \%>\%
   t_test(data =., len ~ supp) \%>\%
   p_mark_sig("p")
 
+##method 2
+ ToothGrowth \%>\%
+ group_by(dose) \%>\%
+ rstatix::t_test(data =., len ~ supp) \%>\%
+  p_mark_sig("p", unite=TRUE)
 }
 
 

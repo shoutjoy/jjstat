@@ -13,6 +13,7 @@
 #' @param size_element  plot element text size
 #' @param byrow  byrow=TRUE is default
 #' @param xy  plot transpose default FALSE
+#' @param yadd  plot range add
 #'
 #' @return  data and plot
 #' @export
@@ -57,7 +58,8 @@ interplot_data = function(...,
                           hjust = 0.5,
                           size_element = 12,
                           byrow= TRUE,
-                          xy=FALSE){
+                          xy=FALSE,
+                          yadd=0.3){
   a = c(...)
 
   # ddf = data.frame(
@@ -102,7 +104,7 @@ interplot_data = function(...,
       theme_bw()+
       theme(axis.text = element_text(size = size_element),
             axis.title = element_text(size = size_element+2) )+
-      ylim(min(ddf_long$value)-0.5, max(ddf_long$value)+0.5)
+      ylim(min(ddf_long$value)- yadd, max(ddf_long$value)+ yadd)
 
   }
 

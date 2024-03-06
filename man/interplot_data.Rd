@@ -16,7 +16,8 @@ interplot_data(
   hjust = 0.5,
   size_element = 12,
   byrow = TRUE,
-  xy = FALSE
+  xy = FALSE,
+  yadd = 0.3
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ interplot_data(
 \item{byrow}{byrow=TRUE is default}
 
 \item{xy}{plot transpose default FALSE}
+
+\item{yadd}{plot range add}
 }
 \value{
 data and plot

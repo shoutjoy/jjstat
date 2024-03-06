@@ -17,6 +17,8 @@
 #'
 #'
 report_aov <- function(data, digits = 2, trans=FALSE) {
+
+
   data0 = data
   dv = as.character(data$call[[2]][2])
   iv = as.character(data$call[[2]][3])
