@@ -3,7 +3,7 @@
 #' @param data input data.frame or matrix
 #' @param col 'col' specifies the name of the column representing the p value in the data. By default, it is set to p.value. For example, if it is written as p, pvalue, p_value, etc., you can change the name.
 #' @param unite TRUE combine pvalue and sig
-
+#' @param digits default 3
 #' @export
 #'
 #' @examples
@@ -28,8 +28,10 @@
 #'
 #'
 p_mark_sig <-function(data,
-                      col="p.value",
-                      unite = FALSE){
+                      col = "p.value",
+                      unite = FALSE,
+                      digits= 3
+){
   #
   library(tidyverse)
 
@@ -51,10 +53,10 @@ p_mark_sig <-function(data,
 
 
   if(unite){
-    res = res %>% dplyr::rename(p.value = all_of(col))
+    res = res %>% dplyr::rename(p.value = all_of(col)) %>%
+      mutate_if(is.numeric, round, digits)
     res = res %>% tidyr::unite(p.value, p.value, sig, sep="")
     res
   }else{
     res }
 }
-
