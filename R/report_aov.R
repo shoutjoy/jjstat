@@ -58,7 +58,7 @@ report_aov <- function(data, digits = 2, trans=FALSE) {
   res = c(do.call(rbind, result_sentence))
 
   if(trans){
-    cat( jjstat::k(res,"en","ko")[2] , "\n")
+    cat( jjstat::kakaoi(res,"en","ko") , "\n")
   }else{
     cat(res ,"\n")
   }
