@@ -42,7 +42,15 @@
 #'     rename(mpg = Mean) %>%   #change name
 #'       mysummaryBy(formula = mpg ~ 1)  # mean of mpg
 #'
+#'#multi group transpose table
+#' mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
 #'
+#' ##twoway
+#' mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
+#'
+#'
+#' ## twoway interaction
+#' mysummaryBy(mpg ~ vs*am, data = mtcars, agg=TRUE, stat="aov")
 #'
 #'
 #' }
@@ -71,8 +79,8 @@ mysummaryBy <- function(data,formula,
                           N = length(x),
                           Min = min(x, na.rm = TRUE),
                           Max = max(x, na.rm = TRUE),
-                          Skew = SKEW(x),
-                          Kurt = KURT(x)
+                          Skew = jjstat::SKEW(x),
+                          Kurt = jjstat::KURT(x)
                         )
                       })
 
@@ -98,13 +106,23 @@ mysummaryBy <- function(data,formula,
       data.frame() %>%
       tibble::rownames_to_column("stat_var") %>%
       tibble::tibble()
+    colnames(res) = paste0("grp", 1:ncol(res))
 
-    res %>% print(n=Inf)
+    #stat view
+    if(is.null(stat_res)){
+      res
+    }else{
+      res = list(descriptive = res, statistic= stat_res)
+      res
+    }
+
+
 
   }else{
     if(func[3]!='1()'){
       res = dplyr::bind_cols(var = result[,1: (ncol(result)-1) ],
-                             result[[ncol(result)]] ) %>% tibble::tibble()
+                             result[[ncol(result)]] ) %>%
+        tibble::tibble()
 
       if(is.null(stat_res)){
         res
@@ -115,33 +133,40 @@ mysummaryBy <- function(data,formula,
 
     }else{ #Used to obtain statistics for one variable
       res = dplyr::bind_cols(stat_var = add_var,
-                             result[[ncol(result)]] ) %>% tibble::tibble()
+                             result[[ncol(result)]] ) %>%
+        tibble::tibble()
       if(is.null(stat_res)){
         res
       }else{
-        res = list(descriptive=res, statistic= stat_res)
+        res = list(descriptive = res,
+                   ANOVA = stat_res)
         res
-            }
-          }
-        }
+      }
+    }
+  }
 
 
   # Measure the average of each group - Measure the average of group level with the average of each group
-  Res = res
+  if(is.list(res)){
+    res
 
-  if(gm){
-    Res = Res %>% mysummary("Mean")
-    Res = bind_cols(
-      grp = as.character(func[3]),
-      dv = as.character(func[2]),
-      Res[,-1])
-    Res%>%  mutate_if(is.numeric, round, digits)
   }else{
-    Res%>%  mutate_if(is.numeric, round, digits)
-        }
+
+    Res = res
+
+    if(gm){
+      Res = Res %>% mysummary("Mean")
+      Res = bind_cols(
+        grp = as.character(func[3]),
+        dv = as.character(func[2]),
+        Res[,-1])
+      Res%>%  mutate_if(is.numeric, round, digits)
+    }else{
+      Res%>%  mutate_if(is.numeric, round, digits)
+    }
+  }
 
 }
-
 
 
 
@@ -249,7 +274,15 @@ DescribeBy <- function(data,formula,
       tibble::rownames_to_column("stat_var") %>%
       tibble::tibble()
 
-    res %>% print(n=Inf)
+    colnames(res) = paste0("grp", 1:ncol(res))
+
+    #stat view anova only
+    if(is.null(stat_res)){
+      res
+    }else{
+      res = list(descriptive = res, ANOVA = stat_res)
+      res
+    }
 
   }else{
     if(func[3]!='1()'){
@@ -277,6 +310,11 @@ DescribeBy <- function(data,formula,
   }
 
   # Measure the average of each group - Measure the average of group level with the average of each group
+
+  if(is.list(res)){
+    res
+
+  }else{
   Res = res
 
   if(gm){
@@ -288,6 +326,7 @@ DescribeBy <- function(data,formula,
     Res %>%  mutate_if(is.numeric, round, digits)
   }else{
     Res %>%  mutate_if(is.numeric, round, digits)
+  }
   }
 
 }

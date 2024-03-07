@@ -67,7 +67,15 @@ mysummaryBy(mpg ~ am , data= mtcars) \%>\%
     rename(mpg = Mean) \%>\%   #change name
       mysummaryBy(formula = mpg ~ 1)  # mean of mpg
 
+#multi group transpose table
+mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
 
+##twoway
+mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
+
+
+## twoway interaction
+mysummaryBy(mpg ~ vs*am, data = mtcars, agg=TRUE, stat="aov")
 
 
 }
