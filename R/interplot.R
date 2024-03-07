@@ -210,6 +210,7 @@ interplot = function(data_long,
                      xlab = "x_variable",
                      ylab = "y_variable",
                      legend_title= NULL,
+                     yadd = 0.5,
                      size_element = 12,
                      t = FALSE,
                      xy = FALSE

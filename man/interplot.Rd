@@ -16,6 +16,7 @@ interplot(
   xlab = "x_variable",
   ylab = "y_variable",
   legend_title = NULL,
+  yadd = 0.5,
   size_element = 12,
   t = FALSE,
   xy = FALSE
@@ -42,13 +43,13 @@ interplot(
 
 \item{legend_title}{Change legend_title}
 
+\item{yadd}{fig size add value}
+
 \item{size_element}{axis element size}
 
 \item{t}{matrix transpose efault FALSE, use when matrix data is wide format}
 
 \item{xy}{plot ranspose default FALSE}
-
-\item{yadd}{fig size add value}
 }
 \value{
 plot
