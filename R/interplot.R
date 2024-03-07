@@ -246,9 +246,9 @@ interplot = function(data_long,
   #matrix transpose
   view_mat = t(mat)
 
-  # rounding numeric variables
+  ## rounding numeric variables
   data_long = data_long %>% dplyr::mutate_if(is.numeric, round, digits)
-  view_mat = view_mat %>% dplyr::mutate_if(is.numeric, round, digits)
+  view_mat = view_mat %>% round(digits)
 
 
 
