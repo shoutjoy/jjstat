@@ -19,7 +19,8 @@ interplot(
   yadd = 0.5,
   size_element = 12,
   t = FALSE,
-  xy = FALSE
+  xy = FALSE,
+  digits = 3
 )
 }
 \arguments{
@@ -50,6 +51,8 @@ interplot(
 \item{t}{matrix transpose efault FALSE, use when matrix data is wide format}
 
 \item{xy}{plot ranspose default FALSE}
+
+\item{digits}{default 3}
 }
 \value{
 plot

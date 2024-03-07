@@ -134,6 +134,7 @@ interplot_data = function(...,
 #' @param size_element axis element size
 #' @param t matrix transpose efault FALSE, use when matrix data is wide format
 #' @param xy plot ranspose default FALSE
+#' @param digits default 3
 #'
 #' @return plot
 #' @export
@@ -209,11 +210,12 @@ interplot = function(data_long,
                      title = NULL,
                      xlab = "x_variable",
                      ylab = "y_variable",
-                     legend_title= NULL,
+                     legend_title= "v2",
                      yadd = 0.5,
                      size_element = 12,
                      t = FALSE,
-                     xy = FALSE
+                     xy = FALSE,
+                     digits = 3
 
 ){
 
@@ -238,10 +240,18 @@ interplot = function(data_long,
     tidyr::pivot_wider(names_from = "v2",
                        values_from ="value")%>%
     tibble::column_to_rownames("v1")
+  #col, row names paste
   colnames(mat) = c( paste0("B",1:ncol(mat)) )
   rownames(mat) = c( paste0("A",1:nrow(mat)) )
-
+  #matrix transpose
   view_mat = t(mat)
+
+  # rounding numeric variables
+  data_long = data_long %>% dplyr::mutate_if(is.numeric, round, digits)
+  view_mat = view_mat %>% dplyr::mutate_if(is.numeric, round, digits)
+
+
+
 
 if(xy){
   g =  data_long %>%
@@ -259,7 +269,8 @@ if(xy){
     theme(axis.text = element_text(size = size_element),
           axis.title = element_text(size = size_element + 3))+
     ylim(min(data_long$value)-yadd, max(data_long$value)+yadd)+
-    guides(col= guide_legend(title= legend_title))
+    # guides(col= guide_legend(title= legend_title))
+  labs(linetype =legend_title)
 
 }else{
   g =  data_long %>%
@@ -276,7 +287,8 @@ if(xy){
     theme(axis.text = element_text(size = size_element),
           axis.title = element_text(size = size_element + 3))+
     ylim(min(data_long$value)-yadd, max(data_long$value)+yadd)+
-    guides(col= guide_legend(title= legend_title))
+    # guides(col= guide_legend(title= legend_title))
+    labs(linetype =legend_title)
 }
 
 
