@@ -106,7 +106,7 @@ mysummaryBy <- function(data,formula,
       data.frame() %>%
       tibble::rownames_to_column("stat_var") %>%
       tibble::tibble()
-    colnames(res) = paste0("grp", 1:ncol(res))
+    colnames(res) = c("stat_var",  paste0("grp", 1:ncol(res[,-1])))
 
     #stat view
     if(is.null(stat_res)){
@@ -274,7 +274,7 @@ DescribeBy <- function(data,formula,
       tibble::rownames_to_column("stat_var") %>%
       tibble::tibble()
 
-    colnames(res) = paste0("grp", 1:ncol(res))
+    colnames(res) = c("stat_var",  paste0("grp", 1:ncol(res[,-1])))
 
     #stat view anova only
     if(is.null(stat_res)){
