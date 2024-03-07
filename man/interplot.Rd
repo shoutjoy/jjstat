@@ -47,6 +47,8 @@ interplot(
 \item{t}{matrix transpose efault FALSE, use when matrix data is wide format}
 
 \item{xy}{plot ranspose default FALSE}
+
+\item{yadd}{fig size add value}
 }
 \value{
 plot

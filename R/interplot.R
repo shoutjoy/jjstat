@@ -91,7 +91,7 @@ interplot_data = function(...,
       theme_bw()+
       theme(axis.text = element_text(size = size_element),
             axis.title = element_text(size = size_element+2) )+
-      ylim(min(ddf_long$value)-0.5, max(ddf_long$value)+0.5)
+      ylim(min(ddf_long$value)-yadd, max(ddf_long$value)+yadd)
 
   }else{
 
@@ -129,6 +129,7 @@ interplot_data = function(...,
 #' @param title title null
 #' @param xlab xlab
 #' @param ylab ylab
+#' @param yadd fig size add value
 #' @param legend_title Change legend_title
 #' @param size_element axis element size
 #' @param t matrix transpose efault FALSE, use when matrix data is wide format
@@ -256,7 +257,7 @@ if(xy){
     theme_bw()+
     theme(axis.text = element_text(size = size_element),
           axis.title = element_text(size = size_element + 3))+
-    ylim(min(data_long$value)-0.5, max(data_long$value)+0.5)+
+    ylim(min(data_long$value)-yadd, max(data_long$value)+yadd)+
     guides(col= guide_legend(title= legend_title))
 
 }else{
@@ -273,7 +274,7 @@ if(xy){
     theme_bw()+
     theme(axis.text = element_text(size = size_element),
           axis.title = element_text(size = size_element + 3))+
-    ylim(min(data_long$value)-0.5, max(data_long$value)+0.5)+
+    ylim(min(data_long$value)-yadd, max(data_long$value)+yadd)+
     guides(col= guide_legend(title= legend_title))
 }
 
