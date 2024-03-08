@@ -123,7 +123,8 @@ report_manova <- function(model_manova,
     tidyr::unite(dv, dv, levels, sep="_")
   ### combine variables
   sqtest =  cbind(levels, sqtest ) %>%
-    tidyr::unite(dv, name, levels, sep="_")
+    tidyr::unite(dv, name, levels, sep="_")%>%
+    Round(digits)
 
   ##Mutltivariate test  : Pillai, Wilks,  Hotelling-Lawley, Roy
   Pillai0 = summary(manovares, test = "Pillai")
@@ -160,7 +161,9 @@ report_manova <- function(model_manova,
     Hotelling_Lawley%>% dplyr::slice( nrow(Hotelling_Lawley)),
     Roy %>% dplyr::slice( nrow(Roy))
   )%>% `rownames<-`(c("Pillai", "Wilks", "Hotelling-Lawley", "Roy"))%>%
-    dplyr::select(-term)
+    dplyr::select(-term) %>%
+    tibble::rownames_to_column("Test")%>%
+    p_mark_sig("Pr(>F)")
 
   ##result arrange
   res0 = list(
