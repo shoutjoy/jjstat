@@ -15,7 +15,7 @@ interplot(
   title = NULL,
   xlab = "x_variable",
   ylab = "y_variable",
-  legend_title = NULL,
+  legend_title = "v2",
   yadd = 0.5,
   size_element = 12,
   t = FALSE,
