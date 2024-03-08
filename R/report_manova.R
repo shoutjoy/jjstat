@@ -163,7 +163,8 @@ report_manova <- function(model_manova,
   )%>% `rownames<-`(c("Pillai", "Wilks", "Hotelling-Lawley", "Roy"))%>%
     dplyr::select(-term) %>%
     tibble::rownames_to_column("Test")%>%
-    p_mark_sig("Pr(>F)")
+    p_mark_sig("Pr(>F)")%>%
+    Round(digits)
 
   ##result arrange
   res0 = list(
