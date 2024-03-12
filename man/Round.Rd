@@ -11,6 +11,9 @@ Round(data, digits = 2)
 
 \item{digits}{default 2}
 }
+\value{
+rounding data
+}
 \description{
 Find and round numeric variables only
 }

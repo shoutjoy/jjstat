@@ -3,7 +3,7 @@
 #' @param data data.frame
 #' @param digits default 2
 #'
-#' @return
+#' @return rounding data
 #' @export
 #'
 #' @examples
