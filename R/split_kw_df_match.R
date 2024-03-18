@@ -150,6 +150,23 @@ split_kw_df_match <- function(df,
                    df2[,-c(1: n_col)][c(11)],
                    df3[,-c(1: n_col)][c(12)]
     )
+  }else if(max(df$N) == 5){
+    df = bind_cols(df,
+                   df1[,-c(1: n_col)][c(1)],
+                   df2[,-c(1: n_col)][c(2)],
+                   df3[,-c(1: n_col)][c(3)],
+                   df1[,-c(1: n_col)][c(4)],
+                   df2[,-c(1: n_col)][c(5)],
+                   df3[,-c(1: n_col)][c(6)],
+                   df1[,-c(1: n_col)][c(7)],
+                   df2[,-c(1: n_col)][c(8)],
+                   df3[,-c(1: n_col)][c(9)],
+                   df1[,-c(1: n_col)][c(10)],
+                   df2[,-c(1: n_col)][c(11)],
+                   df3[,-c(1: n_col)][c(12)],
+                   df1[,-c(1: n_col)][c(13)],
+                   df2[,-c(1: n_col)][c(14)],
+                   df3[,-c(1: n_col)][c(15)])
   }
   #  %>%
   #  dplyr::select_if(~sum(!is.na(.)) > 0)
