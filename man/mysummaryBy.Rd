@@ -5,8 +5,8 @@
 \title{statistics by group}
 \usage{
 mysummaryBy(
-  data,
   formula,
+  data,
   add_var = NULL,
   stat = FALSE,
   agg = FALSE,
@@ -15,9 +15,9 @@ mysummaryBy(
 )
 }
 \arguments{
-\item{data}{data.frame}
-
 \item{formula}{general formula}
+
+\item{data}{data.frame}
 
 \item{add_var}{one sample name, Used to obtain statistics for one variable}
 
@@ -77,6 +77,12 @@ mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
 ## twoway interaction
 mysummaryBy(mpg ~ vs*am, data = mtcars, agg=TRUE, stat="aov")
 
+#add variable
+mysummaryBy(mpg ~ vs, data = mtcars, gm=T)
+# A tibble: 1 × 9
+# grp   dv        N  MEAN    SD   MIN   MAX  Skew  Kurt
+# <chr> <chr> <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#  vs    mpg       2  20.6  5.61  16.6  24.6     0 -2.75
 
 }
 
