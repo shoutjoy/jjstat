@@ -38,6 +38,24 @@
 #'
 #' bind_mysummaryBy(mtcars, mpg ~ am, mpg ~ vs, mpg ~cyl)
 #'
+#' # A tibble: 3 × 9
+#' # grp   dv        N  MEAN    SD   MIN   MAX      Skew  Kurt
+#' # <chr> <chr> <int> <dbl> <dbl> <dbl> <dbl>     <dbl> <dbl>
+#' #   1 am    mpg       2  20.8  5.12  17.1  24.4 -5.28e-16 -2.75
+#' # 2 vs    mpg       2  20.6  5.61  16.6  24.6  0        -2.75
+#' # 3 cyl   mpg       3  20.5  5.82  15.1  26.7  1.28e- 1 -2.33
+#'
+#'
+#' jjstat::bind_mysummaryBy(mtcars, mpg ~ am, mpg ~ vs, mpg ~ cyl, unite=TRUE)
+#'
+#' # A tibble: 3 × 8
+#' # var         N  MEAN    SD   MIN   MAX      Skew  Kurt
+#' # <chr>   <int> <dbl> <dbl> <dbl> <dbl>     <dbl> <dbl>
+#' #   1 am_mpg      2  20.8  5.12  17.1  24.4 -5.28e-16 -2.75
+#' # 2 vs_mpg      2  20.6  5.61  16.6  24.6  0        -2.75
+#' # 3 cyl_mpg     3  20.5  5.82  15.1  26.7  1.28e- 1 -2.33
+#'
+#'
 #'
 #'
 #' }
