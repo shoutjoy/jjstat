@@ -42,7 +42,7 @@
 #'
 #' }
 bind_mysummaryBy <- function(data,  ..., unite=FALSE) {
-data =as.data.
+
 
   form = list(...)
 
