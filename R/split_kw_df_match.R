@@ -42,32 +42,36 @@
 split_kw_df_match <- function(df,
                               sel_col="word",
                               remove = TRUE,
-                              type="res") {
+                              type="res" ){
   # Separate each word in the word column into initial, neutral, and final.
   if(!is.data.frame(df)){
-    stop("You Must Enter as a [data frame], you need check your data ")
+    # stop("You Must Enter as a [data frame], you need check your data ")
+    df <- as.data.frame(df)
   }
 
-  df = df %>% dplyr::mutate(N = nchar(word))
+  df = df %>% as.data.frame()%>% dplyr::mutate(N = nchar(word))
   n_col =  ncol(df)  #select
 
 
   spl = function(separated_word) {
 
-    if(nchar(separated_word)==2){
+    if(nchar(separated_word)==1){
+      separated_word = paste0(separated_word,"      ")
+
+    }else if(nchar(separated_word)==2){
       separated_word = paste0(separated_word,"   ")
+
     }else{
-      separated_word
-    }
+      separated_word  }
+
+
 
     separated_korean <- split_korean_word(separated_word)
+
     paste(separated_korean, collapse = '')
   }
 
-
-
-
-  df$syllabic <- sapply(df[, sel_col], spl)
+  df$syllabic <- sapply(as.vector(df[, sel_col]), spl)
 
   df = separate(df, syllabic, c(
     paste0(rep(LETTERS[1:max(df$N)], each = 3),
@@ -103,6 +107,7 @@ split_kw_df_match <- function(df,
   )
 
   df2 <- df
+
   target_columns2 <- grep("[A-Z]2$", names(df2), value = TRUE)
   for (col2 in target_columns2) {
     df2[[col2]] <- tonecheck2$code[match(df2[[col2]], tonecheck2$tone)]
@@ -168,9 +173,6 @@ split_kw_df_match <- function(df,
                    df2[,-c(1: n_col)][c(14)],
                    df3[,-c(1: n_col)][c(15)])
   }
-  #  %>%
-  #  dplyr::select_if(~sum(!is.na(.)) > 0)
-
   ### REMOVe <NA>
   df[is.na(df)] <- ""
   df1[is.na(df1)] <- ""
@@ -181,10 +183,11 @@ split_kw_df_match <- function(df,
                 초성 = df1,
                 중성 = df2,
                 종성 = df3)
-  res = df
+  res = df #%>% tibble::tibble()
   options(warn = -1)
   # return(df)
   switch(type,
+         # res = tibble::tibble(res),
          res = res,
          all = resall)
 }
