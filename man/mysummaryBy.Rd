@@ -5,8 +5,8 @@
 \title{statistics by group}
 \usage{
 mysummaryBy(
-  formula,
   data,
+  formula,
   add_var = NULL,
   stat = FALSE,
   agg = FALSE,
@@ -15,9 +15,9 @@ mysummaryBy(
 )
 }
 \arguments{
-\item{formula}{general formula}
-
 \item{data}{data.frame}
+
+\item{formula}{general formula}
 
 \item{add_var}{one sample name, Used to obtain statistics for one variable}
 

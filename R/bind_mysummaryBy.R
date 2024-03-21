@@ -59,22 +59,22 @@
 #'
 #'
 #' }
-bind_mysummaryBy <- function(data,  ..., unite=FALSE) {
+bind_mysummaryBy <- function(data,  ..., unite = FALSE) {
 
 
   form = list(...)
 
-  if(length(form)==1){
+  if(length(form) == 1){
     result = mysummaryBy(formula = form[[1]], data = data,  gm = TRUE )
     result
 
   }else if(length(form) > 1 ){
 
-    result = mysummaryBy(formula = form[[1]], data =data,  gm = TRUE )
+    result = mysummaryBy(formula = form[[1]], data = data,  gm = TRUE )
 
     for (i in 2:length(form)) {
       result <- rbind(result,
-                      mysummaryBy(form[[i]], data= data,   gm = TRUE ))
+                      mysummaryBy(formula = form[[i]], data = data,   gm = TRUE ))
     }
   } #if
 
