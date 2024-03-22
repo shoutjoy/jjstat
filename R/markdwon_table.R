@@ -29,6 +29,8 @@
 #' knitr's kable function is the foundation of this package. However, it has many latex/html specific arguments hidden under the ground unless you check its source code. This wrapper function is created to provide better documentation (and auto-complete yay) and at the same time, solve the auto format setting in a better way.
 #' kableExtra uses the built-in bootstrap themes by default in kable_styling(). Alternatively, you can use a customized table themes for your table. This lightable table style sheet comes with three formats, namely lightable-minimal, lightable-classic, lightable-material and lightable-material-dark with hover and striped options.
 #' @param catout  #p value msg
+#' @param general  #p value msg
+#'
 #' @examples
 #' # example code
 #'
@@ -67,13 +69,16 @@ markdown_table <- function(data,
                            general_title="Note: ",
                            number = NULL,
                            alphabet = NULL,
-                           catout=FALSE
+                           catout=FALSE,
+                           general = c("*** : p < .001, ** : p < .01, * : p < .05")
 ){
   # library(tidyverse)
   # library(kableExtra)
   # library(broom)
   #논문에 넣을때 복사하여 넣을 것
   options(knitr.kable.NA = '')
+
+
   if(catout){
   cat(" *** : p < .001, ** : p < .01, * : p < .05")
   }
@@ -130,7 +135,7 @@ markdown_table <- function(data,
       data %>%  kableExtra::kable_paper(full_width = full_width,
                                font_size = font_size,
                             lightable_options = lightable_options) %>%
-        kableExtra::footnote(general = c("*** : p < .001, ** : p < .01, * : p < .05"),
+        kableExtra::footnote(general =general,
                              general_title = general_title,
                              # general = general,
                              number = number,
@@ -142,7 +147,7 @@ markdown_table <- function(data,
       data %>%  kableExtra::kable_classic(full_width = full_width,
                                 font_size =  font_size,
                                 lightable_options = lightable_options)%>%
-        kableExtra::footnote(c("*** : p < .001, ** : p < .01, * : p < .05"),
+        kableExtra::footnote(general,
                              general_title = general_title,
                              # general = general,
                              number = number,
@@ -152,7 +157,7 @@ markdown_table <- function(data,
       data %>%  kableExtra::kable_material_dark(full_width = full_width,
                                       font_size =  font_size,
                                       lightable_options = lightable_options)%>%
-        kableExtra::footnote(general = c("*** : p < .001, ** : p < .01, * : p < .05"),
+        kableExtra::footnote(general = general,
                              general_title = general_title,
                              # general = general,
                              number = number,
@@ -162,7 +167,7 @@ markdown_table <- function(data,
       data %>%  kableExtra::kable_minimal(full_width = full_width,
                                 font_size =  font_size,
                                 lightable_options = lightable_options)%>%
-        kableExtra::footnote(general = c("*** : p < .001, ** : p < .01, * : p < .05"))
+        kableExtra::footnote(general = general)
 
     }
     }else if(table == "basic"){
@@ -171,7 +176,7 @@ markdown_table <- function(data,
                                 lightable_options = lightable_options,
                                 html_font = html_font,
                                 position = position)%>%
-        kableExtra::footnote(general = c("*** : p < .001, ** : p < .01, * : p < .05"),
+        kableExtra::footnote(general = general,
                              general_title = general_title,
                              # general = general,
                              number = number,
