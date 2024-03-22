@@ -28,7 +28,7 @@
 #' @description
 #' knitr's kable function is the foundation of this package. However, it has many latex/html specific arguments hidden under the ground unless you check its source code. This wrapper function is created to provide better documentation (and auto-complete yay) and at the same time, solve the auto format setting in a better way.
 #' kableExtra uses the built-in bootstrap themes by default in kable_styling(). Alternatively, you can use a customized table themes for your table. This lightable table style sheet comes with three formats, namely lightable-minimal, lightable-classic, lightable-material and lightable-material-dark with hover and striped options.
-#'
+#' @param catout  #p value msg
 #' @examples
 #' # example code
 #'
@@ -66,14 +66,17 @@ markdown_table <- function(data,
                            html_font = '"Arial Narrow", arial, helvetica, sans-serif',
                            general_title="Note: ",
                            number = NULL,
-                           alphabet = NULL
+                           alphabet = NULL,
+                           catout=FALSE
 ){
   # library(tidyverse)
   # library(kableExtra)
   # library(broom)
   #논문에 넣을때 복사하여 넣을 것
   options(knitr.kable.NA = '')
+  if(catout){
   cat(" *** : p < .001, ** : p < .01, * : p < .05")
+  }
 
   if(show =="lm"){
     #논문 테이블 Viewer

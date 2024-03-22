@@ -29,7 +29,8 @@ markdown_table(
   html_font = "\\"Arial Narrow\\", arial, helvetica, sans-serif",
   general_title = "Note: ",
   number = NULL,
-  alphabet = NULL
+  alphabet = NULL,
+  catout = FALSE
 )
 }
 \arguments{
@@ -82,6 +83,8 @@ markdown_table(
 \item{number}{A vector of footnote texts. Footnotes here will be numbered. There is no upper cap for the number of footnotes here}
 
 \item{alphabet}{A vector of footnote texts, Footnotes here will be labeled with abc. The vector here should not have more than 26 elements.}
+
+\item{catout}{#p value msg}
 }
 \description{
 knitr's kable function is the foundation of this package. However, it has many latex/html specific arguments hidden under the ground unless you check its source code. This wrapper function is created to provide better documentation (and auto-complete yay) and at the same time, solve the auto format setting in a better way.
