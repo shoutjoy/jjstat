@@ -46,7 +46,7 @@ chisq_table = function(data, v1, v2,
                        digits=3,
                        trans=FALSE,
                        simulate.p.value = FALSE,
-                       warn = TRUE){
+                       warn = FALSE){
 
   data =  data %>%
     dplyr::select(all_of(v1), all_of(v2)) %>%
@@ -91,11 +91,6 @@ chisq_table = function(data, v1, v2,
     chi_table = chi_table ,
     chi_table_md)
 
-if(warn){
-  options(warn = 0)
-}else{
-  options(warn = -1)
-}
 
 
 
@@ -107,5 +102,12 @@ if(warn){
          chitable = chi_table,
          res1 = result,
          res2 = result1)
+
+  if(warn){
+    options(warn = 0)
+  }else{
+    options(warn = -1)
+  }
+
 
 }

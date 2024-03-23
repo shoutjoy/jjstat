@@ -13,7 +13,7 @@ chisq_table(
   digits = 3,
   trans = FALSE,
   simulate.p.value = FALSE,
-  warn = TRUE
+  warn = FALSE
 )
 }
 \arguments{
