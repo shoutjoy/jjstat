@@ -92,6 +92,11 @@ chisq_table = function(data, v1, v2,
     chi_table_md)
 
 
+  if(warn){
+    options(warn = 0)
+  }else{
+    options(warn = -1)
+  }
 
 
   switch(type,
@@ -103,11 +108,6 @@ chisq_table = function(data, v1, v2,
          res1 = result,
          res2 = result1)
 
-  if(warn){
-    options(warn = 0)
-  }else{
-    options(warn = -1)
-  }
 
 
 }
