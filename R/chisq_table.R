@@ -46,7 +46,7 @@ chisq_table = function(data, v1, v2,
                        digits=3,
                        trans=FALSE,
                        simulate.p.value = FALSE,
-                       warn=FALSE){
+                       warn = TRUE){
 
   data =  data %>%
     dplyr::select(all_of(v1), all_of(v2)) %>%
