@@ -11,7 +11,8 @@ chisq_table(
   title = "Table",
   type = "res2",
   digits = 3,
-  trans = FALSE
+  trans = FALSE,
+  simulate.p.value = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ chisq_table(
 \item{digits}{round 3}
 
 \item{trans}{transpose}
+
+\item{simulate.p.value}{Chi-squared approximation may be incorrect, default= FALSE}
 }
 \value{
 output

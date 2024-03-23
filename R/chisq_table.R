@@ -33,6 +33,7 @@ accent_table = function(data, Var1="a1", Var2="성조", trans = TRUE){
 #' @param type outtype ct: crosstable, df: data.frame. 'margin','chisq_test','chitable','res1','res2'
 #' @param digits round 3
 #' @param trans transpose
+#' @param simulate.p.value Chi-squared approximation may be incorrect, default= FALSE
 #'
 #' @return output
 #' @export
@@ -42,16 +43,19 @@ chisq_table = function(data, v1, v2,
                        title="Table",
                        type= "res2",
                        digits=3,
-                       trans=FALSE){
+                       trans=FALSE,
+                       simulate.p.value = FALSE){
 
   data =  data %>%
     dplyr::select(all_of(v1), all_of(v2)) %>%
     table()
-  data_margin = data %>% addmargins() %>% accent_table(trans = trans, Var1 = v1)
+
+  data_margin = data %>% addmargins() %>%
+                accent_table(trans = trans, Var1 = v1)
 
   #chisq.test
   onset_accent <- data
-  res = chisq.test(onset_accent)
+  res = chisq.test(onset_accent, simulate.p.value = simulate.p.value)
   res_df = chisq.test(data)%>% broom::tidy()
 
   # msg = paste0("chisq = ", res_df[1,1])
@@ -81,7 +85,7 @@ chisq_table = function(data, v1, v2,
       markdown_table(caption = paste0(title," observed table "),
                      general = NULL),
     chisq_test = res,
-    # chi_df = res_df,
+    chi_df = res_df,
     chi_table = chi_table ,
     chi_table_md)
 
