@@ -57,7 +57,7 @@ lme_report <- function(lmedata,
   lmedata_summary <- summary(lmedata)
 
   #fixed effect
-  fixed_effect <- lmedata_summary$coefficients
+  fixed_effect <- lmedata_summary$coefficients %>% p_mark_sig("Pr(>|t|)")
 
    #random effect
   random_effect <- data.frame(lme4::VarCorr(lmedata))
