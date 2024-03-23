@@ -12,7 +12,8 @@ chisq_table(
   type = "res2",
   digits = 3,
   trans = FALSE,
-  simulate.p.value = FALSE
+  simulate.p.value = FALSE,
+  warn = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,9 @@ chisq_table(
 \item{trans}{transpose}
 
 \item{simulate.p.value}{Chi-squared approximation may be incorrect, default= FALSE}
+
+\item{warn}{warning msg
+#'}
 }
 \value{
 output

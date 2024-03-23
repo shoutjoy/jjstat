@@ -34,7 +34,8 @@ accent_table = function(data, Var1="a1", Var2="성조", trans = TRUE){
 #' @param digits round 3
 #' @param trans transpose
 #' @param simulate.p.value Chi-squared approximation may be incorrect, default= FALSE
-#'
+#' @param warn warning msg
+#' #'
 #' @return output
 #' @export
 #'
@@ -44,7 +45,8 @@ chisq_table = function(data, v1, v2,
                        type= "res2",
                        digits=3,
                        trans=FALSE,
-                       simulate.p.value = FALSE){
+                       simulate.p.value = FALSE,
+                       warn=FALSE){
 
   data =  data %>%
     dplyr::select(all_of(v1), all_of(v2)) %>%
@@ -88,6 +90,13 @@ chisq_table = function(data, v1, v2,
     chi_df = res_df,
     chi_table = chi_table ,
     chi_table_md)
+
+if(warn){
+  options(warn = 0)
+}else{
+  options(warn = -1)
+}
+
 
 
   switch(type,
