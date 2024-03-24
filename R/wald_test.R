@@ -1,0 +1,130 @@
+
+#' wald_test
+#'
+#' @param b1  fires coef
+#' @param se1 firtse se
+#' @param b2 secoond coef
+#' @param se2 second se
+#' @param est1 est1 name
+#' @param est2 est2 name
+#'
+#' @return test result
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' wald_test(-0.795,-0.795/-1.138, -0.795+0.149,  (-0.795+0.149)/1.344)
+#'
+#' wald_test(-0.795,-0.795/-1.138,-0.795+0.149,
+#'           (-0.795+0.149)/1.344,
+#'            est1 = "남성",
+#'            est2 = "여성")
+#'
+#' }
+#'
+#'
+wald_test <- function(b1, se1, b2, se2, est1=NULL, est2=NULL){
+  library(broom)
+  t1 = b1/se1
+  t2 = b2/se2
+
+  z = (b1 - b2)/ sqrt(se1^2 + se2^2)
+  p = 2*(1-pnorm(abs(z)))
+
+  var1 = paste0(est1,"_est1 = ", b1,", se = ", round(se1, 3), ", t = ", t1,"." )
+  var2 = paste0(est2,"_est2 = ", b2,", se = ", round(se2, 3), ", t = ", t2,"." )
+
+  res = broom::tidy(c(z.value = z,  pvalue = p))
+  colnames(res)=c("statistics","value")
+
+  res = res%>%mutate(coef=c(var1, var2))
+  res
+  # list(res, var1, var2)
+}
+
+
+
+
+
+#' wald_test2 input t value
+#'
+#' @param b1  fires coef
+#' @param t1 firtse t
+#' @param b2 secoond coef
+#' @param t2 second t
+#' @param est1 est1 name
+#' @param est2 est2 name
+#' @param gender For dichotomous variables with intercepts, the Gender
+#'
+#' @return ztest
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'
+#' wald_test2(-0.795,8.245, -0.795+0.149,  (-0.795+0.149)/1.344)
+#'
+#' wald_test2(-0.795,-0.795/-1.138,-0.795+0.149,
+#'            (-0.795+0.149)/1.344,est1="남성",est2="여성")
+#'
+#'
+#' ##gender variable
+#' ##first method
+#' wald_test2(1.311, 1.628, 1.311-0.366,  -2.732)
+#' ##second method
+#' wald_test2(1.311, 1.628, -0.366,  -2.732, gender=T)
+#' wald_test2(1.311, 1.628, -0.366,  -2.732,"male","female", gender=T)
+#'
+#' }
+#'
+#'
+wald_test2 <- function(b1, t1, b2, t2,
+                       est1 = NULL, est2=NULL,
+                       gender = FALSE){
+  library(broom)
+  if(gender){
+
+    se1 = b1/t1
+    se2 = (b1+b2)/t2
+    B1 = b1
+    B2 = b1+b2
+
+    z = (B1 - B2)/ sqrt(se1^2 + se2^2)
+    p = 2*(1-pnorm(abs(z)))
+
+    var1 = paste0(est1,"_est1(intercept) = ", b1,", se = ",
+                  round(se1, 3), ", t = ", t1,"." )
+    var2 = paste0(est2,"_est2","(",b2,") = ", B2,", se = ",
+                  round(se2, 3), ", t = ", t2,"." )
+
+
+    res = broom::tidy(c(
+      z.value = z,
+      pvalue = p))
+    colnames(res)=c("statistics","value")
+    res = res%>%mutate(coef=c(var1, var2))
+
+
+  }else{
+    se1 = b1/t1
+    se2 = b2/t2
+
+    z = (b1 - b2)/ sqrt(se1^2 + se2^2)
+    p = 2*(1-pnorm(abs(z)))
+
+    var1 = paste0(est1,"_est1 = ", b1,", se = ", round(se1, 3), ", t = ",
+                  round(t1, 3),"." )
+    var2 = paste0(est2,"_est2 = ", b2,", se = ", round(se2, 3), ", t = ",
+                  round(t2, 3),"." )
+
+    res = broom::tidy(c(
+      z.value = z,
+      pvalue = p))
+    colnames(res)=c("statistics","value")
+
+    res = res%>%mutate(coef=c(var1, var2))
+  }
+
+  res
+
+}
