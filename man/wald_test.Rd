@@ -4,7 +4,7 @@
 \alias{wald_test}
 \title{wald_test}
 \usage{
-wald_test(b1, se1, b2, se2, est1 = NULL, est2 = NULL)
+wald_test(b1, se1, b2, se2, est1 = NULL, est2 = NULL, type = "res2")
 }
 \arguments{
 \item{b1}{fires coef}

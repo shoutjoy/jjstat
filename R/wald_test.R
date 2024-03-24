@@ -44,9 +44,17 @@
 #
 
 
-wald_test <- function(b1, se1, b2, se2, est1=NULL, est2=NULL){
+wald_test <- function(b1,
+                      se1,
+                      b2,
+                      se2,
+                      est1=NULL,
+                      est2=NULL,
+                      type="res2"){
   library(broom)
   library(dplyr)
+
+
   t1 = b1/se1
   t2 = b2/se2
 
@@ -60,9 +68,16 @@ wald_test <- function(b1, se1, b2, se2, est1=NULL, est2=NULL){
     value = c( z, p))
 
   rownames(res) = c("z.value","pvalue")
+
   res = res %>%tibble::rownames_to_column("statistics")
-  res = res%>%dplyr::mutate(coef = c(var1, var2))
-  res %>% tibble::tibble()
+  # res = res%>%dplyr::mutate(coef = c(var1, var2))
+   res1 = res
+   res2 = res%>%dplyr::mutate(coef = c(var1, var2))
+
+  switch(type,
+         res = res1,
+         res1 = res1,
+         res2 = res2)
   # list(res, var1, var2)
 }
 
