@@ -46,4 +46,5 @@ wald_test2(1.311, 1.628, -0.366,  -2.732,"male","female", gender=T)
 }
 
 
+
 }

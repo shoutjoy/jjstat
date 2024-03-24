@@ -23,8 +23,30 @@
 #' }
 #'
 #'
+# wald_test <- function(b1, se1, b2, se2, est1=NULL, est2=NULL){
+#   library(broom)
+#   t1 = b1/se1
+#   t2 = b2/se2
+#
+#   z = (b1 - b2)/ sqrt(se1^2 + se2^2)
+#   p = 2*(1-pnorm(abs(z)))
+#
+#   var1 = paste0(est1,"_est1 = ", b1,", se = ", round(se1, 3), ", t = ", t1,"." )
+#   var2 = paste0(est2,"_est2 = ", b2,", se = ", round(se2, 3), ", t = ", t2,"." )
+#
+#   res = broom::tidy(c(z.value = z,  pvalue = p))
+#   colnames(res)=c("statistics","value")
+#
+#   res = res%>% dplry::mutate(coef=c(var1, var2))
+#   res
+#   # list(res, var1, var2)
+# }
+#
+
+
 wald_test <- function(b1, se1, b2, se2, est1=NULL, est2=NULL){
   library(broom)
+  library(dplyr)
   t1 = b1/se1
   t2 = b2/se2
 
@@ -34,16 +56,15 @@ wald_test <- function(b1, se1, b2, se2, est1=NULL, est2=NULL){
   var1 = paste0(est1,"_est1 = ", b1,", se = ", round(se1, 3), ", t = ", t1,"." )
   var2 = paste0(est2,"_est2 = ", b2,", se = ", round(se2, 3), ", t = ", t2,"." )
 
-  res = broom::tidy(c(z.value = z,  pvalue = p))
-  colnames(res)=c("statistics","value")
+  res = data.frame(
+    value = c( z, p))
 
-  res = res%>%mutate(coef=c(var1, var2))
-  res
+  rownames(res) = c("z.value","pvalue")
+  res = res %>%tibble::rownames_to_column("statistics")
+  res = res%>%dplyr::mutate(coef = c(var1, var2))
+  res %>% tibble::tibble()
   # list(res, var1, var2)
 }
-
-
-
 
 
 #' wald_test2 input t value
@@ -78,10 +99,12 @@ wald_test <- function(b1, se1, b2, se2, est1=NULL, est2=NULL){
 #' }
 #'
 #'
+#'
 wald_test2 <- function(b1, t1, b2, t2,
                        est1 = NULL, est2=NULL,
                        gender = FALSE){
   library(broom)
+  library(dplyr)
   if(gender){
 
     se1 = b1/t1
@@ -98,13 +121,13 @@ wald_test2 <- function(b1, t1, b2, t2,
                   round(se2, 3), ", t = ", t2,"." )
 
 
-    res = broom::tidy(c(
-      z.value = z,
-      pvalue = p))
-    colnames(res)=c("statistics","value")
-    res = res%>%mutate(coef=c(var1, var2))
+    res = data.frame(
+      value = c( z, p))
 
-
+    rownames(res) = c("z.value","pvalue")
+    res = res %>%tibble::rownames_to_column("statistics")
+    res = res%>%dplyr::mutate(coef = c(var1, var2))
+    # res %>% tibble::tibble()
   }else{
     se1 = b1/t1
     se2 = b2/t2
@@ -117,14 +140,63 @@ wald_test2 <- function(b1, t1, b2, t2,
     var2 = paste0(est2,"_est2 = ", b2,", se = ", round(se2, 3), ", t = ",
                   round(t2, 3),"." )
 
-    res = broom::tidy(c(
-      z.value = z,
-      pvalue = p))
-    colnames(res)=c("statistics","value")
-
-    res = res%>%mutate(coef=c(var1, var2))
+    res = data.frame(
+      value = c( z, p))
+    rownames(res) = c("z.value","pvalue")
+    res = res %>%tibble::rownames_to_column("statistics")
+    res = res%>%dplyr::mutate(coef = c(var1, var2))
   }
 
-  res
+  res%>% tibble::tibble()
 
 }
+# wald_test2 <- function(b1, t1, b2, t2,
+#                        est1 = NULL, est2=NULL,
+#                        gender = FALSE){
+#   library(broom)
+#   if(gender){
+#
+#     se1 = b1/t1
+#     se2 = (b1+b2)/t2
+#     B1 = b1
+#     B2 = b1+b2
+#
+#     z = (B1 - B2)/ sqrt(se1^2 + se2^2)
+#     p = 2*(1-pnorm(abs(z)))
+#
+#     var1 = paste0(est1,"_est1(intercept) = ", b1,", se = ",
+#                   round(se1, 3), ", t = ", t1,"." )
+#     var2 = paste0(est2,"_est2","(",b2,") = ", B2,", se = ",
+#                   round(se2, 3), ", t = ", t2,"." )
+#
+#
+#     res = broom::tidy(c(
+#       z.value = z,
+#       pvalue = p))
+#     colnames(res)=c("statistics","value")
+#     res = res%>%dplyr::mutate(coef=c(var1, var2))
+#
+#
+#   }else{
+#     se1 = b1/t1
+#     se2 = b2/t2
+#
+#     z = (b1 - b2)/ sqrt(se1^2 + se2^2)
+#     p = 2*(1-pnorm(abs(z)))
+#
+#     var1 = paste0(est1,"_est1 = ", b1,", se = ", round(se1, 3), ", t = ",
+#                   round(t1, 3),"." )
+#     var2 = paste0(est2,"_est2 = ", b2,", se = ", round(se2, 3), ", t = ",
+#                   round(t2, 3),"." )
+#
+#     res = broom::tidy(c(
+#       z.value = z,
+#       pvalue = p))
+#     colnames(res)=c("statistics","value")
+#
+#     res = res%>%dplyr::mutate(coef=c(var1, var2))
+#   }
+#
+#   res
+#
+# }

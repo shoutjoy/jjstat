@@ -4,6 +4,7 @@
 #' @param se1  se1 standard error
 #' @param b2  b2 coeff
 #' @param se2 se2 se
+#' @param type result type res1, res2
 #'
 #' @return z value and p value
 #' @export
@@ -15,24 +16,27 @@
 #' }
 #'
 #'
-ztest<- function(b1, se1, b2, se2){
+ztest<- function(b1, se1, b2, se2, type="res1"){
   library(broom)
-
+  library(dplyr)
   t1 = b1/se1
   t2 = b2/se2
 
   z = (b1 - b2)/ sqrt(se1^2 + se2^2)
   p = 2*(1-pnorm(abs(z)))
 
-  var1 = paste0("est1 = ", b1,", se = ", round(se1, 3), ", t = ", t1,"." )
-  var2 = paste0("est2 = ", b2,", se = ", round(se2, 3), ", t = ", t2,"." )
+  var1 = paste0(est1,"_est1 = ", b1,", se = ", round(se1, 3), ", t = ", t1,"." )
+  var2 = paste0(est2,"_est2 = ", b2,", se = ", round(se2, 3), ", t = ", t2,"." )
 
-  res = broom::tidy(c(
-    z.value = z,
-    pvalue = p))
-  colnames(res)=c("statistics","value")
+  res = data.frame(
+    value = c( z, p))
 
-  res = res%>%mutate(coef=c(var1, var2))
-  res
+  rownames(res) = c("z.value","pvalue")
+  res = res %>%tibble::rownames_to_column("statistics")
+
+  res1 = res
+  res2 = res%>%dplyr::mutate(coef = c(var1, var2))
+
+  switch(type, res= res1, res2 = res2)
 }
 
