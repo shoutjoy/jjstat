@@ -9,7 +9,7 @@
 #' @return cross table df
 #' @export
 #'
-accent_table = function(data, Var1="a1", Var2="성조", trans = TRUE){
+accent_table = function(data, Var1="a1", Var2="accent", trans = TRUE){
 
 
   res = data  %>% as.matrix() %>%data.frame() %>%
