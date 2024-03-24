@@ -13,7 +13,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' wald_test(-0.795,-0.795/-1.138, -0.795+0.149,  (-0.795+0.149)/1.344)
+#' ##Clogg, C. C., Petkova, E., & Haritou, A. (1995).
+#' Statistical methods for comparing regression coefficients between models.
+#' American Journal of Sociology, 100(5), 1261-1293.
+#' ##https://blog.naver.com/shoutjoy/223294372137
+#'
+#'  #' wald_test(-0.795,-0.795/-1.138, -0.795+0.149,  (-0.795+0.149)/1.344)
 #'
 #' wald_test(-0.795,-0.795/-1.138,-0.795+0.149,
 #'           (-0.795+0.149)/1.344,
