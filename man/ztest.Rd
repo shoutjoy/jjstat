@@ -4,7 +4,7 @@
 \alias{ztest}
 \title{Z test compare coefficient}
 \usage{
-ztest(b1, se1, b2, se2, type = "res")
+ztest(b1, se1, b2, se2, type = "res", digits = 3)
 }
 \arguments{
 \item{b1}{b1 coeff}
@@ -16,6 +16,8 @@ ztest(b1, se1, b2, se2, type = "res")
 \item{se2}{se2 se}
 
 \item{type}{result type res1, res2}
+
+\item{digits}{rounding defualt 3}
 }
 \value{
 z value and p value

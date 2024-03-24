@@ -5,6 +5,7 @@
 #' @param b2  b2 coeff
 #' @param se2 se2 se
 #' @param type result type res1, res2
+#' @param digits rounding defualt 3
 #'
 #' @return z value and p value
 #' @export
@@ -16,7 +17,7 @@
 #' }
 #'
 #'
-ztest<- function(b1, se1, b2, se2, type="res"){
+ztest<- function(b1, se1, b2, se2, type="res", digits = 3){
   library(broom)
   library(dplyr)
   t1 = b1/se1
@@ -25,8 +26,10 @@ ztest<- function(b1, se1, b2, se2, type="res"){
   z = (b1 - b2)/ sqrt(se1^2 + se2^2)
   p = 2*(1-pnorm(abs(z)))
 
-  var1 = paste0("est1 = ", b1,", se = ", round(se1, 3), ", t = ", t1,"." )
-  var2 = paste0("est2 = ", b2,", se = ", round(se2, 3), ", t = ", t2,"." )
+  var1 = paste0("est1 = ", b1,", se = ", round(se1, digits), ", t = ",
+                round(t1, digits),"." )
+  var2 = paste0("est2 = ", b2,", se = ", round(se2, digits), ", t = ",
+                round(t2, digits),"." )
 
   res = data.frame(
     value = c( z, p))
