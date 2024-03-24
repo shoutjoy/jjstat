@@ -11,7 +11,9 @@ Chisq_retest(
   rowname = NULL,
   simulate.p.value = FALSE,
   digits = 3,
-  type = "all"
+  type = "all",
+  correct = TRUE,
+  B = 2000
 )
 }
 \arguments{
@@ -28,6 +30,10 @@ Chisq_retest(
 \item{digits}{round 3}
 
 \item{type}{all, chisq}
+
+\item{correct}{default is Pearson’s Chi-squared test with Yates’ continuity correction (If you have something with a small sample count, you should use it. ), FALSE Pearson's Chi-squared test}
+
+\item{B}{B is bootstrap default 2000}
 }
 \value{
 chisquare data

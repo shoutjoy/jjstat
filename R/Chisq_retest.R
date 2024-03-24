@@ -8,7 +8,8 @@
 #' @param simulate.p.value  default FaLSE fisher exact test
 #' @param digits  round 3
 #' @param type  all, chisq
-#'
+#' @param correct  default is Pearson’s Chi-squared test with Yates’ continuity correction (If you have something with a small sample count, you should use it. ), FALSE Pearson's Chi-squared test
+#' @param B B is bootstrap default 2000
 #' @return chisquare data
 #' @export
 #'
@@ -56,8 +57,10 @@ Chisq_retest <- function(input, ncol = 2,
                          colname = NULL,
                          rowname = NULL,
                          simulate.p.value = FALSE,
-                         digits = 3,
-                         type = "all"){
+                         digits=3,
+                         type= "all",
+                         correct=TRUE,
+                         B=2000){
 
   data <- matrix( input, ncol = ncol)
 
@@ -69,15 +72,15 @@ Chisq_retest <- function(input, ncol = 2,
   }
 
 
-  res <- chisq.test(data, simulate.p.value = simulate.p.value)
+  res <- chisq.test(data, simulate.p.value = simulate.p.value,
+                    correct = correct, B=B)
   #정확도 문제를 해결하기 위한 replicates 적용
   # res
   Chisqure_Result = cbind(Chisq = res$statistic,
                           df = res$parameter,
                           p.value = res$p.value
-  )%>%jjstat::p_mark_sig("p.value")
-
-  #totatl
+  )%>%
+    jjstat::p_mark_sig("p.value")
   reslist <- list(
     Chisqure_Result = Chisqure_Result,
     # res$data.name,
@@ -90,11 +93,12 @@ Chisq_retest <- function(input, ncol = 2,
     Ratio_obs_exp = (res$observed/res$expected)%>% round(digits)
   )
 
-  #basic
   res1 = list(chi= Chisqure_Result,
               Observed = res$observed %>% addmargins()%>% round(digits),
               Obs_porp = res$observed %>% prop.table()%>% round(digits),
-              Expected = res$expected %>% addmargins()%>% round(digits))
+              Expected = res$expected %>% addmargins()%>% round(digits),
+              Analysis_Method = res$method
+  )
 
   switch(type,
          all = reslist,
