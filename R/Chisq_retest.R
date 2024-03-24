@@ -75,8 +75,9 @@ Chisq_retest <- function(input, ncol = 2,
   Chisqure_Result = cbind(Chisq = res$statistic,
                           df = res$parameter,
                           p.value = res$p.value
-  )%>%
-    jjstat::p_mark_sig("p.value")
+  )%>%jjstat::p_mark_sig("p.value")
+
+  #totatl
   reslist <- list(
     Chisqure_Result = Chisqure_Result,
     # res$data.name,
@@ -89,8 +90,16 @@ Chisq_retest <- function(input, ncol = 2,
     Ratio_obs_exp = (res$observed/res$expected)%>% round(digits)
   )
 
+  #basic
+  res1 = list(chi= Chisqure_Result,
+              Observed = res$observed %>% addmargins()%>% round(digits),
+              Obs_porp = res$observed %>% prop.table()%>% round(digits),
+              Expected = res$expected %>% addmargins()%>% round(digits))
+
   switch(type,
-         all= reslist,
-         chisq = Chisqure_Result)
+         all = reslist,
+         chisq = Chisqure_Result,
+         res =  res1
+  )
 
 }
