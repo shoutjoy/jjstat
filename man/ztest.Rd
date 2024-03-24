@@ -4,7 +4,7 @@
 \alias{ztest}
 \title{Z test compare coefficient}
 \usage{
-ztest(b1, se1, b2, se2, type = "res1")
+ztest(b1, se1, b2, se2, type = "res")
 }
 \arguments{
 \item{b1}{b1 coeff}

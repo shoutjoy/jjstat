@@ -16,7 +16,7 @@
 #' }
 #'
 #'
-ztest<- function(b1, se1, b2, se2, type="res1"){
+ztest<- function(b1, se1, b2, se2, type="res"){
   library(broom)
   library(dplyr)
   t1 = b1/se1
@@ -37,6 +37,9 @@ ztest<- function(b1, se1, b2, se2, type="res1"){
   res1 = res
   res2 = res%>%dplyr::mutate(coef = c(var1, var2))
 
-  switch(type, res= res1, res2 = res2)
+  switch(type,
+         res = res1,
+         res2 = res2)
+
 }
 
