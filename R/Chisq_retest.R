@@ -50,6 +50,9 @@
 #' rowname = c("1학년","2학년","3학년","4학년")
 #'
 #'
+#' ##If the value entered is not a vector value, but a value calculated with table(),
+#' it is automatically calculated with the ....
+#' table(mtcars$am, mtcars$vs) %>% Chisq_retest()
 #' }
 #'
 #'
@@ -64,16 +67,26 @@ Chisq_retest <- function(input, ncol = 2,
 
   data <- matrix( input, ncol = ncol)
 
-  if(!is.null(colname)){
-    colnames(data) <- colname
-    rownames(data) <- rowname
+
+  if(is.table(input)){
+    data <- input
+    res <- chisq.test(data, simulate.p.value = simulate.p.value,
+                      correct = correct, rescale.p =rescale.p )
+
   }else{
-    data <- data
+
+    data <- matrix( input, ncol = ncol)
+
+    if(!is.null(colname)){
+      colnames(data) <- colname
+      rownames(data) <- rowname
+    }else{
+      data <- data
+    }
+
+    res <- chisq.test(data, simulate.p.value = simulate.p.value,
+                      correct = correct, rescale.p =rescale.p )
   }
-
-
-  res <- chisq.test(data, simulate.p.value = simulate.p.value,
-                    correct = correct, B=B)
   #정확도 문제를 해결하기 위한 replicates 적용
   # res
   Chisqure_Result = cbind(Chisq = res$statistic,

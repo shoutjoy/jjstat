@@ -78,6 +78,9 @@ colname = c("experience", "Non-experience"),
 rowname = c("1학년","2학년","3학년","4학년")
 
 
+##If the value entered is not a vector value, but a value calculated with table(),
+it is automatically calculated with the ....
+table(mtcars$am, mtcars$vs) \%>\% Chisq_retest()
 }
 
 
