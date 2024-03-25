@@ -1,6 +1,9 @@
 #' Define a function: Convert numbers to scientific notation or common number
 #'
 #' @param number number
+#' @param n1 length
+#' @param n2 scientfic
+#' @param n3 scientfic
 #'
 #' @return  formatting
 #' @export
@@ -17,11 +20,11 @@
 #'    cat("Original:", numbers[i], "Formatted:", formatted_numbers[i], "\n")}
 #' }
 #'
-format_number <- function(number) {
+format_number <- function(number, n1=8, n2=3, n3=5) {
   # Use scientific notation when there are more than 18 decimal places
-  if (nchar(sub("\\d+\\.", "", as.character(number))) >= 8) {
-    return(format(number, scientific = TRUE, digits = 3))
+  if (nchar(sub("\\d+\\.", "", as.character(number))) >= n1) {
+    return(format(number, scientific = TRUE, digits = n2))
   } else {
-    return(format(number, scientific = FALSE, digits = 5))
+    return(format(number, scientific = FALSE, digits = n3))
   }
 }

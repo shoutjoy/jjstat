@@ -4,10 +4,16 @@
 \alias{format_number}
 \title{Define a function: Convert numbers to scientific notation or common number}
 \usage{
-format_number(number)
+format_number(number, n1 = 8, n2 = 3, n3 = 5)
 }
 \arguments{
 \item{number}{number}
+
+\item{n1}{length}
+
+\item{n2}{scientfic}
+
+\item{n3}{scientfic}
 }
 \value{
 formatting
