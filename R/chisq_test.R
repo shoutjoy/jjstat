@@ -99,8 +99,8 @@ chisqTest <- function(Obs, correct=FALSE, digits = 3, cat=TRUE) {
 #'
 #'
 #' x <- matrix(c(12, 5, 7, 7), ncol = 2)
-#' chisq.test(x)$p.value           # 0.4233
-#' chisq.test(x, simulate.p.value = TRUE, B = 10000)$p.value
+#' chisq_test(x)$p.value           # 0.4233
+#' chisq_test(x, simulate.p.value = TRUE, B = 10000)$p.value
 #' }
 chisq_test = function (x, y = NULL, correct = TRUE, p = rep(1/length(x), length(x)),
           rescale.p = FALSE, simulate.p.value = FALSE, B = 2000)

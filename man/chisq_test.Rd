@@ -56,7 +56,7 @@ Xsq$stdres     # standardized residuals
 
 
 x <- matrix(c(12, 5, 7, 7), ncol = 2)
-chisq.test(x)$p.value           # 0.4233
-chisq.test(x, simulate.p.value = TRUE, B = 10000)$p.value
+chisq_test(x)$p.value           # 0.4233
+chisq_test(x, simulate.p.value = TRUE, B = 10000)$p.value
 }
 }
