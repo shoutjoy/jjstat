@@ -36,6 +36,8 @@
 #'
 #'   \dontrun{
 #'   markdown_table(mtcars[1:5,], table="minimal")
+#'
+#'   ###*** : p < .001, ** : p < .01, * : p < .05"
 #'   }
 
 
@@ -70,7 +72,7 @@ markdown_table <- function(data,
                            number = NULL,
                            alphabet = NULL,
                            catout=FALSE,
-                           general = c("*** : p < .001, ** : p < .01, * : p < .05")
+                           general = NULL
 ){
   # library(tidyverse)
   # library(kableExtra)

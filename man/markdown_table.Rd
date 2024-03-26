@@ -31,7 +31,7 @@ markdown_table(
   number = NULL,
   alphabet = NULL,
   catout = FALSE,
-  general = c("*** : p < .001, ** : p < .01, * : p < .05")
+  general = NULL
 )
 }
 \arguments{
@@ -98,5 +98,7 @@ kableExtra uses the built-in bootstrap themes by default in kable_styling(). Alt
 
   \dontrun{
   markdown_table(mtcars[1:5,], table="minimal")
+
+  ###*** : p < .001, ** : p < .01, * : p < .05"
   }
 }
