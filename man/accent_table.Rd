@@ -4,14 +4,14 @@
 \alias{accent_table}
 \title{accent_table}
 \usage{
-accent_table(data, Var1 = "a1", Var2 = "accent", trans = TRUE)
+accent_table(data, cols = "speaker", rows = "성조", trans = TRUE)
 }
 \arguments{
 \item{data}{data.frame}
 
-\item{Var1}{v1}
+\item{cols}{v1}
 
-\item{Var2}{v2}
+\item{rows}{v2}
 
 \item{trans}{transpose}
 }

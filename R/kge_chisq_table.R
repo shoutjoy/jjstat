@@ -2,19 +2,19 @@
 #' accent_table
 #'
 #' @param data data.frame
-#' @param Var1 v1
-#' @param Var2 v2
+#' @param cols v1
+#' @param rows v2
 #' @param trans transpose
 #'
 #' @return cross table df
 #' @export
 #'
-accent_table = function(data, Var1="a1", Var2="accent", trans = TRUE){
+accent_table = function(data, cols ="speaker", rows ="성조", trans = TRUE){
 
 
   res = data  %>% as.matrix() %>%data.frame() %>%
-    pivot_wider(names_from = Var2, values_from = Freq) %>%
-    rename(accent = Var1) %>% tibble::column_to_rownames("accent")
+    pivot_wider(names_from = rows, values_from = Freq) %>%
+    rename(accent = cols) %>% tibble::column_to_rownames("accent")
 
   if(trans){res= res%>% t()
   }else{res}
@@ -40,7 +40,7 @@ accent_table = function(data, Var1="a1", Var2="accent", trans = TRUE){
 #' @export
 #'
 
-chisq_table = function(data, v1, v2,
+kge_chisq_table = function(data, v1, v2,
                        title="Table",
                        type= "res2",
                        digits=3,
