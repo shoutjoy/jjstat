@@ -13,6 +13,9 @@ Replace(vector, pattern = NA, imp = "")
 
 \item{imp}{imputation}
 }
+\value{
+imputation data
+}
 \description{
 Create a function to replace NA with an empty string in an R vector data
 }

@@ -5,7 +5,7 @@
 #' @param pattern dectect pattern
 #' @param imp imputation
 #'
-#' @return
+#' @return imputation data
 #' @export
 #'
 #' @examples
