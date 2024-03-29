@@ -123,7 +123,7 @@ mysummary <- function(myobject, ..., all=T, digits= 4){
 
   current_options <- options(pillar.sigfig = digits)
   print(res)
-  on.exit(options(current_options))
+  # on.exit(options(current_options))
 
 
 }
