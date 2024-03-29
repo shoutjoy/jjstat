@@ -151,7 +151,7 @@ mysummary <- function(myobject, ..., all=T, digits= 4){
 #'
 #' }
 #'
-Describe <- function(myobject, ...,  digits= 4){
+Describe <- function(myobject, ...,  digits= 6){
   #  Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr
   # 1.1.0.
   # ℹ Please use `reframe()` instead.
