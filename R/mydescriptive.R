@@ -121,7 +121,7 @@ mysummary <- function(myobject, ..., all=T, digits= 4){
 
   res =   myresult
 
-  current_options <- options(pillar.sigfig = digits)
+  options(pillar.sigfig = digits)
   print(res)
   # on.exit(options(current_options))
 
@@ -176,9 +176,9 @@ Describe <- function(myobject, ...,  digits= 4){
 
   res = myresult
 
-  current_options <- options(pillar.sigfig = digits)
+  options(pillar.sigfig = digits)
   print(res)
-  on.exit(options(current_options))
+  # on.exit(options(current_options))
 
 
 }
