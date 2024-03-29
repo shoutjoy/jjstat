@@ -13,6 +13,9 @@ Char2num(data, auto = TRUE, iter = 1:ncol(data), remove = FALSE)
 
 \item{iter}{Select the range of variables to convert}
 }
+\value{
+data.frame
+}
 \description{
 Functions to convert character to numeric
 }

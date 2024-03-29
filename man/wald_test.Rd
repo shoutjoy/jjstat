@@ -4,7 +4,16 @@
 \alias{wald_test}
 \title{wald_test}
 \usage{
-wald_test(b1, se1, b2, se2, est1 = NULL, est2 = NULL, type = "res2")
+wald_test(
+  b1,
+  se1,
+  b2,
+  se2,
+  est1 = NULL,
+  est2 = NULL,
+  digits = 3,
+  type = "res2"
+)
 }
 \arguments{
 \item{b1}{fires coef}
@@ -18,6 +27,8 @@ wald_test(b1, se1, b2, se2, est1 = NULL, est2 = NULL, type = "res2")
 \item{est1}{est1 name}
 
 \item{est2}{est2 name}
+
+\item{digits}{round}
 }
 \value{
 test result

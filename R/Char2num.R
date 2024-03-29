@@ -4,7 +4,7 @@
 #' @param auto If TRUE, converts all variables to
 #' @param iter Select the range of variables to convert
 #'
-#' @return
+#' @return  data.frame
 #' @export
 #'
 #' @examples
