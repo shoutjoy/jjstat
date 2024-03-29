@@ -4,7 +4,7 @@
 \alias{mysummary}
 \title{my summary descriptive statistics}
 \usage{
-mysummary(myobject, ...)
+mysummary(myobject, ..., all = T, digits = 4)
 }
 \arguments{
 \item{myobject}{data.frame, matrix}

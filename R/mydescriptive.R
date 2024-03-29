@@ -83,25 +83,48 @@ mydes <- function(myvariable, var = NULL, digits = 2){
 #'jjstat::mysummary(mtcars, colnames(mtcars))
 #'
 #' }
-mysummary <- function(myobject, ...){
+mysummary <- function(myobject, ..., all=T, digits= 4){
   #  Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr
   # 1.1.0.
   # ℹ Please use `reframe()` instead.
   # ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()` always
   #   returns an ungrouped data frame and adjust accordingly.
-  myvars <- c(...)
-  myresult <- dplyr::reframe(myobject,
-                             var = myvars,
-                             N = sapply(myobject[myvars], length),
-                             MEAN = sapply(myobject[myvars], mean),
-                             SD = sapply(myobject[myvars], sd),
-                             MIN = sapply(myobject[myvars], min),
-                             MAX = sapply(myobject[myvars], max),
-                             Skew = sapply(myobject[myvars], SKEW),
-                             Kurt = sapply(myobject[myvars], KURT),
-                             )
 
-    myresult
+  #Extracting and cleaning only the numeirc variable from the data
+  if(all){
+    myobject <- myobject %>% purrr::keep(is.numeric)
+    myvars <- colnames(myobject)
+
+
+    myresult <- dplyr::reframe(myobject %>% purrr::keep(is.numeric) ,
+                               var = myvars,
+                               N = sapply(myobject[myvars], length),
+                               MEAN = sapply(myobject[myvars], mean),
+                               SD = sapply(myobject[myvars], sd),
+                               MIN = sapply(myobject[myvars], min),
+                               MAX = sapply(myobject[myvars], max),
+                               Skew = sapply(myobject[myvars], SKEW),
+                               Kurt = sapply(myobject[myvars], KURT))
+
+  }else{
+    myvars <- c(...)
+    myresult <- dplyr::reframe(myobject,
+                               var = myvars,
+                               N = sapply(myobject[myvars], length),
+                               MEAN = sapply(myobject[myvars], mean),
+                               SD = sapply(myobject[myvars], sd),
+                               MIN = sapply(myobject[myvars], min),
+                               MAX = sapply(myobject[myvars], max),
+                               Skew = sapply(myobject[myvars], SKEW),
+                               Kurt = sapply(myobject[myvars], KURT))
+        }
+
+  res =   myresult
+
+  current_options <- options(pillar.sigfig = digits)
+  print(res)
+  on.exit(options(current_options))
+
 
 }
 
@@ -128,7 +151,7 @@ mysummary <- function(myobject, ...){
 #'
 #' }
 #'
-Describe <- function(myobject, ...){
+Describe <- function(myobject, ...,  digits= 4){
   #  Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr
   # 1.1.0.
   # ℹ Please use `reframe()` instead.
@@ -150,7 +173,13 @@ Describe <- function(myobject, ...){
                              Uci =  sapply(myobject[myvars], mean) + 1.96*SE
 
   )
-  myresult
+
+  res = myresult
+
+  current_options <- options(pillar.sigfig = digits)
+  print(res)
+  on.exit(options(current_options))
+
 
 }
 
