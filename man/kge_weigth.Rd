@@ -4,7 +4,7 @@
 \alias{kge_weigth}
 \title{generative weight variable, kge(2024)}
 \usage{
-kge_weigth(df, type = "res3", pattern = "", remove = FALSE)
+kge_weigth(df, type = "res", pattern = "", remove = FALSE)
 }
 \arguments{
 \item{df}{data.frame}
@@ -25,6 +25,39 @@ generative weight variable, kge(2024)
 
 
 \dontrun{
-KGEbind3 \%>\% select(-W, -weight) \%>\% kge_weigth("res")
+ # first
+ kge_bind0 \%>\% split_kw_df_match()
+#데이터검증: 입력시 " "와 같은 빈칸들이 존재함.
+#' kge_bind11 <- kge_bind0 \%>\% split_kw_df_match()
+kge_bind11$A3 \%>\% unique()
+kge_bind11$B3 \%>\% unique()
+kge_bind11$C3 \%>\% unique()
+kge_bind11$D3 \%>\% unique()
+# kge_bind10$d3 \%>\% unique()
+#데이터 전처리: 빈칸 규칙 체크하여 정리
+kge_bind11$A3 <- kge_bind11$A3 \%>\% replace_df(imp = "", pattern = " ")
+kge_bind11$B3 <- kge_bind11$B3 \%>\% replace_df(imp = "", pattern = " ")
+kge_bind11$C3 <- kge_bind11$C3 \%>\% replace_df(imp = "", pattern = " ")
+kge_bind11$D3 <- kge_bind11$D3 \%>\% replace_df(imp = "", pattern = " ")
+
+# result
+kge_bind11 \%>\% data.frame()
+
+# same data
+kge_bind10 \%>\% data.frame()
+
+# apply kge_weight
+kge_bind10\%>\% kge_weigth() \%>\%  data.frame()
+
+kge_bind1<- kge_bind10\%>\% kge_weigth()
+
+kge_bind1 \%>\% data.frame()
+ kge_bind1 \%>\% data.frame() \%>\% nrow()  #4924
+
+##
+ kge_bind1 \%>\% filter(성조 != "") \%>\% nrow() #4360
+
+kge_bind2 \%>\% data.frame() \%>\% nrow()#4360
+
 }
 }

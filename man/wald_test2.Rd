@@ -12,7 +12,8 @@ wald_test2(
   est1 = NULL,
   est2 = NULL,
   gender = FALSE,
-  digits = 3
+  digits = 3,
+  type = "res1"
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ wald_test2(
 \item{gender}{For dichotomous variables with intercepts, the Gender}
 
 \item{digits}{round}
+
+\item{type}{res=res1. res2 = all}
 }
 \value{
 ztest

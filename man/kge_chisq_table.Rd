@@ -6,14 +6,14 @@
 \usage{
 kge_chisq_table(
   data,
-  v1,
-  v2,
+  v1 = "a1",
+  v2 = "성조",
   title = "Table",
   type = "res2",
   digits = 3,
-  trans = FALSE,
-  simulate.p.value = FALSE,
-  warn = FALSE
+  yadd = 0.1,
+  ncol = NULL,
+  trans = FALSE
 )
 }
 \arguments{

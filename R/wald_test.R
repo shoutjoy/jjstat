@@ -90,7 +90,9 @@ wald_test <- function(b1,
   switch(type,
          res = res1,
          res1 = res1,
-         res2 = res2)
+         res2 = res2,
+         all = res2
+         )
   # list(res, var1, var2)
 }
 
@@ -104,6 +106,7 @@ wald_test <- function(b1,
 #' @param est2 est2 name
 #' @param gender For dichotomous variables with intercepts, the Gender
 #' @param digits round
+#' @param type res=res1. res2 = all
 #'
 #' @return ztest
 #' @export
@@ -132,7 +135,8 @@ wald_test2 <- function(b1, t1, b2, t2,
                        est1 = NULL,
                        est2 = NULL,
                        gender = FALSE,
-                       digits = 3){
+                       digits = 3,
+                       type= "res1"){
   library(broom)
   library(dplyr)
   if(gender){
@@ -157,8 +161,8 @@ wald_test2 <- function(b1, t1, b2, t2,
       value = c( z, p))
 
     rownames(res) = c("z.value","pvalue")
-    res = res %>%tibble::rownames_to_column("statistics")
-    res = res%>%dplyr::mutate(coef = c(var1, var2))
+    res = res %>%tibble::rownames_to_column("statistics") %>% tibble::tibble()
+    res1 = res%>%dplyr::mutate(coef = c(var1, var2))%>% tibble::tibble()
     # res %>% tibble::tibble()
   }else{
     se1 = b1/t1
@@ -168,20 +172,25 @@ wald_test2 <- function(b1, t1, b2, t2,
     p = 2*(1 - pnorm(abs(z)))
 
     var1 = paste0(est1,"_est1 = ", b1,", se = ", round(se1, digits), ", t = ",
-                  round(t1, 3),"." )
+                  round(t1, digits),"." )
     var2 = paste0(est2,"_est2 = ", b2,", se = ", round(se2, digits), ", t = ",
-                  round(t2, 3),"." )
+                  round(t2, digits),"." )
 
     res = data.frame(
       value = c( z, p))
     rownames(res) = c("z.value","pvalue")
-    res = res %>%tibble::rownames_to_column("statistics")
-    res = res%>%dplyr::mutate(coef = c(var1, var2))
+    res = res %>%tibble::rownames_to_column("statistics")%>% tibble::tibble()
+    res1 = res%>%dplyr::mutate(coef = c(var1, var2))%>% tibble::tibble()
   }
 
-  res = res%>% tibble::tibble()
+
   options(pillar.sigfig = digits)
-  print(res)
+  switch(type,
+         res = res,
+         res1 = res,
+         res2 = res1,
+         all = res1
+  )
 
 }
 

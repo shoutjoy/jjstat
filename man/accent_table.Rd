@@ -4,7 +4,7 @@
 \alias{accent_table}
 \title{accent_table}
 \usage{
-accent_table(data, cols = "speaker", rows = "성조", trans = TRUE)
+accent_table(data, cols = "a1", rows = "성조", trans = TRUE, type = "res")
 }
 \arguments{
 \item{data}{data.frame}
