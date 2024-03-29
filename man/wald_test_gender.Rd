@@ -43,16 +43,17 @@ wald_test2 input t value gender
 
 wald_test2(-0.795,8.245, -0.795+0.149,  (-0.795+0.149)/1.344)
 
+#Regression: gender variable should consider intercept.
 wald_test2(-0.795,-0.795/-1.138,-0.795+0.149,
            (-0.795+0.149)/1.344,est1="남성",est2="여성")
 
 
 ##gender variable
 ##first method
-wald_test2(1.311, 1.628, 1.311-0.366,  -2.732)
+wald_test_gender(1.311, 1.628, 1.311-0.366,  -2.732)
 ##second method
-wald_test2(1.311, 1.628, -0.366,  -2.732, gender=T)
-wald_test2(1.311, 1.628, -0.366,  -2.732,"male","female", gender=T)
+wald_test_gender(1.311, 1.628, -0.366,  -2.732, gender=T)
+wald_test_gender(1.311, 1.628, -0.366,  -2.732,"male","female", gender=T)
 
 }
 

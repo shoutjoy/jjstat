@@ -78,18 +78,21 @@ wald_test <- function(b1,
 
   rownames(res) = c("z.value","pvalue")
 
-  res = res %>%tibble::rownames_to_column("statistics")
-  # res = res%>%dplyr::mutate(coef = c(var1, var2))
-   res1 = res
-   res2 = res%>%dplyr::mutate(coef = c(var1, var2))
+  res = res %>%tibble::rownames_to_column("statistics")%>%tibble::tibble()
 
+
+
+  # res = res%>%dplyr::mutate(coef = c(var1, var2))
+  res1 = res %>%tibble::tibble()
+  res2 = res%>%dplyr::mutate(coef = c(var1, var2)) %>%tibble::tibble()
+
+  options(pillar.sigfig = digits)
   switch(type,
          res = res1,
          res1 = res1,
          res2 = res2)
   # list(res, var1, var2)
 }
-
 
 #' wald_test2 input t value
 #'
@@ -143,9 +146,11 @@ wald_test2 <- function(b1, t1, b2, t2,
     p = 2*(1-pnorm(abs(z)))
 
     var1 = paste0(est1,"_est1(intercept) = ", b1,", se = ",
-                  round(se1, digits), ", t = ", t1,"." )
+                  round(se1, digits), ", t = ",
+                  round(t1,digits), "." )
     var2 = paste0(est2,"_est2","(",b2,") = ", B2,", se = ",
-                  round(se2, digits), ", t = ", t2,"." )
+                  round(se2, digits), ", t = ",
+                  round(t2, digits),"." )
 
 
     res = data.frame(
@@ -174,7 +179,9 @@ wald_test2 <- function(b1, t1, b2, t2,
     res = res%>%dplyr::mutate(coef = c(var1, var2))
   }
 
-  res%>% tibble::tibble()
+  res = res%>% tibble::tibble()
+  options(pillar.sigfig = digits)
+  print(res)
 
 }
 
@@ -199,16 +206,17 @@ wald_test2 <- function(b1, t1, b2, t2,
 #'
 #' wald_test2(-0.795,8.245, -0.795+0.149,  (-0.795+0.149)/1.344)
 #'
+#' #Regression: gender variable should consider intercept.
 #' wald_test2(-0.795,-0.795/-1.138,-0.795+0.149,
 #'            (-0.795+0.149)/1.344,est1="남성",est2="여성")
 #'
 #'
 #' ##gender variable
 #' ##first method
-#' wald_test2(1.311, 1.628, 1.311-0.366,  -2.732)
+#' wald_test_gender(1.311, 1.628, 1.311-0.366,  -2.732)
 #' ##second method
-#' wald_test2(1.311, 1.628, -0.366,  -2.732, gender=T)
-#' wald_test2(1.311, 1.628, -0.366,  -2.732,"male","female", gender=T)
+#' wald_test_gender(1.311, 1.628, -0.366,  -2.732, gender=T)
+#' wald_test_gender(1.311, 1.628, -0.366,  -2.732,"male","female", gender=T)
 #'
 #' }
 #'
@@ -232,9 +240,11 @@ wald_test_gender <- function(b1, t1, b2, t2,
     p = 2*(1-pnorm(abs(z)))
 
     var1 = paste0(est1,"_est1(intercept) = ", b1,", se = ",
-                  round(se1, digits), ", t = ", t1,"." )
+                  round(se1, digits), ", t = ",
+                  round(t1,digits),"." )
     var2 = paste0(est2,"_est2","(",b2,") = ", B2,", se = ",
-                  round(se2, digits), ", t = ", t2,"." )
+                  round(se2, digits), ", t = ",
+                  round(t2, digits),"." )
 
 
     res = data.frame(
@@ -263,7 +273,10 @@ wald_test_gender <- function(b1, t1, b2, t2,
     res = res%>%dplyr::mutate(coef = c(var1, var2))
   }
 
-  res%>% tibble::tibble()
+  res = res%>% tibble::tibble()
+  options(pillar.sigfig = digits)
+  print(res)
+
 
 }
 
