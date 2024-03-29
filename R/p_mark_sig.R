@@ -35,6 +35,7 @@ p_mark_sig <-function(data,
   #
   library(tidyverse)
 
+
   p.value <- data %>% as.data.frame() %>%
     dplyr::select(all_of(col))
   # any_of() does not check for missing variables. This is especially useful for negative selection when you want to check if a variable has been removed.
@@ -56,7 +57,11 @@ p_mark_sig <-function(data,
     res = res %>% dplyr::rename(p.value = all_of(col)) %>%
       mutate_if(is.numeric, round, digits)
     res = res %>% tidyr::unite(p.value, p.value, sig, sep="")
-    res
+    res= res%>% tibble::tibble()
   }else{
-    res }
+    res = res }
+
+   options(pillar.sigfig = digits)
+  print(res)
+
 }
