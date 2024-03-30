@@ -74,7 +74,9 @@ wald_test <- function(b1,
                 ", t = ", round(t2, digits),"." )
 
   res = data.frame(
-    value = c( z, p))
+    value = c( round(z, digits),
+               round(p, digits))
+                 )
 
   rownames(res) = c("z.value","pvalue")
 
@@ -156,9 +158,10 @@ wald_test2 <- function(b1, t1, b2, t2,
                   round(se2, digits), ", t = ",
                   round(t2, digits),"." )
 
-
     res = data.frame(
-      value = c( z, p))
+      value = c( round(z, digits),
+                 round(p, digits))
+    )
 
     rownames(res) = c("z.value","pvalue")
     res = res %>%tibble::rownames_to_column("statistics") %>% tibble::tibble()
@@ -276,7 +279,11 @@ wald_test_gender <- function(b1, t1, b2, t2,
                   round(t2, 3),"." )
 
     res = data.frame(
-      value = c( z, p))
+      value = c( round(z, digits),
+                 round(p, digits))
+    )
+
+
     rownames(res) = c("z.value","pvalue")
     res = res %>%tibble::rownames_to_column("statistics")
     res = res%>%dplyr::mutate(coef = c(var1, var2))

@@ -10,7 +10,8 @@ confint_plot_lm(
   color = "steelblue",
   linewidth = 1,
   alpha = 1,
-  intercept = FALSE
+  intercept = FALSE,
+  type = "g"
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ confint_plot_lm(
 \item{alpha}{alpha = 0.9}
 
 \item{intercept}{default FALSE}
+
+\item{type}{graph is g, data =df , all is res}
 }
 \value{
 plot and data

@@ -6,6 +6,7 @@
 #' @param linewidth linewidth =1
 #' @param alpha alpha = 0.9
 #' @param intercept default FALSE
+#' @param type graph is g, data =df , all is res
 #'
 #' @return plot and data
 #' @export
@@ -24,7 +25,8 @@ confint_plot_lm <- function(lm_data,
                             color = "steelblue",
                             linewidth = 1,
                             alpha = 1,
-                            intercept = FALSE){
+                            intercept = FALSE,
+                            type="g"){
 
   lm_data0 <- lm_data%>% tidy(conf.int = TRUE)
   if(intercept){
@@ -51,8 +53,11 @@ confint_plot_lm <- function(lm_data,
 
 
   res = list(lm_data0, g)
-  # res = list(lm_data, g)
-  res
+
+  switch(type,
+         res = res,
+         g =  g,
+         df = lm_data0)
 }
 
 
