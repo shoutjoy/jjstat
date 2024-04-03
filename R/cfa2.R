@@ -121,7 +121,7 @@ cfa2 <- function(x, format="markdown",
                  rename=F,
                  var_name=NA,
                  digits=3,
-                 res="all"){
+                 type = "all"){
 
   library(dplyr)
   library(knitr)
@@ -655,22 +655,28 @@ cfa2 <- function(x, format="markdown",
   #        # Latent_Cor=lv.cor,
   #        str_cor = lv.cor.sig,
   #        loadings_Bar = gg )
-  switch(res,
+  switch(type,
          all = all.reuslt,
          model = model,
          modelfit = modelfitdata,
          modelfit2 = fitMeasures_s1,
          loadings = factorloading_0,
+         item = factorloading_0,
+         indicator = factorloading_0,
+         loadings_bar = gg,
+
          alpha = FL.1,
          CR_AVE = alpha_AVE_CR_0,
-         Convegent = alpha_AVE_CR_0,
+
+         Convergent = alpha_AVE_CR_0,
+
          fl_criteria = FornellNacker,
          Discriminant = FornellNacker,
          htmt = htmt2,
          HTMT = htmt2,
          # Latent_Cor=lv.cor,
-         str_cor = lv.cor.sig,
-         loadings_Bar = gg )
+         str_cor = lv.cor.sig
+         )
 
 }
 
