@@ -15,7 +15,7 @@
 #'  str(mtcars1)
 #' }
 #'
-as_trt <- function(data, ..., fun = as.factor) {
+as_trt <- function(data, ..., fun = factor) {
   vars <- c(...)
   for (var in vars) {
     if (var %in% names(data)) {
