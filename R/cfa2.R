@@ -712,7 +712,7 @@ cfa2 <- function(x, format="markdown",
 
 
 #cfa3 using data treament =============
-cfa3 <- function(x, graph=F){
+cfa3 <- function(x, graph=F, type="all"){
 
   library(dplyr)
   library(knitr)
@@ -1027,5 +1027,18 @@ cfa3 <- function(x, graph=F){
     # Latent_Cor=lv.cor,
     betaMat_sig=lv.cor.sig
   )
-  all.reuslt
+
+  switch(type,
+         all= all.reuslt,
+         fit_criterian=fit,
+         model_fit=fitMeasures_s1,
+         factorloadings=factorloading,
+         reliability = FL,
+         Convegent = alpha_AVE_CR,
+         Discriminant=validity,
+         Latent_Cor=lv.cor,
+         betaMat_sig=lv.cor.sig
+         )
+  #
+  # all.reuslt
 }
