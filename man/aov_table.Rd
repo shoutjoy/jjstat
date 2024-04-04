@@ -8,10 +8,11 @@ aov_table(
   data,
   dv_var = NULL,
   iv_vars = NULL,
-  grp_mean = FALSE,
+  grp_mean = TRUE,
   unite_p = FALSE,
   unite_F = FALSE,
   digits = 2,
+  posthoc = "tukey",
   sig = FALSE
 )
 }
@@ -25,6 +26,8 @@ aov_table(
 \item{unite_p}{pvalue unite}
 
 \item{unite_F}{Fvalue unite}
+
+\item{posthoc}{'tukey, scheffe, duncan}
 
 \item{sig}{'sig = T' is add star}
 

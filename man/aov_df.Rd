@@ -6,11 +6,14 @@
 \usage{
 aov_df(
   data,
-  dv_var,
-  iv_vars,
-  grp_mean = FALSE,
+  dv_var = NULL,
+  iv_vars = NULL,
+  grp_mean = TRUE,
   unite_p = FALSE,
-  unite_F = FALSE
+  unite_F = FALSE,
+  digits = 2,
+  posthoc = "tukey",
+  sig = FALSE
 )
 }
 \arguments{
@@ -20,7 +23,11 @@ aov_df(
 
 \item{iv_vars}{c(iv1, iv2....)}
 
-\item{unite}{pvalue unite}
+\item{unite_p}{pvalue unite}
+
+\item{unite_F}{Fvalue unite}
+
+\item{sig}{'sig = T' is add star}
 
 \item{mean}{Option to average by group and add}
 }
@@ -33,15 +40,18 @@ Generate an AOV results table for multiple independent variables
 \examples{
 
 \dontrun{
-aov_df(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"))
+aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"))
 
-aov_df(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),
+aov_table(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),
            mean = TRUE)
 
-aov_df(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE)
+aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE)
 
-aov_df(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = TRUE)
+aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = TRUE)
 
+aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = TRUE, unite_F = TRUE)
+
+aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = TRUE, unite_F = TRUE) \%>\% markdown_table()
 }
 
 
