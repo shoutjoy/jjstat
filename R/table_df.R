@@ -1,6 +1,4 @@
-
-#Frequency Analysis Functions
-#' Title
+#' Frequency Analysis Functions
 #'
 #' @param data  data.frame
 #' @param remove Select variables to exclude from analysis

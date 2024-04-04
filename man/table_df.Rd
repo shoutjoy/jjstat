@@ -2,7 +2,7 @@
 % Please edit documentation in R/table_df.R
 \name{table_df}
 \alias{table_df}
-\title{Title}
+\title{Frequency Analysis Functions}
 \usage{
 table_df(data, remove = NULL, digits = 4)
 }
@@ -17,7 +17,7 @@ table_df(data, remove = NULL, digits = 4)
 Publication frequency table
 }
 \description{
-Title
+Frequency Analysis Functions
 }
 \examples{
 

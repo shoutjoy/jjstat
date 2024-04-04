@@ -31,6 +31,9 @@ sapply(numbers, format_number)
 
 for (i in seq_along(numbers)) {
    cat("Original:", numbers[i], "Formatted:", formatted_numbers[i], "\n")}
+
+format_number(0.123456)
+
 }
 
 }

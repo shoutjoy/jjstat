@@ -24,6 +24,15 @@
 #'  group_by(dose) %>%
 #'  rstatix::t_test(data =., len ~ supp) %>%
 #'   p_mark_sig("p", unite=TRUE)
+#'
+#'
+#'   ### NEW
+#'   TukeyHSD(aov(weight ~ feed, chickwts))$feed %>% as.data.frame() %>%
+#'   mutate(sig = add_sig(`p adj`))
+#'
+#'   TukeyHSD(aov(weight ~ feed, chickwts))$feed %>% p_mark_sig("p adj")
+#'
+#'
 #' }
 #'
 #'
@@ -49,7 +58,9 @@ p_mark_sig <-function(data,
                                              "ns"))))
   #Change variable to CHARACTER
   ndata$sig <- as.character(ndata$sig)
-  res = ndata %>% tibble::tibble()
+  res = ndata %>% data.frame() %>%
+    tibble::rownames_to_column("vars") %>%
+    tibble::tibble()
 
 
 
