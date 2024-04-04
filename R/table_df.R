@@ -4,6 +4,7 @@
 #'
 #' @param data  data.frame
 #' @param remove Select variables to exclude from analysis
+#' @param digits round
 #'
 #' @return  Publication frequency table
 #' @export
@@ -20,41 +21,40 @@
 #' }
 #'
 #'
-table_df <- function(data, remove = NULL) {
-  # Extract Factor and chr variables from a data frame
+table_df <- function(data, remove = NULL, digits = 4) {
+  # 데이터 프레임에서 Factor 및 chr 변수 추출
   factor_vars <- sapply(data, is.factor)
   chr_vars <- sapply(data, is.character)
 
-  # Handling variables to exclude
+  # 제외할 변수 처리
   if (!is.null(remove)) {
     factor_vars[remove] <- FALSE
     chr_vars[remove] <- FALSE
   }
-  # Extract a list of factor and chr variables
+
+  # Factor 및 chr 변수 목록 추출
   factor_var_names <- names(data)[factor_vars]
   chr_var_names <- names(data)[chr_vars]
 
-  # Create a frequency table of factor variables
+  # Factor 변수의 빈도표 및 비율 생성
   factor_freq <- lapply(factor_var_names, function(var) {
     table_data <- table(data[[var]])
-    result <- data.frame(Term = rep(var, length(table_data)),
-                         Level = names(table_data),
-                         Freq = as.vector(table_data))
-    return(result)
+    freq_table <- data.frame(Term = rep(var, length(table_data)), Level = names(table_data), Freq = as.vector(table_data))
+    freq_table$`Prop(%)` <- round(freq_table$Freq / sum(freq_table$Freq), digits)*100  # 비율 추가
+    return(freq_table)
   })
 
-  # Create a frequency table for the chr variable
+  # chr 변수의 빈도표 및 비율 생성
   chr_freq <- lapply(chr_var_names, function(var) {
     table_data <- table(data[[var]])
-    result <- data.frame(Term = rep(var, length(table_data)),
-                         Level = names(table_data),
-                         Freq = as.vector(table_data))
-    return(result)
+    freq_table <- data.frame(Term = rep(var, length(table_data)), Level = names(table_data), Freq = as.vector(table_data))
+    freq_table$`Prop(%)` <- round(freq_table$Freq / sum(freq_table$Freq), digits)*100  # 비율 추가
+    return(freq_table)
   })
-
-  # Combine frequency tables of factor and chr variables into a list
+  # Factor 및 chr 변수의 빈도표를 리스트로 결합
   result <- c(factor_freq, chr_freq)
 
-  # Returning results
+  # 결과 반환
+  cat("\n Data frequency analysis results\n\n")
   return(do.call(rbind, result))
 }

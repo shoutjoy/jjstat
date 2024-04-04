@@ -4,12 +4,14 @@
 \alias{table_df}
 \title{Title}
 \usage{
-table_df(data, remove = NULL)
+table_df(data, remove = NULL, digits = 4)
 }
 \arguments{
 \item{data}{data.frame}
 
 \item{remove}{Select variables to exclude from analysis}
+
+\item{digits}{round}
 }
 \value{
 Publication frequency table
