@@ -157,7 +157,7 @@ add_normality = function(data,  skew ="Skew", kurt="Kurt"){
     kurt_TF = ifelse( abs(Kurt_z) < 1.96, "Good",
                       ifelse( abs(Kurt_z) < 3, "Fair","NO"))
   )
-  res%>%select(-MIN,-MAX)
+  res%>%select(-MIN,-MAX) %>% tibble::tibble()
 }
 
 
