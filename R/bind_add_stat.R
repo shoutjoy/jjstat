@@ -4,6 +4,8 @@
 #' @param data data.fram
 #' @param ...  colname, cols
 #' @param fun fun  mean sd
+#' @param type data, res --data.fram , res, cols_check
+#'
 #'
 #' @return data.fram
 #' @export
@@ -35,12 +37,12 @@
 #'
 #' }
 #'
-bind_add_stat <- function(data, ..., fun = mean) {
+bind_add_stat <- function(data, ..., fun = mean, type="res") {
   term <- list(...)
   col_names <- vector("list", length(term))  # 리스트 초기화
   cols <- vector("list", length(term))       # 리스트 초기화
   cols_check <- vector("list", length(term))       # 리스트 초기화
-  colnas <- vector("list", length(term))       # 리스트 초기화
+  # colnas <- vector("list", length(term))       # 리스트 초기화
   # Colsnames = colnames(data)
 
   for (i in seq_along(term)) {
@@ -81,6 +83,15 @@ bind_add_stat <- function(data, ..., fun = mean) {
                                       fun = fun,
                                       type = "col")
   }
-  return(data)
+
+  # return(data)
+  res= list(data, col_check)
+
+  switch(type,
+         data= data ,
+         all= res,
+         res = data,
+         cols_check= cols_check
+         )
 
 }

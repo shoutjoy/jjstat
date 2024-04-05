@@ -12,7 +12,7 @@ aov_table(
   unite_p = FALSE,
   unite_F = FALSE,
   digits = 2,
-  posthoc = "tukey",
+  posthoc = "lsd",
   sig = FALSE
 )
 }
@@ -55,6 +55,7 @@ aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp
 
 aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = TRUE, unite_F = TRUE) \%>\% markdown_table()
 }
+
 
 
 }

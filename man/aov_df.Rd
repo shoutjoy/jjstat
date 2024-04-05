@@ -2,7 +2,7 @@
 % Please edit documentation in R/aov_table.R
 \name{aov_df}
 \alias{aov_df}
-\title{Generate an AOV results table for multiple independent variables}
+\title{#' Generate an AOV results table for multiple independent variables}
 \usage{
 aov_df(
   data,
@@ -12,7 +12,7 @@ aov_df(
   unite_p = FALSE,
   unite_F = FALSE,
   digits = 2,
-  posthoc = "tukey",
+  posthoc = "lsd",
   sig = FALSE
 )
 }
@@ -35,7 +35,7 @@ aov_df(
 table
 }
 \description{
-Generate an AOV results table for multiple independent variables
+#' Generate an AOV results table for multiple independent variables
 }
 \examples{
 

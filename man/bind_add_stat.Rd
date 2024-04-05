@@ -4,7 +4,7 @@
 \alias{bind_add_stat}
 \title{Functions that generate multiple pieces of data}
 \usage{
-bind_add_stat(data, ..., fun = mean)
+bind_add_stat(data, ..., fun = mean, type = "res")
 }
 \arguments{
 \item{data}{data.fram}
@@ -12,6 +12,8 @@ bind_add_stat(data, ..., fun = mean)
 \item{...}{colname, cols}
 
 \item{fun}{fun  mean sd}
+
+\item{type}{data, res --data.fram , res, cols_check}
 }
 \value{
 data.fram
