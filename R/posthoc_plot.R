@@ -20,6 +20,7 @@
 #' }
 #'
 posthoc_plot = function(aov_data,
+                        caption = "Table. Multiple comparison",
                         type = "all",
                         console = FALSE,
                         group = TRUE,
@@ -39,7 +40,7 @@ posthoc_plot = function(aov_data,
   contrast_md = aov_data %>%
     emmeans::emmeans(iv)%>%
     pairs(simple = iv, adjust = adjust)%>%p_mark_sig() %>%
-    markdown_table(caption = "Table. Multiple comparison")
+    markdown_table(caption = caption)
 
 
   g = plot_data %>%

@@ -6,6 +6,7 @@
 \usage{
 posthoc_plot(
   aov_data,
+  caption = "Table. Multiple comparison",
   type = "all",
   console = FALSE,
   group = TRUE,
