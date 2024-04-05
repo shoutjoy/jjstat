@@ -36,9 +36,10 @@ posthoc_plot = function(aov_data, type= "all",  adjust="none"){
     pairs(simple = iv, adjust = adjust)%>%plot()+
     geom_vline(xintercept = 0, col="red", linetype=2)
 
-  res= list(LSD_test = LSD_test, contrast,  confint_sig = g)
+  res = list(LSD_test = LSD_test, contrast,  confint_sig = g)
+  res2 = list(POSTHOC = contrast,  confint_sig = g)
 
-  switch(type, all= res, res = res,
+  switch(type, all= res, res = res2,
          g = g,
          posthoc = LSD_test,
          contrast= contrast)

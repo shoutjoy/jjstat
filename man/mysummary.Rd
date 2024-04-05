@@ -26,7 +26,7 @@ mysummary(mtcars, "mpg","wt","hp")
 ## 3   32 146.68750 68.5628685 52.000 335.000
 
 ## all variable
-jjstat::mysummary(mtcars, colnames(mtcars))
+ jjstat::mysummary(mtcars, colnames(mtcars))
 
 }
 }

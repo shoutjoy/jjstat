@@ -80,7 +80,7 @@ mydes <- function(myvariable, var = NULL, digits = 2){
 #' ## 3   32 146.68750 68.5628685 52.000 335.000
 #'
 #' ## all variable
-#'jjstat::mysummary(mtcars, colnames(mtcars))
+#'  jjstat::mysummary(mtcars, colnames(mtcars))
 #'
 #' }
 mysummary <- function(myobject, ..., all=T, digits= 4){
@@ -122,10 +122,42 @@ mysummary <- function(myobject, ..., all=T, digits= 4){
   res =   myresult
 
   options(pillar.sigfig = digits)
-  print(res)
+  return(res)
   # on.exit(options(current_options))
+}
 
 
+
+
+#' add_normality
+#'
+#' @param data mysummarydata
+#'
+#' @return add normality
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#'
+#' jjstat::mysummary(mtcars, colnames(mtcars)) %>% add_nomality()
+#'
+#' }
+#'
+#'
+add_normality = function(data,  skew ="Skew", kurt="Kurt"){
+  Skew = all_of(c(skew))
+  Kurt = all_of(c(kurt))
+
+  res= data %>% mutate(
+    Skew_z = Skew/sqrt((6*N*((N-1))/((N-2)*(N+1)*(N+3)))),
+    Kurt_z = Kurt/sqrt((24*N*(N-1)*(N-1))/((N-3)*(N-2)*(N+3)*(N-5))),
+    skew_TF = ifelse( abs(Skew_z) < 1.96, "Good",
+                      ifelse( abs(Skew_z) < 3, "Fair","NO")),
+    kurt_TF = ifelse( abs(Kurt_z) < 1.96, "Good",
+                      ifelse( abs(Kurt_z) < 3, "Fair","NO"))
+  )
+  res%>%select(-MIN,-MAX)
 }
 
 
