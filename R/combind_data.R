@@ -39,8 +39,8 @@
 #'
 combine_data <- function(mat_observed_expected,
                          mat_p_value,
-                         left=" (",
-                         right=")") {
+                         left=" ",
+                         right="") {
   # Extract row and column names
   row_names <- rownames(mat_observed_expected)
   col_names <- colnames(mat_observed_expected)

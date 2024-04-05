@@ -4,7 +4,7 @@
 \alias{combine_data}
 \title{A function that combines two matrices of data, for example, to combine observation/expectation tables and p-values.}
 \usage{
-combine_data(mat_observed_expected, mat_p_value, left = " (", right = ")")
+combine_data(mat_observed_expected, mat_p_value, left = " ", right = "")
 }
 \arguments{
 \item{mat_observed_expected}{matrix  observed/expected}
