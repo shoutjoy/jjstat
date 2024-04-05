@@ -34,7 +34,7 @@
 #'    c("Mean_col2", 3:4),
 #'    c("Mean_col3", 5:6),
 #'    c("Mean_col4", 7:9))
-#'
+#'  ##col_check
 #' }
 #'
 bind_add_stat <- function(data, ..., fun = mean, type="res") {
@@ -85,7 +85,7 @@ bind_add_stat <- function(data, ..., fun = mean, type="res") {
   }
 
   # return(data)
-  res= list(data, col_check)
+  res= list(data, cols_check)
 
   switch(type,
          data= data ,

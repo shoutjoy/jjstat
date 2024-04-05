@@ -45,7 +45,7 @@ bind_add_stat(mtcars,
    c("Mean_col2", 3:4),
    c("Mean_col3", 5:6),
    c("Mean_col4", 7:9))
-
+ ##col_check
 }
 
 }
