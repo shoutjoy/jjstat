@@ -46,7 +46,9 @@ posthoc_plot = function(aov_data,
   g = plot_data %>%
     emmeans::emmeans(iv)%>%
     pairs(simple = iv, adjust = adjust)%>%plot()+
-    geom_vline(xintercept = 0, col="red", linetype=2)
+    geom_vline(xintercept = 0, col="red", linetype=2)+
+    theme(axis.text = element_text(size=12))+
+    theme_bw()
 
   res = list(LSD_test = LSD_test,POSTHOC_comparison = contrast,
              contrast_md = contrast_md,  confint_sig = g)
