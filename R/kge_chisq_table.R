@@ -1,106 +1,137 @@
-#'
-#' #' accent_table
+#' perform_chi_square_test
+#' #' kge_chisq_table chisq table observed/Expected table--------
 #' #'
-#' #' @param data data.frame
-#' #' @param cols v1
-#' #' @param rows v2
+#' #' @param dataset data.frame, tibble
+#' #' @param v1 col
+#' #' @param v2 row
+#' #' @param title table name
+#' #' @param type res2(default), res1, res3, ct,data_graph,margin, chisq_test, chisq_df, chisq_report,chi_table,contigency_table_margin, contigency_table_md, chi_table_md
+#' #' @param digits 3
+#' #' @param yadd graph up yadd
+#' #' @param Ncol grid size Ncol = auto
 #' #' @param trans transpose
+#' #' @param simple *  or ***
+#' #' @param ko korean language graph
+#' #' @param simulate.p.value chisq exact simulation
+#' #' @param correct coreect chisq |O-E|^2-0.5/E
+#' #' @param size_bartext graph text
+#' #' @param strip_size strip
+#' #' @param axis_size axis
+#' #' @param text_size element text size
+#' #' @param xlab xlab
+#' #' @param ylab ylab
+#' #' @param cramer cramer correlation
 #' #'
-#' #' @return cross table df
+#' #' @return table, report and graph General Arts ^^
 #' #' @export
 #' #'
-#' # accent_table = function(data, cols ="speaker", rows ="성조", trans = TRUE){
-#' #
-#' #
-#' #   res = data  %>% as.matrix() %>%data.frame() %>%
-#' #     pivot_wider(names_from = rows, values_from = Freq) %>%
-#' #     rename(accent = cols) %>% tibble::column_to_rownames("accent")
-#' #
-#' #   if(trans){res= res%>% t()
-#' #   }else{res}
-#' #   res
-#' # }
-#'
-#' kge_accent_table = function(data,
-#'                         cols="a1",
-#'                         rows = "성조",
-#'                         trans = TRUE,
-#'                         type="res"){
-#'
-#'   res = data  %>% as.matrix() %>%data.frame() %>%
-#'     pivot_wider(names_from = rows, values_from = Freq) %>%
-#'     rename(accent = cols) %>% tibble::column_to_rownames("accent")
-#'
-#'   res_df = data  %>% as.matrix() %>%data.frame()
-#'
-#'   if(trans){res= res%>% t()
-#'   }else{res}
-#'
-#'   switch(type,
-#'          res = res,
-#'          df = res_df)
-#' }
-#'
-#'
-#' #' hisq table observed/Expected table
+#' #' @examples
 #' #'
-#' #' @param data data.frame
-#' #' @param v1 v1
-#' #' @param v2 v1
-#' #' @param title title name
-#' #' @param type outtype ct: crosstable, df: data.frame. 'margin','chisq_test','chitable','res1','res2'
-#' #' @param digits round 3
-#' #' @param trans transpose
-#' #' @param simulate.p.value Chi-squared approximation may be incorrect, default= FALSE
-#' #' @param warn warning msg
-#' #' #'
-#' #' @return output
-#' #' @export
+#' #' \dontrun{
+#' #' kge_chisq_table(mtcars%>%as_trt("am","cyl"), "am","cyl",xlab="car")
 #' #'
-#'
-#' kge_chisq_table = function(data,
+#' #' }
+#' #'
+#' #'
+#' kge_chisq_table = function(dataset,
 #'                            v1="a1",
 #'                            v2="성조",
 #'                            title ="Table",
 #'                            type = "res2",
-#'                            digits = 3,yadd=0.1,ncol=NULL,
-#'                            trans = FALSE)
+#'                            digits = 3,
+#'                            yadd=0.4,
+#'                            Ncol=NULL,
+#'                            trans = FALSE,
+#'                            simple= FALSE, #유의성 종류
+#'                            ko = TRUE,
+#'                            simulate.p.value=FALSE,
+#'                            correct= FALSE,
+#'                            size_bartext=5,
+#'                            strip_size = 16,
+#'                            axis_size = 16,
+#'                            text_size = 13,
+#'                            xlab = "관측기대비율",
+#'                            ylab = "성조형",
+#'                            cramer="adjust"
+#' )  #패턴그래프
 #' {
 #'
-#'   data =  data %>%
-#'     dplyr::select(all_of(v1), all_of(v2)) %>%
+#'   data =  dataset %>%
+#'     dplyr::select(all_of(c(v1)), all_of(c(v2))) %>%
 #'     table()
-#'   # 최종결과 에 포함
-#'   data_margin = data %>% addmargins() %>%
-#'     accent_table( v1, v2, trans = trans)
-#'   #
+#'
+#'   # 최종결과 에 포함을 margn sum
+#'   data_margin0 = data %>% addmargins()
+#'
+#'   data_rowsum0 = data %>%  apply(., MARGIN = 2 , FUN = sum)
+#'   data_rowsum_df = data %>%  rbind(SUM=apply(., MARGIN = 2 , FUN = sum) )
+#'   data_colsum = data_rowsum_df %>% apply(., MARGIN = 1 , FUN = sum)
+#'
+#'   #데이터 게산
+#'   data_margin = data  %>%
+#'     accent_table( v1, v2, trans = trans, type = "ratio")
+#'
+#'   #비율계산과 데이터 margin sum
+#'   data_margin = cbind(
+#'     rbind(data_margin, SUM=data_rowsum0 ),
+#'     SUM=data_colsum )
+#'   #크래머 상관
+#'   cramer_cor = cramers_v(data, type = cramer)
+#'   cramer_cor_v = cramers_v(data, type = "cramer", digit = digits) #복소서에 사용
+#'   cramer_cor_v_table = cramers_v(data, type = "data1", digits = 2)
+#'
+#'   # data_margin = cbind(data_margin, data_margin0[, ncol(data_margin0)])
+#'
 #'   #chisq.test
 #'   Onset_or_Coda_Accent_Contingency_table <- data
-#'   res = chisq.test(Onset_or_Coda_Accent_Contingency_table)
+#'   #카이제곱 데이터프리엠 변형
 #'   res_df = chisq.test(data)%>% broom::tidy()
-#'   res_report = chisq.test(data)%>% report::report()
 #'
-#'   chi_mag = paste0(" [chisq = ",round(res$statistic, digits),
+#'   #카이제곱 테스트
+#'   res = chisq.test(Onset_or_Coda_Accent_Contingency_table,
+#'                    correct = correct,
+#'                    simulate.p.value = simulate.p.value)
+#'   # 판단용 통계치
+#'   chi2 = res$statistic
+#'   p_vlaue_chi = res$p.value
+#'   # df_chi = res$parameter
+#'
+#'   msg_sig_chi = ifelse(p_vlaue_chi < 0.05,"significant", "not significant")
+#'   # msg_p_chi = ifelse( p_vlaue_chi < 0.01, "< .001",
+#'   #                     paste0("= ",
+#'   #                            format(p_vlaue_chi, digits, scientific=TRUE) ))
+#'   # res_report = chisq.test(data)%>% report::report()
+#'
+#'
+#'   chi_mag = paste0(" [chisq = ",round(res$statistic, 2),
 #'                    ", df = ",res$parameter,
-#'                    ", p = ", format_number(res$p.value, digits),"]" )
+#'                    ", p = ", format_number(res$p.value, 2),"]" )
 #'   # res$statistic
 #'   # res$parameter
 #'   # res$p.value
+#'   #카이제곱 레포트 만들기
+#'   v1_input = ifelse(v1=="a1", "Onset",
+#'                     ifelse(grepl("^w", v1), "Weight",
+#'                            ifelse(v1=="a3", "Coda", v1)))
+#'
+#'   v2_input = ifelse(v2=="성조", "Accent", v1)
+#'
+#'
+#'   res_report = paste0("The Pearson's Chi-squared test of independence between ",
+#'                       v1_input," and ",v2_input,
+#'                       " suggests that the effect is statistically ", msg_sig_chi,
+#'                       chi_mag,
+#'                       ".; ",
+#'                       cramer_cor_v, ".")
+#'
+#'
 #'
 #'   if(nrow(data) != 1){
 #'     chi_table = (res$observed / res$expected)%>% as.data.frame() %>%#
 #'       tidyr::pivot_wider(names_from = v2, values_from = Freq) %>%
 #'       tibble::column_to_rownames(v1) %>%
 #'       Round(digits)
-#'
-#'
-#'     # g = chi_table %>%  patternGraph()
-#'
-#'
-#'
 #'   }else{
-#'
-#'     # chi_table = (res$observed / res$expected)
 #'     chi_table =
 #'       rbind(
 #'         observed = data %>%
@@ -111,13 +142,25 @@
 #'
 #'     # g= NULL
 #'   }
-#'   #
+#'   #observer/Expected 에 유의성 표시
+#'   chi_table_sig = format(calculate_chi_sig(data, simple = simple), 3)
+#'   chi_table_sig2 = perform_chi_square_test(data,
+#'                                            simple = simple,
+#'                                            type = "data2")
 #'
+#'   ###마크다운   유의성표시된 것으로 변경----
+#'   chi_table_md0 = chi_table_sig %>%data.frame() %>%
+#'     rownames_to_column("syllable-accent")
+#'   #열이름 재설정
+#'   colnames(chi_table_md0) <- c("syllable-accent",colnames(chi_table_sig))
 #'
-#'   chi_table_md = chi_table %>%
-#'     markdown_table(caption = paste0(title,chi_mag),
+#'   chi_table_md = chi_table_md0 %>%
+#'     markdown_table(caption = paste0(title, chi_mag,"; ",
+#'                                     cramer_cor_v_table,"."),
 #'                    digits = digits,
 #'                    general = NULL)
+#'
+#'   cat("\n\nNOTE: ***: p < .001, **: p < .01, *: p < .05\n\n ")
 #'
 #'
 #'   # 결과를 정리하여 나타내는 값들
@@ -127,18 +170,68 @@
 #'                                  general = NULL),
 #'                 chi_table_md,
 #'                 chi_table = chi_table)
+#'
+#'
+#'   #패턴 그래프 ko적용--raq =TRUE, type="g"
+#'   data_graph = data  %>% accent_table( v2, v1, type = "res")
+#'
+#'
+#'   # 교차표 contigency table
+#'   contigency_table_md0 = data_margin %>% data.frame() %>%
+#'     rownames_to_column("syllable-accent")
+#'   #열이름 재설정
+#'   colnames(contigency_table_md0) <- c("syllable-accent",
+#'                                       colnames(data_graph),
+#'                                       "SUM")
+#'
+#'   contigency_table_md =  contigency_table_md0 %>%
+#'     markdown_table(caption = paste0(title," Contingency table"),
+#'                    general = NULL)
+#'
+#'
+#'   if(ko){
+#'     graph = patternGraph_obs_exp_ko(data_graph,
+#'                                     raw = TRUE,
+#'                                     size_bartext=size_bartext,
+#'                                     strip_size = strip_size,
+#'                                     axis_size = axis_size,
+#'                                     text_size = text_size,
+#'                                     yadd = yadd,
+#'                                     Ncol = Ncol,
+#'                                     xlab = xlab,
+#'                                     ylab = ylab)
+#'   }else{
+#'     graph = patternGraph_obs_exp(data_graph,
+#'                                  raw = TRUE,
+#'                                  yadd = yadd,
+#'                                  size_bartext=size_bartext,
+#'                                  strip_size = strip_size,
+#'                                  axis_size = axis_size,
+#'                                  text_size = text_size,
+#'                                  Ncol = Ncol,
+#'                                  xlab = xlab,
+#'                                  ylab = ylab)
+#'   }
+#'
+#'
+#'   #최종 출력
 #'   result1 = list(
+#'     # data_rowsum0,data_colsum,
 #'     # msg=msg,
-#'     crosstable = data_margin,
-#'     data_margin %>%
-#'       markdown_table(caption = paste0(title," Contingency table"),
-#'                      general = NULL),
-#'     chisq_test = res,
-#'     # chi_df = res_df,
-#'     chisq_report = res_report,
+#'     data_graph = data_graph,
+#'     contigency_table_margin = data_margin0,
+#'     contigency_table = data_margin,
+#'     CRAMER_V.adusted = cramer_cor,
+#'     CRAMER_V = cramer_cor_v,
 #'     chi_table = chi_table ,
-#'     g = patternGraph1(chi_table,raw = FALSE, yadd = yadd, ncol = ncol),
-#'     chi_table_md)
+#'     chi_table_sig_each_variable = chi_table_sig,
+#'     chi_table_sig_each_variable2 = chi_table_sig2,
+#'     g = graph,
+#'     contigency_table_md = contigency_table_md,
+#'     chi_table_md = chi_table_md,
+#'     chisq_test_overall = res,
+#'     chisq_report_overall = res_report
+#'   )
 #'
 #'   result2 = list(
 #'     # msg=msg,
@@ -157,12 +250,25 @@
 #'   switch(type,
 #'          ct = data,
 #'          df = data.frame(data),
+#'          data_graph = data_graph,
 #'          margin = data_margin,
 #'          chisq_test = res,
 #'          chisq_df = res_df,
 #'          chisq_report = res_report,
-#'          chitable = chi_table,
+#'          chi_table = chi_table,
+#'
+#'          contigency_table_margin = contigency_table_margin,
+#'          contigency_table = contigency_table,
+#'          chi_table_sig_each_variable = chi_table_sig_each_variable,
+#'          chi_table_sig_each_variable2 = chi_table_sig_each_variable2,
+#'          chisq_test_overall = chisq_test_overall,
+#'          chisq_report_overal = chisq_report_overal,
+#'          CRAMER_V = CRAMER_V,
+#'          CRAMER_V.adusted = CRAMER_V.adusted,
+#'          contigency_table_md = contigency_table_md,
+#'          chi_table_md = chi_table_md,
+#'          g = graph,
 #'          res1 = result,
 #'          res2 = result1,
-#'          res2 = result2)
+#'          res3 = result2)
 #' }
