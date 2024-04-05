@@ -74,7 +74,7 @@ aov_table = function(data,
     #                          anova_result, lsdHSD(anova_result ))
     #     lsdlist = lsd[[1]] %>% as.data.frame.list()
     #
-    lsd = agricolae::HSD.test(anova_result, iv, console = FALSE)
+    lsd = agricolae::LSD.test(anova_result, iv, console = FALSE)
     lsdlist = lsd$groups[[2]]
 
     duncan = agricolae::duncan.test(anova_result, iv, console = FALSE)
@@ -83,6 +83,8 @@ aov_table = function(data,
     scheffe = agricolae::scheffe.test(anova_result, iv, console = FALSE)
     scheffelist = scheffe$groups[[2]]
 
+    tukey = agricolae::HSD.test(anova_result, iv, console = FALSE)#
+    tukeylist = lsd$groups[[2]]
 
 
 
@@ -92,6 +94,7 @@ aov_table = function(data,
     lsdlists <- paste0(unique(lsdlist), collapse =", " )
     duncanlists <- paste0(unique(duncanlist), collapse =", " )
     scheffelists <- paste0(unique(scheffelist), collapse =", " )
+    tukeylists <- paste0(unique(tukeylist), collapse =", " ) #
 
     levels <- unique(data[[iv]])
 
@@ -105,9 +108,12 @@ aov_table = function(data,
                          posthoc_lsd = lsdlist, #posthoc
                          posthoc_scheffe = scheffelist,
                          posthoc_duncan = duncanlist,
+                         posthoc_tukey = tukeylist,
+
                          lsdlists = lsdlists,
                          duncanlists = duncanlists,
                          scheffelists = scheffelists,
+                         tukeylists = tukeylists,
 
                          df1= tidy_result$df[1],
                          df2= tidy_result$df[2],
@@ -117,7 +123,8 @@ aov_table = function(data,
   #
   if(posthoc == "lsd"){
     result_df = result_df %>%
-      dplyr::select(-posthoc_scheffe, -posthoc_duncan, -scheffelists,-duncanlists) %>%
+      dplyr::select(-posthoc_scheffe, -posthoc_duncan, -posthoc_tukey,
+                    -scheffelists,-duncanlists,-tukeyists) %>%
       dplyr::rename(POSTHOC = posthoc_lsd,
                     POSTHOCs = lsdlists )
 
@@ -125,7 +132,8 @@ aov_table = function(data,
 
   }else if(posthoc == "scheffe"){
     result_df = result_df %>%
-      dplyr::select(-posthoc_lsd, -posthoc_duncan, -lsdlists,-duncanlists)%>%
+      dplyr::select(-posthoc_lsd, -posthoc_duncan, -posthoc_tukey,
+                    -lsdlists,-duncanlists ,-tukeyists)%>%
       dplyr::rename(POSTHOC = posthoc_scheffe,
                     POSTHOCs = scheffelists )
 
@@ -133,11 +141,21 @@ aov_table = function(data,
 
   }else if(posthoc == "duncan"){
     result_df = result_df %>%
-      dplyr::select(-posthoc_scheffe, -posthoc_lsd, -lsdlists,-scheffelists)%>%
+      dplyr::select(-posthoc_scheffe, -posthoc_lsd, -posthoc_tukey,
+                    -lsdlists,-scheffelists,-tukeyists)%>%
       dplyr::rename(POSTHOC = posthoc_duncan,
                     POSTHOCs = duncanlists )
 
     cat("   Using Duncan's posthoc \n\n")
+  }else if(posthoc == "tukey"){
+    result_df = result_df %>%
+      dplyr::select(-posthoc_scheffe, -posthoc_duncan,-posthoc_lsd,
+                    -scheffelists,-duncanlists, lsdlists) %>%
+      dplyr::rename(POSTHOC = posthoc_tukey,
+                    POSTHOCs = tukeyists )
+
+    cat("   Using Tukey’s W Procedure (HSD)   posthoc \n\n")
+
   }
 
 
