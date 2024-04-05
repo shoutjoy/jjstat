@@ -73,6 +73,7 @@ p_mark_sig <-function(data,
     res = res }
 
    options(pillar.sigfig = digits)
-  print(res)
+
+   return(res)
 
 }

@@ -4,7 +4,13 @@
 \alias{posthoc_plot}
 \title{Post-hoc results and plots}
 \usage{
-posthoc_plot(aov_data, type = "all", adjust = "none")
+posthoc_plot(
+  aov_data,
+  type = "all",
+  console = FALSE,
+  group = TRUE,
+  adjust = "none"
+)
 }
 \arguments{
 \item{aov_data}{aov data}

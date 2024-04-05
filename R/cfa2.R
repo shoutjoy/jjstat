@@ -609,7 +609,7 @@ cfa2 <- function(x, format="markdown",
 
 
   ##06 cor significant----
-  lv.cor.sig <- lavaan::parameterEstimates(x, standardized = T) %>%
+  lv.cor.sig0 <- lavaan::parameterEstimates(x, standardized = T) %>%
     dplyr::filter(op=="~"|op=="~~"&lhs != rhs) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue) %>%
     mutate(sig=ifelse(pvalue < 0.001, "***",
@@ -617,25 +617,27 @@ cfa2 <- function(x, format="markdown",
                              ifelse(pvalue < 0.05, "*", "Not Sig")))) %>%
     mutate(op=ifelse(op=="~","<--",
                      ifelse(op=="~~","cor",""))) %>%
-    dplyr::select(lhs,op,rhs, std.lv, pvalue,sig) %>%
+    dplyr::select(lhs,op,rhs, std.lv, pvalue,sig)
+
+  lv.cor.sig = lv.cor.sig0 %>%
     knitr::kable(digits=3, format=format,
           caption="05 latent correlation Significant Check")
 
 
 
   ## final result  --------------
-  all.reuslt <-list(model= model,
-                    fit_criterian=fit,
-                    model_fit=fitMeasures_s1,
-                    factorloadings=factorloading,
-                    Internal_Consistency=FL,
-                    Convegent=alpha_AVE_CR,
-                    Discriminant=validity,
+  all.reuslt <-list(model = model,
+                    fit_criterian = fit,
+                    model_fit = fitMeasures_s1,
+                    factorloadings = factorloading,
+                    Internal_Consistency = FL,
+                    Convegent = alpha_AVE_CR,
+                    Discriminant = validity,
                     Discriminant_HTMT = htmt,
                     # Latent_Cor=lv.cor,
-                    betaMat_sig=lv.cor.sig,
-                    loadings_Bar=gg,
-                    variable_order= varnames_check
+                    betaMat_sig = lv.cor.sig,
+                    loadings_Bar = gg,
+                    variable_order = varnames_check
   )
   # all.reuslt
   ## cfa2() output option ---------------
@@ -675,7 +677,7 @@ cfa2 <- function(x, format="markdown",
          htmt = htmt2,
          HTMT = htmt2,
          # Latent_Cor=lv.cor,
-         str_cor = lv.cor.sig
+         str_cor = lv.cor.sig0
          )
 
 }
