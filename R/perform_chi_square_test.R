@@ -1,4 +1,3 @@
-
 #' Various output functions after chi-square analysis
 #'
 #' @param observed table data
@@ -22,11 +21,12 @@
 #'
 #'  mat %>% perform_chi_square_test()
 #'
-#'
+#'  #perform_chi_square_test
 #' mtcars%>%select(am, cyl)%>%table()%>%perform_chi_square_test()
 #' mtcars%>%select(am, cyl)%>%table()%>%perform_chi_square_test("all")
 #' }
 #'
+
 perform_chi_square_test <-  function(observed, type = "data", simple=FALSE) {
   # 기대값 계산
   row_totals <- rowSums(observed)
@@ -110,9 +110,43 @@ Here, we present the observed/expected values with significance calculated as th
          observed_over_expected_ratios = observed_over_expected_ratios,
          cell_p_values = cell_p_values,
          p_sig = p_sig,
-         p_value=p_value,
          data = chi_sig,
          data2 = chi_sig2
   )
 
+}
+
+
+#add ratio-> accent_table---------
+add_ratio <- function(data,
+                      type="res2",
+                      # rownames="syllabic",
+                      digits=3
+
+) {
+  data = as.data.frame(data)
+  # 각 열의 합을 구합니다.
+  col_sums <- colSums(data)
+  # 비율을 계산할 행렬을 생성합니다.
+  ratios <- matrix(0, nrow = nrow(data), ncol = ncol(data))
+
+  # 각 열의 합으로 나누어 비율을 계산합니다.
+  for (i in 1:ncol(data)) {
+    ratios[, i] <- data[, i] / col_sums[i]
+  }
+  #row and col names
+  colnames(ratios) = colnames(data)
+  rownames(ratios) = rownames(data)
+
+  ratios = ratios %>% as.data.frame()
+
+  # 결과를 반환합니다.
+  res1 = round(ratios, digits)
+  res2 = round(ratios, digits)*100
+
+
+  switch(type,
+         res1 = res1,
+         res2 = res2
+  )
 }

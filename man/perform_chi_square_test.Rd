@@ -33,7 +33,7 @@ Various output functions after chi-square analysis
 
  mat \%>\% perform_chi_square_test()
 
-
+ #perform_chi_square_test
 mtcars\%>\%select(am, cyl)\%>\%table()\%>\%perform_chi_square_test()
 mtcars\%>\%select(am, cyl)\%>\%table()\%>\%perform_chi_square_test("all")
 }
