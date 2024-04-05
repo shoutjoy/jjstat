@@ -1,5 +1,36 @@
 
-#** kge_chisq_table chisq table observed/Expected table--------
+#' kge_chisq_table chisq table observed/Expected table-
+#'
+#' @param dataset data.frame
+#' @param v1 col
+#' @param v2 row
+#' @param title title
+#' @param type res2 default
+#' @param digits 3
+#' @param yadd up yadd
+#' @param Ncol grid
+#' @param trans transpose
+#' @param simple * style
+#' @param ko graph korean
+#' @param simulate.p.value exact
+#' @param correct exactt
+#' @param size_bartext graph text
+#' @param strip_size strip
+#' @param axis_size axis_size
+#' @param text_size text_size
+#' @param xlab xlab
+#' @param ylab ylab
+#' @param cramer cramer cor
+#'
+#' @return multiple data
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' kge_chisq_table(mtcars,"am","cyl")
+#'
+#' }
 kge_chisq_table = function(dataset,
                            v1="a1",
                            v2="성조",
@@ -25,6 +56,8 @@ kge_chisq_table = function(dataset,
   data =  dataset %>%
     dplyr::select(all_of(c(v1)), all_of(c(v2))) %>%
     table()
+
+
 
   #  margn sum
   data_margin0 = data %>% addmargins()
