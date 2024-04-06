@@ -13,6 +13,7 @@
 #' @param var_name new text name default NULL
 #' @param digits value rounding
 #' @param res result type
+#' @param htmt_cut htmt_cut is default =1. if you want roburst option htmt_cut =0.9
 #' @importFrom magrittr %>%
 
 #' @examples
@@ -121,6 +122,7 @@ cfa2 <- function(x, format="markdown",
                  rename=F,
                  var_name=NA,
                  digits=3,
+                 htmt_cut=1,
                  type = "all"){
 
   library(dplyr)
@@ -584,8 +586,8 @@ cfa2 <- function(x, format="markdown",
     htmt0NA[lower.tri(htmt0)==FALSE]<-NA   # upper to NA
     htmt1 <- htmt0 %>%   #make sig
       mutate(Max = apply(htmt0, 1, max, na.rm=T),  # max
-             dis = ifelse(0.9 - Max== 0.9, 0, 0.9 - Max),  #discriminant
-             sig = ifelse(0.9- Max >= 0,"*","ns")) #significant
+             dis = ifelse(htmt_cut - Max== htmt_cut, 0, htmt_cut - Max),  #discriminant
+             sig = ifelse(htmt_cut- Max >= 0,"*","ns")) #significant
     htmt2 <-cbind(htmt0NA,
                   htmt1[,c(ncol(htmt1)-2, #max
                            ncol(htmt1)-1, #dis
@@ -595,7 +597,7 @@ cfa2 <- function(x, format="markdown",
     htmt <- htmt2  %>%
       knitr::kable(format=format, digits = digits,
             caption="The heterotrait-monotrait ratio of correlations (HTMT).
-          All correalation < 0.9 --> discriminant Accept(robusrst)
+          All correalation < 0.9 --> discriminant Accept(roburst)
           general accept: < 1
           (Henseler, Ringlet & Sarstedt, 2015)
 

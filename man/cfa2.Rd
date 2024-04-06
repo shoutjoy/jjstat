@@ -18,6 +18,7 @@ cfa2(
   rename = F,
   var_name = NA,
   digits = 3,
+  htmt_cut = 1,
   type = "all"
 )
 }
@@ -47,6 +48,8 @@ cfa2(
 \item{var_name}{new text name default NULL}
 
 \item{digits}{value rounding}
+
+\item{htmt_cut}{htmt_cut is default =1. if you want roburst option htmt_cut =0.9}
 
 \item{res}{result type}
 }

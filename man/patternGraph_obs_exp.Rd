@@ -12,6 +12,7 @@ patternGraph_obs_exp(
   strip_size = 16,
   axis_size = 15,
   text_size = 13,
+  size_bartext = 4,
   xlab = "성조형",
   ylab = "관측기대비율",
   type = "g"
@@ -32,13 +33,13 @@ patternGraph_obs_exp(
 
 \item{text_size}{text}
 
+\item{size_bartext}{bartext}
+
 \item{xlab}{xlab}
 
 \item{ylab}{ylab}
 
 \item{type}{res}
-
-\item{size_bartext}{bartext}
 }
 \value{
 result fill data

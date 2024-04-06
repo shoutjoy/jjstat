@@ -196,6 +196,7 @@ patternGraph_obs_exp = function(data,
                                 strip_size = 16,
                                 axis_size = 15,
                                 text_size = 13,
+                                size_bartext=4,
                                 xlab = "성조형",
                                 ylab = "관측기대비율",
                                 type="g"
@@ -252,7 +253,7 @@ patternGraph_obs_exp = function(data,
     geom_hline(yintercept = 1, linetype=2, color="gray80")+
     # geom_text(aes(label =  paste(round(ratio,2), star ) ),
     geom_text(aes(label =  Sig ),
-              hjust = -0.1, size = 4)+
+              hjust = -0.1, size = size_bartext)+
     ylim(0,max(data_long_oe[, 3])+ yadd)+
     labs(x = xlab, y = ylab)+
     coord_flip()+
