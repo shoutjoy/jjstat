@@ -4,6 +4,7 @@
 #' @param col 'col' specifies the name of the column representing the p value in the data. By default, it is set to p.value. For example, if it is written as p, pvalue, p_value, etc., you can change the name.
 #' @param unite TRUE combine pvalue and sig
 #' @param digits default 3
+#' @param rownames_to_column drownames_to_column if you need
 #' @export
 #'
 #' @examples
@@ -39,7 +40,8 @@
 p_mark_sig <-function(data,
                       col = "p.value",
                       unite = FALSE,
-                      digits= 3
+                      digits = 3,
+                      rownames_to_column = TRUE
 ){
   #
   library(tidyverse)
@@ -58,14 +60,23 @@ p_mark_sig <-function(data,
                                              "ns"))))
   #Change variable to CHARACTER
   ndata$sig <- as.character(ndata$sig)
-  res = ndata %>% data.frame() %>%
-    tibble::rownames_to_column("vars") %>%
-    tibble::tibble()
 
+
+
+  if(rownames_to_column){
+
+     res = ndata %>% data.frame() %>%
+        tibble::rownames_to_column("vars") %>%
+        tibble::tibble()
+  }else{
+    res = ndata %>% data.frame() %>%
+      # tibble::rownames_to_column("vars") %>%
+      tibble::tibble()
+       }
 
 
   if(unite){
-    res = res %>% dplyr::rename(p.value = all_of(col)) %>%
+    res = res %>% dplyr::rename(p.value = all_of( C(col) )) %>%
       mutate_if(is.numeric, round, digits)
     res = res %>% tidyr::unite(p.value, p.value, sig, sep="")
     res= res%>% tibble::tibble()

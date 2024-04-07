@@ -27,7 +27,7 @@ med_effect <- function(x,
       dplyr::filter(op==":=") %>%
       dplyr::filter(str_detect(lhs, effect1) & str_detect(lhs,effect2)) %>%
       mutate(sig=cut(pvalue,c(-Inf,0.001,0.01,0.05,1),
-                     labels=c("***","**","*",""))) %>%
+                     labels=c("***","**","*","ns"))) %>%
       dplyr::select(lhs,label, est, std.all,se, z, pvalue, sig, Parameter=rhs) #%>%
     # kable(format, digits=3, caption = caption)
   }  else if(option==2){   #ci
@@ -35,14 +35,14 @@ med_effect <- function(x,
       dplyr::filter(op==":=") %>%
       dplyr::filter(str_detect(lhs, effect1) & str_detect(lhs, effect2) ) %>%
       mutate(sig=cut(pvalue,c(-Inf,0.001,0.01,0.05,1),
-                     labels=c("***","**","*",""))) %>%
+                     labels=c("***","**","*","ns"))) %>%
       dplyr::select(lhs,label, est,std.all, se, z, pvalue,  sig, ci.lower, ci.upper)
   }else if(option==3){
     parameterEstimates(x, standardized = TRUE, ci=TRUE ) %>%
       dplyr::filter(op==":=") %>%
       dplyr::filter(str_detect(lhs, effect1) & str_detect(lhs,effect2)) %>%
       mutate(sig = cut(pvalue,c(-Inf,0.001,0.01,0.05,1),
-                     labels=c("***","**","*",""))) %>%
+                     labels=c("***","**","*","ns"))) %>%
       dplyr::select(lhs,rhs, label, est, std.all,se, z, pvalue, sig, Parameter=rhs)
 }
 

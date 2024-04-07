@@ -4,7 +4,13 @@
 \alias{p_mark_sig}
 \title{p_mark_sig is Function that displays significance in data}
 \usage{
-p_mark_sig(data, col = "p.value", unite = FALSE, digits = 3)
+p_mark_sig(
+  data,
+  col = "p.value",
+  unite = FALSE,
+  digits = 3,
+  rownames_to_column = TRUE
+)
 }
 \arguments{
 \item{data}{input data.frame or matrix}
@@ -14,6 +20,8 @@ p_mark_sig(data, col = "p.value", unite = FALSE, digits = 3)
 \item{unite}{TRUE combine pvalue and sig}
 
 \item{digits}{default 3}
+
+\item{rownames_to_column}{drownames_to_column if you need}
 }
 \description{
 p_mark_sig is Function that displays significance in data
