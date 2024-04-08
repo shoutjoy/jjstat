@@ -175,8 +175,8 @@ mysummaryBy <- function(
                           N = length(x),
                           Min = min(x, na.rm = TRUE),
                           Max = max(x, na.rm = TRUE),
-                          Skew = SEM212::SKEW(x),
-                          Kurt = SEM212::KURT(x)
+                          Skew = SKEW(x),
+                          Kurt = KURT(x)
                         )
                       })
 

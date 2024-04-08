@@ -4,10 +4,12 @@
 \alias{pall}
 \title{Print all}
 \usage{
-pall(data)
+pall(data, n = Inf)
 }
 \arguments{
 \item{data}{tibble}
+
+\item{n}{rows n = Inf}
 }
 \value{
 view all

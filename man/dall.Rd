@@ -4,10 +4,14 @@
 \alias{dall}
 \title{view data.frame}
 \usage{
-dall(data)
+dall(data, type = "all", n = 10)
 }
 \arguments{
 \item{data}{tibble}
+
+\item{type}{all, head}
+
+\item{n}{rows n = 10 (default)}
 }
 \value{
 data.frame
