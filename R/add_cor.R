@@ -3,7 +3,7 @@
 #' @param selectdata seledted daa
 #' @param type res_all, res, p, r, res_p, res_md. g
 #' @param digits default 3
-#' @param g graph performanceAnalytis::chart.Correlation
+#' @param plot graph performanceAnalytis::chart.Correlation
 #'
 #' @return table and picture
 #' @export
@@ -14,7 +14,7 @@
 #'
 #' mtcars%>%select(mpg, disp, wt, hp, qsec)%>%add_cor()
 #' }
-add_cor = function(selectdata, type="res_all", digits=3, g=TRUE ){
+add_cor = function(selectdata, type="res_all", digits=3, plot = TRUE ){
   cor_data <- psych::corr.test(selectdata)
   rho = cor_data$r
   pvalue = cor_data$p
@@ -25,16 +25,25 @@ add_cor = function(selectdata, type="res_all", digits=3, g=TRUE ){
   res_p_star = combine_data(res_p, add_significance_symbols(cor_data$p))
 
   res_md = res%>%
-    SEM212::lowerMat(fill=NA, diag=NA) %>%
+    lowerMat(fill=NA, diag=NA) %>%
     markdown_table(digits = digits)
 
-  graph = PerformanceAnalytics::chart.Correlation(selectdata)
 
-  if(g){
 
-    res_all = list(rho,pvalue,res_p, res, res_md, graph )
+  if(plot){
+    graph = PerformanceAnalytics::chart.Correlation(selectdata)
+    res_all = list(rho = rho,
+                   pvalue = pvalue,
+                   res_p = res_p,
+                   res = res,
+                   res_md = res_md,
+                   plot = graph )
   }else{
-    res_all = list(rho,pvalue,res_p, res, res_md )
+    res_all = list(rho = rho,
+                   pvalue = pvalue,
+                   res_p = res_p,
+                   res = res,
+                   res_md = res_md )
   }
 
 
