@@ -139,11 +139,17 @@ kge_chisq_table = function(dataset,
   chi_table_sig = format(calculate_chi_sig(data, simple = simple), 3)
 
 
+  # **column names ----
+  r2colnames = paste0(v1,"/", v2)
+
+
   ###마크다운   유의성표시된 것으로 변경----
   chi_table_md0 = chi_table_sig %>%data.frame() %>%
-    rownames_to_column("syllable-accent")
+    # rownames_to_column("syllable-accent")
+    rownames_to_column(r2colnames)
   #열이름 재설정
-  colnames(chi_table_md0) <- c("syllable-accent",colnames(chi_table_sig))
+  colnames(chi_table_md0) <- c(r2colnames,colnames(chi_table_sig))
+  # colnames(chi_table_md0) <- c("syllable-accent",colnames(chi_table_sig))
 
   chi_table_md = chi_table_md0 %>%
     jjstat::markdown_table(caption = paste0(title, chi_mag,"; ",
@@ -167,13 +173,19 @@ kge_chisq_table = function(dataset,
   data_graph = data  %>% accent_table( v2, v1, type = "res")
 
 
+
+
   # 교차표 contigency table
   contigency_table_md0 = data_margin %>% data.frame() %>%
-    rownames_to_column("syllable-accent")
+    rownames_to_column(r2colnames)
+    # rownames_to_column("syllable-accent")
   #열이름 재설정
-  colnames(contigency_table_md0) <- c("syllable-accent",
+  colnames(contigency_table_md0) <- c(r2colnames,
                                       colnames(data_graph),
                                       "SUM")
+  # colnames(contigency_table_md0) <- c("syllable-accent",
+  #                                     colnames(data_graph),
+  #                                     "SUM")
 
   contigency_table_md =  contigency_table_md0 %>%
     jjstat::markdown_table(caption = paste0(title," Contingency table"),
