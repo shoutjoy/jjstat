@@ -42,6 +42,7 @@ Generate an AOV results table for multiple independent variables
 \examples{
 
 \dontrun{
+mtcars <- mtcars\%>\%as_trt("cyl", "gear", "carb")
 aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"))
 
 aov_table(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),
