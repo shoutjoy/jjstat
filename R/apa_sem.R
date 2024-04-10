@@ -166,7 +166,7 @@ interpretation_de <- function(data, md = FALSE) {
 #'  ##Direct effect
 #'  DE_effect(fits)
 
-#'  DE_effect(fits)%>% report_sem_de()
+#'  DE_effect(fits)%>% sem_apa()
 #'
 #' }
 #'
