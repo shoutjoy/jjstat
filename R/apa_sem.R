@@ -41,7 +41,7 @@ interpretation_de <- function(data, md = FALSE) {
   # data <- data  # 이 줄은 필요 없는 것 같습니다.
 
   # Check if 'label' column exists
-  if ("H" %in% colnames(data)) {
+  if (ncol(data)==8) {
     rsp <- c()
     for (i in 1:nrow(data)) {
       rsp[i] <- ifelse(stringr::str_detect(data[i, 1], "->"),
@@ -64,18 +64,14 @@ interpretation_de <- function(data, md = FALSE) {
                          "(est = ", round(data[i, 3], 3), ", p ",
                          ifelse(data[i, 7] < 0.001, "< .001", paste0("= ", round(data[i, 7], 3))),
                          "). ",
-                         "이는 '", Rsp[i, 1], "'이 한 단위 증가할수록 '",
-                         Rsp[i, 2],"'의 비표준화계수(est)가 β = ",
+                         "이는 '", Rsp[i, 1], "'이 한 단위 증가할수록 '", Rsp[i, 2],"'의 비표준화계수(est)가 β = ",
                          round(data[i, 3], 3),
                          ifelse(data[i, 3] > 0,
-                                paste0(" 만큼 ",
-                                       ifelse(data[i, 8] == "ns", "", "유의미한 ") ,"증가를 나타낸다. "),
-                                paste0("만큼 ",
-                                       ifelse(data[i, 8] == "ns", "", "유의미한 "),"감소를 나타낸다. ")),
-                         ifelse(data[i, 8] == "ns",
-                                "그러나, 통계적으로 유의미한 효과라고 할 수 없다. ", ""),  "\n" )
+                                paste0(" 만큼 ", ifelse(data[i, 8] == "ns", "", "유의미한 ") ,"증가를 나타낸다. "),
+                                paste0("만큼 ", ifelse(data[i, 8] == "ns", "", "유의미한 "),"감소를 나타낸다. ")),
+                         ifelse(data[i, 8] == "ns", "그러나, 통계적으로 유의미한 효과라고 할 수 없다. ", ""),  "\n" )
     }
-  } else {
+  } else if(ncol(data)==7){
 
 
     rsp <- c()
@@ -93,26 +89,19 @@ interpretation_de <- function(data, md = FALSE) {
 
     inter <- c()
     for (i in 1:nrow(data)) {
-      inter[i] <- paste0("가설[", i, "]: ", data[i, 1], "(", data[i, 2], ")",
+      inter[i] <- paste0("가설[", i, "]: ", data[i, 1],
                          "에 관한 경로", "분석 결과, 통계적으로",
                          ifelse(data[i, 7] == "ns", " 유의미한 효과는 나타나지 않았다",
                                 " 유의미한 효과가 나타났다"),
                          "(est = ", round(data[i, 3], 3), ", p ",
                          ifelse(data[i, 6] < 0.001, "< .001", paste0("= ", round(data[i, 6], 3))),
                          "). ",
-                         "이는 '", Rsp[i, 1],
-                         "'이 한 단위 증가할수록 '",
-                         Rsp[i, 2],"'의 비표준화계수(est)가 β = ",
+                         "이는 '", Rsp[i, 1], "'이 한 단위 증가할수록 '", Rsp[i, 2],"'의 비표준화계수(est)가 β = ",
                          round(data[i, 2], 3),
                          ifelse(data[i, 2] > 0,
-                                paste0(" 만큼 ",
-                                       ifelse(data[i, 7] == "ns", "", "유의미한 ") ,
-                                       "증가를 나타낸다. "),
-                                paste0("만큼 ",
-                                       ifelse(data[i, 7] == "ns", "", "유의미한 "),
-                                       "감소를 나타낸다. ")),
-                         ifelse(data[i, 7] == "ns",
-                                "그러나, 통계적으로 유의미한 효과라고 할 수 없다. ", ""),  "\n" )
+                                paste0(" 만큼 ", ifelse(data[i, 7] == "ns", "", "유의미한 ") ,"증가를 나타낸다. "),
+                                paste0("만큼 ", ifelse(data[i, 7] == "ns", "", "유의미한 "),"감소를 나타낸다. ")),
+                         ifelse(data[i, 7] == "ns", "그러나, 통계적으로 유의미한 효과라고 할 수 없다. ", ""),  "\n" )
     }
 
   }
@@ -174,7 +163,7 @@ sem_apa <- function(data, md = FALSE) {
   # data <- data  # 이 줄은 필요 없는 것 같습니다.
 
   # Check if 'label' column exists
-  if ("H" %in% colnames(data)) {
+  if (ncol(data)==8) {
     rsp <- c()
     for (i in 1:nrow(data)) {
       rsp[i] <- ifelse(stringr::str_detect(data[i, 1], "->"),
@@ -196,9 +185,15 @@ sem_apa <- function(data, md = FALSE) {
                                 " 유의미한 효과가 나타났다"),
                          "(est = ", round(data[i, 3], 3), ", p ",
                          ifelse(data[i, 7] < 0.001, "< .001", paste0("= ", round(data[i, 7], 3))),
-                         "). ",  "\n" )
+                         "). ",
+                         "이는 '", Rsp[i, 1], "'이 한 단위 증가할수록 '", Rsp[i, 2],"'의 비표준화계수(est)가 β = ",
+                         round(data[i, 3], 3),
+                         ifelse(data[i, 3] > 0,
+                                paste0(" 만큼 ", ifelse(data[i, 8] == "ns", "", "유의미한 ") ,"증가를 나타낸다. "),
+                                paste0("만큼 ", ifelse(data[i, 8] == "ns", "", "유의미한 "),"감소를 나타낸다. ")),
+                         ifelse(data[i, 8] == "ns", "그러나, 통계적으로 유의미한 효과라고 할 수 없다. ", ""),  "\n" )
     }
-  } else {
+  } else if(ncol(data)==7){
 
 
     rsp <- c()
@@ -216,13 +211,19 @@ sem_apa <- function(data, md = FALSE) {
 
     inter <- c()
     for (i in 1:nrow(data)) {
-      inter[i] <- paste0("가설[", i, "]: ", data[i, 1], "(", data[i, 2], ")",
+      inter[i] <- paste0("가설[", i, "]: ", data[i, 1],
                          "에 관한 경로", "분석 결과, 통계적으로",
                          ifelse(data[i, 7] == "ns", " 유의미한 효과는 나타나지 않았다",
                                 " 유의미한 효과가 나타났다"),
                          "(est = ", round(data[i, 3], 3), ", p ",
                          ifelse(data[i, 6] < 0.001, "< .001", paste0("= ", round(data[i, 6], 3))),
-                         "). ", "\n" )
+                         "). ",
+                         "이는 '", Rsp[i, 1], "'이 한 단위 증가할수록 '", Rsp[i, 2],"'의 비표준화계수(est)가 β = ",
+                         round(data[i, 2], 3),
+                         ifelse(data[i, 2] > 0,
+                                paste0(" 만큼 ", ifelse(data[i, 7] == "ns", "", "유의미한 ") ,"증가를 나타낸다. "),
+                                paste0("만큼 ", ifelse(data[i, 7] == "ns", "", "유의미한 "),"감소를 나타낸다. ")),
+                         ifelse(data[i, 7] == "ns", "그러나, 통계적으로 유의미한 효과라고 할 수 없다. ", ""),  "\n" )
     }
 
   }
