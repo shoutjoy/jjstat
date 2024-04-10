@@ -109,7 +109,7 @@ interpretation_de <- function(data, md=FALSE) {
   if(md){  print(data%>% jjstat::md(digits=3))}
 
 
-  cat("\n\n연구모형에 대한 구조모형 분석결과, 각 가설(직접효과)는 다음과 같이 나타났다. \n",
+  cat("\n\n연구모형에 대한 구조모형 분석결과, 각 효과 검정 결과는 다음과 같다. \n",
       inter,"\n\n")
 
 }
@@ -156,7 +156,7 @@ interpretation_de <- function(data, md=FALSE) {
 #'
 #' }
 #'
-report_sem_de <- function(data, md=FALSE) {
+report_sem_apa <- function(data, md=FALSE) {
 
   data <- data
 
@@ -179,7 +179,7 @@ report_sem_de <- function(data, md=FALSE) {
       rsp[i] = Rsp[i,1] %>% str_split("->")
 
       inter[i] <- paste0("가설[",i,"]: ",data[i, 1], "(", data[i, 2], ")",
-                         "에 관한 경로", "분석 결과, 통계적으로",
+                         "에 관하여", "분석한 결과, 통계적으로",
                          ifelse(data[i, 8] == "ns", " 유의미한 효과는 나타나지 않았다",
                                 " 유의미한 효과가 나타났다"),
                          "(est = ", round(data[i, 3], 3), ", p ",
@@ -228,7 +228,7 @@ report_sem_de <- function(data, md=FALSE) {
   if(md){  print(data%>% jjstat::md(digits=3))}
 
 
-  cat("\n\n연구모형에 대한 구조모형 분석결과, 각 가설(직접효과)는 다음과 같이 나타났다. \n",
+  cat("\n\n연구모형에 대한 구조모형 분석결과, 각 효과 검정 결과는 다음과 같다. \n",
       inter,"\n\n")
 
 }
