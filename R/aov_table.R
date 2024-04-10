@@ -5,8 +5,8 @@
 #' @param iv_vars c(iv1, iv2....)
 #' @param unite_F Fvalue unite
 #' @param unite_p pvalue unite
-#' @param mean Option to average by group and add
 #' @param sig 'sig = T' is add star
+#' @param grp_mean 'grooup mean remove
 #' @param posthoc 'tukey, scheffe, duncan
 #'
 #' @return table
@@ -18,8 +18,7 @@
 #' mtcars <- mtcars%>%as_trt("cyl", "gear", "carb")
 #' aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"))
 #'
-#' aov_table(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),
-#'            mean = TRUE)
+#' aov_table(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),  mean = F)
 #'
 #' aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE)
 #'
@@ -173,6 +172,7 @@ aov_table = function(data,
 
     result_df2$p_value = as.numeric(result_df2$p_value)
 
+
     if(sig){
       result_df2 = result_df2 %>% mutate(sig = add_sig(p_value))
     }else{
@@ -186,7 +186,12 @@ aov_table = function(data,
 
 
     result_df = dplyr::distinct(result_df,
-                                iv, dv, levels, df1, df2, F_value, p_value, POSTHOCs)
+                                iv, dv, levels, POSTHOCs,
+                                df1, df2, F_value, p_value)
+
+
+
+
     result_df2 = result_df %>%
       mutate(p_value = format_number(as.vector(p_value), n3 = 3, n1=5)) %>%
       Round(digits, exclude = "p_value")%>%
@@ -194,6 +199,8 @@ aov_table = function(data,
 
 
     result_df2$p_value = as.numeric(result_df2$p_value)
+
+
 
     if(sig){
       result_df2 = result_df2 %>% mutate(sig = add_sig(p_value))
@@ -250,7 +257,6 @@ aov_table = function(data,
 #' @param iv_vars c(iv1, iv2....)
 #' @param unite_F Fvalue unite
 #' @param unite_p pvalue unite
-#' @param mean Option to average by group and add
 #' @param sig 'sig = T' is add star
 #'
 #' @return table
@@ -429,7 +435,8 @@ aov_df <- function(data,
 
 
     result_df = dplyr::distinct(result_df,
-                                iv, dv, levels, df1, df2, F_value, p_value, POSTHOCs)
+                                iv, dv, levels, POSTHOCs,
+                                df1, df2, F_value, p_value)
     result_df2 = result_df %>%
       mutate(p_value = format_number(as.vector(p_value), n3 = 3, n1=5)) %>%
       Round(digits, exclude = "p_value")%>%

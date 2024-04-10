@@ -30,7 +30,7 @@ anova_apa <- function(aov_post_data, md=FALSE) {
   aov_df = aov_post_data$aov
   Fvalue= aov_df[1, 5]
   pvalue = ifelse(aov_df[1, 6] < 0.001 ,
-                  "< .001.",
+                  "< .001).",
                   paste0("= ",round( aov_df[1, 6],4),")." ))
 
   df1= aov_df[1, 2]

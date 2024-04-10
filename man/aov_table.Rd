@@ -23,6 +23,8 @@ aov_table(
 
 \item{iv_vars}{c(iv1, iv2....)}
 
+\item{grp_mean}{'grooup mean remove}
+
 \item{unite_p}{pvalue unite}
 
 \item{unite_F}{Fvalue unite}
@@ -30,8 +32,6 @@ aov_table(
 \item{posthoc}{'tukey, scheffe, duncan}
 
 \item{sig}{'sig = T' is add star}
-
-\item{mean}{Option to average by group and add}
 }
 \value{
 table
@@ -45,8 +45,7 @@ Generate an AOV results table for multiple independent variables
 mtcars <- mtcars\%>\%as_trt("cyl", "gear", "carb")
 aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"))
 
-aov_table(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),
-           mean = TRUE)
+aov_table(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),  mean = F)
 
 aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE)
 

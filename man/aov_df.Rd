@@ -28,8 +28,6 @@ aov_df(
 \item{unite_F}{Fvalue unite}
 
 \item{sig}{'sig = T' is add star}
-
-\item{mean}{Option to average by group and add}
 }
 \value{
 table
