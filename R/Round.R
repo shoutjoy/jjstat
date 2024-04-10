@@ -2,6 +2,8 @@
 #'
 #' @param data data.frame
 #' @param digits default 2
+#' @param exclude exclude variable not adapted
+#' @param type data type tibble or data.frame , matrix
 #'
 #' @return rounding data
 #' @export
@@ -26,7 +28,7 @@
 #'  dff%>%Round(1, exclude ="B")
 #'
 #' }
-Round <- function(data, digits=2, exclude = NULL){
+Round <- function(data, digits=2, exclude = NULL, type= "tibble"){
   if(is.data.frame(data)){
 
     original_order <- colnames(data)
@@ -45,5 +47,14 @@ Round <- function(data, digits=2, exclude = NULL){
     data <- sapply(data,
                    function(x) {if(is.numeric(x)){round(x, digits)}})
   }
-  data
+
+  tibble = tibble::tibble(data)
+  data.frame = as.data.frame(data)
+  matrix = as.matrix(data)
+
+  switch(type,
+         tibble = tibble,
+         matirx = matrix,
+         data.frame = data.frame)
+
 }
