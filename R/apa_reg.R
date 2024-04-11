@@ -11,13 +11,13 @@
 #' \dontrun{
 #' lm(mpg ~ hp + wt + disp + qsec, data = mtcars) %>% reg_apa()
 #' }
-#'
+#' reg1
 reg_apa <- function(model, digits= 3) {
   # Extracting coefficients
   coeffs <- coef(model)
   summary_model = summary(lm.beta::lm.beta(model))
 
-  vars = reg1$call %>%formula() %>%as.character()
+  vars = model$call %>%formula() %>%as.character()
   dv = vars[2]
   ivs = vars[3]
 

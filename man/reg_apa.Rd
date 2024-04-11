@@ -21,5 +21,5 @@ regression APA report
 \dontrun{
 lm(mpg ~ hp + wt + disp + qsec, data = mtcars) \%>\% reg_apa()
 }
-
+reg1
 }
