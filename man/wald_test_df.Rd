@@ -27,23 +27,21 @@ wald-test using data.frame(or tibble)
 }
 \examples{
 \dontrun{
- lm(mpg ~ hp + wt + drat, mtcars) \%>\%
- ztest_df()
+ lm(mpg ~ hp + wt + drat, mtcars) \%>\%wald_test_df()
 
 # #selecting variable
-lm(mpg ~ hp + wt + drat, mtcars) \%>\%
-   ztest_df(row1=2, row2=3)
+lm(mpg ~ hp + wt + drat, mtcars) \%>\%  wald_test_df(row1=2, row2=3)
 #
 # # When other variables are selected and analyzed
  lm(mpg ~ hp + wt + drat, mtcars) \%>\%
-   ztest_df(row1=2, row2=4)
+   wald_test_df(row1=2, row2=4)
 #
 # # When variable-names are selected
  lm(mpg ~ hp + wt + drat, mtcars) \%>\%
-   ztest_df(sel="term", rname1="hp", rname2="wt")
+   wald_test_df(sel="term", rname1="hp", rname2="wt")
 #
  lm(mpg ~ hp + wt + drat, mtcars) \%>\%
-   ztest_df(sel="term", rname1="hp", rname2="drat")
+   wald_test_df(sel="term", rname1="hp", rname2="drat")
  }
 
 
