@@ -3,6 +3,7 @@
 #' @param data  data.frame
 #' @param remove Select variables to exclude from analysis
 #' @param digits round
+#' @param cat TRUE Data frequency analysis results message output
 #'
 #' @return  Publication frequency table
 #' @export
@@ -19,7 +20,7 @@
 #' }
 #'
 #'
-table_df <- function(data, remove = NULL, digits = 4) {
+table_df <- function(data, remove = NULL, digits = 4, cat=TRUE) {
   # 데이터 프레임에서 Factor 및 chr 변수 추출
   factor_vars <- sapply(data, is.factor)
   chr_vars <- sapply(data, is.character)
@@ -53,6 +54,8 @@ table_df <- function(data, remove = NULL, digits = 4) {
   result <- c(factor_freq, chr_freq)
 
   # 결과 반환
+  if(cat){
   cat("\n Data frequency analysis results\n\n")
+  }
   return(do.call(rbind, result))
 }

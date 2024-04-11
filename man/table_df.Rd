@@ -4,7 +4,7 @@
 \alias{table_df}
 \title{Frequency Analysis Functions}
 \usage{
-table_df(data, remove = NULL, digits = 4)
+table_df(data, remove = NULL, digits = 4, cat = TRUE)
 }
 \arguments{
 \item{data}{data.frame}
@@ -12,6 +12,8 @@ table_df(data, remove = NULL, digits = 4)
 \item{remove}{Select variables to exclude from analysis}
 
 \item{digits}{round}
+
+\item{cat}{TRUE Data frequency analysis results message output}
 }
 \value{
 Publication frequency table
