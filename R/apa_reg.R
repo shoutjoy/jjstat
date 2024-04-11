@@ -52,7 +52,7 @@ reg_apa <- function(model, digits= 3) {
 
   ## Printing the results
   res_msg1 = paste0("설명변수(", dv ,")에 대한 예측변수(", ivs,
-                    ")의 회귀분석 결과, 회귀모형은 통계적으로유의하였다",
+                    ")의 회귀분석 결과, 회귀모형은 통계적으로 유의하였다",
                     "(F(", reg_fit$df, ", ", reg_fit$df.residual, ") = ",
                     round(reg_fit$statistic, 2), ", p-value ",
                     formatC(
@@ -63,8 +63,8 @@ reg_apa <- function(model, digits= 3) {
                     explain,"이라고 할 수 있다.",
                     " 조정된 설명력(", "adj.R2)은 = ",round(reg_fit$adj.r.squared*100, 2),"%으로 나타났다.",
                     " 표준화 회귀계수의 크기는 순서대로 확인한 결과, ",
-                    sort_std,"순으로 나타났다. 이는",dv,
-                    "에 큰 영향을 미치는 변수를 추측해볼 수 있다. ",
+                    sort_std,"순으로 나타났다. 이는 ",dv,
+                    "에 큰 영향을 미치는 변수를 추측해볼 수 있다. 실제 통계적으로 유의한 차이 여부는 Wald Test를 통해서 확인할 수 있다.  ",
                     "\n")
 
   # Loop through each coefficient
@@ -91,7 +91,7 @@ reg_apa <- function(model, digits= 3) {
 
   options(tibble.width = Inf)
   #  print(summary_model)
-  print(tidy_model)
+  print(tidy_model%>% p_mark_sig())
 
   print(reg_fit)
   print(sort_std)
@@ -103,3 +103,5 @@ reg_apa <- function(model, digits= 3) {
   }
 
 }
+
+
