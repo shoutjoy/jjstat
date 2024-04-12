@@ -4,12 +4,14 @@
 \alias{lowerMat_na}
 \title{lower pull matrix fill NA}
 \usage{
-lowerMat_na(mat, fill = ".")
+lowerMat_na(mat, fill = ".", diag = ".")
 }
 \arguments{
 \item{mat}{matrix data}
 
 \item{fill}{matrix data NA or .}
+
+\item{diag}{matrix  diagonal data NA or .}
 }
 \value{
 lowermatrix, upper 0

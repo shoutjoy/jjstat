@@ -20,9 +20,9 @@ lowerMat <- function(mat, fill = 0, diag = 0  ) {
   for (i in 1:num_rows) {
     for (j in 1:num_cols) {
       if (i == j) {
-        mat[i, j] <- fill
-      } else if (i < j) {
         mat[i, j] <- diag
+      } else if (i < j) {
+        mat[i, j] <- fill
       }
     }
   }
@@ -35,12 +35,13 @@ lowerMat <- function(mat, fill = 0, diag = 0  ) {
 #'
 #' @param mat matrix data
 #' @param fill matrix data NA or .
+#' @param diag matrix  diagonal data NA or .
 #'
 #' @return lowermatrix, upper 0
 #' @export
 #'
 #'
-lowerMat_na <- function(mat, fill=".") {
+lowerMat_na <- function(mat, fill=".", diag = ".") {
   num_rows <- nrow(mat)
   num_cols <- ncol(mat)
 
@@ -51,7 +52,7 @@ lowerMat_na <- function(mat, fill=".") {
   for (i in 1:num_rows) {
     for (j in 1:num_cols) {
       if (i == j) {
-        mat[i, j] <- fill
+        mat[i, j] <- diag
       } else if (i < j) {
         mat[i, j] <- fill
       }
