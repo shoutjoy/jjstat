@@ -54,7 +54,7 @@ kge_chisq_table = function(dataset,
 ){
 
   data =  dataset %>%
-    dplyr::select(all_of(c(v1)), all_of(c(v2))) %>%
+    dplyr::select(all_of(v1), all_of(v2)) %>%
     table()
 
 

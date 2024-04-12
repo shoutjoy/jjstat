@@ -4,14 +4,14 @@
 \alias{replace_df}
 \title{Search for and fill in empty data}
 \usage{
-replace_df(df, imp = NA, pattern = "")
+replace_df(df, pattern = NA, imp = "")
 }
 \arguments{
 \item{df}{data.frame}
 
-\item{imp}{iimputation , defalut NA}
-
 \item{pattern}{default ""}
+
+\item{imp}{iimputation , defalut NA}
 }
 \value{
 data.frame

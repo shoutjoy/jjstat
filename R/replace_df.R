@@ -7,8 +7,13 @@
 #' @return data.frame
 #' @export
 #'
-replace_df = function(df, imp = NA, pattern = "" ){
+replace_df = function(df, pattern = NA, imp = "" ){
+
+
   df[df == pattern ] <- imp
 
   df
 }
+
+
+
