@@ -9,6 +9,7 @@
 #' @param unite_p p_vakye+sig
 #' @param digits digits 2
 #' @param var.equal variance equal -student ttest
+#' @param paired paired t.test (TRUE)
 #' @param sig star
 #'
 #' @return  t.test table
@@ -41,6 +42,7 @@ ttest_df <- function(data,
                      unite_p = FALSE,
                      digits = 2,
                      var.equal= TRUE,
+                     paired= FALSE,
                      sig = FALSE
 ) {
   # data: data.frame
@@ -66,7 +68,10 @@ ttest_df <- function(data,
   # Perform a t-test for each independent variable
   for (iv in iv_vars) {
     # t-test
-    ttest_result <- t.test(data[[dv_var]] ~ data[[iv]], data = data, var.equal = var.equal )
+    ttest_result <- t.test(data[[dv_var]] ~ data[[iv]],
+                           data = data,
+                           var.equal = var.equal,
+                           paired = paired)
 
     meandata =  jjstat::mysummaryBy(formula(paste(dv_var, "~", iv)),
                                     data = data)[2]

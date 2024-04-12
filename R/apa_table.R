@@ -33,7 +33,7 @@ table_apa <- function(data, print = TRUE, md = FALSE) {
     cat(paste0(term, "에는 "))
     levels <- data[data$Term == term, c("Level", "Freq", "Prop(%)")]
     for (i in 1:nrow(levels)) {
-      cat(levels[i, "Level"], paste0(levels[i, "Freq"], "(", levels[i, "Prop(%)"], "%)명"))
+      cat(levels[i, "Level"], paste0(levels[i, "Freq"], "명(", levels[i, "Prop(%)"], "%)"))
       if (i < nrow(levels)) {
         cat(", ")
       }

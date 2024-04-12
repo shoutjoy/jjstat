@@ -13,6 +13,7 @@ ttest_df(
   unite_p = FALSE,
   digits = 2,
   var.equal = TRUE,
+  paired = FALSE,
   sig = FALSE
 )
 }
@@ -32,6 +33,8 @@ ttest_df(
 \item{digits}{digits 2}
 
 \item{var.equal}{variance equal -student ttest}
+
+\item{paired}{paired t.test (TRUE)}
 
 \item{sig}{star}
 }
