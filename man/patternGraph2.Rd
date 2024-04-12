@@ -10,6 +10,8 @@ patternGraph2(
   raw = TRUE,
   Ncol = NULL,
   yadd = 0.45,
+  xlab = "음절",
+  ylab = "관측기대비율",
   strip_size = 16,
   axis_size = 16,
   text_size = 14,
@@ -26,6 +28,10 @@ patternGraph2(
 \item{Ncol}{grid}
 
 \item{yadd}{up yadd}
+
+\item{xlab}{xlab}
+
+\item{ylab}{ylab}
 
 \item{strip_size}{strip}
 

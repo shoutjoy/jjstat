@@ -285,6 +285,8 @@ patternGraph_obs_exp = function(data,
 #' @param text_size text
 #' @param size_bartext bartext
 #' @param type g
+#' @param xlab xlab
+#' @param ylab ylab
 #'
 #' @return result fill data
 #' @export
@@ -325,6 +327,8 @@ patternGraph2 = function(data, type="g",
                          yadd = 0.45,
                          # values_to = NULL,
                          # names_to =NULL,
+                         xlab = "음절",
+                         ylab = "관측기대비율",
                          strip_size = 16,
                          axis_size = 16,
                          text_size = 14,
@@ -394,6 +398,7 @@ patternGraph2 = function(data, type="g",
     geom_text(aes(label =  Sig ),
               hjust = -0.1, size = size_bartext)+
     ylim(0,max(data_long_oe[, 3])+ yadd)+
+    labs(x = xlab, y = ylab)+
     coord_flip()+
     theme_bw()+
     theme(
