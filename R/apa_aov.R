@@ -9,15 +9,15 @@
 #' @examples
 #' \dontrun{
 #' Mtcars <- mtcars%>%as_trt("cyl")
-#' aov(mpg ~ cyl , data=Mtcars)%>%aov_post() %>% anova_apa()
-# aov(mpg ~ cyl , data=Mtcars)%>%aov_post(type="df") %>% anova_apa()
+#' aov(mpg ~ cyl , data=Mtcars) %>% aov_post() %>% anova_apa()
+# aov(mpg ~ cyl , data=Mtcars) %>% aov_post(type="df") %>% anova_apa()
 #' # This is error
-#' aov(mpg ~ cyl , data=Mtcars)%>%aov_post(type="contrast") %>% anova_apa()
+#' aov(mpg ~ cyl , data=Mtcars)%>% aov_post(type="contrast") %>% anova_apa()
 #'
-#' # aov(mpg ~ cyl , data=Mtcars)%>%aov_post(type="all")
+#' # aov(mpg ~ cyl , data=Mtcars) %>% aov_post(type="all")
 #'
-#' aov(mpg ~ cyl , data=Mtcars)%>%aov_post(type="all") %>% anova_apa()
-#' aov(mpg ~ cyl , data=Mtcars)%>%aov_post(type="res") %>% anova_apa()
+#' aov(mpg ~ cyl , data=Mtcars) %>% aov_post(type="all") %>% anova_apa()
+#' aov(mpg ~ cyl , data=Mtcars) %>% aov_post(type="res") %>% anova_apa()
 #'
 #' }
 #'

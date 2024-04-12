@@ -167,6 +167,10 @@ interpretation_de <- function(data, md = FALSE) {
 
 #'  DE_effect(fits)%>% sem_apa()
 #'
+#' example(sem)
+#' DE_effect(fit)
+#' DE_effect(fit) %>% sem_apa()
+#'
 #' }
 #'
 sem_apa <- function(data, md = FALSE) {
@@ -258,4 +262,5 @@ sem_apa <- function(data, md = FALSE) {
   cat("\n\n연구모형에 대한 구조모형 분석결과, 각 가설(직접효과)는 다음과 같이 나타났다. \n",
       inter, "\n\n")
 }
+
 

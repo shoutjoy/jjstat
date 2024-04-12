@@ -44,6 +44,10 @@ SEM direct effect interpretation
  DE_effect(fits)
  DE_effect(fits)\%>\% sem_apa()
 
+example(sem)
+DE_effect(fit)
+DE_effect(fit) \%>\% sem_apa()
+
 }
 
 }
