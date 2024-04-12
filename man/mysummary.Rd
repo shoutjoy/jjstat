@@ -4,12 +4,18 @@
 \alias{mysummary}
 \title{my summary descriptive statistics}
 \usage{
-mysummary(myobject, ..., all = T, digits = 4)
+mysummary(myobject, ..., all = F, digits = 5, msdn = FALSE)
 }
 \arguments{
 \item{myobject}{data.frame, matrix}
 
 \item{...}{column variable}
+
+\item{all}{FLASE이면 numeric변수만 추출하여 분석}
+
+\item{digits}{round default 3}
+
+\item{msdn}{TRUE only output var, N, mean. sd}
 }
 \value{
 size   MEAN    SD  MIN  MAX
@@ -27,6 +33,12 @@ mysummary(mtcars, "mpg","wt","hp")
 
 ## all variable
  jjstat::mysummary(mtcars, colnames(mtcars))
+
+mysummary(mtcars, colnames(mtcars))
+
+mysummary(mtcars)
+
+mysummary(mtcars, all=FALSE)
 
 }
 }

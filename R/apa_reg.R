@@ -3,6 +3,7 @@
 #'
 #' @param model lm_data
 #' @param digits 3
+#' @param md markdown table
 #'
 #' @return report
 #' @export
@@ -12,10 +13,10 @@
 #' lm(mpg ~ hp + wt + disp + qsec, data = mtcars) %>% reg_apa()
 #' }
 #' reg1
-reg_apa <- function(model, digits= 3) {
+reg_apa <- function(model, digits= 3, md=FALSE) {
   # Extracting coefficients
   coeffs <- coef(model)
-  summary_model = summary(lm.beta::lm.beta(model))
+  # summary_model = summary(lm.beta::lm.beta(model))
 
   vars = model$call %>%formula() %>%as.character()
   dv = vars[2]
@@ -24,7 +25,7 @@ reg_apa <- function(model, digits= 3) {
   reg_fit = model%>% broom::glance()
   # Extracting p-values
   p_vals <- summary(model)$coefficients[, 4]
-  DF = model$df.residual
+  # DF = model$df.residual
 
   tidy_model = broom::tidy(lm.beta::lm.beta(model))
 
@@ -92,6 +93,11 @@ reg_apa <- function(model, digits= 3) {
   options(tibble.width = Inf)
   #  print(summary_model)
   print(tidy_model%>% p_mark_sig())
+
+  if(md){
+    markdown_table(tidy_model%>% p_mark_sig(),caption = "regression result")
+  }
+
 
   print(reg_fit)
   print(sort_std)

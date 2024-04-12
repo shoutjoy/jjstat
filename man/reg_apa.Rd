@@ -4,12 +4,14 @@
 \alias{reg_apa}
 \title{regression APA report}
 \usage{
-reg_apa(model, digits = 3)
+reg_apa(model, digits = 3, md = FALSE)
 }
 \arguments{
 \item{model}{lm_data}
 
 \item{digits}{3}
+
+\item{md}{markdown table}
 }
 \value{
 report

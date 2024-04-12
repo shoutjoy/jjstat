@@ -38,7 +38,7 @@ table_apa <- function(data, print = TRUE, md = FALSE) {
         cat(", ")
       }
     }
-    cat("으로 나타났다.  ")
+    cat("으로 나타났다. ")
   }
 
   cat("\n\n")

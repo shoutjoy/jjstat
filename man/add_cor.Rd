@@ -4,7 +4,7 @@
 \alias{add_cor}
 \title{correlation analysis}
 \usage{
-add_cor(selectdata, type = "res_all", digits = 3, plot = TRUE)
+add_cor(selectdata, type = "res_all", digits = 3, plot = TRUE, md = FALSE)
 }
 \arguments{
 \item{selectdata}{seledted daa}
@@ -14,6 +14,8 @@ add_cor(selectdata, type = "res_all", digits = 3, plot = TRUE)
 \item{digits}{default 3}
 
 \item{plot}{graph performanceAnalytis::chart.Correlation}
+
+\item{md}{markdown table output}
 }
 \value{
 table and picture

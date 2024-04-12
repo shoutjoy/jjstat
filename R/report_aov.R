@@ -41,8 +41,8 @@ report_aov <- function(data, digits = 2, trans=FALSE) {
 
     # Determine if the term is an interaction effect or a main effect
     effect <- ifelse(grepl(":", term[i]),
-                     "Interaction effect",
-                     "Main effect")
+                     " Interaction effect",
+                     " Main effect")
 
     result_sentence[i] <- paste0(effect, ": one-way analysis of variance result for dv[",
                                  dv,"]~[",term[i],"], ",

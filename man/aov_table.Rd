@@ -45,9 +45,9 @@ Generate an AOV results table for multiple independent variables
 mtcars <- mtcars\%>\%as_trt("cyl", "gear", "carb")
 aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"))
 
-aov_table(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),  mean = F)
-
 aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE)
+aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE) \%>\%
+aov_table_apaOP
 
 aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = TRUE)
 
