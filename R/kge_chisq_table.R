@@ -114,7 +114,7 @@ kge_chisq_table = function(dataset,
                       v1_input," and ",v2_input,
                       " suggests that the effect is statistically ", msg_sig_chi,
                       chi_mag,
-                      ".; ",
+                      "; ",
                       cramer_cor_v, ".")
 
 
