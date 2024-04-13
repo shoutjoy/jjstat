@@ -70,6 +70,7 @@ mysummaryBy <- function(
                         stat = FALSE,
                         agg = FALSE,
                         gm = FALSE,
+                        fun = NULL,
                         digits = 2
 ) {
   # Make sure the data object is provided
@@ -78,52 +79,88 @@ mysummaryBy <- function(
   if (requireNamespace("dplyr")) library(dplyr)
   # Aggregate with summary statistics
   func = formula(formula) #formula extraction
-
+  from_all = func[2]%>%as.character()
   #analysis
-  result <- aggregate(formula(formula), data,
-                      FUN = function(x) {
-                        c(
-                          Mean = mean(x, na.rm = TRUE),
-                          SD = sd(x, na.rm = TRUE),
-                          N = length(x),
-                          Min = min(x, na.rm = TRUE),
-                          Max = max(x, na.rm = TRUE),
-                          Skew = SKEW(x),
-                          Kurt = KURT(x)
-                        )
-                      })
+  if(is.null(fun)){
+    result <- aggregate(formula(formula), data,
+                        FUN = function(x) {
+                          c(
+                            Mean = mean(x, na.rm = TRUE),
+                            SD = sd(x, na.rm = TRUE),
+                            N = length(x),
+                            Min = min(x, na.rm = TRUE),
+                            Max = max(x, na.rm = TRUE),
+                            Skew = SKEW(x),
+                            Kurt = KURT(x)
+                          )
+                        })
 
+  }else{
 
-  if(stat=="t.test"){
-    stat_res = t.test(formula, data = data) |>
-      broom::tidy()|>
+    result <- aggregate(formula(formula), data, FUN = fun)
+    # colnames(result) = colnames(result)
+
+        }
+
+  # stat data
+  if(stat == "t.test"){
+    stat_res = t.test(formula, data = data) %>%
+      broom::tidy()%>%
       dplyr::select(1:5)
 
-  }else if(stat=="aov"){
-    stat_res = aov(formula(formula), data = data) |>
+  }else if(stat == "aov"){
+    stat_res = aov(formula(formula), data = data) %>%
       summary()
-    # stat_res = aov(formula(formula), data = data) #|> broom::tidy()
+    # stat_res = aov(formula(formula), data = data) #%>% broom::tidy()
   }else{
     stat_res=NULL
   }
 
+
+
+  # aggregate data
   if(agg){
-    res = result |>
-      # t() |>
+    res = result %>%
+      # t() %>%
       data.frame()
 
     res <- res %>%
-      mutate(across(where(is.numeric), round, digits))|>
-      t()|>
-      data.frame() |>
-      tibble::rownames_to_column("stat_var")|>tibble::tibble()
-    res |> print(n=Inf)
+      mutate(across(where(is.numeric), round, digits))%>%
+      t()%>%
+      data.frame() %>%
+      tibble::rownames_to_column("stat_var")%>%tibble::tibble()
+    res #%>% print(n=Inf)
 
   }else{
     if(func[3]!='1()'){
-      res = dplyr::bind_cols(var = result[,1: (ncol(result)-1) ],
-                             result[[ncol(result)]] ) |> tibble::tibble()
 
+
+      if(from_all=="."){
+        res = result
+        colnames(res) = colnames(result)
+      }else{
+      res = dplyr::bind_cols(var = result[,1: (ncol(result)-1) ],
+                             result[[ncol(result)]] ) %>% tibble::tibble()
+      }
+
+          if(is.null(stat_res)){
+              res
+           }else{
+            res = list(descriptive = res, statistic = stat_res)
+            res
+             }
+
+    }else{ #Used to obtain statistics for one variable
+
+
+
+        res = dplyr::bind_cols(stat_var = add_var,
+                               result[[ncol(result)]] ) %>% tibble::tibble()
+
+
+
+
+      # stat_res is t.test or aov
       if(is.null(stat_res)){
         res
       }else{
@@ -131,15 +168,6 @@ mysummaryBy <- function(
         res
       }
 
-    }else{ #Used to obtain statistics for one variable
-      res = dplyr::bind_cols(stat_var = add_var,
-                             result[[ncol(result)]] ) |> tibble::tibble()
-      if(is.null(stat_res)){
-        res
-      }else{
-        res = list(descriptive=res, statistic= stat_res)
-        res
-      }
     }
   }
 
@@ -148,7 +176,7 @@ mysummaryBy <- function(
   #Measure the average of each group - Measure the average of group level with the average of each group
 
   if(gm){
-    Res = Res |> jjstat::mysummary("Mean")
+    Res = Res %>% jjstat::mysummary("Mean")
     Res = bind_cols(
       grp = as.character(func[3]),
       dv = as.character(func[2]),

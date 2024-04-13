@@ -11,6 +11,7 @@ mysummaryBy(
   stat = FALSE,
   agg = FALSE,
   gm = FALSE,
+  fun = NULL,
   digits = 2
 )
 }
