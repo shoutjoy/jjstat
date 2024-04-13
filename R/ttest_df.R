@@ -94,7 +94,7 @@ ttest_df <- function(data,
                          dv = dv_var,
                          levels = levels_paste,   # unite
                          level = levels,
-                         Mead_diff = tidy_result$estimate,
+                         Mean_diff = tidy_result$estimate,
                          Mean1 = tidy_result$estimate1,
                          Mean2 = tidy_result$estimate2,
                          Mean = meandata,
