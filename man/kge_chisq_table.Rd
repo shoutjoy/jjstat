@@ -24,7 +24,8 @@ kge_chisq_table(
   text_size = 13,
   xlab = "관측기대비율",
   ylab = "성조형",
-  cramer = "adjust"
+  cramer = "adjust",
+  raw = TRUE
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ kge_chisq_table(
 \item{ylab}{ylab}
 
 \item{cramer}{cramer cor}
+
+\item{raw}{TRUE data.grame FALSE table data}
 }
 \value{
 multiple data

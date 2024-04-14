@@ -92,18 +92,21 @@ Chisq_retest <- function(input, ncol = 2,
   Chisqure_Result = cbind(Chisq = res$statistic,
                           df = res$parameter,
                           p.value = res$p.value
-  )%>%
-    jjstat::p_mark_sig("p.value")
+  )%>% jjstat::p_mark_sig("p.value")
+
+
   reslist <- list(
     Chisqure_Result = Chisqure_Result,
     # res$data.name,
-    Observed = res$observed %>% addmargins()%>% round(digits),
+    Observed = res$observed,
+    Observed_addmargins = res$observed %>% addmargins()%>% round(digits),
     Obs_porp = res$observed %>% prop.table()%>% round(digits),
     Expected = res$expected %>% addmargins()%>% round(digits),
     Residual = res$residuals%>% round(digits),
     Stdres = res$stdres%>% round(digits),
     Analysis_Method = res$method,
-    Ratio_obs_exp = (res$observed/res$expected)%>% round(digits)
+    Ratio_obs_exp = (res$observed/res$expected)%>% round(digits),
+    Cramers_V = cramers_v(data)
   )
 
   res1 = list(chi= Chisqure_Result,

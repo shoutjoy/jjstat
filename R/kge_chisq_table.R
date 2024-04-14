@@ -21,6 +21,7 @@
 #' @param xlab xlab
 #' @param ylab ylab
 #' @param cramer cramer cor
+#' @param raw TRUE data.grame FALSE table data
 #'
 #' @return multiple data
 #' @export
@@ -50,12 +51,21 @@ kge_chisq_table = function(dataset,
                            text_size = 13,
                            xlab = "관측기대비율",
                            ylab = "성조형",
-                           cramer="adjust"
+                           cramer="adjust",
+                           raw =TRUE
 ){
 
-  data =  dataset %>%
-    dplyr::select(all_of(v1), all_of(v2)) %>%
-    table()
+  if(raw){
+    # Using data.frame
+    data =  dataset %>%
+      dplyr::select(all_of(v1), all_of(v2)) %>%
+      table()
+  }else{
+    # table data/ Contigency table
+
+    data =  dataset
+  }
+
 
 
 

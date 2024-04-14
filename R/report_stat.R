@@ -66,10 +66,12 @@ report_stat <- function(data, type="normality",
   # Determine the significance based on p-value
 
   if(type=="t.test"){
-    significance <- ifelse(p_value < 0.05, "It was statistically significant t = ", "It was not statistically significant. t = ")
+    significance <- ifelse(p_value < 0.05, "It was statistically significant t = ",
+                           "It was not statistically significant. t = ")
 
   }else if(type =="normality"){
-    significance <- ifelse(p_value < 0.05, "Statistically significant, the null hypothesis was rejected and normality was not secured.  statistic = ",
+    significance <- ifelse(p_value < 0.05,
+                           "Statistically significant, the null hypothesis was rejected and normality was not secured.  statistic = ",
                            "the normality was secured by rejecting the alternative hypothesis because it was not statistically significant. statistic = ")
 
   }else if(type =="var.test"| type=="leven.test"){

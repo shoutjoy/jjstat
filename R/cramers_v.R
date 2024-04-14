@@ -17,7 +17,10 @@ cramers_v <- function(data, type="cramer", digits=3) {
   num_rows <- nrow(data) - 1   #c-1
   num_cols <- ncol(data) - 1   #r-1
 
+  # Magnitude of Effect
   phi <- chi_square_test$statistic / n
+
+  #cramer V
   v <- sqrt(phi / min(num_rows, num_cols))
 
   #adjusted cramer's V
@@ -55,6 +58,7 @@ cramers_v <- function(data, type="cramer", digits=3) {
                 format(p_value, digits, scientific = TRUE))
   switch(type,
          data = res,
+         phi = phi, #Magnitude of Effect
          data1 = res1,
          cramer = res2,
          adjust = res3
