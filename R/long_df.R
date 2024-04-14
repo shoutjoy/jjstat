@@ -5,8 +5,8 @@
 #' @param names_to name
 #' @param values_to value
 #' @param cols colrange
-#' #' @param fix  column fixed (thereofore not using cols )
-#' @param rowname defai;t acce
+#' @param fix  column fixed (thereofore not using cols )
+#' @param rowname defailt accent
 #'
 #' @return longdata
 #' @export
@@ -24,15 +24,17 @@ long_df = function(data,
                    values_to = "freq",
                    fix = NULL,
                    cols = 2:ncol(data1),
-                   rowname ="accent",
+                   rowname = "accent",
                    rownames_to_column=TRUE){
 
   colName = colnames(data)
   rowName = rownames(data) #accent
-  # colnames0 = colnames(data)
+
   if(rownames_to_column){
-    data1 = data %>% data.frame() %>%
-      rownames_to_column(rowname)
+    data1 = data %>%
+            data.frame() %>%
+              rownames_to_column()
+
     colnames(data1)= c(rowname, colName)
 
     data2 <- data1%>%
@@ -55,9 +57,7 @@ long_df = function(data,
                      values_to = values_to,
                      cols = -fix)
     }
-
-
-  }
+ }
   data2
 }
 

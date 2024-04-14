@@ -21,10 +21,11 @@ long_df(
 
 \item{values_to}{value}
 
-\item{cols}{colrange
-#' @param fix  column fixed (thereofore not using cols )}
+\item{fix}{column fixed (thereofore not using cols )}
 
-\item{rowname}{defai;t acce}
+\item{cols}{colrange}
+
+\item{rowname}{defailt accent}
 }
 \value{
 longdata
