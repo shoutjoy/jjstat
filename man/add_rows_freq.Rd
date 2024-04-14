@@ -4,24 +4,16 @@
 \alias{add_rows_freq}
 \title{Functions that generate rows with a frequency}
 \usage{
-add_rows_freq(
-  data,
-  sel = ncol(data),
-  remove = TRUE,
-  value = TRUE,
-  type = "res"
-)
+add_rows_freq(data, type = "res", sel = ncol(data), fix = NULL)
 }
 \arguments{
 \item{data}{data}
 
+\item{type}{res, all}
+
 \item{sel}{frequency column}
 
-\item{remove}{raw freq remove}
-
-\item{value}{frequency 1}
-
-\item{type}{res, all}
+\item{fix}{final select column}
 }
 \value{
 data
@@ -32,16 +24,21 @@ Functions that generate rows with a frequency
 \examples{
 
 \dontrun{
-dff=data.frame(
-  trt=c("r","s"),
-  con = c("f","m"),
-  fre=c(4,5))
-
+dff = data.frame(
+  trt = c("r","s","z"),
+  con = c("f","m","l"),
+  num = c(10,0,2),
+  fre = c(4,0,5) )
 dff
 dff \%>\%add_rows_freq()
-dff \%>\%add_rows_freq(value=F)
-dff \%>\%add_rows_freq(3)
-dff \%>\%add_rows_freq("fre")
+dff \%>\%add_rows_freq()
+dff \%>\%add_rows_freq(fix=1)
+dff \%>\%add_rows_freq("res", fix=1:2)
+dff \%>\%add_rows_freq("res", fix="con")
+dff \%>\%add_rows_freq("all")
+dff \%>\%add_rows_freq("real")
+dff \%>\%add_rows_freq("zero")
+dff \%>\%add_rows_freq("zero", fix="con")
 
 }
 
