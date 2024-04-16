@@ -31,6 +31,24 @@
 #' \dontrun{
 #' kge_chisq_table(mtcars,"am","cyl")
 #'
+#' # generate matrix
+#' voteMat = matrix(c(183, 35, 824, 50), ncol=2)
+#' colnames(voteMat) = c("Did not vote", "Voted")
+#' rownames(voteMat) = c("All other ages","Youngest")
+#'
+#' #chisq test result
+#' vote_chi <- Chisq_retest(c(183, 35, 824, 50), ncol=2,
+#'                         colname = c("Did not vote", "Voted"),
+#'                          rowname =c("All other ages","Youngest"))
+#'
+#' vote_chi
+#'
+#' voteMat%>%
+#'   long_df("voted", rowname="youth")%>% #long format
+#'   add_rows_freq() %>%     # add rows
+#'   kge_chisq_table("voted","youth")    #chisq test
+
+#'
 #' }
 kge_chisq_table = function(dataset,
                            v1="a1",
@@ -63,7 +81,11 @@ kge_chisq_table = function(dataset,
   }else{
     # table data/ Contigency table
 
-    data =  dataset
+    data =  dataset#%>% long_df(v2, rowname= v1)%>%
+                  #  add_rows_freq()
+    # data=  data%>%
+    #   dplyr::select(all_of(v1), all_of(v2)) %>%
+    #   table()
   }
 
 
@@ -82,8 +104,8 @@ kge_chisq_table = function(dataset,
 
   #margin sum
   data_margin = cbind(
-    rbind(data_margin, SUM=data_rowsum0 ),
-    SUM=data_colsum )
+                 rbind(data_margin, SUM=data_rowsum0 ),
+                        SUM=data_colsum )
   #Cramer boss
   cramer_cor = cramers_v(data, type = cramer)
   cramer_cor_v = cramers_v(data, type = "cramer", digit = digits)
@@ -121,8 +143,10 @@ kge_chisq_table = function(dataset,
 
 
   res_report = paste0("The Pearson's Chi-squared test of independence between ",
-                      v1_input," and ",v2_input,
-                      " suggests that the effect is statistically ", msg_sig_chi,
+                      v1_input," and ",
+                      v2_input,
+                      " suggests that the effect is statistically ",
+                      msg_sig_chi,
                       chi_mag,
                       "; ",
                       cramer_cor_v, ".")

@@ -7,10 +7,10 @@
 to_long(
   data,
   names_to = "names",
+  rowname = "rows",
   values_to = "vlaues",
   fix = NULL,
   cols = 2:ncol(data1),
-  rowname = "rows",
   rownames_to_column = FALSE
 )
 }
@@ -19,13 +19,13 @@ to_long(
 
 \item{names_to}{name}
 
+\item{rowname}{defai;t acce}
+
 \item{values_to}{value}
 
 \item{fix}{column fixed (thereofore not using cols )}
 
 \item{cols}{colrange}
-
-\item{rowname}{defai;t acce}
 }
 \value{
 longdata

@@ -7,10 +7,10 @@
 long_df(
   data,
   names_to = "speaker",
+  rowname = "accent",
   values_to = "freq",
   fix = NULL,
   cols = 2:ncol(data1),
-  rowname = "accent",
   rownames_to_column = TRUE
 )
 }
@@ -19,13 +19,13 @@ long_df(
 
 \item{names_to}{name}
 
+\item{rowname}{defailt accent}
+
 \item{values_to}{value}
 
 \item{fix}{column fixed (thereofore not using cols )}
 
 \item{cols}{colrange}
-
-\item{rowname}{defailt accent}
 }
 \value{
 longdata

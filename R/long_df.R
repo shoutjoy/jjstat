@@ -21,10 +21,10 @@
 #' }
 long_df = function(data,
                    names_to = "speaker",
+                   rowname = "accent",
                    values_to = "freq",
                    fix = NULL,
                    cols = 2:ncol(data1),
-                   rowname = "accent",
                    rownames_to_column=TRUE){
 
   colName = colnames(data)
@@ -89,10 +89,11 @@ long_df = function(data,
 #' }
 to_long = function(data,
                    names_to = "names",
+                   rowname ="rows",
                    values_to = "vlaues",
                    fix = NULL,
                    cols = 2:ncol(data1),
-                   rowname ="rows",
+
                    rownames_to_column=FALSE){
 
   colName = colnames(data)
