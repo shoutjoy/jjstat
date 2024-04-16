@@ -4,14 +4,14 @@
 \alias{unCount}
 \title{Functions that generate rows with a frequency}
 \usage{
-unCount(data, type = "res", sel = ncol(data), fix = NULL)
+unCount(data, sel = ncol(data), type = "res", fix = NULL)
 }
 \arguments{
 \item{data}{data}
 
-\item{type}{res, all}
-
 \item{sel}{frequency column}
+
+\item{type}{res, all}
 
 \item{fix}{final select column}
 }
@@ -20,4 +20,36 @@ data
 }
 \description{
 Functions that generate rows with a frequency
+}
+\examples{
+
+\dontrun{
+dff = data.frame(
+  trt = c("r","s","z"),
+  con = c("f","m","l"),
+  num = c(10,0,2),
+  fre = c(4,0,5) )
+dff
+dff \%>\%unCount()
+dff \%>\%unCount()
+dff \%>\%unCount(fix=1)
+dff \%>\%unCount(type= "res", fix=1:2)
+dff \%>\%unCount(type= "res", fix="con")
+dff \%>\%unCount(type= "all")
+dff \%>\%unCount(type= "real")
+dff \%>\%unCount(type= "zero")
+dff \%>\%unCount(type= "zero", fix="con")
+
+# Making frequency data into real data
+dff \%>\%unCount()\%>\% add_rows_freq()
+ dff_real =  dff \%>\%unCount()\%>\% add_rows_freq()
+ dff_real
+
+ freq_data =  mtcars \%>\% select(am, vs) \%>\% table()
+ freq_data\%>\% data.frame()
+ freq_data\%>\% data.frame() \%>\% unCount(type ="zero")
+ freq_data\%>\% data.frame() \%>\% unCount(type ="zero") \%>\%table()
+
+}
+
 }

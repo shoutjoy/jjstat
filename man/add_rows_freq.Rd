@@ -31,14 +31,30 @@ dff = data.frame(
   fre = c(4,0,5) )
 dff
 dff \%>\%add_rows_freq()
-dff \%>\%add_rows_freq()
+dff \%>\%add_rows_freq(sel=4)
+dff \%>\%add_rows_freq(sel="fre")
+dff \%>\%add_rows_freq(sel=3)
+dff \%>\%add_rows_freq(sel="num")
 dff \%>\%add_rows_freq(fix=1)
-dff \%>\%add_rows_freq("res", fix=1:2)
-dff \%>\%add_rows_freq("res", fix="con")
-dff \%>\%add_rows_freq("all")
-dff \%>\%add_rows_freq("real")
-dff \%>\%add_rows_freq("zero")
-dff \%>\%add_rows_freq("zero", fix="con")
+dff \%>\%add_rows_freq(type= "res", fix=1:2)
+dff \%>\%add_rows_freq(type= "res", fix="con")
+dff \%>\%add_rows_freq(type= "all")
+dff \%>\%add_rows_freq(type= "real")
+dff \%>\%add_rows_freq(type= "zero")
+dff \%>\%add_rows_freq(type= "zero", fix="con")
+
+
+# Making frequency data into real data
+dff \%>\%to_long()\%>\% add_rows_freq()
+ dff_real =  dff \%>\%to_long()\%>\% add_rows_freq()
+ dff_real
+
+
+ freq_data =  mtcars \%>\% select(am, vs) \%>\% table()
+ freq_data\%>\% data.frame()
+ freq_data\%>\% data.frame() \%>\% add_rows_freq(type ="zero")
+ freq_data\%>\% data.frame() \%>\% add_rows_freq(type ="zero") \%>\%table()
+
 
 }
 

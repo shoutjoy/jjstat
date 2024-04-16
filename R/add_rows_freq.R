@@ -18,14 +18,30 @@
 #'   fre = c(4,0,5) )
 #' dff
 #' dff %>%add_rows_freq()
-#' dff %>%add_rows_freq()
+#' dff %>%add_rows_freq(sel=4)
+#' dff %>%add_rows_freq(sel="fre")
+#' dff %>%add_rows_freq(sel=3)
+#' dff %>%add_rows_freq(sel="num")
 #' dff %>%add_rows_freq(fix=1)
-#' dff %>%add_rows_freq("res", fix=1:2)
-#' dff %>%add_rows_freq("res", fix="con")
-#' dff %>%add_rows_freq("all")
-#' dff %>%add_rows_freq("real")
-#' dff %>%add_rows_freq("zero")
-#' dff %>%add_rows_freq("zero", fix="con")
+#' dff %>%add_rows_freq(type= "res", fix=1:2)
+#' dff %>%add_rows_freq(type= "res", fix="con")
+#' dff %>%add_rows_freq(type= "all")
+#' dff %>%add_rows_freq(type= "real")
+#' dff %>%add_rows_freq(type= "zero")
+#' dff %>%add_rows_freq(type= "zero", fix="con")
+#'
+#'
+#' # Making frequency data into real data
+#' dff %>%to_long()%>% add_rows_freq()
+#'  dff_real =  dff %>%to_long()%>% add_rows_freq()
+#'  dff_real
+#'
+#'
+#'  freq_data =  mtcars %>% select(am, vs) %>% table()
+#'  freq_data%>% data.frame()
+#'  freq_data%>% data.frame() %>% add_rows_freq(type ="zero")
+#'  freq_data%>% data.frame() %>% add_rows_freq(type ="zero") %>%table()
+#'
 #'
 #' }
 #'
@@ -84,7 +100,6 @@ add_rows_freq <- function(data,
 }
 
 
-
 #' Functions that generate rows with a frequency
 #'
 #' @param data data
@@ -104,23 +119,31 @@ add_rows_freq <- function(data,
 #'   num = c(10,0,2),
 #'   fre = c(4,0,5) )
 #' dff
-#' dff %>% unCount()
-#' dff %>% unCount(sel=""fre")
-#' dff %>% unCount(sel="num")
-#' dff %>% unCount(fix=1)
-#' dff %>% unCount("res", fix=1:2)
-#' dff %>% unCount("res", fix="con")
-#' dff %>% unCount("all")
-#' dff %>% unCount("real")
-#' dff %>% unCount("zero")
-#' dff %>% unCount("zero", fix="con")
+#' dff %>%unCount()
+#' dff %>%unCount()
+#' dff %>%unCount(fix=1)
+#' dff %>%unCount(type= "res", fix=1:2)
+#' dff %>%unCount(type= "res", fix="con")
+#' dff %>%unCount(type= "all")
+#' dff %>%unCount(type= "real")
+#' dff %>%unCount(type= "zero")
+#' dff %>%unCount(type= "zero", fix="con")
+#'
+#' # Making frequency data into real data
+#' dff %>%unCount()%>% add_rows_freq()
+#'  dff_real =  dff %>%unCount()%>% add_rows_freq()
+#'  dff_real
+#'
+#'  freq_data =  mtcars %>% select(am, vs) %>% table()
+#'  freq_data%>% data.frame()
+#'  freq_data%>% data.frame() %>% unCount(type ="zero")
+#'  freq_data%>% data.frame() %>% unCount(type ="zero") %>%table()
 #'
 #' }
 #'
-#'
-unCount <- function(data,
+
+unCount <- function(data,sel = ncol(data),
                           type = "res",
-                          sel = ncol(data),
                           fix = NULL) {
   # value add
   data <- data %>%data.frame()

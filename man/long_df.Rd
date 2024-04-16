@@ -10,7 +10,7 @@ long_df(
   rowname = "accent",
   values_to = "freq",
   fix = NULL,
-  cols = 2:ncol(data1),
+  cols = NULL,
   rownames_to_column = TRUE
 )
 }

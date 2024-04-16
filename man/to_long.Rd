@@ -6,16 +6,18 @@
 \usage{
 to_long(
   data,
+  cols = NULL,
   names_to = "names",
   rowname = "rows",
   values_to = "vlaues",
   fix = NULL,
-  cols = 2:ncol(data1),
   rownames_to_column = FALSE
 )
 }
 \arguments{
 \item{data}{widedata}
+
+\item{cols}{colrange}
 
 \item{names_to}{name}
 
@@ -24,8 +26,6 @@ to_long(
 \item{values_to}{value}
 
 \item{fix}{column fixed (thereofore not using cols )}
-
-\item{cols}{colrange}
 }
 \value{
 longdata
@@ -36,13 +36,18 @@ longdata transfomation
 \examples{
 \dontrun{
 
-mtcars[,1:4] \%>\%long_df("car", "value")
+mtcars[,1:4] \%>\%to_long("car", "value")
 mtcars[,1:4] \%>\%to_long("car", "value", fix="cyl")
 mtcars[,1:4] \%>\%to_long("car", "value", fix= 1:2)
 mtcars[,1:4] \%>\%to_long("car", "value", fix= c(1))
  mtcars[,1:4] \%>\%to_long("car", "value", fix= c(2))
 mtcars[,1:4] \%>\%to_long("car", "value", fix=c("cyl","mpg"))
  mtcars[,1:6] \%>\%long_df("car", "value", rownames_to_column = F, cols = c(1,3:6))
+
+
+
+
+
 
 }
 }

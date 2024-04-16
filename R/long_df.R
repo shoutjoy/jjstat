@@ -24,8 +24,15 @@ long_df = function(data,
                    rowname = "accent",
                    values_to = "freq",
                    fix = NULL,
-                   cols = 2:ncol(data1),
-                   rownames_to_column=TRUE){
+                   cols = NULL,
+                   rownames_to_column = TRUE){
+
+  if(is.null(cols)){
+    cols_selection  = data%>% keep(is.numeric) %>% colnames()
+  }else{
+    cols_selection = cols
+  }
+
 
   colName = colnames(data)
   rowName = rownames(data) #accent
@@ -40,7 +47,7 @@ long_df = function(data,
     data2 <- data1%>%
       pivot_longer(names_to = names_to,
                    values_to = values_to,
-                   cols = 2:ncol(data1))
+                   cols = cols_selection)
   }else{
 
     data1 = data %>% data.frame()
@@ -50,7 +57,7 @@ long_df = function(data,
       data2 <- data1%>%
         pivot_longer(names_to = names_to,
                      values_to = values_to,
-                     cols = cols)
+                     cols = cols_selection)
     }else{
       data2 <- data1%>%
         pivot_longer(names_to = names_to,
@@ -78,7 +85,7 @@ long_df = function(data,
 #' @examples
 #' \dontrun{
 #'
-#' mtcars[,1:4] %>%long_df("car", "value")
+#' mtcars[,1:4] %>%to_long("car", "value")
 #' mtcars[,1:4] %>%to_long("car", "value", fix="cyl")
 #' mtcars[,1:4] %>%to_long("car", "value", fix= 1:2)
 #' mtcars[,1:4] %>%to_long("car", "value", fix= c(1))
@@ -86,15 +93,25 @@ long_df = function(data,
 #' mtcars[,1:4] %>%to_long("car", "value", fix=c("cyl","mpg"))
 #'  mtcars[,1:6] %>%long_df("car", "value", rownames_to_column = F, cols = c(1,3:6))
 #'
+#'
+#'
+#'
+#'
+#'
 #' }
 to_long = function(data,
+                   cols = NULL,
                    names_to = "names",
                    rowname ="rows",
                    values_to = "vlaues",
                    fix = NULL,
-                   cols = 2:ncol(data1),
-
                    rownames_to_column=FALSE){
+
+  if(is.null(cols)){
+    cols_selection  = data%>% keep(is.numeric) %>% colnames()
+  }else{
+    cols_selection = cols
+  }
 
   colName = colnames(data)
   rowName = rownames(data) #accent
@@ -102,12 +119,14 @@ to_long = function(data,
   if(rownames_to_column){
     data1 = data %>% data.frame() %>%
       rownames_to_column(rowname)
+
     colnames(data1)= c(rowname, colName)
 
     data2 <- data1%>%
       pivot_longer(names_to = names_to,
                    values_to = values_to,
-                   cols = 2:ncol(data1))
+                   cols = cols_selection
+                   )
   }else{
 
     data1 = data %>% data.frame()
@@ -117,7 +136,7 @@ to_long = function(data,
       data2 <- data1%>%
         pivot_longer(names_to = names_to,
                      values_to = values_to,
-                     cols = cols)
+                     cols = cols_selection)
     }else{
       data2 <- data1%>%
         pivot_longer(names_to = names_to,

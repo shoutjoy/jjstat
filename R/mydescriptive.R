@@ -1,67 +1,3 @@
-#' mydescriptive 'n','mean','sd','min','max'
-#'
-#'
-#' @param myvariable variable vector
-#' @param digits digits
-#' @export
-#' @examples
-#' \dontrun{
-#'
-#' mydescriptive(mtcars$mpg)
-#'
-#' }
-#'
-mydescriptive <- function(myvariable, digits = 3){
-  mysize <- length(myvariable)
-  mymean <- round(mean(myvariable),digits)
-  mysd <- round(sd(myvariable),digits)
-  mymin <- round(min(myvariable),digits)
-  mymax <- round(max(myvariable),digits)
-  mydes <- matrix(c(mysize, mymean, mysd, mymin, mymax), ncol=5)
-  colnames(mydes) <- c('n','mean','sd','min','max')
-  mydes
-}
-
-
-
-
-#' mydes 'n','mean','sd','min','max'
-#'
-#'
-#' @param myvariable variable vector
-#' @param var input variable name
-#' @param digits digits
-#' @export
-#' @examples
-#' \dontrun{
-#' ## view variable
-#' mydes(mtcars$mpg,"mpg")
-#' ##not see variable
-#' mydes(mtcars$mpg)
-#'
-#' }
-#'
-mydes <- function(myvariable, var = NULL, digits = 2){
-  Var = var
-  N <- length(myvariable)
-  Mean <- round(mean(myvariable),digits)
-  SD <- round(sd(myvariable),digits)
-  Min <- round(min(myvariable),digits)
-  Max <- round(max(myvariable),digits)
-  Skew <- round(SKEW(myvariable),digits)
-  Kurt <- round(KURT(myvariable),digits)
-
-  if(is.null(Var)){
-    mydes <- cbind.data.frame(N, Mean, SD, Min, Max, Skew, Kurt)
-  }else{
-    mydes <- cbind.data.frame(Var, N, Mean, SD, Min, Max, Skew, Kurt)
-  }
-  mydes <- tibble::tibble(mydes)
-  mydes
-}
-
-
-
 
 #' my summary descriptive statistics
 #'
@@ -201,3 +137,70 @@ mysummary <- function(myobject, ... , all = F, digits= 5, msdn=FALSE){
   return(res)
   # on.exit(options(current_options))
 }
+
+
+
+#' mydescriptive 'n','mean','sd','min','max'
+#'
+#'
+#' @param myvariable variable vector
+#' @param digits digits
+#' @export
+#' @examples
+#' \dontrun{
+#'
+#' mydescriptive(mtcars$mpg)
+#'
+#' }
+#'
+mydescriptive <- function(myvariable, digits = 3){
+  mysize <- length(myvariable)
+  mymean <- round(mean(myvariable),digits)
+  mysd <- round(sd(myvariable),digits)
+  mymin <- round(min(myvariable),digits)
+  mymax <- round(max(myvariable),digits)
+  mydes <- matrix(c(mysize, mymean, mysd, mymin, mymax), ncol=5)
+  colnames(mydes) <- c('n','mean','sd','min','max')
+  mydes
+}
+
+
+
+
+#' mydes 'n','mean','sd','min','max'
+#'
+#'
+#' @param myvariable variable vector
+#' @param var input variable name
+#' @param digits digits
+#' @export
+#' @examples
+#' \dontrun{
+#' ## view variable
+#' mydes(mtcars$mpg,"mpg")
+#' ##not see variable
+#' mydes(mtcars$mpg)
+#'
+#' }
+#'
+mydes <- function(myvariable, var = NULL, digits = 2){
+  Var = var
+  N <- length(myvariable)
+  Mean <- round(mean(myvariable),digits)
+  SD <- round(sd(myvariable),digits)
+  Min <- round(min(myvariable),digits)
+  Max <- round(max(myvariable),digits)
+  Skew <- round(SKEW(myvariable),digits)
+  Kurt <- round(KURT(myvariable),digits)
+
+  if(is.null(Var)){
+    mydes <- cbind.data.frame(N, Mean, SD, Min, Max, Skew, Kurt)
+  }else{
+    mydes <- cbind.data.frame(Var, N, Mean, SD, Min, Max, Skew, Kurt)
+  }
+  mydes <- tibble::tibble(mydes)
+  mydes
+}
+
+
+
