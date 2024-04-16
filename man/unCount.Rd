@@ -4,7 +4,7 @@
 \alias{unCount}
 \title{Functions that generate rows with a frequency}
 \usage{
-unCount(data, sel = ncol(data), type = "res", fix = NULL)
+unCount(data, sel = ncol(data), type = "real", fix = NULL)
 }
 \arguments{
 \item{data}{data}

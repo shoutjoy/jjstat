@@ -143,7 +143,7 @@ add_rows_freq <- function(data,
 #'
 
 unCount <- function(data,sel = ncol(data),
-                          type = "res",
+                          type = "real",
                           fix = NULL) {
   # value add
   data <- data %>%data.frame()

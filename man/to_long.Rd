@@ -8,8 +8,8 @@ to_long(
   data,
   cols = NULL,
   names_to = "names",
-  rowname = "rows",
   values_to = "vlaues",
+  rowname = "rows",
   fix = NULL,
   rownames_to_column = FALSE
 )
@@ -21,9 +21,9 @@ to_long(
 
 \item{names_to}{name}
 
-\item{rowname}{defai;t acce}
-
 \item{values_to}{value}
+
+\item{rowname}{defai;t acce}
 
 \item{fix}{column fixed (thereofore not using cols )}
 }
@@ -40,9 +40,9 @@ mtcars[,1:4] \%>\%to_long("car", "value")
 mtcars[,1:4] \%>\%to_long("car", "value", fix="cyl")
 mtcars[,1:4] \%>\%to_long("car", "value", fix= 1:2)
 mtcars[,1:4] \%>\%to_long("car", "value", fix= c(1))
- mtcars[,1:4] \%>\%to_long("car", "value", fix= c(2))
+mtcars[,1:4] \%>\%to_long("car", "value", fix= c(2))
 mtcars[,1:4] \%>\%to_long("car", "value", fix=c("cyl","mpg"))
- mtcars[,1:6] \%>\%long_df("car", "value", rownames_to_column = F, cols = c(1,3:6))
+mtcars[,1:6] \%>\%long_df("car", "value", rownames_to_column = F, cols = c(1,3:6))
 
 
 

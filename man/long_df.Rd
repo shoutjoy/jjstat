@@ -6,26 +6,26 @@
 \usage{
 long_df(
   data,
-  names_to = "speaker",
   rowname = "accent",
+  names_to = "speaker",
   values_to = "freq",
-  fix = NULL,
   cols = NULL,
+  fix = NULL,
   rownames_to_column = TRUE
 )
 }
 \arguments{
 \item{data}{widedata}
 
-\item{names_to}{name}
-
 \item{rowname}{defailt accent}
+
+\item{names_to}{name}
 
 \item{values_to}{value}
 
-\item{fix}{column fixed (thereofore not using cols )}
-
 \item{cols}{colrange}
+
+\item{fix}{column fixed (thereofore not using cols )}
 }
 \value{
 longdata

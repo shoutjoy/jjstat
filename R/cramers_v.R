@@ -8,9 +8,9 @@
 #' @return cramer correlation
 #' @export
 #'
-cramers_v <- function(data, type="cramer", digits=3) {
+cramers_v <- function(data, type="cramer", digits=3, correct=FALSE) {
   # Calculate chi-square test for independence
-  chi_square_test <- chisq.test(data)
+  chi_square_test <- chisq.test(data, correct = correct)
 
   # Calculate Cramer's V
   n <- sum(data)
