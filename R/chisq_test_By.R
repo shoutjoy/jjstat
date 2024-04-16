@@ -68,9 +68,9 @@ chisq_test_By1 <- function(dataset, sel = NULL,
 #' }
 #'
 #'
-chisq_test_By2 = function(data, v1, v2, sel=NULL, type="res"){
+chisq_test_By2 = function(dataset, v1, v2, sel=NULL, type="res"){
 
-  res = data %>%
+  res = dataset %>%
     select(all_of(c(v1, v2, sel))) %>%
     group_by_at(vars(all_of(sel)))  %>%
     nest() %>%

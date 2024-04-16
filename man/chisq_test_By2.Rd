@@ -4,11 +4,9 @@
 \alias{chisq_test_By2}
 \title{twosample chisq.test by group}
 \usage{
-chisq_test_By2(data, v1, v2, sel = NULL, type = "res")
+chisq_test_By2(dataset, v1, v2, sel = NULL, type = "res")
 }
 \arguments{
-\item{data}{data,frame}
-
 \item{v1}{first variable}
 
 \item{v2}{second variable}
@@ -16,6 +14,8 @@ chisq_test_By2(data, v1, v2, sel = NULL, type = "res")
 \item{sel}{group}
 
 \item{type}{res, long}
+
+\item{data}{data,frame}
 }
 \value{
 chisq result
