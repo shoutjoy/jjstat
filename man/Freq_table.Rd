@@ -7,8 +7,8 @@
 Freq_table(
   data,
   ...,
-  prop = TRUE,
-  plot = TRUE,
+  prop = FALSE,
+  plot = FALSE,
   angle = 0,
   size_text = 5,
   size_axis = 12,

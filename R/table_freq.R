@@ -40,13 +40,14 @@
 #'
 #'
 #'
-table_freq = function(data, ..., prop = TRUE,
+table_freq = function(data, ...,
+                      prop = TRUE,
                       plot = TRUE,
-                      angle= 0,
+                      angle = 0,
                       size_text = 5,
                       size_axis = 12,
-                      legend.position="top",
-                      reorder=FALSE){
+                      legend.position = "top",
+                      reorder = FALSE){
   select_vars = c(...)
 
   res = data[, c(...)]%>%
@@ -134,13 +135,14 @@ table_freq = function(data, ..., prop = TRUE,
 #'
 #'
 #'
-Freq_table = function(data, ..., prop = TRUE,
-                      plot = TRUE,
-                      angle= 0,
+Freq_table = function(data, ...,
+                      prop = FALSE,
+                      plot = FALSE,
+                      angle = 0,
                       size_text = 5,
                       size_axis = 12,
-                      legend.position="top",
-                      reorder=FALSE){
+                      legend.position ="top",
+                      reorder = FALSE){
   select_vars = c(...)
 
   res = data[, c(...)]%>%
