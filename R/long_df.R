@@ -36,7 +36,7 @@ long_df = function(data,
 
 
   colName = colnames(data)
-  rowName = rownames(data) #accent
+  # rowName = rownames(data) #accent
 
   if(rownames_to_column){
     data1 = data %>%
@@ -102,7 +102,7 @@ long_df = function(data,
 #' }
 to_long = function(data,
                    names_to = "names",
-                   values_to = "vlaues",
+                   values_to = "values",
                    cols = NULL,
                    fix = NULL,
                    rownames_to_column=FALSE,

@@ -7,7 +7,7 @@
 to_long(
   data,
   names_to = "names",
-  values_to = "vlaues",
+  values_to = "values",
   cols = NULL,
   fix = NULL,
   rownames_to_column = FALSE,
