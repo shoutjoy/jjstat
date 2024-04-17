@@ -13,7 +13,8 @@ table_freq(
   size_text = 5,
   size_axis = 12,
   legend.position = "top",
-  reorder = FALSE
+  reorder = FALSE,
+  type = "all"
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ table_freq(
 \item{legend.position}{legend.position="" none. top, bottom, left, right}
 
 \item{reorder}{TRUE is plot x-variable reoder}
+
+\item{type}{all, res=data, g=plot=graph}
 }
 \value{
 Freqency table

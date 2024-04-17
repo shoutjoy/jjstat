@@ -8,6 +8,7 @@
 #' @param size_text default 3, bargraph text
 #' @param size_axis default 12, axis test
 #' @param legend.position legend.position="" none. top, bottom, left, right
+#' @param type all, res=data, g=plot=graph
 #'
 #' @return Freqency table
 #' @export
@@ -47,7 +48,8 @@ table_freq = function(data, ...,
                       size_text = 5,
                       size_axis = 12,
                       legend.position = "top",
-                      reorder = FALSE){
+                      reorder = FALSE,
+                      type="all"){
   select_vars = c(...)
 
   res = data[, c(...)]%>%
@@ -68,7 +70,8 @@ table_freq = function(data, ...,
 
 
 
-  print(res %>%tibble::tibble())
+  # print(res %>%tibble::tibble())
+
   ##plot
   if(plot){
     # Select  fct, chr variable  then Unite
@@ -91,8 +94,20 @@ table_freq = function(data, ...,
             legend.position = legend.position)
     #output graph
 
-    print(g)
+    # print(g)
   }
+
+  all = list(result = res %>%tibble::tibble(), g = g)
+
+  switch(type,
+         all = all,
+         res = res%>%tibble::tibble(),
+         data = res%>%tibble::tibble(),
+         g = g,
+         plot = g,
+         graph = g
+         )
+
 }
 
 
