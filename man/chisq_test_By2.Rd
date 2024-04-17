@@ -25,7 +25,9 @@ twosample chisq.test by group
 }
 \examples{
 \dontrun{
+
 mtcars\%>\%  chisq_test_By2("am", "vs", "cyl")
+
 mtcars\%>\% chisq_test_By2("am", "vs", "cyl", type="long")
 
 }

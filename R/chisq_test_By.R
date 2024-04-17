@@ -62,7 +62,9 @@ chisq_test_By1 <- function(dataset, sel = NULL,
 #'
 #' @examples
 #' \dontrun{
+#'
 #' mtcars%>%  chisq_test_By2("am", "vs", "cyl")
+#'
 #' mtcars%>% chisq_test_By2("am", "vs", "cyl", type="long")
 #'
 #' }
