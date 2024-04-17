@@ -163,7 +163,8 @@ Freq_table = function(data, ...,
 
 
 
-  print(res %>%tibble::tibble())
+  # print(res %>%tibble::tibble())
+  print(res )
   ##plot
   if(plot){
     # Select  fct, chr variable  then Unite

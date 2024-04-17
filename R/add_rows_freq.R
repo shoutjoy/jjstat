@@ -51,13 +51,17 @@ add_rows_freq <- function(data,
                           sel = ncol(data),
                           fix = NULL) {
   # value add
-  data <- data %>%data.frame()
+  data <- data %>% as.data.frame()
+  # data <- data %>%
+  #   dplyr::mutate(value = ifelse(data[, sel] == 0 | data[, sel] == 1, 1,
+  #                                data[, sel]),
+  #                 binary = ifelse(data[[sel]] == 0, 0, 1)
+  #   )
   data <- data %>%
-    dplyr::mutate(value = ifelse(data[, sel] == 0 | data[, sel] == 1, 1,
-                                 data[, sel]),
+    dplyr::mutate(value = ifelse(data[[sel]] == 0 | data[[sel]] == 1, 1,
+                                 data[[sel]]),
                   binary = ifelse(data[[sel]] == 0, 0, 1)
     )
-
   # Generate by value when creating rows
   Rows = rep(seq_len(nrow(data)), data$value)
   expanded_data0 <- data[Rows, ]
@@ -147,9 +151,14 @@ unCount <- function(data,sel = ncol(data),
                           fix = NULL) {
   # value add
   data <- data %>%data.frame()
+  # data <- data %>%
+  #   dplyr::mutate(value = ifelse(data[, sel] == 0 | data[, sel] == 1, 1,
+  #                                data[, sel]),
+  #                 binary = ifelse(data[[sel]] == 0, 0, 1)
+  #   )
   data <- data %>%
-    dplyr::mutate(value = ifelse(data[, sel] == 0 | data[, sel] == 1, 1,
-                                 data[, sel]),
+    dplyr::mutate(value = ifelse(data[[sel]] == 0 | data[[sel]] == 1, 1,
+                                 data[[sel]]),
                   binary = ifelse(data[[sel]] == 0, 0, 1)
     )
 
