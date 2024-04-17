@@ -6,9 +6,9 @@
 \usage{
 long_df(
   data,
-  rowname = "accent",
-  names_to = "speaker",
-  values_to = "freq",
+  rowname = "rownames",
+  names_to = "names",
+  values_to = "values",
   cols = NULL,
   fix = NULL,
   rownames_to_column = TRUE
@@ -19,9 +19,9 @@ long_df(
 
 \item{rowname}{defailt accent}
 
-\item{names_to}{name}
+\item{names_to}{name, speaker(kge)}
 
-\item{values_to}{value}
+\item{values_to}{value, freq}
 
 \item{cols}{colrange}
 

@@ -6,26 +6,26 @@
 \usage{
 to_long(
   data,
-  cols = NULL,
   names_to = "names",
   values_to = "vlaues",
-  rowname = "rows",
+  cols = NULL,
   fix = NULL,
-  rownames_to_column = FALSE
+  rownames_to_column = FALSE,
+  rowname = "rows"
 )
 }
 \arguments{
 \item{data}{widedata}
 
-\item{cols}{colrange}
-
 \item{names_to}{name}
 
 \item{values_to}{value}
 
-\item{rowname}{defai;t acce}
+\item{cols}{colrange}
 
 \item{fix}{column fixed (thereofore not using cols )}
+
+\item{rowname}{defai;t acce}
 }
 \value{
 longdata

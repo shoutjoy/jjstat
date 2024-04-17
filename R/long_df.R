@@ -2,8 +2,8 @@
 #' longdata transfomation
 #'
 #' @param data widedata
-#' @param names_to name
-#' @param values_to value
+#' @param names_to name, speaker(kge)
+#' @param values_to value, freq
 #' @param cols colrange
 #' @param fix  column fixed (thereofore not using cols )
 #' @param rowname defailt accent
@@ -20,15 +20,16 @@
 #'
 #' }
 long_df = function(data,
-                   rowname = "accent",
-                   names_to = "speaker",
-                   values_to = "freq",
+                   rowname = "rownames",
+                   names_to = "names",
+                   values_to = "values",
                    cols = NULL,
                    fix = NULL,
                    rownames_to_column = TRUE){
 
   if(is.null(cols)){
     cols_selection  = data%>% keep(is.numeric) %>% colnames()
+
   }else{
     cols_selection = cols
   }
@@ -40,12 +41,12 @@ long_df = function(data,
   if(rownames_to_column){
     data1 = data %>%
             data.frame() %>%
-              rownames_to_column()
+              tibble::rownames_to_column()
 
     colnames(data1)= c(rowname, colName)
 
     data2 <- data1%>%
-      pivot_longer(names_to = names_to,
+      tidyr::pivot_longer(names_to = names_to,
                    values_to = values_to,
                    cols = cols_selection)
   }else{
@@ -55,12 +56,12 @@ long_df = function(data,
     if(is.null(fix)){
 
       data2 <- data1%>%
-        pivot_longer(names_to = names_to,
+        tidyr::pivot_longer(names_to = names_to,
                      values_to = values_to,
                      cols = cols_selection)
     }else{
       data2 <- data1%>%
-        pivot_longer(names_to = names_to,
+        tidyr::pivot_longer(names_to = names_to,
                      values_to = values_to,
                      cols = -fix)
     }
@@ -100,15 +101,16 @@ long_df = function(data,
 #'
 #' }
 to_long = function(data,
-                   cols = NULL,
                    names_to = "names",
                    values_to = "vlaues",
-                   rowname ="rows",
+                   cols = NULL,
                    fix = NULL,
-                   rownames_to_column=FALSE){
+                   rownames_to_column=FALSE,
+                   rowname ="rows"){
 
   if(is.null(cols)){
     cols_selection  = data%>% keep(is.numeric) %>% colnames()
+
   }else{
     cols_selection = cols
   }
@@ -118,12 +120,12 @@ to_long = function(data,
   # colnames0 = colnames(data)
   if(rownames_to_column){
     data1 = data %>% data.frame() %>%
-      rownames_to_column(rowname)
+      tibble::rownames_to_column(rowname)
 
     colnames(data1)= c(rowname, colName)
 
     data2 <- data1%>%
-      pivot_longer(names_to = names_to,
+      tidyr::pivot_longer(names_to = names_to,
                    values_to = values_to,
                    cols = cols_selection
                    )
@@ -134,12 +136,12 @@ to_long = function(data,
     if(is.null(fix)){
 
       data2 <- data1%>%
-        pivot_longer(names_to = names_to,
+        tidyr::pivot_longer(names_to = names_to,
                      values_to = values_to,
                      cols = cols_selection)
     }else{
       data2 <- data1%>%
-        pivot_longer(names_to = names_to,
+        tidyr::pivot_longer(names_to = names_to,
                      values_to = values_to,
                      cols = -fix)
     }

@@ -18,7 +18,10 @@
 #'
 #'  iris %>% as_trt("Species")%>% table_df()
 #'
+#'  mtcars %>% as_trt("cyl","am","vs","gear")%>% table_df(exclude=c("cyl", "am"))
 #'  sats %>% table_df()
+#'
+#'
 #' }
 #'
 #'

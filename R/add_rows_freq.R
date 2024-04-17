@@ -181,7 +181,7 @@ unCount <- function(data,
     dplyr::mutate(zero = ifelse(binary==1,"","*"))%>%
     tidyr::unite(id, id, zero,sep="")%>%
     purrr::discard(is.numeric) %>%
-    column_to_rownames("id")
+    tibble::column_to_rownames("id")
 
   # column selection
   if(is.null(fix)){
