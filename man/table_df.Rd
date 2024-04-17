@@ -4,12 +4,12 @@
 \alias{table_df}
 \title{Frequency Analysis Functions}
 \usage{
-table_df(data, remove = NULL, digits = 4, cat = TRUE)
+table_df(data, exclude = NULL, digits = 4, cat = TRUE)
 }
 \arguments{
 \item{data}{data.frame}
 
-\item{remove}{Select variables to exclude from analysis}
+\item{exclude}{Select variables to exclude from analysis}
 
 \item{digits}{round}
 
@@ -30,6 +30,8 @@ Frequency Analysis Functions
  mtcars \%>\% as_trt("cyl","am","vs","gear")\%>\% table_df()
 
  iris \%>\% as_trt("Species")\%>\% table_df()
+
+ sats \%>\% table_df()
 }
 
 

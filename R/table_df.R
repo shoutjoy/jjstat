@@ -1,7 +1,7 @@
 #' Frequency Analysis Functions
 #'
 #' @param data  data.frame
-#' @param remove Select variables to exclude from analysis
+#' @param exclude Select variables to exclude from analysis
 #' @param digits round
 #' @param cat TRUE Data frequency analysis results message output
 #'
@@ -17,18 +17,27 @@
 #'  mtcars %>% as_trt("cyl","am","vs","gear")%>% table_df()
 #'
 #'  iris %>% as_trt("Species")%>% table_df()
+#'
+#'  sats %>% table_df()
 #' }
 #'
 #'
-table_df <- function(data, remove = NULL, digits = 4, cat=TRUE) {
+table_df <- function(data, exclude = NULL, digits = 4, cat=TRUE) {
   # 데이터 프레임에서 Factor 및 chr 변수 추출
   factor_vars <- sapply(data, is.factor)
   chr_vars <- sapply(data, is.character)
 
+  # # 제외할 변수 처리
+  # if (!is.null(remove)) {
+  #   factor_vars[remove] <- FALSE
+  #   chr_vars[remove] <- FALSE
+  # }
+
+
   # 제외할 변수 처리
-  if (!is.null(remove)) {
-    factor_vars[remove] <- FALSE
-    chr_vars[remove] <- FALSE
+  if (!is.null(exclude)) {
+    factor_vars[names(data) %in% exclude] <- FALSE
+    chr_vars[names(data) %in% exclude] <- FALSE
   }
 
   # Factor 및 chr 변수 목록 추출
@@ -38,7 +47,9 @@ table_df <- function(data, remove = NULL, digits = 4, cat=TRUE) {
   # Factor 변수의 빈도표 및 비율 생성
   factor_freq <- lapply(factor_var_names, function(var) {
     table_data <- table(data[[var]])
-    freq_table <- data.frame(Term = rep(var, length(table_data)), Level = names(table_data), Freq = as.vector(table_data))
+    freq_table <- data.frame(Term = rep(var, length(table_data)),
+                             Level = names(table_data),
+                             Freq = as.vector(table_data))
     freq_table$`Prop(%)` <- round(freq_table$Freq / sum(freq_table$Freq), digits)*100  # 비율 추가
     return(freq_table)
   })
@@ -46,7 +57,9 @@ table_df <- function(data, remove = NULL, digits = 4, cat=TRUE) {
   # chr 변수의 빈도표 및 비율 생성
   chr_freq <- lapply(chr_var_names, function(var) {
     table_data <- table(data[[var]])
-    freq_table <- data.frame(Term = rep(var, length(table_data)), Level = names(table_data), Freq = as.vector(table_data))
+    freq_table <- data.frame(Term = rep(var, length(table_data)),
+                             Level = names(table_data),
+                             Freq = as.vector(table_data))
     freq_table$`Prop(%)` <- round(freq_table$Freq / sum(freq_table$Freq), digits)*100  # 비율 추가
     return(freq_table)
   })
@@ -57,5 +70,7 @@ table_df <- function(data, remove = NULL, digits = 4, cat=TRUE) {
   if(cat){
   cat("\n Data frequency analysis results\n\n")
   }
-  return(do.call(rbind, result))
+
+  res = return(do.call(rbind, result))
+  res
 }
