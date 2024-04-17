@@ -30,13 +30,21 @@
 #' Mtcars %>% table_freq("vs","am","cyl", angle=90)
 #' Mtcars %>% table_freq("vs","am","cyl", angle=90, reorder = TRUE)
 #'
-#' Mtcars %>% table_freq("vs","am","cyl", angle=90)+ylim(0,14)
+#' Mtcars %>% table_freq("vs","am","cyl", angle=90)
+#'
+#' ##error we need option  type = "g"
 #' Mtcars %>% table_freq("vs","am","cyl", angle=90, reorder = TRUE)+ylim(0,14)
+#' Mtcars %>% table_freq("vs","am","cyl", angle=90, reorder = TRUE, type="g")+ylim(0,14)
 #'
 #' Mtcars %>% table_freq("vs","am") %>% arrange(am)
 #' Mtcars %>% table_freq("vs","am") %>% arrange(vs)
 #' Mtcars %>% table_freq("vs","am") %>% arrange(Freq)
 #'
+#' #ONly data : $result  $g -> NULL
+#'  mtcars %>% table_freq("vs","am", type = "all", plot = F)
+#'
+#' # this NULL
+#' mtcars %>% table_freq("vs","am", plot = F, type="g")
 #' }
 #'
 #'
@@ -45,11 +53,11 @@ table_freq = function(data, ...,
                       prop = TRUE,
                       plot = TRUE,
                       angle = 0,
-                      size_text = 5,
+                      size_text = 4,
                       size_axis = 12,
                       legend.position = "top",
                       reorder = FALSE,
-                      type="all"){
+                      type="res"){
   select_vars = c(...)
 
   res = data[, c(...)]%>%
@@ -94,10 +102,13 @@ table_freq = function(data, ...,
             legend.position = legend.position)
     #output graph
 
-    # print(g)
+   print(g)
+  }else{
+    g = NULL
   }
 
   all = list(result = res %>%tibble::tibble(), g = g)
+
 
   switch(type,
          all = all,
@@ -152,11 +163,11 @@ table_freq = function(data, ...,
 #'
 Freq_table = function(data, ...,
                       prop = FALSE,
-                      plot = FALSE,
+                      plot = TRUE,
                       angle = 0,
-                      size_text = 5,
-                      size_axis = 12,
-                      legend.position ="top",
+                      size_text = 4,
+                      size_axis = 10,
+                      legend.position ="",
                       reorder = FALSE){
   select_vars = c(...)
 
@@ -178,8 +189,8 @@ Freq_table = function(data, ...,
 
 
 
-  # print(res %>%tibble::tibble())
-  print(res )
+  # # print(res %>%tibble::tibble())
+  # print(res )
   ##plot
   if(plot){
     # Select  fct, chr variable  then Unite
@@ -204,6 +215,10 @@ Freq_table = function(data, ...,
 
     print(g)
   }
+
+  return(res%>%tibble::tibble())
+
 }
+
 
 

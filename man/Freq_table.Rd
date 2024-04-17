@@ -8,11 +8,11 @@ Freq_table(
   data,
   ...,
   prop = FALSE,
-  plot = FALSE,
+  plot = TRUE,
   angle = 0,
-  size_text = 5,
-  size_axis = 12,
-  legend.position = "top",
+  size_text = 4,
+  size_axis = 10,
+  legend.position = "",
   reorder = FALSE
 )
 }

@@ -146,9 +146,10 @@ add_rows_freq <- function(data,
 #' }
 #'
 
-unCount <- function(data,sel = ncol(data),
-                          type = "real",
-                          fix = NULL) {
+unCount <- function(data,
+                    type = "real",
+                    sel = ncol(data),
+                    fix = NULL) {
   # value add
   data <- data %>%data.frame()
   # data <- data %>%

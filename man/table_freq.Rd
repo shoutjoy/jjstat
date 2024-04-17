@@ -10,11 +10,11 @@ table_freq(
   prop = TRUE,
   plot = TRUE,
   angle = 0,
-  size_text = 5,
+  size_text = 4,
   size_axis = 12,
   legend.position = "top",
   reorder = FALSE,
-  type = "all"
+  type = "res"
 )
 }
 \arguments{
@@ -59,13 +59,21 @@ Mtcars \%>\% table_freq("vs","am","cyl")
 Mtcars \%>\% table_freq("vs","am","cyl", angle=90)
 Mtcars \%>\% table_freq("vs","am","cyl", angle=90, reorder = TRUE)
 
-Mtcars \%>\% table_freq("vs","am","cyl", angle=90)+ylim(0,14)
+Mtcars \%>\% table_freq("vs","am","cyl", angle=90)
+
+##error we need option  type = "g"
 Mtcars \%>\% table_freq("vs","am","cyl", angle=90, reorder = TRUE)+ylim(0,14)
+Mtcars \%>\% table_freq("vs","am","cyl", angle=90, reorder = TRUE, type="g")+ylim(0,14)
 
 Mtcars \%>\% table_freq("vs","am") \%>\% arrange(am)
 Mtcars \%>\% table_freq("vs","am") \%>\% arrange(vs)
 Mtcars \%>\% table_freq("vs","am") \%>\% arrange(Freq)
 
+#ONly data : $result  $g -> NULL
+ mtcars \%>\% table_freq("vs","am", type = "all", plot = F)
+
+# this NULL
+mtcars \%>\% table_freq("vs","am", plot = F, type="g")
 }
 
 

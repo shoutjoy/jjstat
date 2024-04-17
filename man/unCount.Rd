@@ -4,14 +4,14 @@
 \alias{unCount}
 \title{Functions that generate rows with a frequency}
 \usage{
-unCount(data, sel = ncol(data), type = "real", fix = NULL)
+unCount(data, type = "real", sel = ncol(data), fix = NULL)
 }
 \arguments{
 \item{data}{data}
 
-\item{sel}{frequency column}
-
 \item{type}{res, all}
+
+\item{sel}{frequency column}
 
 \item{fix}{final select column}
 }
