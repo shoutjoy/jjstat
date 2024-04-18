@@ -32,8 +32,7 @@
 #'
 add_ratio <- function(data,
                       type="res2",
-                      # rownames="syllabic",
-                      digits=3) {
+                      digits = 3) {
 
     data = as.data.frame(data)
   # 각 열의 합을 구합니다.
@@ -54,6 +53,9 @@ add_ratio <- function(data,
   # 결과를 반환합니다.
   res1 = round(ratios, digits)
   res2 = round(ratios, digits)*100
+  df = round(ratios, digits)*100
+  mat = round(ratios, digits)*100 %>% as.matrix()
+  addmargins = round(ratios, digits)*100 %>% as.matrix() %>%addmargins()
   all = list(raw = data, ratio = res1)
 
   switch(type,
@@ -139,6 +141,7 @@ add_ratio_df= function(res){
 #'   mat %>% add_ratio()
 #' ##conbind
 #'  mat %>% add_ratio_df()
+#'
 #' ##add margins
 #'  mat %>% add_sum()
 #'
@@ -176,6 +179,7 @@ add_sum = function(dataset,
       dplyr::select(all_of(c(v1)), all_of(c(v2))) %>%
       table()
   }else{
+    # input tabldata
     data =  dataset
   }
 
@@ -187,6 +191,9 @@ add_sum = function(dataset,
   data_colsum = data_rowsum_df %>% apply(., MARGIN = 1 , FUN = sum)
 
 
+  #비율계산과 데이터 margin sum
+  data_margin = cbind(rbind(data_margin, SUM = data_rowsum0 ),
+                            SUM = data_colsum )
 
   #데이터에 비율을 넣는 경우와 안넣는 경우
   if(add_ratio){
@@ -210,8 +217,6 @@ add_sum = function(dataset,
     res_mosaicplot=NULL
   }
 
-  #비율계산과 데이터 margin sum
-  data_margin = cbind(rbind(data_margin, SUM=data_rowsum0 ), SUM=data_colsum )
   res1 = data_margin
 
   res2 = list(data_margin, g)

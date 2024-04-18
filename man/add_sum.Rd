@@ -66,6 +66,7 @@ Functions to sum margins after adding ratios
   mat \%>\% add_ratio()
 ##conbind
  mat \%>\% add_ratio_df()
+
 ##add margins
  mat \%>\% add_sum()
 
