@@ -38,6 +38,8 @@ p_value <- matrix(c(0, 0.00001, 0.00000,
                   dimnames = list(c("공명음", "마찰음", "유기음_경음", "평파열음_평파찰음"),
                                   c("H", "H(H)", "L")))
 
+  add_significance_symbols(p_value)
+
 # Combine the data
 combined_data <- combine_data(observed_expected, p_value)
  print(combined_data)

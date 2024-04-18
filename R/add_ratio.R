@@ -12,25 +12,30 @@
 #' \dontrun{
 #'
 #'
-#' #'mat = matrix(c(36, 67, 11,
+#' mat = matrix(c(36, 67, 11,
 #'           0, 35, 44,
 #'          41, 108, 1,
 #'           56, 87, 54),
-#'            nrow = 4, byrow = TRUE.
-#'    dimnames = list(c("공명음", "마찰음",
-#'      "유기음_경음", "평파열음_평파찰음"),  c("H", "H(H)", "L")))
+#'            nrow = 4, byrow = TRUE,
+#'  dimnames = list(c("공명음", "마찰음",
+#'                    "유기음_경음", "평파열음_평파찰음"),
+#'                     c("H", "H(H)", "L")))
 #'
-#'  mat %>% add_ratio()
+#' ## step1
+#'   mat %>% add_ratio()
+#' ##conbind
+#'  mat %>% add_ratio_df()
+#' ##add margins
+#'  mat %>% add_sum()
 #'
 #' }
 #'
 add_ratio <- function(data,
                       type="res2",
                       # rownames="syllabic",
-                      digits=3
+                      digits=3) {
 
-) {
-  data = as.data.frame(data)
+    data = as.data.frame(data)
   # 각 열의 합을 구합니다.
   col_sums <- colSums(data)
   # 비율을 계산할 행렬을 생성합니다.
@@ -49,11 +54,12 @@ add_ratio <- function(data,
   # 결과를 반환합니다.
   res1 = round(ratios, digits)
   res2 = round(ratios, digits)*100
-
+  all = list(raw = data, ratio = res1)
 
   switch(type,
          res1 = res1,
-         res2 = res2
+         res2 = res2,
+         all = all
   )
 }
 
@@ -75,11 +81,16 @@ add_ratio <- function(data,
 #'           0, 35, 44,
 #'          41, 108, 1,
 #'           56, 87, 54),
-#'            nrow = 4, byrow = TRUE.
+#'            nrow = 4, byrow = TRUE,
 #'    dimnames = list(c("공명음", "마찰음",
 #'      "유기음_경음", "평파열음_평파찰음"),  c("H", "H(H)", "L")))
 #'
+#' ## step1
+#'   mat %>% add_ratio()
+#' ##conbind
 #'  mat %>% add_ratio_df()
+#' ##add margins
+#'  mat %>% add_sum()
 #' }
 #'
 #'
@@ -124,7 +135,11 @@ add_ratio_df= function(res){
 #'            nrow = 4, byrow = TRUE.
 #'    dimnames = list(c("공명음", "마찰음",
 #'      "유기음_경음", "평파열음_평파찰음"),  c("H", "H(H)", "L")))
-#'
+#' ## step1
+#'   mat %>% add_ratio()
+#' ##conbind
+#'  mat %>% add_ratio_df()
+#' ##add margins
 #'  mat %>% add_sum()
 #'
 #'  #                           H H(H)+H(H)_1         L SUM
@@ -171,7 +186,7 @@ add_sum = function(dataset,
   data_rowsum_df = data %>%  rbind(SUM=apply(., MARGIN = 2 , FUN = sum) )
   data_colsum = data_rowsum_df %>% apply(., MARGIN = 1 , FUN = sum)
 
-  g = patternGraph(data, tolong = T, type= "g")
+
 
   #데이터에 비율을 넣는 경우와 안넣는 경우
   if(add_ratio){
@@ -187,6 +202,10 @@ add_sum = function(dataset,
       mosaicplot(color = color, ylab = ylab, xlab=xlab,
                  cex.axis = cex,
                  main = paste("Contigency Table of var ", title,""))
+
+
+    g = patternGraph(data, type= "g", tolong=TRUE)
+
   }else{
     res_mosaicplot=NULL
   }

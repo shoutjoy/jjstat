@@ -24,15 +24,21 @@ Convert matrix data to a ratio by using the sum of columns to get a ratio
 \dontrun{
 
 
-#'mat = matrix(c(36, 67, 11,
+mat = matrix(c(36, 67, 11,
           0, 35, 44,
          41, 108, 1,
           56, 87, 54),
-           nrow = 4, byrow = TRUE.
-   dimnames = list(c("공명음", "마찰음",
-     "유기음_경음", "평파열음_평파찰음"),  c("H", "H(H)", "L")))
+           nrow = 4, byrow = TRUE,
+ dimnames = list(c("공명음", "마찰음",
+                   "유기음_경음", "평파열음_평파찰음"),
+                    c("H", "H(H)", "L")))
 
- mat \%>\% add_ratio()
+## step1
+  mat \%>\% add_ratio()
+##conbind
+ mat \%>\% add_ratio_df()
+##add margins
+ mat \%>\% add_sum()
 
 }
 
