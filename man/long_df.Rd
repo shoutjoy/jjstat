@@ -37,8 +37,16 @@ longdata transfomation
 \dontrun{
 
 mtcars[,1:4] \%>\%long_df("car", "value")
+mtcars[1:3, 1:7] \%>\% long_df(fix= 1:3)
+mtcars[1:3, 1:7] \%>\% long_df(fix= 2:7)
+mtcars[1:3, 1:7] \%>\% long_df(cols= 3:7, rownames_to_column=F)
+mtcars[1:3, 1:7] \%>\% long_df(cols= 3:7)
+mtcars[1:3, 1:7] \%>\% long_df(cols= 5:7)
+
 
  mtcars[,1:6] \%>\%long_df("car", "value", rownames_to_column = F, cols = c(1,3:6))
+
+
 
 }
 }

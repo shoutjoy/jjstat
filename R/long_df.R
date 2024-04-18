@@ -15,8 +15,16 @@
 #' \dontrun{
 #'
 #' mtcars[,1:4] %>%long_df("car", "value")
+#' mtcars[1:3, 1:7] %>% long_df(fix= 1:3)
+#' mtcars[1:3, 1:7] %>% long_df(fix= 2:7)
+#' mtcars[1:3, 1:7] %>% long_df(cols= 3:7, rownames_to_column=F)
+#' mtcars[1:3, 1:7] %>% long_df(cols= 3:7)
+#' mtcars[1:3, 1:7] %>% long_df(cols= 5:7)
+#'
 #'
 #'  mtcars[,1:6] %>%long_df("car", "value", rownames_to_column = F, cols = c(1,3:6))
+#'
+#'
 #'
 #' }
 long_df = function(data,
@@ -27,9 +35,10 @@ long_df = function(data,
                    fix = NULL,
                    rownames_to_column = TRUE){
 
+
+  #col option
   if(is.null(cols)){
     cols_selection  = data%>% keep(is.numeric) %>% colnames()
-
   }else{
     cols_selection = cols
   }
@@ -39,20 +48,39 @@ long_df = function(data,
   # rowName = rownames(data) #accent
 
   if(rownames_to_column){
+
+
+
     data1 = data %>%
             data.frame() %>%
               tibble::rownames_to_column()
 
     colnames(data1)= c(rowname, colName)
 
-    data2 <- data1%>%
-      tidyr::pivot_longer(names_to = names_to,
-                   values_to = values_to,
-                   cols = cols_selection)
+    # If you don't need to create rownames_to_columns
+    if(is.null(fix)){
+
+      data2 <- data1%>%
+        tidyr::pivot_longer(names_to = names_to,
+                            values_to = values_to,
+                            cols = cols_selection)
+    }else{
+
+     index =  match(rowname, colnames(data1))
+      data2 <- data1%>%
+        # dplyr::select(-rownames) %>%
+        tidyr::pivot_longer(names_to = names_to,
+                            values_to = values_to,
+                            cols = -c( {index}, all_of(fix))
+                            )
+    }
+
+
   }else{
 
     data1 = data %>% data.frame()
 
+    # If you don't need to create rownames_to_columns
     if(is.null(fix)){
 
       data2 <- data1%>%
@@ -63,8 +91,8 @@ long_df = function(data,
       data2 <- data1%>%
         tidyr::pivot_longer(names_to = names_to,
                      values_to = values_to,
-                     cols = -fix)
-    }
+                     cols = -all_of(fix))
+         }
  }
   data2
 }
@@ -123,16 +151,27 @@ to_long = function(data,
       tibble::rownames_to_column(rowname)
 
     colnames(data1)= c(rowname, colName)
+    # If you don't need to create rownames_to_columns
+    if(is.null(fix)){
 
-    data2 <- data1%>%
-      tidyr::pivot_longer(names_to = names_to,
-                   values_to = values_to,
-                   cols = cols_selection
-                   )
+      data2 <- data1%>%
+        tidyr::pivot_longer(names_to = names_to,
+                            values_to = values_to,
+                            cols = cols_selection)
+    }else{
+      index =  match(rowname, colnames(data1))
+      data2 <- data1%>%
+        # dplyr::select(-rownames) %>%
+        tidyr::pivot_longer(names_to = names_to,
+                            values_to = values_to,
+                            cols = -c( {index}, all_of(fix))
+        )
+    }
+
   }else{
 
     data1 = data %>% data.frame()
-
+    # If you don't need to create rownames_to_columns
     if(is.null(fix)){
 
       data2 <- data1%>%
@@ -143,7 +182,7 @@ to_long = function(data,
       data2 <- data1%>%
         tidyr::pivot_longer(names_to = names_to,
                      values_to = values_to,
-                     cols = -fix)
+                     cols = -all_of(fix))
     }
 
 
