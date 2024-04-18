@@ -43,6 +43,14 @@ Frequency analysis table
 Mtcars = mtcars
 Mtcars$am = factor(Mtcars$am, levels=c(0,1), labels= c("automatic","manual" ))
 Mtcars$vs  = factor(Mtcars$vs, levels=c(0,1), labels= c("V-shaped","straight" ))
+Mtcars$cyl  = factor(Mtcars$cyl, levels=c(4,6,8), labels= c("cyl-4","cyl-6","cyl-8"))
+
+#vector variables
+Freq_table(c("a","b","c","a","b","a","c","c","c"))
+Freq_table(c("a","b","c","a","b","a","c","c","c"), prop=TRUE)
+Freq_table(c("a","b","c","a","b","a","c","c","c"), plot=T)
+
+
 Mtcars \%>\% Freq_table("am")
 Mtcars \%>\% Freq_table("am", prop=F)
 Mtcars \%>\% Freq_table("vs", plot=FALSE)
@@ -50,13 +58,17 @@ Mtcars \%>\% Freq_table("vs", plot=FALSE)
 Mtcars \%>\% Freq_table("vs")
 Mtcars \%>\% Freq_table("vs","am")
 
-Mtcars \%>\% Freq_table("vs","am","cyl")
+Mtcars \%>\% Freq_table("vs","am","cyl", type="all")
 
-Mtcars \%>\% Freq_table("vs","am","cyl", angle=90)
-Mtcars \%>\% Freq_table("vs","am","cyl", angle=90, reorder = TRUE)
+#graph
+Mtcars \%>\% Freq_table("vs","am","cyl", type="g")
 
-Mtcars \%>\% Freq_table("vs","am","cyl", angle=90)+ylim(0,14)
-Mtcars \%>\% Freq_table("vs","am","cyl", angle=90, reorder = TRUE)+ylim(0,14)
+##only graph
+Mtcars \%>\% Freq_table("vs","am","cyl", angle=90, type="g")
+Mtcars \%>\% Freq_table("vs","am","cyl", angle=90, reorder = TRUE, type="g")
+
+Mtcars \%>\% Freq_table("vs","am","cyl", angle=90, type="g")+ylim(0,14)
+Mtcars \%>\% Freq_table("vs","am","cyl", angle=90, reorder = TRUE, type="g")+ylim(0,14)
 
 Mtcars \%>\% Freq_table("vs","am") \%>\% arrange(am)
 Mtcars \%>\% Freq_table("vs","am") \%>\% arrange(vs)

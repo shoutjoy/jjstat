@@ -8,7 +8,7 @@ table_freq(
   data,
   ...,
   prop = TRUE,
-  plot = TRUE,
+  plot = FALSE,
   angle = 0,
   size_text = 4,
   size_axis = 12,
@@ -47,6 +47,8 @@ Frequency analysis table
 Mtcars = mtcars
 Mtcars$am = factor(Mtcars$am, levels=c(0,1), labels= c("automatic","manual" ))
 Mtcars$vs  = factor(Mtcars$vs, levels=c(0,1), labels= c("V-shaped","straight" ))
+Mtcars$cyl  = factor(Mtcars$cyl, levels=c(4,6,8), labels= c("cyl-4","cyl-6","cyl-8"))
+
 Mtcars \%>\% table_freq("am")
 Mtcars \%>\% table_freq("am", prop=F)
 Mtcars \%>\% table_freq("vs", plot=FALSE)

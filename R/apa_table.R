@@ -3,6 +3,7 @@
 #' @param data table_df objecte
 #' @param print consolt outpur
 #' @param md markdown_table output
+#' @param unit unit ="명" if you want chage unit
 #'
 #' @return report data apa
 #' @export
@@ -16,7 +17,7 @@
 #' sats %>%table_df(digits=3) %>% table_apa(print=T, md= T)
 #' }
 #'
-table_apa <- function(data, print = TRUE, md = FALSE) {
+table_apa <- function(data, print = TRUE, md = FALSE, unit="명") {
   data <- data
 
   if(print){
@@ -33,7 +34,7 @@ table_apa <- function(data, print = TRUE, md = FALSE) {
     cat(paste0(term, "에는 "))
     levels <- data[data$Term == term, c("Level", "Freq", "Prop(%)")]
     for (i in 1:nrow(levels)) {
-      cat(levels[i, "Level"], paste0(levels[i, "Freq"], "명(", levels[i, "Prop(%)"], "%)"))
+      cat(levels[i, "Level"], paste0(levels[i, "Freq"], unit,"(", levels[i, "Prop(%)"], "%)"))
       if (i < nrow(levels)) {
         cat(", ")
       }

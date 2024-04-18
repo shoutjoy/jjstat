@@ -4,7 +4,7 @@
 \alias{table_apa}
 \title{Report frequency analysis result}
 \usage{
-table_apa(data, print = TRUE, md = FALSE)
+table_apa(data, print = TRUE, md = FALSE, unit = "명")
 }
 \arguments{
 \item{data}{table_df objecte}
@@ -12,6 +12,8 @@ table_apa(data, print = TRUE, md = FALSE)
 \item{print}{consolt outpur}
 
 \item{md}{markdown_table output}
+
+\item{unit}{unit ="명" if you want chage unit}
 }
 \value{
 report data apa
