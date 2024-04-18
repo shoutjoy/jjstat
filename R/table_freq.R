@@ -58,13 +58,29 @@ table_freq = function(data, ...,
                       legend.position = "top",
                       reorder = FALSE,
                       type="res"){
-  select_vars = c(...)
-
-  res = data[, c(...)]%>%
-    table() %>%
-    data.frame() %>%
-    mutate("prop(%)" = Freq/sum(Freq)*100)
-
+  # select_vars = c(...)
+  #
+  # res = data[, c(...)]%>%
+  #   table() %>%
+  #   data.frame() %>%
+  #   mutate("prop(%)" = Freq/sum(Freq)*100)
+  #
+  # Check if data is a data frame
+  if (is.data.frame(data)) {
+    select_vars <- c(...)
+    res <- data[, c(...)] %>%
+      table() %>%
+      as.data.frame() %>%
+      mutate("prop(%)" = Freq / sum(Freq) * 100)
+  } else {
+    # If data is not a data frame, convert it to one
+    data <- data.frame(data)
+    select_vars <- "term"
+    res <- data %>%
+      table() %>%
+      as.data.frame() %>%
+      mutate("prop(%)" = Freq / sum(Freq) * 100)
+  }
 
   if(length(select_vars)==1){
     colnames(res) = c(select_vars, "Freq","prop(%)" )
@@ -161,63 +177,67 @@ table_freq = function(data, ...,
 #'
 #'
 #'
-Freq_table = function(data, ...,
-                      prop = FALSE,
-                      plot = TRUE,
-                      angle = 0,
-                      size_text = 4,
-                      size_axis = 10,
-                      legend.position ="",
-                      reorder = FALSE){
-  select_vars = c(...)
+Freq_table <- function(data, ...,
+                       prop = FALSE,
+                       plot = FALSE,
+                       angle = 0,
+                       size_text = 4,
+                       size_axis = 10,
+                       legend.position = "",
+                       reorder = FALSE) {
 
-  res = data[, c(...)]%>%
-    table() %>%
-    data.frame() %>%
-    mutate("prop(%)" = Freq/sum(Freq)*100)
-
-
-  if(length(select_vars)==1){
-    colnames(res) = c(select_vars, "Freq","prop(%)" )
+  # Check if data is a data frame
+  if (is.data.frame(data)) {
+    select_vars <- c(...)
+    res <- data[, c(...)] %>%
+      table() %>%
+      as.data.frame() %>%
+      mutate("prop(%)" = Freq / sum(Freq) * 100)
+  } else {
+    # If data is not a data frame, convert it to one
+    data <- data.frame(data)
+    select_vars <- "term"
+    res <- data %>%
+      table() %>%
+      as.data.frame() %>%
+      mutate("prop(%)" = Freq / sum(Freq) * 100)
   }
-  if(!prop){
-    res = res %>%dplyr::select(-`prop(%)`)
-    LABEL = paste("n=", res$Freq)
-  }else{
-    LABEL = paste0(res$Freq,"(",round(res$`prop(%)`,2),"%)")
+
+  if (length(select_vars) == 1) {
+    colnames(res) <- c(select_vars, "Freq", "prop(%)" )
+  }
+  if (!prop) {
+    res <- res %>% dplyr::select(-`prop(%)`)
+    LABEL <- paste("n=", res$Freq)
+  } else {
+    LABEL <- paste0(res$Freq, " (", round(res$`prop(%)`, 2), " %)")
   }
 
-
-
-  # # print(res %>%tibble::tibble())
-  # print(res )
-  ##plot
-  if(plot){
-    # Select  fct, chr variable  then Unite
-    Res = res %>%
+  # Plot
+  if (plot) {
+    # Select and unite factor and character variables
+    Res <- res %>%
       unite(x_var, where(is.factor), where(is.character))
 
-    # plot x-variable reorder
-    if(reorder){
+    # Plot x-variable reorder
+    if (reorder) {
       Res <- Res %>% mutate(x_var = fct_reorder(x_var, desc(Freq)))
     }
 
-    #make graph
-    g = Res%>%
-      ggplot(aes(x = x_var, y = Freq))+
-      geom_bar(stat="identity", aes(fill = x_var))+
-      theme_bw()+
-      geom_text(aes(label = LABEL), vjust = -.5, size = size_text)+
+    # Make graph
+    g <- Res %>%
+      ggplot(aes(x = x_var, y = Freq)) +
+      geom_bar(stat = "identity", aes(fill = x_var)) +
+      theme_bw() +
+      geom_text(aes(label = LABEL), vjust = -0.5, size = size_text) +
       theme(axis.text.x = element_text(angle = angle,
                                        size = size_axis, face = "bold"),
             legend.position = legend.position)
-    #output graph
-
+    # Output graph
     print(g)
   }
 
-  return(res%>%tibble::tibble())
-
+  return(res %>% tibble::as_tibble())
 }
 
 
