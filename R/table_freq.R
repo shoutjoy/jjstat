@@ -94,34 +94,33 @@ table_freq = function(data, ...,
 
 
 
-  # print(res %>%tibble::tibble())
+  #plot
+  # Select and unite factor and character variables
+  Res <- res %>%
+    unite(x_var, where(is.factor), where(is.character))
 
-  ##plot
-  if(plot){
-    # Select  fct, chr variable  then Unite
-    Res = res %>%
-      unite(x_var, where(is.factor), where(is.character))
-
-    # plot x-variable reorder
-    if(reorder){
-      Res <- Res %>% mutate(x_var = fct_reorder(x_var, desc(Freq)))
-    }
-
-    #make graph
-    g = Res%>%
-      ggplot(aes(x = x_var, y = Freq))+
-      geom_bar(stat="identity", aes(fill = x_var))+
-      theme_bw()+
-      geom_text(aes(label = LABEL), vjust = -.5, size = size_text)+
-      theme(axis.text.x = element_text(angle = angle,
-                                       size = size_axis, face = "bold"),
-            legend.position = legend.position)
-    #output graph
-
-   print(g)
-  }else{
-    g = NULL
+  # Plot x-variable reorder
+  if (reorder) {
+    Res <- Res %>% mutate(x_var = fct_reorder(x_var, desc(Freq)))
   }
+
+  # Make graph
+  g <- Res %>%
+    ggplot(aes(x = x_var, y = Freq)) +
+    geom_bar(stat = "identity", aes(fill = x_var)) +
+    theme_bw() +
+    geom_text(aes(label = LABEL), vjust = -0.5, size = size_text) +
+    theme(axis.text.x = element_text(angle = angle,
+                                     size = size_axis, face = "bold"),
+          legend.position = legend.position)
+
+
+  # Plot output setting
+  if (plot) {
+    # Output graph
+    print(g)
+  }
+
 
   all = list(result = res %>%tibble::tibble(), g = g)
 
@@ -146,6 +145,8 @@ table_freq = function(data, ...,
 #' @param size_text default 3, bargraph text
 #' @param size_axis default 12, axis test
 #' @param legend.position legend.position="" none. top, bottom, left, right
+#' @param type all, res=data, g=plot=graph
+#'
 #' @return Freqency table
 #' @export
 #'
@@ -184,7 +185,8 @@ Freq_table <- function(data, ...,
                        size_text = 4,
                        size_axis = 10,
                        legend.position = "",
-                       reorder = FALSE) {
+                       reorder = FALSE,
+                       type="res") {
 
   # Check if data is a data frame
   if (is.data.frame(data)) {
@@ -213,31 +215,45 @@ Freq_table <- function(data, ...,
     LABEL <- paste0(res$Freq, " (", round(res$`prop(%)`, 2), " %)")
   }
 
-  # Plot
+
+  #plot
+  # Select and unite factor and character variables
+  Res <- res %>%
+    unite(x_var, where(is.factor), where(is.character))
+
+  # Plot x-variable reorder
+  if (reorder) {
+    Res <- Res %>% mutate(x_var = fct_reorder(x_var, desc(Freq)))
+  }
+
+  # Make graph
+  g <- Res %>%
+    ggplot(aes(x = x_var, y = Freq)) +
+    geom_bar(stat = "identity", aes(fill = x_var)) +
+    theme_bw() +
+    geom_text(aes(label = LABEL), vjust = -0.5, size = size_text) +
+    theme(axis.text.x = element_text(angle = angle,
+                                     size = size_axis, face = "bold"),
+          legend.position = legend.position)
+
+
+  # Plot output setting
   if (plot) {
-    # Select and unite factor and character variables
-    Res <- res %>%
-      unite(x_var, where(is.factor), where(is.character))
-
-    # Plot x-variable reorder
-    if (reorder) {
-      Res <- Res %>% mutate(x_var = fct_reorder(x_var, desc(Freq)))
-    }
-
-    # Make graph
-    g <- Res %>%
-      ggplot(aes(x = x_var, y = Freq)) +
-      geom_bar(stat = "identity", aes(fill = x_var)) +
-      theme_bw() +
-      geom_text(aes(label = LABEL), vjust = -0.5, size = size_text) +
-      theme(axis.text.x = element_text(angle = angle,
-                                       size = size_axis, face = "bold"),
-            legend.position = legend.position)
     # Output graph
     print(g)
   }
 
-  return(res %>% tibble::as_tibble())
+all = list(result = res %>%tibble::tibble(), g = g)
+
+
+switch(type,
+       all = all,
+       res = res%>%tibble::tibble(),
+       data = res%>%tibble::tibble(),
+       g = g,
+       plot = g,
+       graph = g
+)
 }
 
 

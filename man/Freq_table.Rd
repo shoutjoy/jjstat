@@ -13,7 +13,8 @@ Freq_table(
   size_text = 4,
   size_axis = 10,
   legend.position = "",
-  reorder = FALSE
+  reorder = FALSE,
+  type = "res"
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ Freq_table(
 \item{size_axis}{default 12, axis test}
 
 \item{legend.position}{legend.position="" none. top, bottom, left, right}
+
+\item{type}{all, res=data, g=plot=graph}
 }
 \value{
 Freqency table
