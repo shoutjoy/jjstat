@@ -36,6 +36,21 @@
 #' combined_data2 <- combine_data(observed_expected, sig_sym)
 #'  print(combined_data2)
 #'
+#' #iris cor
+#' iris_cor = iris %>% select(-Species) %>%psych::corr.test()
+#' iris_cor$r
+#' iris_cor$p
+#'
+#' combine_data(iris_cor$r%>%round(2),
+#'              iris_cor$p%>%round(5),
+#'              left="(", right=")")
+#'  sig = add_significance_symbols(iris_cor$p)
+#'  sig
+#'
+#'  combine_data( round(iris_cor$r, 3) , sig)
+#'
+#'  combine_data( round(iris_cor$r, 3) , sig) %>%
+#'  lowerMat(diag = 1, fill="")
 #'}
 #'
 #'

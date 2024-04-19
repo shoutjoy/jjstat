@@ -5,7 +5,7 @@
 #' @param sep  separate sep= " "
 #' @param pattern remove tail
 #' @param imp imputation tail
-#'
+#' @param type "all", res1 = m1, res2=m2
 #' @return results  two data
 #' @export
 #'
@@ -33,11 +33,13 @@
 #'
 #'
 #' }
-unCombind_data = function(data,
+uncombine_data = function(data,
                      into =  c("value","sig"),
                      sep =" ",
+                     type="res",
                      pattern = NULL,
-                     imp = ""){
+                     imp = ""
+                     ){
 
   N_col = ncol(data)
   N_colnames = colnames(data)
@@ -64,7 +66,17 @@ unCombind_data = function(data,
     `rownames<-`(c(N_rownames))
 
   #output
-  list(raw = data, m1 = m1, m2 = m2)
+  all = list(raw = data, m1 = m1, m2 = m2)
+  res = list(m1 = m1, m2 = m2)
+
+
+  switch(type,
+         all = all,
+         res = res,
+         res1 = m1,
+         m1 = m1,
+         res2 = m2,
+         m2 = m2)
 
 }
 
@@ -104,9 +116,30 @@ unCombind_data = function(data,
 #' combined_data
 #' unCombind(combined_data, sep="\\(", pattern=")")
 #'
+#' #iris cor
+#' iris_cor = iris %>% select(-Species) %>%psych::corr.test()
+#' iris_cor$r
+#' iris_cor$p
+#'
+#' combine_data(iris_cor$r%>%round(2),
+#'              iris_cor$p%>%round(5),
+#'              left="(", right=")")
+#'  sig = add_significance_symbols(iris_cor$p)
+#'  sig
+#'
+#' iris_cor_combine =combine_data( round(iris_cor$r, 3) , sig)
+#' iris_cor_combine
+#'
+#'  combine_data( round(iris_cor$r, 3) , sig) %>%
+#'  lowerMat(diag = 1, fill="")
+#'
+#'
+#'
+#'
+#'
 #'
 #' }
-unCombind = function(data,
+unCombine = function(data,
                      into =  c("value","sig"),
                      sep =" ",
                      type="all",
@@ -139,13 +172,16 @@ unCombind = function(data,
     `rownames<-`(c(N_rownames))
 
   #output
-  res = list(raw = data, m1 = m1, m2 = m2)
+  all = list(raw = data, m1 = m1, m2 = m2)
+  res = list(m1 = m1, m2 = m2)
+
 
   switch(type,
+         all = all,
+         res = res,
          res1 = m1,
          m1 = m1,
          res2 = m2,
-         m2 = m2,
-         all = res )
+         m2 = m2)
 
 }
