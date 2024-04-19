@@ -13,6 +13,7 @@ aov_df(
   unite_F = FALSE,
   digits = 2,
   posthoc = "lsd",
+  p.adj = "none",
   sig = FALSE
 )
 }
@@ -23,9 +24,15 @@ aov_df(
 
 \item{iv_vars}{c(iv1, iv2....)}
 
+\item{grp_mean}{'grooup mean remove}
+
 \item{unite_p}{pvalue unite}
 
 \item{unite_F}{Fvalue unite}
+
+\item{posthoc}{'tukey, scheffe, duncan, lsd}
+
+\item{p.adj}{p.adj=c("none","holm","hommel", "hochberg", "bonferroni", "BH", "BY", "fdr")}
 
 \item{sig}{'sig = T' is add star}
 }

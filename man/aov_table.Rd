@@ -13,6 +13,7 @@ aov_table(
   unite_F = FALSE,
   digits = 2,
   posthoc = "lsd",
+  p.adj = "none",
   sig = FALSE
 )
 }
@@ -29,7 +30,9 @@ aov_table(
 
 \item{unite_F}{Fvalue unite}
 
-\item{posthoc}{'tukey, scheffe, duncan}
+\item{posthoc}{'tukey, scheffe, duncan, lsd}
+
+\item{p.adj}{p.adj=c("none","holm","hommel", "hochberg", "bonferroni", "BH", "BY", "fdr")}
 
 \item{sig}{'sig = T' is add star}
 }
