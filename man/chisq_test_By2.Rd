@@ -4,18 +4,33 @@
 \alias{chisq_test_By2}
 \title{twosample chisq.test by group}
 \usage{
-chisq_test_By2(dataset, v1, v2, sel = NULL, type = "res")
+chisq_test_By2(
+  data,
+  v1,
+  v2,
+  sel,
+  correct = FALSE,
+  simulate.p.value = FALSE,
+  warning = FALSE,
+  type = "all"
+)
 }
 \arguments{
+\item{data}{data,frame}
+
 \item{v1}{first variable}
 
 \item{v2}{second variable}
 
 \item{sel}{group}
 
-\item{type}{res, long}
+\item{correct}{correct}
 
-\item{data}{data,frame}
+\item{simulate.p.value}{simulate.p.value}
+
+\item{warning}{warning}
+
+\item{type}{"all", "res"}
 }
 \value{
 chisq result
@@ -28,9 +43,19 @@ twosample chisq.test by group
 
 mtcars\%>\%  chisq_test_By2("am", "vs", "cyl")
 
-mtcars\%>\% chisq_test_By2("am", "vs", "cyl", type="long")
+mtcars\%>\% chisq_test_By2("am", "vs", sel= "cyl")
+
+Mtcars <- mtcars  # 데이터를 원본과 겹치지 않도록 복사
+Mtcars$am = factor(Mtcars$am, levels=c(0,1), labels= c("automatic","manual" ))
+Mtcars$vs = factor(Mtcars$vs, levels=c(0,1), labels= c("V-shaped","straight" ))
+Mtcars$cyl = factor(Mtcars$cyl, levels=c(4,6,8),
+             labels= c("cyl-4","cyl-6","cyl-8"))
+
+chisq_test_By3(data = Mtcars, v1 = "am", v2 = "vs", sel = "cyl")
 
 }
+
+
 
 
 }

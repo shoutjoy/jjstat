@@ -26,6 +26,6 @@ one sample chisq test by group
 mtcars\%>\%chisq_test_By1("cyl")
 
 mtcars\%>\%chisq_test_By1("am")
-
+iris\%>\%chisq_test_By1("Species")
 }
 }
