@@ -79,13 +79,13 @@ aov_table = function(data,
     lsd = agricolae::LSD.test(anova_result, iv, console = FALSE, p.adj=p.adj)
     lsdlist = lsd$groups[[2]]
 
-    duncan = agricolae::duncan.test(anova_result, iv, console = FALSE,, p.adj=p.adj)
+    duncan = agricolae::duncan.test(anova_result, iv, console = FALSE)
     duncanlist = duncan$groups[[2]]
 
-    scheffe = agricolae::scheffe.test(anova_result, iv, console = FALSE,, p.adj=p.adj)
+    scheffe = agricolae::scheffe.test(anova_result, iv, console = FALSE)
     scheffelist = scheffe$groups[[2]]
 
-    tukey = agricolae::HSD.test(anova_result, iv, console = FALSE,, p.adj=p.adj)#
+    tukey = agricolae::HSD.test(anova_result, iv, console = FALSE)#
     tukeylist = lsd$groups[[2]]
 
 
@@ -315,7 +315,7 @@ aov_df <- function(data,
                    unite_F = FALSE,
                    digits = 2,
                    posthoc="lsd",
-                   p.adj= "none",
+                   p.adj= "bonferroni",
                    sig = FALSE
 ) {
   # data: data.frame
@@ -351,16 +351,16 @@ aov_df <- function(data,
     #                          anova_result, lsdHSD(anova_result ))
     #     lsdlist = lsd[[1]] %>% as.data.frame.list()
     #
-    lsd = agricolae::LSD.test(anova_result, iv, console = FALSE, p.adj=p.adj)
+    lsd = agricolae::LSD.test(anova_result, iv, console = FALSE, p.adj= p.adj)
     lsdlist = lsd$groups[[2]]
 
-    duncan = agricolae::duncan.test(anova_result, iv, console = FALSE,, p.adj=p.adj)
+    duncan = agricolae::duncan.test(anova_result, iv, console = FALSE)
     duncanlist = duncan$groups[[2]]
 
-    scheffe = agricolae::scheffe.test(anova_result, iv, console = FALSE,, p.adj=p.adj)
+    scheffe = agricolae::scheffe.test(anova_result, iv, console = FALSE)
     scheffelist = scheffe$groups[[2]]
 
-    tukey = agricolae::HSD.test(anova_result, iv, console = FALSE,, p.adj=p.adj)#
+    tukey = agricolae::HSD.test(anova_result, iv, console = FALSE)#
     tukeylist = lsd$groups[[2]]
 
 

@@ -13,7 +13,7 @@ aov_df(
   unite_F = FALSE,
   digits = 2,
   posthoc = "lsd",
-  p.adj = "none",
+  p.adj = "bonferroni",
   sig = FALSE
 )
 }
