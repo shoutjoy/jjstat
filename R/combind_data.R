@@ -17,22 +17,24 @@
 #'                               0.9163776, 1.4060606, 0.03515152,
 #'                               0.9530237, 0.8624314, 1.44531611),
 #'                             nrow = 4, byrow = TRUE,
-#'                             dimnames = list(c("공명음", "마찰음", "유기음_경음", "평파열음_평파찰음"),
-#'                                            c("H", "H(H)", "L")))
+#'          dimnames = list(c("공명음", "마찰음", "유기음_경음", "평파열음_평파찰음"),
+#'                            c("H", "H(H)", "L")))
 #'
 #' p_value <- matrix(c(0, 0.00001, 0.00000,
 #'                     0, 0.00000, 0.01497,
 #'                     0, 0.00013, 0.00000,
 #'                     0, 0.00000, 0.00102),
 #'                   nrow = 4, byrow = TRUE,
-#'                   dimnames = list(c("공명음", "마찰음", "유기음_경음", "평파열음_평파찰음"),
-#'                                   c("H", "H(H)", "L")))
+#'        dimnames = list(c("공명음", "마찰음", "유기음_경음", "평파열음_평파찰음"),
+#'                       c("H", "H(H)", "L")))
 #'
-#'   add_significance_symbols(p_value)
+#' sig_sym = add_significance_symbols(p_value)
 #'
 #' # Combine the data
-#' combined_data <- combine_data(observed_expected, p_value)
-#'  print(combined_data)
+#' combined_data1 <- combine_data(observed_expected, p_value)
+#'  print(combined_data1)
+#' combined_data2 <- combine_data(observed_expected, sig_sym)
+#'  print(combined_data2)
 #'
 #'}
 #'
