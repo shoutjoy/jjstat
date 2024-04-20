@@ -4,14 +4,12 @@
 \alias{mysummary}
 \title{my summary descriptive statistics}
 \usage{
-mysummary(myobject, ..., all = F, digits = 5, msdn = FALSE)
+mysummary(myobject, ..., digits = 5, msdn = FALSE)
 }
 \arguments{
 \item{myobject}{data.frame, matrix}
 
 \item{...}{column variable}
-
-\item{all}{FLASE이면 numeric변수만 추출하여 분석}
 
 \item{digits}{round default 3}
 

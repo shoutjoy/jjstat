@@ -3,7 +3,6 @@
 #'
 #' @param myobject data.frame, matrix
 #' @param ... column variable
-#' @param all FLASE이면 numeric변수만 추출하여 분석
 #' @param digits round default 3
 #' @param msdn TRUE only output var, N, mean. sd
 #'
@@ -29,60 +28,7 @@
 #' mysummary(mtcars, all=FALSE)
 #'
 #' }
-# mysummary <- function(myobject, ..., all = F, digits= 5, msdn=FALSE){
-#   #  Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr
-#   # 1.1.0.
-#   # ℹ Please use `reframe()` instead.
-#   # ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()` always
-#   #   returns an ungrouped data frame and adjust accordingly.
-#
-#   #Extracting and cleaning only the numeirc variable from the data
-#   if(all){
-#
-#     myvars <- c(...)
-#     myresult <- dplyr::reframe(myobject,
-#                                var = myvars,
-#                                N = sapply(myobject[myvars], length),
-#                                MEAN = sapply(myobject[myvars], mean),
-#                                SD = sapply(myobject[myvars], sd),
-#                                MIN = sapply(myobject[myvars], min),
-#                                MAX = sapply(myobject[myvars], max),
-#                                Skew = sapply(myobject[myvars], SKEW),
-#                                Kurt = sapply(myobject[myvars], KURT))
-#   }else{
-#
-#     myobject <- myobject %>% purrr::keep(is.numeric)
-#     myvars <- colnames(myobject)
-#
-#
-#     myresult <- dplyr::reframe(myobject %>% purrr::keep(is.numeric) ,
-#                                var = myvars,
-#                                N = sapply(myobject[myvars], length),
-#                                MEAN = sapply(myobject[myvars], mean),
-#                                SD = sapply(myobject[myvars], sd),
-#                                MIN = sapply(myobject[myvars], min),
-#                                MAX = sapply(myobject[myvars], max),
-#                                Skew = sapply(myobject[myvars], SKEW),
-#                                Kurt = sapply(myobject[myvars], KURT))
-#
-#         }
-#
-#
-#   if(msdn){
-#     res =   myresult %>% dplyr::select( var, N, MEAN, SD)%>%
-#       tibble::tibble()
-#   }else{
-#     res =   myresult %>% tibble::tibble()
-#   }
-#
-#
-#
-#
-#   options(pillar.sigfig = digits)
-#   return(res)
-#   # on.exit(options(current_options))
-# }
-mysummary <- function(myobject, ... , all = F, digits= 5, msdn=FALSE){
+mysummary <- function(myobject, ... , digits= 5, msdn=FALSE){
   #  Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr
   # 1.1.0.
   # ℹ Please use `reframe()` instead.
@@ -129,6 +75,7 @@ mysummary <- function(myobject, ... , all = F, digits= 5, msdn=FALSE){
   }else{
     res =   myresult %>% tibble::tibble()
   }
+
 
 
 
