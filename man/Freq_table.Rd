@@ -14,6 +14,7 @@ Freq_table(
   size_axis = 10,
   legend.position = "",
   reorder = FALSE,
+  wt = NULL,
   type = "res"
 )
 }
@@ -31,6 +32,8 @@ Freq_table(
 \item{legend.position}{legend.position="" none. top, bottom, left, right}
 
 \item{type}{all, res=data, g=plot=graph}
+
+\item{legend.wt}{weight}
 }
 \value{
 Freqency table
@@ -74,6 +77,19 @@ Mtcars \%>\% Freq_table("vs","am") \%>\% arrange(am)
 Mtcars \%>\% Freq_table("vs","am") \%>\% arrange(vs)
 Mtcars \%>\% Freq_table("vs","am") \%>\% arrange(Freq)
 
+##when the data has already been aggregated once
+df_sample <- tribble(
+  ~name,    ~gender,   ~ sum,
+  "Max",    "male",       10,
+  "Sandra", "female",      1,
+  "Susan",  "female",      4)
+df_sample
+
+#weight frequency
+df_sample \%>\% unCount(sel = "sum") \%>\% Freq_table("gender")
+
+# this function
+df_sample \%>\% Freq_table("gender", wt="sum")
 }
 
 

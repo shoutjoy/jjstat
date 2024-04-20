@@ -144,9 +144,11 @@ table_freq = function(data, ...,
 #' @param data data.frame
 #' @param ... vars If you input varabale names "var1", "var2" ,...
 #' @param prop proportion value, default TRUE
+#' @param legend.wt weight
 #' @param size_text default 3, bargraph text
 #' @param size_axis default 12, axis test
 #' @param legend.position legend.position="" none. top, bottom, left, right
+
 #' @param type all, res=data, g=plot=graph
 #'
 #' @return Freqency table
@@ -188,6 +190,19 @@ table_freq = function(data, ...,
 #' Mtcars %>% Freq_table("vs","am") %>% arrange(vs)
 #' Mtcars %>% Freq_table("vs","am") %>% arrange(Freq)
 #'
+#' ##when the data has already been aggregated once
+#' df_sample <- tribble(
+#'   ~name,    ~gender,   ~ sum,
+#'   "Max",    "male",       10,
+#'   "Sandra", "female",      1,
+#'   "Susan",  "female",      4)
+#' df_sample
+#'
+#' #weight frequency
+#' df_sample %>% unCount(sel = "sum") %>% Freq_table("gender")
+#'
+#' # this function
+#' df_sample %>% Freq_table("gender", wt="sum")
 #' }
 #'
 #'
@@ -200,7 +215,15 @@ Freq_table <- function(data, ...,
                        size_axis = 10,
                        legend.position = "",
                        reorder = FALSE,
+                       wt = NULL,
                        type="res") {
+
+  #when the data has already been aggregated once
+   if(is.null(wt)){
+     data <- data
+   }else{
+     data <- unCount(data, sel = wt) #add real count rows
+   }
 
   # Check if data is a data frame
   if (is.data.frame(data)) {
@@ -230,7 +253,10 @@ Freq_table <- function(data, ...,
   }
 
 
-  #plot
+
+
+
+  #plot-----
   # Select and unite factor and character variables
   Res <- res %>%
     unite(x_var, where(is.factor), where(is.character))

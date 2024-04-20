@@ -50,15 +50,33 @@ aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"))
 aov_table(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),
            mean = TRUE)
 
-aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE)
-aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE) \%>\%
+aov_table(data = mtcars, dv_var = "mpg",
+iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE)
+aov_table(data = mtcars, dv_var = "mpg",
+iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE) \%>\%
 aov_table_apa()
 
-aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = TRUE)
+aov_table(data = mtcars, dv_var = "mpg",
+iv_vars = c("cyl", "gear", "carb"),
+ grp_mean = TRUE)
 
-aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = TRUE, unite_F = TRUE)
+aov_table(data = mtcars, dv_var = "mpg",
+ iv_vars = c("cyl", "gear", "carb"),
+ grp_mean = TRUE, unite_F = TRUE)
 
-aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"), grp_mean = TRUE, unite_F = TRUE) \%>\% markdown_table()
+aov_table(data = mtcars, dv_var = "mpg",
+iv_vars = c("cyl", "gear", "carb"),
+ grp_mean = TRUE, unite_F = TRUE) \%>\%
+  markdown_table()
+
+# park516d데이터 이용
+park516d \%>\%
+  select(1:6,teaching, academyType) \%>\%  #주요변수 선택
+  bind_add_stat(c("RV_Teah",1:6)) \%>\% # 평균을 이용하여 항목묶음
+  aov_df(dv_var="RV_Teah",
+         iv_vars =c("teaching", "academyType"), sig = T)
+
+
 }
 
 
