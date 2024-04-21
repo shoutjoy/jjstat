@@ -5,6 +5,8 @@
 #' @param add_var one sample name, Used to obtain statistics for one variable
 #' @param stat TRUE t.test and aov(), thes stat ="t.test", or 'aov'
 #' @param agg TRUE, mnay to many variable is showed. This functuion tha makes aggregate() work full
+#' @param t transpose  when agg=TRUE
+#' @param msdn msdn=TRUE is output mean, sd, N
 #' @param gm default FALSE, TRUE Use group data obtained from group descriptive statistics to obtain group-level descriptive statistics (means, standard deviations, etc.) and to analyze a mixed model
 #' @param digits Troundings
 #' @return Mea, SD, N, min, max, skew, kurt
@@ -45,6 +47,9 @@
 #'#multi group transpose table
 #' mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
 #'
+#' ## transpose
+#' mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE, t=TRUE)
+#'
 #' ##twoway
 #' mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
 #'
@@ -71,6 +76,8 @@ mysummaryBy <- function(
                         agg = FALSE,
                         gm = FALSE,
                         fun = NULL,
+                        msdn = FALSE,
+                        t = FALSE,
                         digits = 2
 ) {
   # Make sure the data object is provided
@@ -80,27 +87,48 @@ mysummaryBy <- function(
   # Aggregate with summary statistics
   func = formula(formula) #formula extraction
   from_all = func[2]%>%as.character()
+
   #analysis
   if(is.null(fun)){
-    result <- aggregate(formula(formula), data,
-                        FUN = function(x) {
-                          c(
-                            Mean = mean(x, na.rm = TRUE),
-                            SD = sd(x, na.rm = TRUE),
-                            N = length(x),
-                            Min = min(x, na.rm = TRUE),
-                            Max = max(x, na.rm = TRUE),
-                            Skew = SKEW(x),
-                            Kurt = KURT(x)
-                          )
-                        })
+
+    #MSDN----
+    if(msdn){
+
+      result <- aggregate(formula(formula), data,
+                          FUN = function(x) {
+                            c(
+                              Mean = mean(x, na.rm = TRUE),
+                              SD = sd(x, na.rm = TRUE),
+                              N = length(x)
+                            )
+                          })
+
+    }else{
+
+      result <- aggregate(formula(formula), data,
+                          FUN = function(x) {
+                            c(
+                              Mean = mean(x, na.rm = TRUE),
+                              SD = sd(x, na.rm = TRUE),
+                              N = length(x),
+                              Min = min(x, na.rm = TRUE),
+                              Max = max(x, na.rm = TRUE),
+                              Skew = SKEW(x),
+                              Kurt = KURT(x)
+                            )
+                          })
+
+    } #MSDN
+
 
   }else{
 
     result <- aggregate(formula(formula), data, FUN = fun)
     # colnames(result) = colnames(result)
 
-        }
+  }
+
+
 
   # stat data
   if(stat == "t.test"){
@@ -120,37 +148,49 @@ mysummaryBy <- function(
 
   # aggregate data
   if(agg){
-    res = result %>%
-      # t() %>%
-      data.frame()
+    res = result %>% data.frame()
 
-    res <- res %>%
-      mutate(across(where(is.numeric), round, digits))%>%
-      t()%>%
-      data.frame() %>%
-      tibble::rownames_to_column("stat_var")%>%tibble::tibble()
-    res #%>% print(n=Inf)
+      if(t){  #transpose row
+        res <- res %>%
+          mutate(across(where(is.numeric), round, digits))%>%
+          tibble::tibble()
+
+        #results
+        res
+      }else{
+        res <- res %>%
+          mutate(across(where(is.numeric), round, digits))%>%
+          t()%>%
+          data.frame() %>%
+          tibble::rownames_to_column("stat_var")%>%tibble::tibble()
+        #results
+        res
+      }
+
+
+
 
   }else{
+
     if(func[3]!='1()'){
 
 
       if(from_all=="."){
-        res = result
-        colnames(res) = colnames(result)
-      }else{
-      res = dplyr::bind_cols(var = result[,1: (ncol(result)-1) ],
+             res = result
+             colnames(res) = colnames(result)
+            }else{
+            res = dplyr::bind_cols(var = result[,1: (ncol(result)-1) ],
                              result[[ncol(result)]] ) %>% tibble::tibble()
-      }
+                 }
 
-          if(is.null(stat_res)){
-              res
-           }else{
-            res = list(descriptive = res, statistic = stat_res)
-            res
-             }
+              if(is.null(stat_res)){
+                  res
+                }else{
+                res = list(descriptive = res, statistic = stat_res)
+                res
+                  }
 
-    }else{ #Used to obtain statistics for one variable
+        }else{ #Used to obtain statistics for one variable
 
 
 
@@ -161,15 +201,28 @@ mysummaryBy <- function(
 
 
       # stat_res is t.test or aov
-      if(is.null(stat_res)){
-        res
-      }else{
-        res = list(descriptive = res, statistic = stat_res)
-        res
-      }
+             if(is.null(stat_res)){
+                  res
+                     }else{
+                      res = list(descriptive = res, statistic = stat_res)
+                         res
+                       }
 
-    }
-  }
+        }
+    #
+    # #summary M, SD, N
+    # if(msdn){
+    #   res<- res %>% dplyr::select(-Min,-Max,-Skew, -Kurt)
+    # }else{
+    #   res<- res
+    # }
+    #
+
+
+        }  ## agg else }
+
+
+
 
 
   Res = res
