@@ -70,13 +70,13 @@ p_mark_sig <-function(data,
         tibble::tibble()
   }else{
     res = ndata %>% data.frame() %>%
-      # tibble::rownames_to_column("vars") %>%
+
       tibble::tibble()
        }
 
 
   if(unite){
-    res = res %>% dplyr::rename(p.value = all_of( c(col) )) %>%
+    res = res %>% dplyr::rename(p.value = all_of( col) ) %>%
       mutate_if(is.numeric, round, digits)
     res = res %>% tidyr::unite(p.value, p.value, sig, sep="")
     res= res%>% tibble::tibble()
