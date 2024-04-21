@@ -132,7 +132,7 @@ Freq_table <- function(data, ...,
   g <- Res %>%
     ggplot(aes(x = x_var, y = Freq)) +
     geom_bar(stat = "identity", aes(fill = x_var)) +
-    ylim(0, max(Res$Freq)+ yadd)
+    ylim(0, max(Res$Freq)+ yadd)+
   theme_bw() +
     geom_text(aes(label = LABEL), vjust = vjust, size = size_text) +
     theme(axis.text.x = element_text(angle = angle,
