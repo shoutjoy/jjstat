@@ -29,18 +29,27 @@
 #'
 #' }
 Round <- function(data, digits=2, exclude = NULL, type= "tibble"){
+
+
   if(is.data.frame(data)){
 
     original_order <- colnames(data)
     # Rounding by pulling out excluded variables separately
-    excluded_data <- data%>%select(all_of(exclude))
-    rounded_data <- data%>%select(-all_of(exclude))
+        if(is.null(exclude)){
+           data <- data[, original_order]  %>%
+           mutate_if(is.numeric, round, digits)
+           # Preserve column order
 
-    rounded_data <- rounded_data %>% mutate_if(is.numeric, round, digits)
-    # Insert excluded variables in their original column order
+        }else{
+           excluded_data <- data %>% dplyr::select(all_of(exclude))
+          rounded_data <- data %>% dplyr::select(-all_of(exclude))
 
-    data <- cbind(rounded_data, excluded_data)
-    data <- data[, original_order]  # Preserve column order
+           rounded_data <- rounded_data %>% mutate_if(is.numeric, round, digits)
+          # Insert excluded variables in their original column order
+
+          data <- cbind(rounded_data, excluded_data)
+           # data <- data[, original_order]  # Preserve column order
+          }
 
 
   }else{
@@ -48,8 +57,11 @@ Round <- function(data, digits=2, exclude = NULL, type= "tibble"){
                    function(x) {if(is.numeric(x)){round(x, digits)}})
   }
 
+  options(pillar.sigfig = digits)
   tibble = tibble::tibble(data)
+
   data.frame = as.data.frame(data)
+
   matrix = as.matrix(data)
 
   switch(type,
