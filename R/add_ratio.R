@@ -192,7 +192,7 @@ add_sum = function(dataset,
 
 
   #비율계산과 데이터 margin sum
-  data_margin = cbind(rbind(data_margin, SUM = data_rowsum0 ),
+  data_margin = cbind(rbind(data_margin0, SUM = data_rowsum0 ),
                             SUM = data_colsum )
 
   #데이터에 비율을 넣는 경우와 안넣는 경우

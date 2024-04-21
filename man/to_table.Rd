@@ -4,12 +4,14 @@
 \alias{to_table}
 \title{data.frame to table}
 \usage{
-to_table(data, sel = ncol(data) - 1, type = "mat")
+to_table(data, sel = ncol(data) - 1, value = "Freq", type = "mat")
 }
 \arguments{
 \item{data}{data.frame}
 
-\item{sel}{select column}
+\item{sel}{select column (names_to)}
+
+\item{value}{values_to}
 
 \item{type}{mat(matrix), df(data.frame)}
 }
@@ -29,20 +31,33 @@ data
 to_table(data)
 
 mtcars \%>\%select(am, vs) \%>\% table()
+
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame()
+
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()
+
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%addmargins()
+
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_ratio()
+
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_ratio()\%>\%as.matrix()\%>\%addmargins()
+
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_ratio_df()
+
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_sum()
+
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table(sel="vs")
 
 mtcars \%>\%select(am, cyl) \%>\% table()
+
 mtcars \%>\%select(am, cyl) \%>\% table() \%>\%data.frame()
+
 mtcars \%>\%select(am, cyl) \%>\% table() \%>\%data.frame() \%>\%to_table()
+
 mtcars \%>\%select(am, cyl) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_ratio()
+
 mtcars \%>\%select(am, cyl) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_ratio_df()
+
 mtcars \%>\%select(cyl, am) \%>\% table() \%>\%data.frame() \%>\%to_table() \%>\%add_sum()
 
 }

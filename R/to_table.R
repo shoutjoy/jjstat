@@ -1,7 +1,8 @@
 #' data.frame to table
 #'
 #' @param data data.frame
-#' @param sel select column
+#' @param sel select column (names_to)
+#' @param value values_to
 #' @param type mat(matrix), df(data.frame)
 #'
 #' @return table
@@ -17,28 +18,47 @@
 #' to_table(data)
 #'
 #' mtcars %>%select(am, vs) %>% table()
+#'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame()
+#'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table()
+#'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table()%>%addmargins()
+#'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table()%>%add_ratio()
+#'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table()%>%add_ratio()%>%as.matrix()%>%addmargins()
+#'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table()%>%add_ratio_df()
+#'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table()%>%add_sum()
+#'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table(sel="vs")
 #'
 #' mtcars %>%select(am, cyl) %>% table()
+#'
 #' mtcars %>%select(am, cyl) %>% table() %>%data.frame()
+#'
 #' mtcars %>%select(am, cyl) %>% table() %>%data.frame() %>%to_table()
+#'
 #' mtcars %>%select(am, cyl) %>% table() %>%data.frame() %>%to_table()%>%add_ratio()
+#'
 #' mtcars %>%select(am, cyl) %>% table() %>%data.frame() %>%to_table()%>%add_ratio_df()
+#'
 #' mtcars %>%select(cyl, am) %>% table() %>%data.frame() %>%to_table() %>%add_sum()
 #'
+#'
+#' # mean data to table
+#' aggregate(len ~ ., data = ToothGrowth, mean) %>% xtabs(formula = len ~.)
+#' #this is jjstat method
+#' aggregate(len ~ ., data = ToothGrowth, mean) %>% to_table("dose","len")
+#'
 #' }
-to_table <- function(data, sel = ncol(data)-1, type="mat") {
+to_table <- function(data, sel = ncol(data)-1, value = "Freq", type = "mat") {
   # 데이터 재구조화
-  transformed_data <- spread(data, key = all_of(sel), value = Freq)
-  transformed_data <- transformed_data%>%
-    dplyr::select(-1)
+  transformed_data <- spread(data, key = all_of(sel), value = all_of(value) )
+  transformed_data <- transformed_data%>%dplyr::select(-1)
+
   # 행 이름 변경
   rownames(transformed_data) <- unique(data[[1]])
   colnames(transformed_data) <- unique(data[[2]])
