@@ -17,7 +17,7 @@
 #' ##method 1
 #'  ToothGrowth %>%
 #'   group_by(dose) %>%
-#'   t_test(data =., len ~ supp) %>%
+#'   rstatix::t_test(data =., len ~ supp) %>%
 #'   p_mark_sig("p")
 #'
 #' ##method 2
@@ -76,7 +76,7 @@ p_mark_sig <-function(data,
 
 
   if(unite){
-    res = res %>% dplyr::rename(p.value = all_of( C(col) )) %>%
+    res = res %>% dplyr::rename(p.value = all_of( c(col) )) %>%
       mutate_if(is.numeric, round, digits)
     res = res %>% tidyr::unite(p.value, p.value, sig, sep="")
     res= res%>% tibble::tibble()

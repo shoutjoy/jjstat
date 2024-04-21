@@ -36,7 +36,7 @@ library(rstatix)
 ##method 1
  ToothGrowth \%>\%
   group_by(dose) \%>\%
-  t_test(data =., len ~ supp) \%>\%
+  rstatix::t_test(data =., len ~ supp) \%>\%
   p_mark_sig("p")
 
 ##method 2
