@@ -33,7 +33,8 @@ missCheck <- function(data, plot=FALSE){
   table_data <- cbind.data.frame(aggr(data, prop=FALSE, numbers= TRUE,
                                     plot = plot)$missings[1],
                                V_count=colSums(!is.na(data)) %>% as.data.frame(),
-                               aggr(data, prop=FALSE, numbers= TRUE,plot = plot)$missings[2]
+                               aggr(data, prop=FALSE, numbers= TRUE,
+                                    plot = FALSE)$missings[2]
   )
 
   table_data_miss <- table_data %>% dplyr::filter(Count != 0)
