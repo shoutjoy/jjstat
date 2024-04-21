@@ -4,7 +4,7 @@
 \alias{to_table}
 \title{data.frame to table}
 \usage{
-to_table(data, sel = ncol(data) - 1, value = "Freq", type = "mat")
+to_table(data, sel = ncol(data) - 1, value = ncol(data), type = "mat")
 }
 \arguments{
 \item{data}{data.frame}
@@ -59,6 +59,14 @@ mtcars \%>\%select(am, cyl) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%
 mtcars \%>\%select(am, cyl) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_ratio_df()
 
 mtcars \%>\%select(cyl, am) \%>\% table() \%>\%data.frame() \%>\%to_table() \%>\%add_sum()
+
+
+# mean data to table
+aggregate(len ~ ., data = ToothGrowth, mean) \%>\% xtabs(formula = len ~.)
+#this is jjstat method
+aggregate(len ~ ., data = ToothGrowth, mean) \%>\% to_table()
+
+aggregate(len ~ ., data = ToothGrowth, mean) \%>\% to_table("dose","len")
 
 }
 }

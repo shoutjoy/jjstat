@@ -51,10 +51,12 @@
 #' # mean data to table
 #' aggregate(len ~ ., data = ToothGrowth, mean) %>% xtabs(formula = len ~.)
 #' #this is jjstat method
+#' aggregate(len ~ ., data = ToothGrowth, mean) %>% to_table()
+#'
 #' aggregate(len ~ ., data = ToothGrowth, mean) %>% to_table("dose","len")
 #'
 #' }
-to_table <- function(data, sel = ncol(data)-1, value = "Freq", type = "mat") {
+to_table <- function(data, sel = ncol(data)-1, value = ncol(data), type = "mat") {
   # 데이터 재구조화
   transformed_data <- spread(data, key = all_of(sel), value = all_of(value) )
   transformed_data <- transformed_data%>%dplyr::select(-1)
