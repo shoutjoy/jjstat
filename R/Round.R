@@ -34,7 +34,7 @@ Round <- function(data, digits=2, exclude = NULL, type= "tibble"){
     original_order <- colnames(data)
     # Rounding by pulling out excluded variables separately
     excluded_data <- data%>%select(all_of(exclude))
-    rounded_data <- data%>%select(- all_of(exclude))
+    rounded_data <- data%>%select(-all_of(exclude))
 
     rounded_data <- rounded_data %>% mutate_if(is.numeric, round, digits)
     # Insert excluded variables in their original column order

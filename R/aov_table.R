@@ -462,7 +462,7 @@ aov_df <- function(data,
 
     result_df2 = result_df %>%
       mutate(p_value = format_number(p_value, n3 = 3, n1=5)) %>%
-      Round(digits, exclude = "p_value")%>%
+      # Round(digits, exclude = "p_value")%>%
       tibble::tibble()
 
     result_df2$p_value = as.numeric(result_df2$p_value)
@@ -485,7 +485,7 @@ aov_df <- function(data,
                                 df1, df2, F_value, p_value)
     result_df2 = result_df %>%
       mutate(p_value = format_number(as.vector(p_value), n3 = 3, n1=5)) %>%
-      Round(digits, exclude = "p_value")%>%
+      # Round(digits, exclude = "p_value")%>%
       tibble::tibble()
 
 
@@ -516,7 +516,8 @@ aov_df <- function(data,
 
     result_df2 = result_df1 %>%
       tidyr::unite(F_value, F_value, sig, sep="") %>%
-      Round(digits, exclude = "p_value") %>% tibble::tibble()
+      # Round(digits, exclude = "p_value") %>%
+      tibble::tibble()
 
 
   }else if(unite_p){
@@ -530,7 +531,7 @@ aov_df <- function(data,
     # result_df1$F_value = round(result_df1$F_value , digits)
 
     result_df2 = result_df1 %>%
-      Round(digits, exclude = "p_value") %>%
+      # Round(digits, exclude = "p_value") %>%
       mutate(p_value = format_number(p_value, n3=2)) %>%
       tidyr::unite(p_value, p_value, sig, sep="") %>%
       tibble::tibble()

@@ -8,7 +8,6 @@
 #' @param t transpose  when agg=TRUE
 #' @param msdn msdn=TRUE is output mean, sd, N
 #' @param gm default FALSE, TRUE Use group data obtained from group descriptive statistics to obtain group-level descriptive statistics (means, standard deviations, etc.) and to analyze a mixed model
-#' @param digits Troundings
 #' @return Mea, SD, N, min, max, skew, kurt
 #' @export
 #'
@@ -44,6 +43,10 @@
 #'     rename(mpg = Mean) %>%   #change name
 #'       mysummaryBy(formula = mpg ~ 1)  # mean of mpg
 #'
+#' mysummaryBy(mpg ~ am , data= mtcars) %>%
+#'     rename(mpg = Mean) %>%   #change name
+#'       mysummary("mpg")  # mean of mpg
+#'
 #'#multi group transpose table
 #' mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
 #'
@@ -77,8 +80,7 @@ mysummaryBy <- function(
                         gm = FALSE,
                         fun = NULL,
                         msdn = FALSE,
-                        t = FALSE,
-                        digits = 2
+                        t = FALSE
 ) {
   # Make sure the data object is provided
   if (missing(data)) stop("Please provide the data object as an argument.")
@@ -152,18 +154,17 @@ mysummaryBy <- function(
 
       if(t){  #transpose row
         res <- res %>%
-          mutate(across(where(is.numeric), round, digits))%>%
           tibble::tibble()
-
-        #results
+  #results
         res
+
       }else{
         res <- res %>%
-          mutate(across(where(is.numeric), round, digits))%>%
+          # mutate(across(where(is.numeric), round, digits))%>%
           t()%>%
           data.frame() %>%
           tibble::rownames_to_column("stat_var")%>%tibble::tibble()
-        #results
+  #results
         res
       }
 

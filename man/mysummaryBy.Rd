@@ -13,8 +13,7 @@ mysummaryBy(
   gm = FALSE,
   fun = NULL,
   msdn = FALSE,
-  t = FALSE,
-  digits = 2
+  t = FALSE
 )
 }
 \arguments{
@@ -33,8 +32,6 @@ mysummaryBy(
 \item{msdn}{msdn=TRUE is output mean, sd, N}
 
 \item{t}{transpose  when agg=TRUE}
-
-\item{digits}{Troundings}
 }
 \value{
 Mea, SD, N, min, max, skew, kurt
@@ -74,8 +71,15 @@ mysummaryBy(mpg ~ am , data= mtcars) \%>\%
     rename(mpg = Mean) \%>\%   #change name
       mysummaryBy(formula = mpg ~ 1)  # mean of mpg
 
+mysummaryBy(mpg ~ am , data= mtcars) \%>\%
+    rename(mpg = Mean) \%>\%   #change name
+      mysummary("mpg")  # mean of mpg
+
 #multi group transpose table
 mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
+
+## transpose
+mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE, t=TRUE)
 
 ##twoway
 mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
