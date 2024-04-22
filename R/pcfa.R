@@ -34,14 +34,14 @@
 #' }
 #'
 pcfa <- function(R,
-                 nfactor=NULL,
-                 rowname=NULL,
-                 name="auto",
-                 digits=2,
+                 nfactor = NULL,
+                 rowname = NULL,
+                 name = "auto",
+                 digits = 2,
                  xlim = c(-1,1),
                  ylim = c(-1,1),
-                 cex=1,
-                 pos=1){
+                 cex = 1,
+                 pos = 1){
 
   library(tidyverse)
 
@@ -71,17 +71,17 @@ pcfa <- function(R,
     V_main = V[, 1:nfactor]
     colnames(V_main)= paste0("Dim",1: nfactor)
 
-    if(name=="auto"){
-      rownames(V_main)= rownames(R)}
-    if(name=="manual"){
+    if(name == "auto"){
+      rownames(V_main) = rownames(R)}
+    if(name == "manual"){
       rownames(V_main)= rowname}
 
     # calculation main component
     LoadingMatrix = V_main %*% E
     colnames(LoadingMatrix) = paste0("PC",1:nfactor)
-    if(name=="auto"){
+    if(name == "auto"){
       rownames(LoadingMatrix) = rownames(R)}
-    if(name=="manual"){
+    if(name == "manual"){
       rownames(LoadingMatrix) = rowname}
 
     # LoadingMatrix %>% round(digits)
@@ -112,7 +112,7 @@ pcfa <- function(R,
   #2 dimension graph
   plot(-LoadingMatrix[,1], -LoadingMatrix[,2],
        cex=cex, pch=21, bg="red",
-       xlim=c(-1,1), ylim=c(-1,1))
+       xlim= xlim, ylim= ylim)
   abline(v=0, h=0)
   text(-LoadingMatrix[,1], -LoadingMatrix[,2],
        labels = ifelse(name=="auto",rownames(R),
@@ -123,13 +123,13 @@ pcfa <- function(R,
 
 
   # result
-  res = list(data=R,
-             propDim=Gof.c,
-             communality=communality,
+  res = list(data = R,
+             propDim = Gof.c,
+             communality = communality,
              specific_variance = psi,
-             residual_matrix=RM,
+             residual_matrix = RM,
              factorloadings = -LoadingMatrix,
-             prop_graph=g)
+             prop_graph = g)
 
   res
 
