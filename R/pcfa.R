@@ -137,8 +137,8 @@ pcfa <- function(R,
        ylab = paste0("Dim2(",round(Gof.c[2,2],2),"%)"),
        xlim = c(min(-LoadingMatrix[, 1]) - 0.05,
                 max(-LoadingMatrix[, 1]) + 0.05),
-       ylim = c(min(-LoadingMatrix[, 2]) - 0.12,
-                max(-LoadingMatrix[, 2]) + 0.09))
+       ylim = c(min(LoadingMatrix[, 2]) - 0.12,
+                max(LoadingMatrix[, 2]) + 0.09))
        # xlim = xlim, ylim = ylim)
   abline(v = 0, h = 0, lty = 2)
   text(-LoadingMatrix[,1], -LoadingMatrix[,2],
