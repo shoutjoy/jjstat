@@ -8,11 +8,13 @@ pcfa(
   R,
   nfactor = NULL,
   rowname = NULL,
-  name = "auto",
   digits = 2,
-  xlim = c(-1, 1),
-  ylim = c(-1, 1),
-  cex = 1,
+  xlim = NULL,
+  ylim = NULL,
+  cex = 1.2,
+  vjust = -0.5,
+  yadd = 10,
+  name = "auto",
   pos = 1
 )
 }
@@ -23,15 +25,17 @@ pcfa(
 
 \item{rowname}{matrix rowname}
 
-\item{name}{'auto', 'manual'}
-
 \item{digits}{digits = 3}
 
-\item{xlim}{c(-1,1)}
+\item{xlim}{NULL}
 
-\item{ylim}{c(-1,1)}
+\item{ylim}{NULL}
 
 \item{cex}{size =1}
+
+\item{yadd}{yadd = 10,}
+
+\item{name}{'auto', 'manual'}
 
 \item{pos}{positon  1}
 }
@@ -57,6 +61,11 @@ colnames(R)=subject
 rownames(R)=subject
 R
 pcfa(R, nfactor = 2)
+
+library(MVT)
+data(examScor)
+
+pcfa(cor(examScor), nfactor = 2)
 
 }
 

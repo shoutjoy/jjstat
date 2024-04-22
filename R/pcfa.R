@@ -6,9 +6,10 @@
 #' @param rowname matrix rowname
 #' @param name 'auto', 'manual'
 #' @param digits digits = 3
-#' @param xlim  c(-1,1)
-#' @param ylim c(-1,1)
+#' @param xlim  NULL
+#' @param ylim  NULL
 #' @param cex  size =1
+#' @param yadd  yadd = 10,
 #' @param pos  positon  1
 #'
 #' @return result table, biplot, dimension
@@ -31,24 +32,34 @@
 #' R
 #' pcfa(R, nfactor = 2)
 #'
+#' library(MVT)
+#' data(examScor)
+#'
+#' pcfa(cor(examScor), nfactor = 2)
+#'
 #' }
 #'
 pcfa <- function(R,
                  nfactor = NULL,
                  rowname = NULL,
-                 name = "auto",
                  digits = 2,
-                 xlim = c(-1,1),
-                 ylim = c(-1,1),
-                 cex = 1,
+                 xlim = NULL,
+                 ylim = NULL,
+                 cex = 1.2,
+                 vjust = -0.5,
+                 yadd = 10,
+                 name  = "auto",
                  pos = 1){
 
   library(tidyverse)
 
+
+  text_name = rownames(R)
+
   if(nfactor==1){
     return(cat("다시 입력하세요 2이상으로 하세요"))
 
-  }else if(nfactor>=2){
+  }else if(nfactor >= 2){
 
 
     eigen.R <- eigen(R)
@@ -72,15 +83,20 @@ pcfa <- function(R,
     colnames(V_main)= paste0("Dim",1: nfactor)
 
     if(name == "auto"){
-      rownames(V_main) = rownames(R)}
+      rownames(V_main) = text_name}
     if(name == "manual"){
       rownames(V_main)= rowname}
 
     # calculation main component
     LoadingMatrix = V_main %*% E
+
     colnames(LoadingMatrix) = paste0("PC",1:nfactor)
+
+
+
+
     if(name == "auto"){
-      rownames(LoadingMatrix) = rownames(R)}
+      rownames(LoadingMatrix) = text_name}
     if(name == "manual"){
       rownames(LoadingMatrix) = rowname}
 
@@ -106,17 +122,27 @@ pcfa <- function(R,
     geom_bar(stat = "identity",
              aes(colour = eig.prop, fill = eig.prop))+
     geom_text(aes(label = paste0(round(Value,1),"(%)"),
-                  vjust = -0.5 ))+
+                  vjust = vjust ))+
+    ylim(0, max(Gof.c$Value)+ yadd)+
     theme_bw()
+
+
 
   #2 dimension graph
   plot(-LoadingMatrix[,1], -LoadingMatrix[,2],
-       cex = cex, pch = 21, bg = "red",
-       xlim = xlim, ylim = ylim)
-  abline(v=0, h=0)
+       cex = cex,
+       pch = 21,
+       bg = "red",
+       xlab = paste0("Dim1(", round(Gof.c[1,2],2),"%)"),
+       ylab = paste0("Dim2(",round(Gof.c[2,2],2),"%)"),
+       xlim = c(min(-LoadingMatrix[, 1]) - 0.05,
+                max(-LoadingMatrix[, 1]) + 0.05),
+       ylim = c(min(-LoadingMatrix[, 2]) - 0.12,
+                max(-LoadingMatrix[, 2]) + 0.09))
+       # xlim = xlim, ylim = ylim)
+  abline(v = 0, h = 0, lty = 2)
   text(-LoadingMatrix[,1], -LoadingMatrix[,2],
-       labels = ifelse(name == "auto", rownames(LoadingMatrix),
-                       ifelse(name == "manual", rowname, "")),
+       labels= text_name,
        pos = pos)
 
 
