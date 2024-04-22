@@ -102,21 +102,21 @@ pcfa <- function(R,
 
   #eigen values propotion visualazation
   g <- Gof.c %>%
-    ggplot(aes(x=eig.prop, y=Value))+
-    geom_bar(stat="identity",
-             aes(colour=eig.prop, fill=eig.prop))+
-    geom_text(aes(label= paste0(round(Value,1),"(%)"),
-                  vjust= -0.5 ))+
+    ggplot(aes(x= eig.prop, y = Value))+
+    geom_bar(stat = "identity",
+             aes(colour = eig.prop, fill = eig.prop))+
+    geom_text(aes(label = paste0(round(Value,1),"(%)"),
+                  vjust = -0.5 ))+
     theme_bw()
 
   #2 dimension graph
   plot(-LoadingMatrix[,1], -LoadingMatrix[,2],
-       cex=cex, pch=21, bg="red",
-       xlim= xlim, ylim= ylim)
+       cex = cex, pch = 21, bg = "red",
+       xlim = xlim, ylim = ylim)
   abline(v=0, h=0)
   text(-LoadingMatrix[,1], -LoadingMatrix[,2],
-       labels = ifelse(name=="auto",rownames(R),
-                       ifelse(name=="manual",rowname,"")),
+       labels = ifelse(name == "auto", rownames(LoadingMatrix),
+                       ifelse(name == "manual", rowname, "")),
        pos = pos)
 
 
