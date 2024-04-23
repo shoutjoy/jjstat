@@ -140,6 +140,7 @@ interpretation_de <- function(data, md = FALSE) {
 #'
 #' @param data DE_effect obj
 #' @param md markdown_table output
+#' @param print print TRUE
 #'
 #' @return report apa
 #' @export
@@ -178,7 +179,7 @@ interpretation_de <- function(data, md = FALSE) {
 #'
 #' }
 #'
-sem_apa <- function(data, md = FALSE) {
+sem_apa <- function(data, md = FALSE, print=TRUE) {
   # data <- data  # 이 줄은 필요 없는 것 같습니다.
 
   # Check if 'label' column exists
@@ -261,7 +262,12 @@ sem_apa <- function(data, md = FALSE) {
 
   }
 
-  print(data)
+  if(print){
+    print(data)
+  }
+
+
+
 
   if (md) {
     print(data %>% jjstat::md(digits = 3))
