@@ -4,7 +4,13 @@
 \alias{cramers_v}
 \title{Tcramers_v}
 \usage{
-cramers_v(data, type = "cramer", digits = 3, correct = FALSE)
+cramers_v(
+  data,
+  type = "cramer",
+  digits = 3,
+  correct = FALSE,
+  simulate.p.value = FALSE
+)
 }
 \arguments{
 \item{data}{data table}

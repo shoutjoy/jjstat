@@ -64,8 +64,13 @@ Chisq_retest <- function(input, ncol = 2,
                          type= "all",
                          correct=TRUE,
                          B=2000){
+#first step
+  if(is.matrix(input)){
+    data< - input
 
+  }else{
   data <- matrix( input, ncol = ncol)
+  }
 
 
   if(is.table(input)){
