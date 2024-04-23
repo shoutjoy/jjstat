@@ -82,10 +82,6 @@ kge_chisq_table chisq table observed/Expected table-
 \dontrun{
 kge_chisq_table(mtcars,"am","cyl")
 
-# generate matrix
-voteMat = matrix(c(183, 35, 824, 50), ncol=2)
-colnames(voteMat) = c("Did not vote", "Voted")
-rownames(voteMat) = c("All other ages","Youngest")
 
 #chisq test result
 vote_chi <- Chisq_retest(c(183, 35, 824, 50), ncol=2,
@@ -93,6 +89,13 @@ vote_chi <- Chisq_retest(c(183, 35, 824, 50), ncol=2,
                          rowname =c("All other ages","Youngest"))
 
 vote_chi
+
+
+# generate matrix
+voteMat = matrix(c(183, 35, 824, 50), ncol=2)
+colnames(voteMat) = c("Did not vote", "Voted")
+rownames(voteMat) = c("All other ages","Youngest")
+
 
 voteMat\%>\%
   long_df("voted", rowname="youth")\%>\% #long format

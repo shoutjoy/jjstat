@@ -17,7 +17,7 @@
 #'           0, 35, 44,
 #'          41, 108, 1,
 #'           56, 87, 54),
-#'            nrow = 4, byrow = TRUE.
+#'            nrow = 4, byrow = TRUE,
 #'    dimnames = list(c("공명음", "마찰음",
 #'      "유기음_경음", "평파열음_평파찰음"),  c("H", "H(H)", "L"))) %>%
 #'      calculate_chi_sig("p_sig")
@@ -106,7 +106,7 @@ calculate_chi_sig <- function(observed, type = "data", simple=FALSE) {
   # cramers' v
   cramersv = cramers_v(observed)
   # chisq
-  chisq = chisq.test(observed)
+  chisq = chisq.test(observed) %>%suppressWarnings()
 
   Res = list(
     # chi_square_statistic = chi_square_statistic,
@@ -137,45 +137,49 @@ calculate_chi_sig <- function(observed, type = "data", simple=FALSE) {
 
 
 
-#
-#' T관측 기대 테이블
+#' #
+#' #' Observation Expectation Table
+#' #'
+#' #' @param obs_data matrix
+#' #'
+#' #' @return matrix
+#' #' @export
+#' #'
+#' obs_exp_table = function(obs_data){
+#'   obs_data = as.matrix(obs_data)
+#'   res = calculate_chi_sig(obs_data, type="observed_over_expected_ratios")
+#'   res
+#' }
 #'
-#' @param obs_data matrix
-#'
-#' @return matrix
-#' @export
-#'
-obs_exp_table = function(obs_data){
-  obs_data = as.matrix(obs_data)
-  res = calculate_chi_sig(obs_data, type="observed_over_expected_ratios")
-  res
-}
 
-#' T관측 기대 테이블
-#'
-#' @param obs_data matrix
-#'
-#' @return matrix
-#' @export
-#'
-p_value_cal = function(obs_data){
-  obs_data = as.matrix(obs_data)
-  res = calculate_chi_sig(obs_data, type="cell_p_values")
-  res
-}
 
-#' T관측 기대 테이블
+#' #' Observation Expectation Table
+#' #'
+#' #' @param obs_data matrix
+#' #'
+#' #' @return matrix
+#' #' @export
+#' #'
+#' p_value_cal = function(obs_data){
+#'   obs_data = as.matrix(obs_data)
+#'   res = calculate_chi_sig(obs_data, type="cell_p_values")
+#'   res
+#' }
 #'
-#' @param obs_data matrix
-#'
-#' @return matrix
-#' @export
-#'
-p_sig_cal = function(obs_data){
 
-  res = calculate_chi_sig(obs_data, type="p_sig")
-  res
-}
+
+#' #' T관측 기대 테이블
+#' #'
+#' #' @param obs_data matrix
+#' #'
+#' #' @return matrix
+#' #' @export
+#' #'
+#' p_sig_cal = function(obs_data){
+#'
+#'   res = calculate_chi_sig(obs_data, type="p_sig")
+#'   res
+#' }
 
 
 

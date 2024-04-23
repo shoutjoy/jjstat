@@ -31,10 +31,6 @@
 #' \dontrun{
 #' kge_chisq_table(mtcars,"am","cyl")
 #'
-#' # generate matrix
-#' voteMat = matrix(c(183, 35, 824, 50), ncol=2)
-#' colnames(voteMat) = c("Did not vote", "Voted")
-#' rownames(voteMat) = c("All other ages","Youngest")
 #'
 #' #chisq test result
 #' vote_chi <- Chisq_retest(c(183, 35, 824, 50), ncol=2,
@@ -43,34 +39,42 @@
 #'
 #' vote_chi
 #'
+#'
+#' # generate matrix
+#' voteMat = matrix(c(183, 35, 824, 50), ncol=2)
+#' colnames(voteMat) = c("Did not vote", "Voted")
+#' rownames(voteMat) = c("All other ages","Youngest")
+#'
+
+#'
 #' voteMat%>%
 #'   long_df("voted", rowname="youth")%>% #long format
 #'   add_rows_freq() %>%     # add rows
 #'   kge_chisq_table("voted","youth")    #chisq test
 
-#'
+#' select
 #' }
 chisq_test_kge = function(dataset,
-                           v1="var1",
-                           v2="var2",
-                           title ="Table",
-                           type = "res2",
-                           digits = 3,
-                           yadd=0.4,
-                           Ncol=NULL,
-                           trans = FALSE,
-                           simple= FALSE, #유의성 종류
-                           ko = TRUE,
-                           simulate.p.value=FALSE,
-                           correct= FALSE,
-                           size_bartext=5,
-                           strip_size = 16,
-                           axis_size = 16,
-                           text_size = 13,
-                           xlab = "관측기대비율",
-                           ylab = "var2",
-                           cramer="adjust",
-                           raw =TRUE
+                          v1="var1",
+                          v2="var2",
+                          title ="Table",
+                          type = "result",
+                          digits = 3,
+                          yadd=0.4,
+                          Ncol=NULL,
+                          trans = FALSE,
+                          simple= FALSE, #유의성 종류
+                          ko = TRUE,
+                          simulate.p.value=FALSE,
+                          correct= FALSE,
+                          size_bartext=5,
+                          strip_size = 16,
+                          axis_size = 16,
+                          text_size = 13,
+                          xlab = "관측기대비율",
+                          ylab = "var2",
+                          cramer="adjust",
+                          raw =TRUE
 ){
 
   if(raw){
@@ -81,47 +85,63 @@ chisq_test_kge = function(dataset,
   }else{
     # table data/ Contigency table
 
-    data =  dataset#%>% long_df(v2, rowname= v1)%>%
-    #  add_rows_freq()
-    # data=  data%>%
-    #   dplyr::select(all_of(v1), all_of(v2)) %>%
-    #   table()
+    data =  dataset
   }
-
-
-
-
   #  margn sum
   data_margin0 = data %>% addmargins()
 
   data_rowsum0 = data %>%  apply(., MARGIN = 2 , FUN = sum)
-  data_rowsum_df = data %>%  rbind(SUM=apply(., MARGIN = 2 , FUN = sum) )
+  data_rowsum_df = data %>%  rbind(SUM = apply(., MARGIN = 2 , FUN = sum) )
   data_colsum = data_rowsum_df %>% apply(., MARGIN = 1 , FUN = sum)
 
-  #
+  #비율을 생성하여 결합(%까지 생성하여 결합)
   data_margin = data  %>%
-    accent_table( v1, v2, trans = trans, type = "ratio")
+    jjstat::accent_table( v1, v2, trans = trans, type = "ratio")
 
-  #margin sum
+  #margin sum-------------------------------------------------
+  # **column names ----
+  r2colnames = paste0(v1,"/", v2)
+  #패턴 그래프 ko적용--raq =TRUE, type="g"
+  #데이터 프레임 생성
+  data_graph = data  %>% jjstat::accent_table( v2, v1, type = "res")
+
+  ##########
   data_margin = cbind(
-    rbind(data_margin, SUM=data_rowsum0 ),
-    SUM=data_colsum )
-  #Cramer boss
-  cramer_cor = cramers_v(data, type = cramer)
-  cramer_cor_v = cramers_v(data, type = "cramer", digit = digits)
-  cramer_cor_v_table = cramers_v(data, type = "datvar1", digits = 2)
+    rbind(data_margin, SUM = data_rowsum0 ),
+    SUM = data_colsum )
+
+  # 교차표 contigency table
+  contigency_table_md0 = data_margin %>%
+    data.frame() %>%
+    rownames_to_column(r2colnames)
+
+  #열이름 재설정
+  colnames(contigency_table_md0) <- c(r2colnames,
+                                      colnames(data_graph),
+                                      "SUM")
+
+
+  contigency_table_md =  contigency_table_md0 %>%
+    jjstat::markdown_table(caption = paste0(title," Contingency table"),
+                           general = NULL)
+
+  #Cramer boss----------------------
+  cramer_cor = cramers_v(data, type = cramer) %>%suppressWarnings()
+  cramer_cor_v = cramers_v(data, type = "cramer", digit = digits)%>%suppressWarnings()
+  cramer_cor_v_table = cramers_v(data, type = "datvar1", digits = 2)%>%suppressWarnings()
 
   # data_margin = cbind(data_margin, data_margin0[, ncol(data_margin0)])
 
-  #chisq.test
+  #chisq.test------------------------------------------
   Onset_or_Coda_Accent_Contingency_table <- data
   #chi-squared dataprem variants
-  res_df = chisq.test(data)%>% broom::tidy()
+  res_df = suppressWarnings(chisq.test(data) )%>% broom::tidy()
+
 
 
   res = chisq.test(Onset_or_Coda_Accent_Contingency_table,
                    correct = correct,
-                   simulate.p.value = simulate.p.value)
+                   simulate.p.value = simulate.p.value) %>%suppressWarnings()
   # Judgmental statistics
   chi2 = res$statistic
   p_vlaue_chi = res$p.value
@@ -149,7 +169,7 @@ chisq_test_kge = function(dataset,
                       msg_sig_chi,
                       chi_mag,
                       "; ",
-                      cramer_cor_v, ".")
+                      cramer_cor_v, ".")%>%suppressWarnings()
 
 
 
@@ -162,28 +182,23 @@ chisq_test_kge = function(dataset,
     chi_table =
       rbind(
         observed = data %>%
-          accent_table( v1, v2, trans = trans),
+          jjstat::accent_table( v1, v2, trans = trans),
         expected = res$expected,
         obs_expected_ratio = (res$observed / res$expected)
       ) %>% jjstat::Round(digits)
 
     # g= NULL
   }
+
+
   #observer/Expected 에 유의성 표시
-  chi_table_sig = format(calculate_chi_sig(data, simple = simple), 3)
-
-
-  # **column names ----
-  r2colnames = paste0(v1,"/", v2)
-
+  chi_table_sig = format(calculate_chi_sig(data, simple = simple), 3)%>%suppressWarnings()
 
   ###마크다운   유의성표시된 것으로 변경----
   chi_table_md0 = chi_table_sig %>%data.frame() %>%
-    # rownames_to_column("syllable-accent")
     rownames_to_column(r2colnames)
   #열이름 재설정
-  colnames(chi_table_md0) <- c(r2colnames,colnames(chi_table_sig))
-  # colnames(chi_table_md0) <- c("syllable-accent",colnames(chi_table_sig))
+  colnames(chi_table_md0) <- c(r2colnames, colnames(chi_table_sig))
 
   chi_table_md = chi_table_md0 %>%
     jjstat::markdown_table(caption = paste0(title, chi_mag,"; ",
@@ -192,38 +207,6 @@ chisq_test_kge = function(dataset,
                            general = NULL)
 
   cat("\n\nNOTE: ***: p < .001, **: p < .01, *: p < .05\n\n ")
-
-
-  # 결과를 정리하여 나타내는 값들
-  result = list(chisq_test = res,
-                margin = data_margin %>%
-                  jjstat::markdown_table(caption = paste0(title,"Contingency table"),
-                                         general = NULL),
-                chi_table_md,
-                chi_table = chi_table)
-
-
-  #패턴 그래프 ko적용--raq =TRUE, type="g"
-  data_graph = data  %>% accent_table( v2, v1, type = "res")
-
-
-
-
-  # 교차표 contigency table
-  contigency_table_md0 = data_margin %>% data.frame() %>%
-    rownames_to_column(r2colnames)
-  # rownames_to_column("syllable-accent")
-  #열이름 재설정
-  colnames(contigency_table_md0) <- c(r2colnames,
-                                      colnames(data_graph),
-                                      "SUM")
-  # colnames(contigency_table_md0) <- c("syllable-accent",
-  #                                     colnames(data_graph),
-  #                                     "SUM")
-
-  contigency_table_md =  contigency_table_md0 %>%
-    jjstat::markdown_table(caption = paste0(title," Contingency table"),
-                           general = NULL)
 
 
   if(ko){
@@ -250,39 +233,16 @@ chisq_test_kge = function(dataset,
                                  ylab = ylab)
   }
 
-
-  #최종 출력
-  result1 = list(
-    # data_rowsum0,data_colsum,
-    # msg=msg,
-    data_graph = data_graph,
-    contigency_table_margin = data_margin0,
-    contigency_table = data_margin,
-    CRAMER_V.adusted = cramer_cor,
-    CRAMER_V = cramer_cor_v,
-    chi_table = chi_table ,
-    chi_table_sig_each_variable = chi_table_sig,
-
-    g = graph,
-    contigency_table_md = contigency_table_md,
-    chi_table_md = chi_table_md,
-    chisq_test_overall = res,
-    chisq_report_overall = res_report
-  )
-
-  result2 = list(
-    # msg=msg,
-    crosstable = data_margin,
-    data_margin %>%
-      jjstat::markdown_table(caption = paste0(title," Contingency table"),
-                             general = NULL),
-    chisq_test = res,
-    # chi_df = res_df,
-    chisq_report = res_report,
-    chi_table = chi_table ,
-    # g = patternGraph1(chi_table,raw = FALSE),
-    chi_table_md)
-
+  result= list(
+    contigency_table_md0,
+    obs_exp_table = chi_table,
+    obs_exp_table_sig = chi_table_md0,
+    contigency_table_md,
+    obs_exp_table_md = chi_table_md,
+    cramers_v = cramer_cor_v,
+    chisq_result = res_df,
+    chisq_apa = res_report,
+    graph)
 
   switch(type,
          ct = data,
@@ -305,7 +265,11 @@ chisq_test_kge = function(dataset,
          contigency_table_md= contigency_table_md,
          chi_table_md=chi_table_md,
          g = graph,
-         res1 = result,
-         res2 = result1,
-         res3 = result2)
+         res = result,
+         result = result
+  )
+
+
+  #  result
+
 }

@@ -15,6 +15,7 @@ patternGraph_obs_exp(
   size_bartext = 4,
   xlab = "성조형",
   ylab = "관측기대비율",
+  Colsnames = NULL,
   type = "g"
 )
 }
@@ -38,6 +39,8 @@ patternGraph_obs_exp(
 \item{xlab}{xlab}
 
 \item{ylab}{ylab}
+
+\item{Colsnames}{new select col pivot long}
 
 \item{type}{res}
 }
@@ -75,6 +78,19 @@ data_long\%>\% ggplot(aes(x = accent, y = ratio))+
   facet_wrap(~ syllabic )
 
 aaa\%>\% patternGraph_obs_exp()
+
+#신진영(2013)
+shin2013_mat =matrix(c(14,1,23,3,4,0,9,0,13,18,89,8,11,40,46,12,3,4,22,0), ncol= 5)
+# colnames(shin2013_mat)=c("지능지수가높다","학업성취도가높다","창의적사고를한다","특정분야에서뛰어난능력을보인다","모든분야에서뛰어난능력을보인다")
+colnames(shin2013_mat)=c("지능지수","학업성취도","창의적사고","특정분야","모든분야")
+rownames(shin2013_mat)=c("고졸","초대졸","대졸","대학원이상")
+shin2013_mat
+
+shin2013_mat\%>\% data.frame() \%>\%
+  long_df("학력","영재성", cols=2:6) \%>\%
+  add_rows_freq("real") \%>\%
+  chisq_test_kge("학력","영재성", type="data_graph") \%>\%
+  patternGraph_obs_exp_ko()
 
 }
 }

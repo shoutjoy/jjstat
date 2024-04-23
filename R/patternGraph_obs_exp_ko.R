@@ -10,6 +10,7 @@
 #' @param size_bartext bartext
 #' @param xlab xlab
 #' @param ylab ylab
+#' @param Colsnames new select col pivot long
 #' @param type res
 #'
 #' @return result fill data
@@ -44,7 +45,23 @@
 #'
 #' aaa%>% patternGraph_obs_exp_ko()
 #'
+#' #신진영(2013)
+#' shin2013_mat =matrix(c(14,1,23,3,4,0,9,0,13,18,89,8,11,40,46,12,3,4,22,0), ncol= 5)
+#' # colnames(shin2013_mat)=c("지능지수가높다","학업성취도가높다","창의적사고를한다","특정분야에서뛰어난능력을보인다","모든분야에서뛰어난능력을보인다")
+#' colnames(shin2013_mat)=c("지능지수","학업성취도","창의적사고","특정분야","모든분야")
+#' rownames(shin2013_mat)=c("고졸","초대졸","대졸","대학원이상")
+#' shin2013_mat
+#'
+#' shin2013_mat%>% data.frame() %>%
+#'   long_df("학력","영재성", cols=2:6) %>%
+#'   add_rows_freq("real") %>%
+#'   chisq_test_kge("학력","영재성", type="data_graph") %>%
+#'   patternGraph_obs_exp_ko()
+#'
+#'
+#' select
 #' }
+#'
 patternGraph_obs_exp_ko = function(data,
                                    raw = TRUE,
                                    Ncol = NULL,
@@ -55,56 +72,66 @@ patternGraph_obs_exp_ko = function(data,
                                    size_bartext = 5,
                                    xlab = "성조형",
                                    ylab = "관측기대비율",
+                                   Colsnames = NULL,
                                    type="g"
 ){
 
-  # g = patternGraph1(data, raw = FALSE)
+
 
   data1 <- data
 
+  if(is.null(Colsnames)){
+    Cols = 1:ncol(data1)+1
+  }else{
+    Cols = Colsnames
+  }
+
+
   data_long0 <- data1 %>% as.data.frame() %>%
-    rownames_to_column("syllabic") %>%
-    pivot_longer(
-      # names_to = "accent",
-      # values_to = "ratio",
+    long_df(
       names_to = "성조형",values_to = '관측기대비율',
-      cols=2: (ncol(data1)+1) )
+      rowname = "syllabic",
+      cols = Cols )
 
   data_long_df <- data1 %>%
     long_df(
-      # names_to = "accent", values_to="Freq",
+
       names_to = "성조형",values_to = '관측기대비율',
-      rowname = "syllabic")%>%
+      rowname = "syllabic",
+      cols = Cols )%>%
     jjstat::Round()
 
-  data_long_oe <- data1 %>%obs_exp_table() %>%
+  data_long_oe <- data1 %>%
+    obs_exp_table() %>%
     long_df(
-      # names_to = "accent", values_to="ratio",
       names_to = "성조형",values_to = '관측기대비율',
-      rowname = "syllabic") %>%
+      rowname = "syllabic",
+      cols = Cols) %>%
     jjstat::Round()
 
-  data_long_sig =  data1%>% p_sig_cal()%>%
+  data_long_sig =  data1%>%
+    p_sig_cal()%>%
     long_df(
-      # names_to = "accent", values_to="star",
       names_to = "성조형",values_to = 'star',
-      rowname = "syllabic")
+      rowname = "syllabic",
+      cols = Cols)
 
-  data_long_p =  data1%>% p_value_cal()%>%
+  data_long_p =  data1%>%
+    p_value_cal()%>%
     long_df(
-      # names_to = "accent", values_to="p.value",
       names_to = "성조형",values_to = 'p.value',
-      rowname = "syllabic")
+      rowname = "syllabic",
+      cols = Cols )
 
   if(raw){
-    #contigency table인 경우
+    #For a contigency table
     data_long = bind_cols(data_long_oe, data_long_sig[, 3]) %>%
       tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
     g0 = data_long  %>% ggplot(aes(x = 성조형, y = 관측기대비율))
 
   }else{
-    #관측/기대 표가 들어 온경우  kge_chisq_table에서 사용시
+    #관When used in kge_chisq_table when a side/expectation table comes in
     data_long = bind_cols(data_long_df, data_long_sig[, 3]) %>%
       tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
@@ -131,9 +158,10 @@ patternGraph_obs_exp_ko = function(data,
     facet_wrap(~ syllabic , ncol = Ncol)
 
   res =  list(g, data_long,data_long_oe, data_long_sig, data_long_p)
-  g= g
+  g = g
 
   switch(type, res = res, g=g)
+
 }
 
 
@@ -152,6 +180,7 @@ patternGraph_obs_exp_ko = function(data,
 #' @param size_bartext bartext
 #' @param xlab xlab
 #' @param ylab ylab
+#' @param Colsnames new select col pivot long
 #' @param type res
 #'
 #' @return result fill data
@@ -186,6 +215,19 @@ patternGraph_obs_exp_ko = function(data,
 #'
 #' aaa%>% patternGraph_obs_exp()
 #'
+#' #신진영(2013)
+#' shin2013_mat =matrix(c(14,1,23,3,4,0,9,0,13,18,89,8,11,40,46,12,3,4,22,0), ncol= 5)
+#' # colnames(shin2013_mat)=c("지능지수가높다","학업성취도가높다","창의적사고를한다","특정분야에서뛰어난능력을보인다","모든분야에서뛰어난능력을보인다")
+#' colnames(shin2013_mat)=c("지능지수","학업성취도","창의적사고","특정분야","모든분야")
+#' rownames(shin2013_mat)=c("고졸","초대졸","대졸","대학원이상")
+#' shin2013_mat
+#'
+#' shin2013_mat%>% data.frame() %>%
+#'   long_df("학력","영재성", cols=2:6) %>%
+#'   add_rows_freq("real") %>%
+#'   chisq_test_kge("학력","영재성", type="data_graph") %>%
+#'   patternGraph_obs_exp_ko()
+#'
 #' }
 patternGraph_obs_exp = function(data,
                                 raw = TRUE,
@@ -199,52 +241,69 @@ patternGraph_obs_exp = function(data,
                                 size_bartext=4,
                                 xlab = "성조형",
                                 ylab = "관측기대비율",
+                                Colsnames = NULL,
                                 type="g"
 ){
 
-  # g = patternGraph1(data, raw = FALSE)
-
   data1 <- data
 
+  if(is.null(Colsnames)){
+    Cols = 1:ncol(data1)+1
+  }else{
+    Cols = Colsnames
+  }
+
+
   data_long0 <- data1 %>% as.data.frame() %>%
-    rownames_to_column("syllabic") %>%
-    pivot_longer(names_to = "accent", values_to = "ratio",
-                 cols=2: (ncol(data1)+1) )
+    long_df(
+      names_to = "성조형",values_to = '관측기대비율',
+      rowname = "syllabic",
+      cols = Cols )
 
   data_long_df <- data1 %>%
-    long_df(names_to = "accent", values_to="Freq",
-            rowname = "syllabic")
+    long_df(
 
-  data_long_oe <- data1 %>%obs_exp_table() %>%
-    long_df(names_to = "accent", values_to="ratio",
-            rowname = "syllabic") %>%
+      names_to = "성조형",values_to = '관측기대비율',
+      rowname = "syllabic",
+      cols = Cols )%>%
     jjstat::Round()
 
-  data_long_sig =  data1%>% p_sig_cal()%>%
-    long_df(names_to = "accent", values_to="star",
-            rowname = "syllabic")
+  data_long_oe <- data1 %>%
+    obs_exp_table() %>%
+    long_df(
+      names_to = "성조형",values_to = '관측기대비율',
+      rowname = "syllabic",
+      cols = Cols) %>%
+    jjstat::Round()
 
-  data_long_p =  data1%>% p_value_cal()%>%
-    long_df(names_to = "accent", values_to="p.value",
-            rowname = "syllabic")
+  data_long_sig =  data1%>%
+    p_sig_cal()%>%
+    long_df(
+      names_to = "성조형",values_to = 'star',
+      rowname = "syllabic",
+      cols = Cols)
 
-
+  data_long_p =  data1%>%
+    p_value_cal()%>%
+    long_df(
+      names_to = "성조형",values_to = 'p.value',
+      rowname = "syllabic",
+      cols = Cols )
 
   if(raw){
     #contigency table인 경우
     data_long = bind_cols(data_long_oe, data_long_sig[, 3]) %>%
-      tidyr::unite(Sig, ratio, star, remove = FALSE, sep = "")
+      tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
-    g0 = data_long  %>% ggplot(aes(x = accent, y = ratio))
+    g0 = data_long  %>% ggplot(aes(x = 성조형, y = 관측기대비율))
 
   }else{
     #관측/기대 표가 들어 온경우  kge_chisq_table에서 사용시
     data_long = bind_cols(data_long_df, data_long_sig[, 3]) %>%
-      tidyr::unite(Sig, Freq, star, remove = FALSE, sep = "")
+      tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
-    g0 = data_long  %>% ggplot(aes(x = accent, y = Freq))
+    g0 = data_long  %>% ggplot(aes(x = 성조형, y = 관측기대비율))
   }
-
 
 
 
