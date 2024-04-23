@@ -35,11 +35,15 @@
 #' library(MVT)
 #' data(examScor)
 #'
+#' #if you when input cor
 #' pcfa(cor(examScor), nfactor = 2)
+#'
+#' ## if you When input data
+#' pcfa( examScor, nfactor = 2)
 #'
 #' }
 #'
-pcfa <- function(R,
+pcfa <- function(R = NULL,
                  nfactor = NULL,
                  rowname = NULL,
                  digits = 2,
@@ -52,6 +56,13 @@ pcfa <- function(R,
                  pos = 1){
 
   library(tidyverse)
+
+
+if(is.data.frame(R)){
+   R <- cor(R)
+}else{
+  R <- R
+  }
 
 
   text_name = rownames(R)

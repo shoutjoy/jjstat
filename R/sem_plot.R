@@ -1,9 +1,19 @@
+
 #' Fast sem plot draw
+#'
 #'
 #' @param data lavaaan object
 #' @param layout layY(opt =2, you make layout), or tree3
-#' @param opt opt =1 tree3
-#' @param mar margin
+#' @param whatLabels ste
+#' @param opt 1, 2, 3,
+#' @param curve -2
+#' @param sizeLat  8
+#' @param sizeLat2  6
+#' @param sizeMan 6
+#' @param sizeMan2 3
+#' @param edge.label.cex 0.7
+#' @param edge.label.position  0.6
+#' @param mar c(1,5,1,5)
 #'
 #' @return plot
 #' @export
@@ -23,31 +33,35 @@
 #'
 #'
 #' }
-#'
-#'
-semplot = function(data,
+sem_plot = function(data,
                    layout = "tree3",
+                   whatLabels = "std",
                    opt= 1,
-                   mar =c(1,5,1,5)
+                   curve =-2,
+                   sizeLat = 8, sizeLat2 = 6,
+                   sizeMan = 6 , sizeMan2 = 3,
+                   edge.label.cex = 0.7, edge.label.position=0.6,
+                   mar = c(1,5,1,5)
 ){
 
 
   if(opt==1){
     # x11()
     data %>%
-      semPlot::semPaths(whatLabels = "std",, fade=T, posCol="gray20",
+      semPlot::semPaths(whatLabels = whatLabels, #fade=T, posCol="gray20",
                         rotation =2, nCharNodes = 10, nCharEdges = 10,
-                        sizeLat = 8, sizeLat2 = 6,
-                        sizeMan = 6 , sizeMan2 = 3,
+                        sizeLat = sizeLat, sizeLat2 = sizeLat2,
+                        sizeMan = sizeMan , sizeMan2 = sizeMan2,
                         nDigits=3,
                         # layout= "tree2", #new
                         layout= layout, #new
                         shapeLat="circle",
                         shapeMan ="rectangle",
                         border.width = 1.5, style="lisrel",
-                        edge.label.cex = 0.7, edge.label.position=0.6,
+                        edge.label.cex = edge.label.cex,
+                        edge.label.position= edge.label.position,
                         edge.color = "black",
-                        curve= -2,
+                        curve= curve,
                         residuals = F,
                         residScale = 12,
                         mar = mar
@@ -58,10 +72,10 @@ semplot = function(data,
 
     data %>%
       # semPaths(what =  "std", fade=F, posCol="gray40",
-      semPlot::semPaths(whatLabels = "std",
+      semPlot::semPaths(whatLabels = whatLabels,
                         rotation =2, nCharNodes = 10, nCharEdges = 10, asize=1.2,
-                        sizeLat = 9, sizeLat2 = 6,
-                        sizeMan = 6 , sizeMan2 = 3,
+                        sizeLat = sizeLat, sizeLat2 = sizeLat2,
+                        sizeMan = sizeMan , sizeMan2 = sizeMan2,
                         nDigits=3,
                         # layout= "tree2", #new
                         layout = lay, #new
@@ -70,14 +84,38 @@ semplot = function(data,
                         # group="lat", pastel=T,
                         color="gray98",
                         border.width = 1.4, style="lisrel",
-                        edge.label.cex = 0.7, edge.label.position=0.6, edge.width=1.3,
+                        edge.label.cex = edge.label.cex,
+                        edge.label.position= edge.label.position,
+                        edge.width=1.3,
                         edge.color = "gray20",
 
-                        curve = -2,
+                        curve = curve,
                         residuals = T, exoVar = FALSE,
                         residScale = 10,
                         mar=c(5,5,5,5)) %>%
       semptools::mark_sig(data) %>% plot()
+  }else if(opt== 3){
+    data %>%
+      semPlot::semPaths(what = what, fade=T, posCol="gray20",
+                        rotation =2, nCharNodes = 10, nCharEdges = 10,
+                        sizeLat = sizeLat, sizeLat2 = sizeLat2,
+                        sizeMan = sizeMan , sizeMan2 = sizeMan2,
+                        nDigits=3,
+                        # layout= "tree2", #new
+                        layout= layout, #new
+                        shapeLat="circle",
+                        shapeMan ="rectangle",
+                        border.width = 1.5, style="lisrel",
+                        edge.label.cex = edge.label.cex,
+                        edge.label.position= edge.label.position,
+                        edge.color = "black",
+                        curve= curve,
+                        residuals = F,
+                        residScale = 12,
+                        mar = mar
+      ) %>%
+      semptools::mark_sig(data) %>% plot()
+
   }
 
 }

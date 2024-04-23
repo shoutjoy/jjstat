@@ -5,7 +5,7 @@
 \title{principal component factor analysis function}
 \usage{
 pcfa(
-  R,
+  R = NULL,
   nfactor = NULL,
   rowname = NULL,
   digits = 2,
@@ -65,7 +65,11 @@ pcfa(R, nfactor = 2)
 library(MVT)
 data(examScor)
 
+#if you when input cor
 pcfa(cor(examScor), nfactor = 2)
+
+## if you When input data
+pcfa( examScor, nfactor = 2)
 
 }
 

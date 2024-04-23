@@ -5,6 +5,8 @@
 \title{Fast sem plot draw}
 \usage{
 sem_plot(data, layout = "tree3", opt = 1, mar = c(1, 5, 1, 5))
+
+sem_plot(data, layout = "tree3", opt = 1, mar = c(1, 5, 1, 5))
 }
 \arguments{
 \item{data}{lavaaan object}
@@ -14,14 +16,48 @@ sem_plot(data, layout = "tree3", opt = 1, mar = c(1, 5, 1, 5))
 \item{opt}{opt =1 tree3}
 
 \item{mar}{margin}
+
+\item{whatLabels}{ste}
+
+\item{curve}{-2}
+
+\item{sizeLat}{8}
+
+\item{sizeLat2}{6}
+
+\item{sizeMan}{6}
+
+\item{sizeMan2}{3}
+
+\item{edge.label.cex}{0.7}
+
+\item{edge.label.position}{0.6}
 }
 \value{
+plot
+
 plot
 }
 \description{
 Fast sem plot draw
+
+Fast sem plot draw
 }
 \examples{
+
+\dontrun{
+
+# library(lavaan)
+#import data
+example(sem)
+
+semplot(fit)
+
+example(cfa)
+semplot(fit)
+
+
+}
 
 \dontrun{
 
