@@ -10,13 +10,15 @@ sem_plot(
   whatLabels = "std",
   opt = 1,
   curve = 2,
+  rotation = 2,
   sizeLat = 10,
   sizeLat2 = 6,
   sizeMan = 8,
   sizeMan2 = 4,
-  edge.label.cex = 0.7,
+  edge.label.cex = 0.8,
   edge.label.position = 0.6,
   mar = c(1, 5, 1, 5),
+  fade = FALSE,
   sig = TRUE
 )
 }
@@ -30,6 +32,8 @@ sem_plot(
 \item{opt}{1, 2, 3,}
 
 \item{curve}{-2}
+
+\item{rotation}{rotation = 2}
 
 \item{sizeLat}{8}
 
@@ -45,7 +49,9 @@ sem_plot(
 
 \item{mar}{c(1,5,1,5)}
 
-\item{isg}{TRUE}
+\item{fade}{default FALSE when opt =3}
+
+\item{sig}{semptools sig_mark TRUE(default)}
 }
 \value{
 plot

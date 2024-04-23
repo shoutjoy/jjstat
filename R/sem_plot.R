@@ -13,8 +13,10 @@
 #' @param sizeMan2 3
 #' @param edge.label.cex 0.7
 #' @param edge.label.position  0.6
-#' @param isg TRUE
-##' @param mar c(1,5,1,5)
+#' @param sig semptools sig_mark TRUE(default)
+#' @param fade default FALSE when opt =3
+#' @param rotation rotation = 2
+#' @param mar c(1,5,1,5)
 #'
 #' @return plot
 #' @export
@@ -39,10 +41,12 @@ sem_plot = function(data,
                    whatLabels = "std",
                    opt= 1,
                    curve = 2,
+                   rotation =2,
                    sizeLat = 10, sizeLat2 = 6,
                    sizeMan = 8 , sizeMan2 = 4,
-                   edge.label.cex = 0.7, edge.label.position=0.6,
+                   edge.label.cex = 0.8, edge.label.position=0.6,
                    mar = c(1,5,1,5),
+                   fade=FALSE,
                    sig = TRUE){
 
 
@@ -50,11 +54,10 @@ sem_plot = function(data,
 
    res = data %>%
       semPlot::semPaths(whatLabels = whatLabels, #fade=T, posCol="gray20",
-                        rotation =2, nCharNodes = 10, nCharEdges = 10,
+                        rotation = rotation , nCharNodes = 10, nCharEdges = 10,
                         sizeLat = sizeLat, sizeLat2 = sizeLat2,
                         sizeMan = sizeMan , sizeMan2 = sizeMan2,
                         nDigits=3,
-                        # layout= "tree2", #new
                         layout= layout, #new
                         shapeLat="circle",
                         shapeMan ="rectangle",
@@ -88,19 +91,18 @@ sem_plot = function(data,
                         edge.label.position= edge.label.position,
                         edge.width=1.3,
                         edge.color = "gray20",
-
                         curve = curve,
                         residuals = T, exoVar = FALSE,
                         residScale = 10,
-                        mar=c(5,5,5,5))
+                        mar= mar
+                        )
   }else if(opt== 3){
     res = data %>%
-      semPlot::semPaths(what = whatLabels, fade=T, posCol="gray20",
-                        rotation =2, nCharNodes = 10, nCharEdges = 10,
+      semPlot::semPaths(what = whatLabels, fade=fade, posCol="gray20",
+                        rotation = rotation, nCharNodes = 10, nCharEdges = 10,
                         sizeLat = sizeLat, sizeLat2 = sizeLat2,
                         sizeMan = sizeMan , sizeMan2 = sizeMan2,
                         nDigits=3,
-                        # layout= "tree2", #new
                         layout= layout, #new
                         shapeLat="circle",
                         shapeMan ="rectangle",
@@ -117,7 +119,7 @@ sem_plot = function(data,
   }else if(opt==4){
     res =  data %>%
       semPlot::semPaths(whatLabels = whatLabels, #fade=T, posCol="gray20",
-                        rotation =2, nCharNodes = 10, nCharEdges = 10,
+                        rotation = rotation, nCharNodes = 10, nCharEdges = 10,
                         sizeLat = sizeLat, sizeLat2 = sizeLat2,
                         sizeMan = sizeMan , sizeMan2 = sizeMan2,
                         nDigits=3,
