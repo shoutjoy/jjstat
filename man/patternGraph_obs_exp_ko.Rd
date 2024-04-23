@@ -16,6 +16,7 @@ patternGraph_obs_exp_ko(
   xlab = "기준변수",
   ylab = "관측기대비율",
   Colsnames = NULL,
+  trans = FALSE,
   type = "g"
 )
 }
@@ -41,6 +42,8 @@ patternGraph_obs_exp_ko(
 \item{ylab}{ylab}
 
 \item{Colsnames}{new select col pivot long}
+
+\item{trans}{trans plot transpose}
 
 \item{type}{res}
 }

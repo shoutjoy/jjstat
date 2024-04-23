@@ -34,7 +34,7 @@
 #'
 #'
 #'
-#'   chisq.test(matrix(c(36, 67, 11,
+#'   calculate_chi_sig(matrix(c(36, 67, 11,
 #'                       40, 35, 44,
 #'                    41, 108, 1,
 #'               56, 87, 54), nrow = 4, byrow = TRUE,
@@ -43,7 +43,7 @@
 #'               c("H", "H(H)", "L")))   )
 #'
 #'
-#'
+#'  # calculate_chi_sig(data)
 #' }
 #'
 #'
@@ -79,6 +79,8 @@ calculate_chi_sig <- function(observed, type = "data", simple=FALSE) {
       }}
 
   }
+
+
   observed_over_expected_ratios = round(observed / expected, 3)
 
 
@@ -86,6 +88,8 @@ calculate_chi_sig <- function(observed, type = "data", simple=FALSE) {
   colnames(cell_p_values) = colnames(observed)
   rownames(cell_p_values) = rownames(observed)
 
+
+  #significant
   p_sig = add_significance_symbols(cell_p_values, simple= simple)
   colnames(p_sig) = colnames(observed)
   rownames(p_sig) = rownames(observed)
@@ -100,6 +104,12 @@ calculate_chi_sig <- function(observed, type = "data", simple=FALSE) {
   #처리한 값
   chi_sig =  combine_data(observed_over_expected_ratios, p_sig)
   chi_sig2 =  format(combine_data(chi_combine, p_sig), 5)
+
+  chi_sig3 =
+    combine_data(
+    combine_data(observed_over_expected_ratios,
+                           round(cell_p_values,2), left = "(p = ", right = ")"),
+    p_sig, left = "")
 
 
 
@@ -118,7 +128,8 @@ calculate_chi_sig <- function(observed, type = "data", simple=FALSE) {
     cell_p_values = cell_p_values,
     p_sig = p_sig,
     chi_sig=chi_sig,
-    chi_sig2=chi_sig2
+    chi_sig2=chi_sig2,
+    chi_sig3= chi_sig3
   )
 
   switch(type,
@@ -130,7 +141,8 @@ calculate_chi_sig <- function(observed, type = "data", simple=FALSE) {
          cell_p_values = cell_p_values,
          p_sig = p_sig,
          data = chi_sig,
-         data2 = chi_sig2
+         data2 = chi_sig2,
+         data3 = chi_sig3
   )
 
 }

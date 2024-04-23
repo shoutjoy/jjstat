@@ -11,6 +11,7 @@
 #' @param xlab xlab
 #' @param ylab ylab
 #' @param Colsnames new select col pivot long
+#' @param trans trans plot transpose
 #' @param type res
 #'
 #' @return result fill data
@@ -73,6 +74,7 @@ patternGraph_obs_exp_ko = function(data,
                                    xlab = "기준변수",
                                    ylab = "관측기대비율",
                                    Colsnames = NULL,
+                                   trans=FALSE,
                                    type="g"
 ){
 
@@ -123,39 +125,85 @@ patternGraph_obs_exp_ko = function(data,
       rowname = "syllabic",
       cols = Cols )
 
-  if(raw){
-    #For a contigency table
-    data_long = bind_cols(data_long_oe, data_long_sig[, 3]) %>%
-      tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
-    g0 = data_long  %>% ggplot(aes(x = 성조형, y = 관측기대비율))
+  ##################
+  if(trans){
+
+
+    if(raw){
+      #For a contigency table
+      data_long = bind_cols(data_long_oe, data_long_sig[, 3]) %>%
+        tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
+
+      g0 = data_long  %>% ggplot(aes(x = syllabic, y = 관측기대비율))
+
+    }else{
+      #관When used in kge_chisq_table when a side/expectation table comes in
+      data_long = bind_cols(data_long_df, data_long_sig[, 3]) %>%
+        tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
+
+      g0 = data_long  %>% ggplot(aes(x = syllabic, y = 관측기대비율))
+    }
+
+
+
+
+    g = g0 +geom_bar(stat = "identity", aes( fill = syllabic),
+                     position = "dodge", show.legend = FALSE)+
+      geom_hline(yintercept = 1, linetype=2, color="gray80")+
+      geom_text(aes(label =  Sig ),
+                hjust = -0.1, size = size_bartext)+
+      ylim(0,max(data_long_oe[, 3])+ yadd)+
+      labs(x = xlab, y = ylab)+
+      coord_flip()+
+      theme_bw()+
+      theme(axis.text = element_text(size= text_size),
+            axis.title = element_text(size= axis_size),
+            strip.text = element_text(size= strip_size)
+      )+
+      scale_fill_grey(start = 0, end = 0.7) +
+      facet_wrap(~ 성조형 , ncol = Ncol)
 
   }else{
-    #관When used in kge_chisq_table when a side/expectation table comes in
-    data_long = bind_cols(data_long_df, data_long_sig[, 3]) %>%
-      tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
+  #####################
+    if(raw){
+      #For a contigency table
+      data_long = bind_cols(data_long_oe, data_long_sig[, 3]) %>%
+        tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
-    g0 = data_long  %>% ggplot(aes(x = 성조형, y = 관측기대비율))
-  }
+      g0 = data_long  %>% ggplot(aes(x = 성조형, y = 관측기대비율))
+
+    }else{
+      #관When used in kge_chisq_table when a side/expectation table comes in
+      data_long = bind_cols(data_long_df, data_long_sig[, 3]) %>%
+        tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
+
+      g0 = data_long  %>% ggplot(aes(x = 성조형, y = 관측기대비율))
+    }
 
 
 
 
-  g = g0 +geom_bar(stat = "identity", aes( fill = 성조형),
-                   position = "dodge", show.legend = FALSE)+
-    geom_hline(yintercept = 1, linetype=2, color="gray80")+
-    geom_text(aes(label =  Sig ),
-              hjust = -0.1, size = size_bartext)+
-    ylim(0,max(data_long_oe[, 3])+ yadd)+
-    labs(x = xlab, y = ylab)+
-    coord_flip()+
-    theme_bw()+
-    theme(axis.text = element_text(size= text_size),
-          axis.title = element_text(size= axis_size),
-          strip.text = element_text(size= strip_size)
-    )+
-    scale_fill_grey(start = 0, end = 0.7) +
-    facet_wrap(~ syllabic , ncol = Ncol)
+    g = g0 +geom_bar(stat = "identity", aes( fill = 성조형),
+                     position = "dodge", show.legend = FALSE)+
+      geom_hline(yintercept = 1, linetype=2, color="gray80")+
+      geom_text(aes(label =  Sig ),
+                hjust = -0.1, size = size_bartext)+
+      ylim(0,max(data_long_oe[, 3])+ yadd)+
+      labs(x = xlab, y = ylab)+
+      coord_flip()+
+      theme_bw()+
+      theme(axis.text = element_text(size= text_size),
+            axis.title = element_text(size= axis_size),
+            strip.text = element_text(size= strip_size)
+      )+
+      scale_fill_grey(start = 0, end = 0.7) +
+      facet_wrap(~ syllabic , ncol = Ncol)
+
+    }
+
+
+
 
   res =  list(g, data_long,data_long_oe, data_long_sig, data_long_p)
   g = g
@@ -450,20 +498,20 @@ patternGraph2 = function(data, type="g",
     data_long = bind_cols(data_long_oe, data_long_sig[, 3]) %>%
       tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
-    g0 = data_long  %>% ggplot(aes(x = 음절, y = 관측기대비율))
+    g0 = data_long  %>% ggplot(aes(x = syllabic, y = 관측기대비율))
 
   }else{
     #관측/기대 표가 들어 온경우  kge_chisq_table에서 사용시
     data_long = bind_cols(data_long_df, data_long_sig[, 3]) %>%
       tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
-    g0 = data_long  %>% ggplot(aes(x = 음절, y = 관측기대비율))
+    g0 = data_long  %>% ggplot(aes(x = syllabic, y = 관측기대비율))
   }
 
 
 
 
-  g = g0 +geom_bar(stat = "identity", aes( fill = 음절),
+  g = g0 +geom_bar(stat = "identity", aes( fill = syllabic),
                    position = "dodge", show.legend = FALSE)+
     geom_hline(yintercept = 1, linetype=2, color="gray80")+
     geom_text(aes(label =  Sig ),

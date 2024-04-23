@@ -45,7 +45,7 @@ matrix(c(36, 67, 11,
 
 
 
-  chisq.test(matrix(c(36, 67, 11,
+  calculate_chi_sig(matrix(c(36, 67, 11,
                       40, 35, 44,
                    41, 108, 1,
               56, 87, 54), nrow = 4, byrow = TRUE,
@@ -54,7 +54,7 @@ matrix(c(36, 67, 11,
               c("H", "H(H)", "L")))   )
 
 
-
+ # calculate_chi_sig(data)
 }
 
 
