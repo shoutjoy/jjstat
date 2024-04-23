@@ -66,7 +66,7 @@ Chisq_retest <- function(input, ncol = 2,
                          B=2000){
 #first step
   if(is.matrix(input)){
-    data< - input
+    data <- input
 
   }else{
   data <- matrix( input, ncol = ncol)
