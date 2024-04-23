@@ -68,6 +68,10 @@ Chisq_retest <- function(input, ncol = 2,
   if(is.matrix(input)){
     data <- input
 
+    res <- chisq.test(data, simulate.p.value = simulate.p.value,
+                      correct = correct, rescale.p =rescale.p )
+
+
   }else if(is.table(input)){
     data <- input
     res <- chisq.test(data, simulate.p.value = simulate.p.value,
