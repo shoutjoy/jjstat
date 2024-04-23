@@ -94,7 +94,7 @@ vote_chi <- Chisq_retest(c(183, 35, 824, 50), ncol=2,
 
 vote_chi
 
-voteMat\%>\%
+voteMat\%>\% data.frame() \%>\%
   long_df("voted", rowname="youth")\%>\% #long format
   add_rows_freq() \%>\%     # add rows
   kge_chisq_table("voted","youth")    #chisq test

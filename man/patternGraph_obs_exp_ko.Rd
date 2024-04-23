@@ -93,6 +93,7 @@ shin2013_mat\%>\% data.frame() \%>\%
   patternGraph_obs_exp_ko()
 
 
-
+select
 }
+
 }

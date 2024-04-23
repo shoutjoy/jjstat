@@ -45,14 +45,32 @@
 #' colnames(voteMat) = c("Did not vote", "Voted")
 #' rownames(voteMat) = c("All other ages","Youngest")
 #'
-
-#'
-#' voteMat%>%
+#' voteMat%>% data.frame() %>%
 #'   long_df("voted", rowname="youth")%>% #long format
 #'   add_rows_freq() %>%     # add rows
 #'   kge_chisq_table("voted","youth")    #chisq test
+#'
+#'
+#' #신진영(2013)
+#' shin2013_mat =matrix(c(14,1,23,3,4,0,9,0,13,18,89,8,11,40,46,12,3,4,22,0), ncol= 5)
+#' # colnames(shin2013_mat)=c("지능지수가높다","학업성취도가높다","창의적사고를한다","특정분야에서뛰어난능력을보인다","모든분야에서뛰어난능력을보인다")
+#' colnames(shin2013_mat)=c("지능지수","학업성취도","창의적사고","특정분야","모든분야")
+#' rownames(shin2013_mat)=c("고졸","초대졸","대졸","대학원이상")
+#' shin2013_mat
+#'
+#' shin2013_mat %>% data.frame() %>%
+#'   rownames_to_column("학력") %>%
+#'   to_long(names_to = "영재성",cols=2:6) %>%
+#'   unCount() %>%
+#'   chisq_test_kge(v1="영재성", v2="학력")
+#'
+#'
+#' shin2013_mat%>%  data.frame() %>%
+#'   long_df("학력","영재성") %>%
+#'   unCount() %>%
+#'   chisq_test_kge("학력","영재성")
 
-#' select
+#'
 #' }
 chisq_test_kge = function(dataset,
                           v1="var1",

@@ -35,7 +35,7 @@ long_df = function(data,
                    fix = NULL,
                    rownames_to_column = TRUE){
 
-
+  data = data %>% data.frame()
   #col option
   if(is.null(cols)){
     cols_selection  = data%>% keep(is.numeric) %>% colnames()
@@ -48,9 +48,6 @@ long_df = function(data,
   # rowName = rownames(data) #accent
 
   if(rownames_to_column){
-
-
-
     data1 = data %>%
             data.frame() %>%
               tibble::rownames_to_column()
@@ -135,6 +132,8 @@ to_long = function(data,
                    fix = NULL,
                    rownames_to_column=FALSE,
                    rowname ="rows"){
+
+  data = data %>% data.frame()
 
   if(is.null(cols)){
     cols_selection  = data%>% keep(is.numeric) %>% colnames()
