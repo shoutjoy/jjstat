@@ -51,10 +51,10 @@ Fast sem plot draw
 #import data
 example(sem)
 
-semplot(fit)
+sem_plot(fit)
 
 example(cfa)
-semplot(fit)
+sem_plot(fit)
 
 
 }

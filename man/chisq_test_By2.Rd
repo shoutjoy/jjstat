@@ -51,7 +51,7 @@ Mtcars$vs = factor(Mtcars$vs, levels=c(0,1), labels= c("V-shaped","straight" ))
 Mtcars$cyl = factor(Mtcars$cyl, levels=c(4,6,8),
              labels= c("cyl-4","cyl-6","cyl-8"))
 
-chisq_test_By3(data = Mtcars, v1 = "am", v2 = "vs", sel = "cyl")
+chisq_test_By2(data = Mtcars, v1 = "am", v2 = "vs", sel = "cyl")
 
 }
 

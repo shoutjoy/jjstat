@@ -28,11 +28,11 @@ confint_plot_lm <- function(lm_data,
                             intercept = FALSE,
                             type="g"){
 
-  lm_data0 <- lm_data%>% tidy(conf.int = TRUE)
+  lm_data0 <- lm_data%>% broom::tidy(conf.int = TRUE)
   if(intercept){
-    lm_data <- lm_data%>% tidy(conf.int = TRUE)
+    lm_data <- lm_data%>% broom::tidy(conf.int = TRUE)
   }else{
-    lm_data <- lm_data%>% tidy(conf.int = TRUE) %>%
+    lm_data <- lm_data%>% broom::tidy(conf.int = TRUE) %>%
       slice(-1)
   }
 

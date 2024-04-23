@@ -9,6 +9,7 @@ p_mark_sig(
   col = "p.value",
   unite = FALSE,
   digits = 3,
+  ns = "ns",
   rownames_to_column = TRUE
 )
 }
@@ -20,6 +21,8 @@ p_mark_sig(
 \item{unite}{TRUE combine pvalue and sig}
 
 \item{digits}{default 3}
+
+\item{ns}{ns="ns"}
 
 \item{rownames_to_column}{drownames_to_column if you need}
 }

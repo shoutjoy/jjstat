@@ -77,7 +77,7 @@ chisq_test_By1 <- function(dataset, sel = NULL,
 #' Mtcars$cyl = factor(Mtcars$cyl, levels=c(4,6,8),
 #'              labels= c("cyl-4","cyl-6","cyl-8"))
 #'
-#' chisq_test_By3(data = Mtcars, v1 = "am", v2 = "vs", sel = "cyl")
+#' chisq_test_By2(data = Mtcars, v1 = "am", v2 = "vs", sel = "cyl")
 #'
 #' }
 #'

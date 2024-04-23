@@ -26,10 +26,10 @@
 #' #import data
 #' example(sem)
 #'
-#' semplot(fit)
+#' sem_plot(fit)
 #'
 #' example(cfa)
-#' semplot(fit)
+#' sem_plot(fit)
 #'
 #'
 #' }
@@ -37,7 +37,7 @@ sem_plot = function(data,
                    layout = "tree3",
                    whatLabels = "std",
                    opt= 1,
-                   curve =-2,
+                   curve = -2,
                    sizeLat = 8, sizeLat2 = 6,
                    sizeMan = 6 , sizeMan2 = 3,
                    edge.label.cex = 0.7, edge.label.position=0.6,

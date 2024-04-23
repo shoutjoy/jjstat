@@ -4,6 +4,7 @@
 #' @param col 'col' specifies the name of the column representing the p value in the data. By default, it is set to p.value. For example, if it is written as p, pvalue, p_value, etc., you can change the name.
 #' @param unite TRUE combine pvalue and sig
 #' @param digits default 3
+#' @param ns ns="ns"
 #' @param rownames_to_column drownames_to_column if you need
 #' @export
 #'
@@ -41,6 +42,7 @@ p_mark_sig <-function(data,
                       col = "p.value",
                       unite = FALSE,
                       digits = 3,
+                      ns = "ns",
                       rownames_to_column = TRUE
 ){
   #
@@ -57,7 +59,7 @@ p_mark_sig <-function(data,
     dplyr::mutate(sig = ifelse(p.value < 0.001, "***",
                                ifelse(p.value < 0.01, "**",
                                       ifelse(p.value < 0.05, "*",
-                                             "ns"))))
+                                             ns))))
   #Change variable to CHARACTER
   ndata$sig <- as.character(ndata$sig)
 
