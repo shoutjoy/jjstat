@@ -68,20 +68,13 @@ Chisq_retest <- function(input, ncol = 2,
   if(is.matrix(input)){
     data <- input
 
-  }else{
-  data <- matrix( input, ncol = ncol)
-  }
-
-
-  if(is.table(input)){
+  }else if(is.table(input)){
     data <- input
     res <- chisq.test(data, simulate.p.value = simulate.p.value,
                       correct = correct, rescale.p =rescale.p )
 
   }else{
-
     data <- matrix( input, ncol = ncol)
-
     if(!is.null(colname)){
       colnames(data) <- colname
       rownames(data) <- rowname
@@ -90,7 +83,7 @@ Chisq_retest <- function(input, ncol = 2,
     }
 
     res <- chisq.test(data, simulate.p.value = simulate.p.value,
-                      correct = correct, rescale.p =rescale.p )
+                      correct = correct, rescale.p = rescale.p )
   }
   #정확도 문제를 해결하기 위한 replicates 적용
   # res
@@ -98,6 +91,9 @@ Chisq_retest <- function(input, ncol = 2,
                           df = res$parameter,
                           p.value = res$p.value
   )%>% jjstat::p_mark_sig("p.value")
+
+  # Add sig table
+ chisq_sig = calculate_chi_sig(data)
 
 
   reslist <- list(
@@ -111,6 +107,7 @@ Chisq_retest <- function(input, ncol = 2,
     Stdres = res$stdres%>% round(digits),
     Analysis_Method = res$method,
     Ratio_obs_exp = (res$observed/res$expected)%>% round(digits),
+    chisq_sig= chisq_sig, #NEW
     Cramers_V = cramers_v(data)
   )
 
