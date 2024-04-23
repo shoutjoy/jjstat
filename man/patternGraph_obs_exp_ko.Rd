@@ -13,7 +13,7 @@ patternGraph_obs_exp_ko(
   axis_size = 16,
   text_size = 13,
   size_bartext = 5,
-  xlab = "성조형",
+  xlab = "기준변수",
   ylab = "관측기대비율",
   Colsnames = NULL,
   type = "g"

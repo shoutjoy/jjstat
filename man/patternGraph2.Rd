@@ -15,6 +15,7 @@ patternGraph2(
   strip_size = 16,
   axis_size = 16,
   text_size = 14,
+  Colsnames = NULL,
   size_bartext = 5
 )
 }
@@ -38,6 +39,8 @@ patternGraph2(
 \item{axis_size}{axis}
 
 \item{text_size}{text}
+
+\item{Colsnames}{new select col pivot long}
 
 \item{size_bartext}{bartext}
 }

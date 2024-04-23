@@ -346,6 +346,7 @@ patternGraph_obs_exp = function(data,
 #' @param type g
 #' @param xlab xlab
 #' @param ylab ylab
+#' @param Colsnames new select col pivot long
 #'
 #' @return result fill data
 #' @export
@@ -390,48 +391,59 @@ patternGraph2 = function(data, type="g",
                          ylab = "관측기대비율",
                          strip_size = 16,
                          axis_size = 16,
-                         text_size = 14,
+                         text_size = 14,Colsnames = NULL,
                          size_bartext=5
 
 ){
 
-  # g = patternGraph1(data, raw = FALSE)
+  data1 <- data
 
-  data1 <- data$data_graph %>% t()
+  if(is.null(Colsnames)){
+    Cols = 1:ncol(data1)+1
+  }else{
+    Cols = Colsnames
+  }
+
 
   data_long0 <- data1 %>% as.data.frame() %>%
-    rownames_to_column("성조형") %>%
-    pivot_longer(
-      # names_to = "성조형",
-      # values_to = "ratio",
-      names_to = "음절",values_to = '관측기대비율',
-      cols=2: (ncol(data1)+1) )
+    long_df(
+      names_to = "성조형",values_to = '관측기대비율',
+      rowname = "syllabic",
+      cols = Cols )
 
   data_long_df <- data1 %>%
     long_df(
-      # names_to = "성조형", values_to="Freq",
-      names_to = "음절",values_to = '관측기대비율',
-      rowname = "성조형")%>%
+
+      names_to = "성조형",values_to = '관측기대비율',
+      rowname = "syllabic",
+      cols = Cols )%>%
     jjstat::Round()
 
-  data_long_oe <- data1 %>%obs_exp_table() %>%
+  data_long_oe <- data1 %>%
+    obs_exp_table() %>%
     long_df(
-      # names_to = "성조형", values_to="ratio",
-      names_to = "음절",values_to = '관측기대비율',
-      rowname = "성조형") %>%
+      names_to = "성조형",values_to = '관측기대비율',
+      rowname = "syllabic",
+      cols = Cols) %>%
     jjstat::Round()
 
-  data_long_sig =  data1%>% p_sig_cal()%>%
+  data_long_sig =  data1%>%
+    p_sig_cal()%>%
     long_df(
-      # names_to = "성조형", values_to="star",
-      names_to = "음절",values_to = 'star',
-      rowname = "성조형")
+      names_to = "성조형",values_to = 'star',
+      rowname = "syllabic",
+      cols = Cols)
 
-  data_long_p =  data1%>% p_value_cal()%>%
+  data_long_p =  data1%>%
+    p_value_cal()%>%
     long_df(
-      # names_to = "성조형", values_to="p.value",
-      names_to = "음절",values_to = 'p.value',
-      rowname = "성조형")
+      names_to = "성조형",values_to = 'p.value',
+      rowname = "syllabic",
+      cols = Cols )
+
+
+
+
 
   if(raw){
     #contigency table인 경우
