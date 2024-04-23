@@ -32,6 +32,8 @@ sem_plot(data, layout = "tree3", opt = 1, mar = c(1, 5, 1, 5))
 \item{edge.label.cex}{0.7}
 
 \item{edge.label.position}{0.6}
+
+\item{isg}{TRUE}
 }
 \value{
 plot

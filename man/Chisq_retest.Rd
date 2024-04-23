@@ -9,9 +9,9 @@ Chisq_retest(
   ncol = 2,
   colname = NULL,
   rowname = NULL,
+  type = "all",
   simulate.p.value = FALSE,
   digits = 3,
-  type = "all",
   correct = TRUE,
   B = 2000
 )
@@ -25,11 +25,11 @@ Chisq_retest(
 
 \item{rowname}{input}
 
+\item{type}{all, chisq}
+
 \item{simulate.p.value}{default FaLSE fisher exact test}
 
 \item{digits}{round 3}
-
-\item{type}{all, chisq}
 
 \item{correct}{default is Pearson’s Chi-squared test with Yates’ continuity correction (If you have something with a small sample count, you should use it. ), FALSE Pearson's Chi-squared test}
 

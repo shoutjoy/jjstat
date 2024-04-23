@@ -13,7 +13,8 @@
 #' @param sizeMan2 3
 #' @param edge.label.cex 0.7
 #' @param edge.label.position  0.6
-#' @param mar c(1,5,1,5)
+#' @param isg TRUE
+##' @param mar c(1,5,1,5)
 #'
 #' @return plot
 #' @export
@@ -37,17 +38,18 @@ sem_plot = function(data,
                    layout = "tree3",
                    whatLabels = "std",
                    opt= 1,
-                   curve = -2,
-                   sizeLat = 8, sizeLat2 = 6,
-                   sizeMan = 6 , sizeMan2 = 3,
+                   curve = 2,
+                   sizeLat = 10, sizeLat2 = 6,
+                   sizeMan = 8 , sizeMan2 = 4,
                    edge.label.cex = 0.7, edge.label.position=0.6,
-                   mar = c(1,5,1,5)
+                   mar = c(1,5,1,5),
+                   sig = TRUE
 ){
 
 
   if(opt==1){
-    # x11()
-    data %>%
+
+   res = data %>%
       semPlot::semPaths(whatLabels = whatLabels, #fade=T, posCol="gray20",
                         rotation =2, nCharNodes = 10, nCharEdges = 10,
                         sizeLat = sizeLat, sizeLat2 = sizeLat2,
@@ -65,12 +67,11 @@ sem_plot = function(data,
                         residuals = F,
                         residScale = 12,
                         mar = mar
-      ) %>%
-      semptools::mark_sig(data) %>% plot()
+      )
 
   }else if(opt==2){
 
-    data %>%
+    res = data %>%
       # semPaths(what =  "std", fade=F, posCol="gray40",
       semPlot::semPaths(whatLabels = whatLabels,
                         rotation =2, nCharNodes = 10, nCharEdges = 10, asize=1.2,
@@ -92,10 +93,9 @@ sem_plot = function(data,
                         curve = curve,
                         residuals = T, exoVar = FALSE,
                         residScale = 10,
-                        mar=c(5,5,5,5)) %>%
-      semptools::mark_sig(data) %>% plot()
+                        mar=c(5,5,5,5))
   }else if(opt== 3){
-    data %>%
+    res = data %>%
       semPlot::semPaths(what = what, fade=T, posCol="gray20",
                         rotation =2, nCharNodes = 10, nCharEdges = 10,
                         sizeLat = sizeLat, sizeLat2 = sizeLat2,
@@ -113,10 +113,41 @@ sem_plot = function(data,
                         residuals = F,
                         residScale = 12,
                         mar = mar
-      ) %>%
-      semptools::mark_sig(data) %>% plot()
+      )
 
+  }else if(opt==4){
+    res =  data %>%
+      semPlot::semPaths(whatLabels = whatLabels, #fade=T, posCol="gray20",
+                        rotation =2, nCharNodes = 10, nCharEdges = 10,
+                        sizeLat = sizeLat, sizeLat2 = sizeLat2,
+                        sizeMan = sizeMan , sizeMan2 = sizeMan2,
+                        nDigits=3,
+                        # layout= "tree2", #new
+                        layout= layout, #new
+                        shapeLat="circle",
+                        shapeMan ="rectangle",
+                        border.width = 1.5, style="lisrel",
+                        edge.label.cex = edge.label.cex,
+                        edge.label.position= edge.label.position,
+                        edge.color = "black",
+                        curve= curve,
+                        residuals = F,
+                        residScale = 12,
+                        mar = mar
+      )
   }
+
+
+  if(sig){
+    res = res %>%
+      semptools::mark_sig(data) %>% plot()
+  }else{
+    res = res
+  }
+
+
+
+
 
 }
 

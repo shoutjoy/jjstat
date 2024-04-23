@@ -122,8 +122,10 @@ calculate_chi_sig <- function(observed, type = "data", simple=FALSE) {
     # chi_square_statistic = chi_square_statistic,
     #           degrees_of_freedom = df,
     #           p_value = p_value,
-    chisq_test= chisq,
-    cramersv= cramersv,
+    chisq_test = chisq,
+    cramersv = cramersv,
+    observed = observed%>%addmargins(),
+    expected = expected%>%addmargins(),
     observed_over_expected_ratios = observed_over_expected_ratios,
     cell_p_values = cell_p_values,
     p_sig = p_sig,
@@ -132,10 +134,14 @@ calculate_chi_sig <- function(observed, type = "data", simple=FALSE) {
     chi_sig3= chi_sig3
   )
 
+
+
+
   switch(type,
          res= Res,
          all= Res,
          chisq_test= chisq,
+         expected = expected,
          cramersv= cramersv,
          observed_over_expected_ratios = observed_over_expected_ratios,
          cell_p_values = cell_p_values,

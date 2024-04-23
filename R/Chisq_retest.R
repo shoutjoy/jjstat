@@ -59,9 +59,9 @@
 Chisq_retest <- function(input, ncol = 2,
                          colname = NULL,
                          rowname = NULL,
+                         type= "all",
                          simulate.p.value = FALSE,
                          digits=3,
-                         type= "all",
                          correct=TRUE,
                          B=2000){
 #first step
@@ -102,8 +102,10 @@ Chisq_retest <- function(input, ncol = 2,
 
   reslist <- list(
     Chisqure_Result = Chisqure_Result,
+    Cramers_V = cramers_v(data),
     # res$data.name,
     Observed = res$observed,
+
     Observed_addmargins = res$observed %>% addmargins()%>% round(digits),
     Obs_porp = res$observed %>% prop.table()%>% round(digits),
     Expected = res$expected %>% addmargins()%>% round(digits),
@@ -111,8 +113,8 @@ Chisq_retest <- function(input, ncol = 2,
     Stdres = res$stdres%>% round(digits),
     Analysis_Method = res$method,
     Ratio_obs_exp = (res$observed/res$expected)%>% round(digits),
-    chisq_sig= chisq_sig, #NEW
-    Cramers_V = cramers_v(data)
+    chisq_sig= chisq_sig #NEW
+
   )
 
   res1 = list(chi= Chisqure_Result,
@@ -122,10 +124,20 @@ Chisq_retest <- function(input, ncol = 2,
               Analysis_Method = res$method
   )
 
+  summary =list(
+    Chisqure_Result = Chisqure_Result,
+    Cramers_V = cramers_v(data),
+    chisq_sig= chisq_sig
+  )
+
+
+
+
   switch(type,
          all = reslist,
          chisq = Chisqure_Result,
-         res =  res1
+         res =  res1,
+         summary= summary
   )
 
 }
