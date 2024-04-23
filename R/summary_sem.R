@@ -4,6 +4,7 @@
 #' @param effect select "~"
 #' @param effect2 select 2nd
 #' @param type all, effect, apa, plot
+#' @param opt  opt=1~4
 #' @param md markdown default TRUE
 #'
 #' @return result and md
@@ -16,12 +17,13 @@
 #' fit %>% summary_sem()
 #'
 #' }
-summary_sem = function(lav_obj, effect = "~", effect2= NULL,md=TRUE, type="all"){
+summary_sem = function(lav_obj, effect = "~", effect2= NULL
+                       ,md=TRUE, type="all", opt=1){
 
   res1 =  lav_obj %>% sem_effect(effect =effect, effect2= effect2)
   res2 =  lav_obj %>% sem_effect(effect =effect, effect2= effect2) %>%
     sem_apa(md = md, print=FALSE )
-  res3 = lav_obj %>% sem_plot()
+  res3 = lav_obj %>% sem_plot(opt = opt)
 
 res =   list(res1, res2, res3)
 

@@ -4,7 +4,14 @@
 \alias{summary_sem}
 \title{summary sem result and apa report}
 \usage{
-summary_sem(lav_obj, effect = "~", effect2 = NULL, md = TRUE, type = "all")
+summary_sem(
+  lav_obj,
+  effect = "~",
+  effect2 = NULL,
+  md = TRUE,
+  type = "all",
+  opt = 1
+)
 }
 \arguments{
 \item{lav_obj}{lavaan object}
@@ -16,6 +23,8 @@ summary_sem(lav_obj, effect = "~", effect2 = NULL, md = TRUE, type = "all")
 \item{md}{markdown default TRUE}
 
 \item{type}{all, effect, apa, plot}
+
+\item{opt}{opt=1~4}
 }
 \value{
 result and md
