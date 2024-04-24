@@ -4,10 +4,12 @@
 \alias{datapaste_text}
 \title{data.frame to input text}
 \usage{
-datapaste_text(data)
+datapaste_text(data, rownames = TRUE)
 }
 \arguments{
 \item{data}{data.frame}
+
+\item{rownames}{rownames=TRUE, FALSE -> nothing rownames}
 }
 \value{
 text
@@ -29,8 +31,23 @@ cho2013_cor <- data.frame(
   만족도 = c(0.401, 0.554, 0.545, 0.491, 0.743, 1.000)
 )
 cho2013_cor \%>\% datapaste_text()
+#'#정성령(2014)
+Jungsy2014 = "
+수강료 1
+강사 .165** 1
+수업 .303** .144** 1
+개인관리 .494** .069 .284** 1
+인지도 .425** .176** .407** .424** 1
+이상적영향력 .210** -.056 .212** .286** .222** 1
+영감적동기화 .190** -.133** .211** .290** .230** .659** 1
+지적자극 .300** -.136** .159** .402** .238** .533** .517** 1
+개별적 배려 .202** -.153** .150** .250** .291** .684** .618** .530** 1
+"
+lav_matrix(Jungsy2014)
 
+Jungsy2014_cor = lav_matrix(Jungsy2014)
 
+Jungsy2014_cor \%>\% make_df_text()
 }
 
 }

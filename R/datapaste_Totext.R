@@ -1,6 +1,7 @@
 #' data.frame to input text
 #'
 #' @param data data.frame
+#' @param rownames rownames=TRUE, FALSE -> nothing rownames
 #'
 #' @return text
 #' @export
@@ -23,12 +24,29 @@
 #'
 #' }
 #'
-make_df_text <- function(data) {
+make_df_text <- function(data, rownames = TRUE) {
+  # 데이터프레임으로 변환
+  data <- as.data.frame(data)
+
   # 데이터프레임의 칼럼 이름 가져오기
   col_names <- names(data)
 
+  # 데이터프레임에 데이터가 있는지 확인
+  if (nrow(data) == 0) {
+    cat("Data frame is empty.\n")
+    return()
+  }
+
   # 텍스트로 변환
   df_text <- "New = data.frame("
+
+  # rownames 옵션에 따라 처리
+  if (rownames) {
+    if (!is.null(rownames(data))) {
+      df_text <- paste(df_text, "row.names = c(", paste0('"', rownames(data), '"', collapse = ", "), "), ", sep = "")
+    }
+  }
+
   for (col in col_names) {
     df_text <- paste(df_text,
                      paste(col, " = c(",
@@ -39,16 +57,15 @@ make_df_text <- function(data) {
   df_text <- paste(df_text, ")\n", sep = "")
 
   # 결과 출력
-  cat(df_text,"\n\n")
+  cat("\n\n", df_text,"\n\n")
 }
-
 
 
 
 #' data.frame to input text
 #'
 #' @param data data.frame
-#'
+#' @param rownames rownames=TRUE, FALSE -> nothing rownames
 #' @return text
 #' @export
 #'
@@ -66,26 +83,57 @@ make_df_text <- function(data) {
 #'   만족도 = c(0.401, 0.554, 0.545, 0.491, 0.743, 1.000)
 #' )
 #' cho2013_cor %>% datapaste_text()
+#' #'#정성령(2014)
+#' Jungsy2014 = "
+#' 수강료 1
+#' 강사 .165** 1
+#' 수업 .303** .144** 1
+#' 개인관리 .494** .069 .284** 1
+#' 인지도 .425** .176** .407** .424** 1
+#' 이상적영향력 .210** -.056 .212** .286** .222** 1
+#' 영감적동기화 .190** -.133** .211** .290** .230** .659** 1
+#' 지적자극 .300** -.136** .159** .402** .238** .533** .517** 1
+#' 개별적 배려 .202** -.153** .150** .250** .291** .684** .618** .530** 1
+#' "
+#' lav_matrix(Jungsy2014)
 #'
+#' Jungsy2014_cor = lav_matrix(Jungsy2014)
 #'
+#' Jungsy2014_cor %>% make_df_text()
 #' }
 #'
-datapaste_text <- function(data) {
+datapaste_text <- function(data, rownames = TRUE) {
+  # 데이터프레임으로 변환
+  data <- as.data.frame(data)
+
   # 데이터프레임의 칼럼 이름 가져오기
   col_names <- names(data)
 
+  # 데이터프레임에 데이터가 있는지 확인
+  if (nrow(data) == 0) {
+    cat("Data frame is empty.\n")
+    return()
+  }
+
   # 텍스트로 변환
   df_text <- "New = data.frame("
+
+  # rownames 옵션에 따라 처리
+  if (rownames) {
+    if (!is.null(rownames(data))) {
+      df_text <- paste(df_text, "row.names = c(", paste0('"', rownames(data), '"', collapse = ", "), "), ", sep = "")
+    }
+  }
+
   for (col in col_names) {
     df_text <- paste(df_text,
                      paste(col, " = c(",
-                           paste(data[, col],
-                           collapse = ", "), ")", sep = ""),
-                     sep = ",\n  ")
+                           paste(data[, col], collapse = ", "), ")",
+                           sep = ""), sep = ",\n  ")
   }
   df_text <- sub(",\n", "\n", df_text)  # 첫 번째 줄의 쉼표와 줄바꿈 제거
   df_text <- paste(df_text, ")\n", sep = "")
 
   # 결과 출력
-  cat(df_text,"\n\n")
+  cat("\n\n", df_text,"\n\n")
 }
