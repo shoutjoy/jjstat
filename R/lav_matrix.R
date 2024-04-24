@@ -90,6 +90,7 @@ lav_matrix <- function(text, type="res") {
   header <- gsub("\\.-\\s*$", "", header)
   header <- gsub("\\....\\s*$", "", header) #에외.....발생부분
   header <- gsub("\\-\\s*$", "", header)
+  header <- gsub("[-.]+$", "", header) # -. 반복되는 추출 제거
   header <- header[header != ""]
 
   #음수의 위치를 추출해서 앞부분 제거된 결과의 위치에 맞추어서 표시 하기
