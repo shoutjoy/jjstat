@@ -52,6 +52,7 @@
 #'
 #'
 #' }
+#'
 
 lav_matrix <- function(text) {
   # 텍스트를 줄 단위로 분할
@@ -63,6 +64,7 @@ lav_matrix <- function(text) {
   header <- gsub("\\s+", "", header)
   header <- gsub("\\.+\\s*$", "", header)  # 마지막에 오는 기호들 제거
   header <- gsub("\\.-\\s*$", "", header)
+  header <- gsub("\\-\\s*$", "", header)
   header <- header[header != ""]
 
   #음수의 위치를 추출해서 앞부분 제거된 결과의 위치에 맞추어서 표시 하기
@@ -73,6 +75,8 @@ lav_matrix <- function(text) {
   data_no_header_2 <- gsub("[가-힣]+", "", data_no_header_2, perl = TRUE)
   data_no_header_2 <- gsub("[a-zA-Z]+", "", data_no_header_2, perl = TRUE)
   data_no_header_2 <- gsub("\\*", "", data_no_header_2)  #별표시 삭제
+  data_no_header_2 <- gsub("_", "", data_no_header_2)
+
   input2 <- paste(data_no_header_2, collapse = "")  # 벡터화
   input2 <- gsub("\\s+", ", ", input2)   #문자뒤 콤마
   input2 <- gsub("^, 1,", "1,", input2)  #첫번째 1의 수정
@@ -83,8 +87,43 @@ lav_matrix <- function(text) {
   rownames(res) <- header
 
   cat("\n\n")
-  # return(res)
   return(res)
+  # return(res)
+  # list(data_no_header_2, input2)
 
 }
+# lav_matrix <- function(text) {
+#   # 텍스트를 줄 단위로 분할
+#   lines <- strsplit(text, "\n")[[1]]
+#
+#   # 헤더 추출
+#   header <- gsub("\\*", "", lines)
+#   header <- gsub("\\d+\\.?\\d*", "", header)
+#   header <- gsub("\\s+", "", header)
+#   header <- gsub("\\.+\\s*$", "", header)  # 마지막에 오는 기호들 제거
+#   header <- gsub("\\.-\\s*$", "", header)
+#   header <- header[header != ""]
+#
+#   #음수의 위치를 추출해서 앞부분 제거된 결과의 위치에 맞추어서 표시 하기
+#   data_no_header_2 <- gsub("(?<=[^\\d])-(?=\\s)", "- ", lines, perl = TRUE)
+#   data_no_header_2 <- trimws(data_no_header_2)
+#   data_no_header_2 <- data_no_header_2[data_no_header_2 != ""]
+#
+#   data_no_header_2 <- gsub("[가-힣]+", "", data_no_header_2, perl = TRUE)
+#   data_no_header_2 <- gsub("[a-zA-Z]+", "", data_no_header_2, perl = TRUE)
+#   data_no_header_2 <- gsub("\\*", "", data_no_header_2)  #별표시 삭제
+#   input2 <- paste(data_no_header_2, collapse = "")  # 벡터화
+#   input2 <- gsub("\\s+", ", ", input2)   #문자뒤 콤마
+#   input2 <- gsub("^, 1,", "1,", input2)  #첫번째 1의 수정
+#
+#   # 헤더와 데이터를 사용하여 행렬 생성
+#   res <- lavaan::lav_matrix_lower2full(as.numeric(unlist(strsplit(input2, ","))))
+#   colnames(res) <- header
+#   rownames(res) <- header
+#
+#   cat("\n\n")
+#   # return(res)
+#   return(res)
+#
+# }
 
