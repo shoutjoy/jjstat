@@ -40,22 +40,23 @@ lav_matrix <- function(text) {
   header <- gsub("\\*", "", lines)
   header <- gsub("\\d+\\.?\\d*", "", header)
   header <- gsub("\\s+", "", header)
-  header <- gsub("\\.+\\s*$", "", header)  # 마지막에 오는 기호들 제거
+  header <- gsub("\\.+\\s*$", "", header)  # Remove trailing symbols
+  header <- gsub("\\.-\\s*$", "", header)  # Remove trailing symbols
   header <- header[header != ""]
 
-  # 앞부분 제거된 결과
+  # The result of removing the front end
   data_no_header <- gsub("[^0-9\\.]+", " ", lines)
   data_no_header <- trimws(data_no_header)
   data_no_header <- data_no_header[data_no_header != ""]
-  # cat("앞부분이 제거된 결과:\n", data_no_header, "\n\n")
+  # cat("The result of removing the leading part:\n", data_no_header, "\n\n")
 
-  #  # 별표시 제거하고 lav_matrix_lower2full() 함수에 넣기 위한 자료 생성
+  #  # Remove asterisks and generate material to put into lav_matrix_lower2full() function
   input <- gsub("\\*", "", data_no_header)
   input <- gsub("\\s+", ", ", input)
-  # # 숫자 1만 있는 경우에는 "1,"으로 변형
+  # # If you only have the number 1, transform it to "1,"
   input <- gsub("(?<!\\d)1(?!\\d)", "1,", input, perl = TRUE)
   input <- paste(input, collapse = "")
-  # 마지막 쉼표 제거
+  # Remove the last comma
   input <- gsub(", 1,$", ", 1", input)
   # input <- c(input)
   res = lavaan::lav_matrix_lower2full(as.numeric(unlist(strsplit(input, ","))))
