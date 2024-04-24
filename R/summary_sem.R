@@ -18,12 +18,13 @@
 #'
 #' }
 summary_sem = function(lav_obj, effect = "~", effect2= NULL
-                       ,md=TRUE, type="all", opt=1){
+                       ,md = TRUE, type = "all", opt=1,
+                       whatLabels = "std"){
 
   res1 =  lav_obj %>% sem_effect(effect =effect, effect2= effect2)
   res2 =  lav_obj %>% sem_effect(effect =effect, effect2= effect2) %>%
     sem_apa(md = md, print=FALSE )
-  res3 = lav_obj %>% sem_plot(opt = opt)
+  res3 = lav_obj %>% sem_plot(opt = opt,whatLabels=whatLabels)
 
 res =   list(res1, res2, res3)
 

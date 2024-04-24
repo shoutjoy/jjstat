@@ -46,7 +46,7 @@ sem_plot = function(data,
                    sizeMan = 8 , sizeMan2 = 4,
                    edge.label.cex = 0.8, edge.label.position=0.6,
                    mar = c(1,5,1,5),
-                   fade=FALSE,
+                   fade = FALSE,
                    sig = TRUE){
 
 

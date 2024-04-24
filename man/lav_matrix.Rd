@@ -4,7 +4,7 @@
 \alias{lav_matrix}
 \title{paper table to matrix}
 \usage{
-lav_matrix(text)
+lav_matrix(text, type = "res")
 }
 \arguments{
 \item{text}{input copy data}

@@ -54,7 +54,7 @@
 #' }
 #'
 
-lav_matrix <- function(text) {
+lav_matrix <- function(text, type="res") {
   # 텍스트를 줄 단위로 분할
   lines <- strsplit(text, "\n")[[1]]
 
@@ -81,16 +81,27 @@ lav_matrix <- function(text) {
   input2 <- gsub("\\s+", ", ", input2)   #문자뒤 콤마
   input2 <- gsub("^, 1,", "1,", input2)  #첫번째 1의 수정
 
-  # 헤더와 데이터를 사용하여 행렬 생성
-  res <- lavaan::lav_matrix_lower2full(as.numeric(unlist(strsplit(input2, ","))))
-  colnames(res) <- header
-  rownames(res) <- header
+  if(type =="check"){
+    check =  list(data_no_header_2, input2)
+  }else{
 
-  cat("\n\n")
-  return(res)
-  # return(res)
-  # list(data_no_header_2, input2)
+    # 헤더와 데이터를 사용하여 행렬 생성
+    res <- lavaan::lav_matrix_lower2full(as.numeric(unlist(strsplit(input2, ","))))
+    colnames(res) <- header
+    rownames(res) <- header
+    cat("\n\n")
+    return(res)
 
+    # return(res)
+
+
+    all =  list(data_no_header_2, input2, res)
+  }
+
+switch(type,
+       res = res,
+       all= all,
+       check = check )
 }
 # lav_matrix <- function(text) {
 #   # 텍스트를 줄 단위로 분할

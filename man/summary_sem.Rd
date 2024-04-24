@@ -10,7 +10,8 @@ summary_sem(
   effect2 = NULL,
   md = TRUE,
   type = "all",
-  opt = 1
+  opt = 1,
+  whatLabels = "std"
 )
 }
 \arguments{
