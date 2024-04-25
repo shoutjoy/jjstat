@@ -16,6 +16,7 @@
 #' @param sig semptools sig_mark TRUE(default)
 #' @param fade default FALSE when opt =3
 #' @param rotation rotation = 2
+#' @param intercepts  intercepts =FALSE becouse semptools
 #' @param mar c(1,5,1,5)
 #'
 #' @return plot
@@ -47,6 +48,7 @@ sem_plot = function(data,
                    edge.label.cex = 0.8, edge.label.position=0.6,
                    mar = c(1,5,1,5),
                    fade = FALSE,
+                   intercepts = FALSE,
                    sig = TRUE){
 
 
@@ -68,6 +70,7 @@ sem_plot = function(data,
                         curve= curve,
                         residuals = F,
                         residScale = 12,
+                        intercepts = intercepts,
                         mar = mar
       )
 
@@ -94,6 +97,7 @@ sem_plot = function(data,
                         curve = curve,
                         residuals = T, exoVar = FALSE,
                         residScale = 10,
+                        intercepts = intercepts,
                         mar= mar
                         )
   }else if(opt== 3){
@@ -113,6 +117,7 @@ sem_plot = function(data,
                         curve= curve,
                         residuals = F,
                         residScale = 12,
+                        intercepts = intercepts,
                         mar = mar
       )
 
@@ -134,6 +139,7 @@ sem_plot = function(data,
                         curve= curve,
                         residuals = F,
                         residScale = 12,
+                        intercepts = intercepts,
                         mar = mar
       )
   }

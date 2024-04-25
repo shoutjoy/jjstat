@@ -8,8 +8,9 @@ confint_plot_sem(
   lavaan_obj,
   type = "g",
   effect = "~",
-  size_axis = 13,
-  size_text = 4
+  size_axis = 14,
+  size_text = 4,
+  linewidth = 2
 )
 }
 \arguments{
@@ -20,6 +21,8 @@ confint_plot_sem(
 \item{size_axis}{axis test size}
 
 \item{size_text}{size ext}
+
+\item{linewidth}{linewidth=2}
 
 \item{op}{op}
 }

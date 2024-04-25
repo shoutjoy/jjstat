@@ -4,12 +4,14 @@
 \alias{sem_apa}
 \title{SEM direct effect interpretation}
 \usage{
-sem_apa(data, md = FALSE, print = TRUE)
+sem_apa(data, md = FALSE, caption = "Table: ", print = TRUE)
 }
 \arguments{
 \item{data}{DE_effect obj}
 
 \item{md}{markdown_table output}
+
+\item{caption}{caption= title}
 
 \item{print}{print TRUE}
 }

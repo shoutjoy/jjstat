@@ -6,6 +6,7 @@
 \usage{
 summary_sem(
   lav_obj,
+  caption = "Result of path Coefficient",
   effect = "~",
   effect2 = NULL,
   md = TRUE,
@@ -17,11 +18,13 @@ summary_sem(
 \arguments{
 \item{lav_obj}{lavaan object}
 
+\item{caption}{caption possible}
+
 \item{effect}{select "~"}
 
 \item{effect2}{select 2nd}
 
-\item{md}{markdown default TRUE}
+\item{md}{markdown default TRUEz}
 
 \item{type}{all, effect, apa, plot}
 

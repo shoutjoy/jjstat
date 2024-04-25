@@ -140,6 +140,7 @@ interpretation_de <- function(data, md = FALSE) {
 #'
 #' @param data DE_effect obj
 #' @param md markdown_table output
+#' @param caption caption= title
 #' @param print print TRUE
 #'
 #' @return report apa
@@ -179,7 +180,7 @@ interpretation_de <- function(data, md = FALSE) {
 #'
 #' }
 #'
-sem_apa <- function(data, md = FALSE, print=TRUE) {
+sem_apa <- function(data, md = FALSE, caption= "Table: ", print=TRUE) {
   # data <- data  # 이 줄은 필요 없는 것 같습니다.
 
   # Check if 'label' column exists
@@ -270,7 +271,7 @@ sem_apa <- function(data, md = FALSE, print=TRUE) {
 
 
   if (md) {
-    print(data %>% jjstat::md(digits = 3))
+    print(data %>% jjstat::md(digits = 3, caption = caption))
   }
 
   cat("\n\n연구모형에 대한 구조모형 분석결과, 각 가설(직접효과)는 다음과 같이 나타났다. \n",

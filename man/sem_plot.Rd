@@ -19,6 +19,7 @@ sem_plot(
   edge.label.position = 0.6,
   mar = c(1, 5, 1, 5),
   fade = FALSE,
+  intercepts = FALSE,
   sig = TRUE
 )
 }
@@ -50,6 +51,8 @@ sem_plot(
 \item{mar}{c(1,5,1,5)}
 
 \item{fade}{default FALSE when opt =3}
+
+\item{intercepts}{intercepts =FALSE becouse semptools}
 
 \item{sig}{semptools sig_mark TRUE(default)}
 }
