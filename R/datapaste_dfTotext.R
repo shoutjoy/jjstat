@@ -24,6 +24,7 @@
 #'
 #' }
 #'
+
 make_df_text <- function(data, rownames = TRUE) {
   # 데이터프레임으로 변환
   data <- as.data.frame(data)
@@ -48,19 +49,23 @@ make_df_text <- function(data, rownames = TRUE) {
   }
 
   for (col in col_names) {
-    df_text <- paste(df_text,
-                     paste(col, " = c(",
-                           paste(data[, col], collapse = ", "), ")",
-                           sep = ""), sep = ",\n  ")
+    df_text <- paste(df_text, col, " = c(", sep = "")
+    for (i in 1:nrow(data)) {
+      if (is.na(data[i, col])) {
+        df_text <- paste(df_text, "NA, ", sep = "")
+      } else {
+        df_text <- paste(df_text, "'", data[i, col], "', ", sep = "")
+      }
+    }
+    df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
+    df_text <- paste(df_text, "), ", sep = "")
   }
-  df_text <- sub(",\n", "\n", df_text)  # 첫 번째 줄의 쉼표와 줄바꿈 제거
+  df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
   df_text <- paste(df_text, ")\n", sep = "")
 
   # 결과 출력
   cat("\n\n", df_text,"\n\n")
 }
-
-
 
 #' data.frame to input text
 #'
@@ -102,7 +107,7 @@ make_df_text <- function(data, rownames = TRUE) {
 #' Jungsy2014_cor %>% make_df_text()
 #' }
 #'
-datapaste_text <- function(data, rownames = TRUE) {
+datapaste_text <-  function(data, rownames = TRUE) {
   # 데이터프레임으로 변환
   data <- as.data.frame(data)
 
@@ -126,12 +131,18 @@ datapaste_text <- function(data, rownames = TRUE) {
   }
 
   for (col in col_names) {
-    df_text <- paste(df_text,
-                     paste(col, " = c(",
-                           paste(data[, col], collapse = ", "), ")",
-                           sep = ""), sep = ",\n  ")
+    df_text <- paste(df_text, col, " = c(", sep = "")
+    for (i in 1:nrow(data)) {
+      if (is.na(data[i, col])) {
+        df_text <- paste(df_text, "NA, ", sep = "")
+      } else {
+        df_text <- paste(df_text, "'", data[i, col], "', ", sep = "")
+      }
+    }
+    df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
+    df_text <- paste(df_text, "), ", sep = "")
   }
-  df_text <- sub(",\n", "\n", df_text)  # 첫 번째 줄의 쉼표와 줄바꿈 제거
+  df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
   df_text <- paste(df_text, ")\n", sep = "")
 
   # 결과 출력

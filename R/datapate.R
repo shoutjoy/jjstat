@@ -2,7 +2,7 @@
 #'
 #' @param type "clipboard" to table data. dataframe, tibble
 #' @param x "clipboard"
-#'
+#' @param header  header=FALSE
 #' @return paste data.frame
 #' @export
 #
@@ -24,12 +24,12 @@
 #'                    role_v_inst4 = c(5, 4, 5, 5, 3, 4))
 #'
 #'
-datapaste <- function(type="matrix", x="clipboard"){
+datapaste <- function(type="matrix", x="clipboard", header=TRUE){
 
-table = read.table(file = x, sep = "\t", header = TRUE)
-data.frame = read.table(file = x, sep = "\t", header = TRUE) %>% data.frame()
-tibble = read.table(file = x, sep = "\t", header = TRUE) %>%  tibble::tibble()
-matrix = read.table(file = x, sep = "\t", header = TRUE) %>%  as.matrix()
+table = read.table(file = x, sep = "\t", header = header)
+data.frame = read.table(file = x, sep = "\t", header = header) %>% data.frame()
+tibble = read.table(file = x, sep = "\t", header = header) %>%  tibble::tibble()
+matrix = read.table(file = x, sep = "\t", header = header) %>%  as.matrix()
 
 switch(type,
        table= table,

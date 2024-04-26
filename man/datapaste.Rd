@@ -4,12 +4,14 @@
 \alias{datapaste}
 \title{exceldata to dataframe}
 \usage{
-datapaste(type = "matrix", x = "clipboard")
+datapaste(type = "matrix", x = "clipboard", header = TRUE)
 }
 \arguments{
 \item{type}{"clipboard" to table data. dataframe, tibble}
 
 \item{x}{"clipboard"}
+
+\item{header}{header=FALSE}
 }
 \value{
 paste data.frame
