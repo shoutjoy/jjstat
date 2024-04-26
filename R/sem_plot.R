@@ -13,10 +13,10 @@
 #' @param sizeMan2 3
 #' @param edge.label.cex 0.7
 #' @param edge.label.position  0.6
-#' @param sig semptools sig_mark TRUE(default)
 #' @param fade default FALSE when opt =3
 #' @param rotation rotation = 2
-#' @param intercepts  intercepts =FALSE becouse semptools
+#' @param intercepts   intercepts =FALSE becouse semptools
+#' @param se se false
 #' @param mar c(1,5,1,5)
 #'
 #' @return plot
@@ -38,18 +38,20 @@
 #'
 #' }
 sem_plot = function(data,
+                    whatLabels = "std",
+                    type="res1",
+                    opt= 1,
                    layout = "tree3",
-                   whatLabels = "std",
-                   opt= 1,
                    curve = 2,
                    rotation =2,
                    sizeLat = 10, sizeLat2 = 6,
                    sizeMan = 8 , sizeMan2 = 4,
-                   edge.label.cex = 0.8, edge.label.position=0.6,
+                   edge.label.cex = 0.9, edge.label.position=0.6,
                    mar = c(1,5,1,5),
                    fade = FALSE,
-                   intercepts = FALSE,
-                   sig = TRUE){
+                   se=FALSE,
+                   intercepts = FALSE
+                   ){
 
 
   if(opt==1){
@@ -70,7 +72,7 @@ sem_plot = function(data,
                         curve= curve,
                         residuals = F,
                         residScale = 12,
-                        intercepts = intercepts,
+                        intercepts  = intercepts ,
                         mar = mar
       )
 
@@ -144,17 +146,13 @@ sem_plot = function(data,
       )
   }
 
-
-  if(sig){
-    res = res %>%
-      semptools::mark_sig(data) %>% plot()
+  if(se){
+  res2 = res%>%
+    semptools::mark_sig(data) %>%semptools::mark_se(data,sep="\n" ) %>% plot()
   }else{
-    res = res
+    res1 = res %>%
+      semptools::mark_sig(data) %>% plot()
   }
-
-
-
-
 
 }
 

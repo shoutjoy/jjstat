@@ -6,13 +6,17 @@
 \usage{
 summary_sem(
   lav_obj,
+  whatLabels = "est",
   caption = "Result of path Coefficient",
   effect = "~",
   effect2 = NULL,
   md = TRUE,
   type = "all",
   opt = 1,
-  whatLabels = "std"
+  sizeMan = 10,
+  sizeMan2 = 6,
+  mar = c(1, 5, 1, 5),
+  intercepts = FALSE
 )
 }
 \arguments{
@@ -29,6 +33,14 @@ summary_sem(
 \item{type}{all, effect, apa, plot}
 
 \item{opt}{opt=1~4}
+
+\item{sizeMan}{sizeMan = 10}
+
+\item{sizeMan2}{sizeMan2 =6}
+
+\item{mar}{mar = c(1,5,1,5)}
+
+\item{intercepts}{intercept=FALSE semptools}
 }
 \value{
 result and md

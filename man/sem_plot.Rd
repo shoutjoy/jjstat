@@ -6,31 +6,32 @@
 \usage{
 sem_plot(
   data,
-  layout = "tree3",
   whatLabels = "std",
+  type = "res1",
   opt = 1,
+  layout = "tree3",
   curve = 2,
   rotation = 2,
   sizeLat = 10,
   sizeLat2 = 6,
   sizeMan = 8,
   sizeMan2 = 4,
-  edge.label.cex = 0.8,
+  edge.label.cex = 0.9,
   edge.label.position = 0.6,
   mar = c(1, 5, 1, 5),
   fade = FALSE,
-  intercepts = FALSE,
-  sig = TRUE
+  se = FALSE,
+  intercepts = FALSE
 )
 }
 \arguments{
 \item{data}{lavaaan object}
 
-\item{layout}{layY(opt =2, you make layout), or tree3}
-
 \item{whatLabels}{ste}
 
 \item{opt}{1, 2, 3,}
+
+\item{layout}{layY(opt =2, you make layout), or tree3}
 
 \item{curve}{-2}
 
@@ -52,9 +53,9 @@ sem_plot(
 
 \item{fade}{default FALSE when opt =3}
 
-\item{intercepts}{intercepts =FALSE becouse semptools}
+\item{se}{se false}
 
-\item{sig}{semptools sig_mark TRUE(default)}
+\item{intercepts}{intercepts =FALSE becouse semptools}
 }
 \value{
 plot
