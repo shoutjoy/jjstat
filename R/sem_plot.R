@@ -17,6 +17,11 @@
 #' @param rotation rotation = 2
 #' @param intercepts   intercepts =FALSE becouse semptools
 #' @param se se false
+#' @param groups groups
+#' @param pastel pastel
+#' @param residuals residuals F
+#' @param residScale 12
+
 #' @param mar c(1,5,1,5)
 #'
 #' @return plot
@@ -48,8 +53,11 @@ sem_plot = function(data,
                    sizeMan = 8 , sizeMan2 = 4,
                    edge.label.cex = 0.9, edge.label.position=0.6,
                    mar = c(1,5,1,5),
+                   groups = "lat", pastel = TRUE,
                    fade = FALSE,
-                   se=FALSE,
+                   se = FALSE,
+                   residuals= FALSE,
+                   residScale = 12,
                    intercepts = FALSE
                    ){
 
@@ -70,8 +78,8 @@ sem_plot = function(data,
                         edge.label.position= edge.label.position,
                         edge.color = "black",
                         curve= curve,
-                        residuals = F,
-                        residScale = 12,
+                        residuals = residuals,
+                        residScale =residScale,
                         intercepts  = intercepts ,
                         mar = mar
       )
@@ -97,8 +105,9 @@ sem_plot = function(data,
                         edge.width=1.3,
                         edge.color = "gray20",
                         curve = curve,
-                        residuals = T, exoVar = FALSE,
-                        residScale = 10,
+                        exoVar = FALSE,
+                        residuals = residuals,
+                        residScale =residScale,
                         intercepts = intercepts,
                         mar= mar
                         )
@@ -116,9 +125,10 @@ sem_plot = function(data,
                         edge.label.cex = edge.label.cex,
                         edge.label.position= edge.label.position,
                         edge.color = "black",
-                        curve= curve,
-                        residuals = F,
-                        residScale = 12,
+                        curve = curve,
+                        groups = groups, pastel = pastel,
+                        residuals = residuals,
+                        residScale =residScale,
                         intercepts = intercepts,
                         mar = mar
       )
@@ -139,6 +149,7 @@ sem_plot = function(data,
                         edge.label.position= edge.label.position,
                         edge.color = "black",
                         curve= curve,
+                        groups = groups, pastel = pastel,
                         residuals = F,
                         residScale = 12,
                         intercepts = intercepts,

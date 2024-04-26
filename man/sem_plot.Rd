@@ -19,8 +19,12 @@ sem_plot(
   edge.label.cex = 0.9,
   edge.label.position = 0.6,
   mar = c(1, 5, 1, 5),
+  groups = "lat",
+  pastel = TRUE,
   fade = FALSE,
   se = FALSE,
+  residuals = FALSE,
+  residScale = 12,
   intercepts = FALSE
 )
 }
@@ -51,9 +55,17 @@ sem_plot(
 
 \item{mar}{c(1,5,1,5)}
 
+\item{groups}{groups}
+
+\item{pastel}{pastel}
+
 \item{fade}{default FALSE when opt =3}
 
 \item{se}{se false}
+
+\item{residuals}{residuals F}
+
+\item{residScale}{12}
 
 \item{intercepts}{intercepts =FALSE becouse semptools}
 }

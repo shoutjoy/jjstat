@@ -185,15 +185,17 @@ cov_lm_sem <- function(formula=NULL, cov, n, sds=NULL,
 
   }
 
-  x11()
-  diagram_sig = jjstat::confint_plot_sem(results$fit)
-
   # diagram
   x11()
   diagram = jjstat::sem_plot(results$fit,
                              sizeMan = 15,
                              mar = c(1,10,1,5),
                              curve = 3)
+
+
+  x11()
+  diagram_sig = jjstat::confint_plot_sem(results$fit)
+
 
   # markdown
   if(md){
