@@ -1,12 +1,31 @@
-#' Title
+#' LRT_apa
 #'
-#' @param data
-#' @param md
+#' @param data anova data, LRT data
+#' @param md md=TRUE
 #'
-#' @return
+#' @return table explain
 #' @export
 #'
 #' @examples
+#'
+#' \dontrun{
+#' #'
+#'
+#' library(jjstat)
+#' HS.model <- '
+#'     visual  =~ x1 + b1*x2 + x3
+#'     textual =~ x4 + b2*x5 + x6
+#'     speed   =~ x7 + b3*x8 + x9
+#' '
+#' fit1 <- cfa(HS.model, data = HolzingerSwineford1939)
+#' fit0 <- cfa(HS.model, data = HolzingerSwineford1939,
+#'             orthogonal = TRUE)
+#'
+#' fit1 %>% sem_effect(effect ="=~")
+#' fit0 %>% sem_effect(effect ="=~")
+#' lavTestLRT(fit1, fit0)
+#' lavTestLRT(fit1, fit0) %>% LRT_apa()
+#' }
 #'
 #'
 LRT_apa <- function(data, md=TRUE) {
