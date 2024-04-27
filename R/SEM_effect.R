@@ -213,9 +213,9 @@ DE_effect = function(model_sem, effect = "~", effect2= NULL){
 #'
 #'
 
-sem_effect = function(model_sem, effect = "~", effect2= NULL){
+sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
 
-  res0 = parameterEstimates(model_sem, ci=F, stand=T)
+  res0 = parameterEstimates(model_sem, ci=ci, stand=T)
   arrow = ifelse(effect=="~"," -> ",
                  ifelse(effect== "=~"," <- ",
                         ifelse (effect== "~~"," ~~ ",

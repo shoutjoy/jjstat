@@ -30,4 +30,4 @@ Depends:
     tidyverse,
     lavaan,
     R (>= 2.10),
-    readxl
+

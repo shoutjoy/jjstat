@@ -4,7 +4,7 @@
 \alias{sem_effect}
 \title{SEM direct or indirect  effect result}
 \usage{
-sem_effect(model_sem, effect = "~", effect2 = NULL)
+sem_effect(model_sem, effect = "~", effect2 = NULL, ci = FALSE)
 }
 \arguments{
 \item{model_sem}{lavaan object}

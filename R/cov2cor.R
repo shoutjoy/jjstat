@@ -10,7 +10,7 @@
 #' \dontrun{
 #' cov(mtcars[,c("mpg","hp")])%>%cov2cor()
 #' }
-cov2cor <- function(cov_matrix) {
+Cov2cor <- function(cov_matrix) {
   # 각 변수의 표준편차 추출
   sd_values <- sqrt(diag(cov_matrix))
 
@@ -45,7 +45,7 @@ cov2cor <- function(cov_matrix) {
 #' }
 #'
 #'
-cor2cov <- function(cor_matrix, sds = rep(1, ncol(cor_matrix))) {
+Cor2cov <- function(cor_matrix, sds = rep(1, ncol(cor_matrix))) {
   n <- ncol(cor_matrix)
   cov_matrix <- matrix(0, nrow = n, ncol = n)
 
