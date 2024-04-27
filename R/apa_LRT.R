@@ -28,12 +28,12 @@
 #' }
 #'
 #'
-LRT_apa <- function(data, md=TRUE) {
+LRT_apa <- function(data, md=FALSE) {
 
   print(data)
 
   if(md){
-    print( md(data, caption="로그우도비 테스트") )
+    print( markdown_table(data, caption="로그우도비 테스트") )
   }
   model_name <- rownames(data)
   model_name1 <- model_name[1]
