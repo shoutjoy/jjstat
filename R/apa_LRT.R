@@ -28,7 +28,7 @@
 #' }
 #'
 #'
-LRT_apa <- function(data, md=FALSE) {
+LRT_apa <- function(data, md = FALSE) {
 
   print(data)
 
