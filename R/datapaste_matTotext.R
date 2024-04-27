@@ -84,10 +84,12 @@ make_mat_text <- function(data) {
 
   # 행렬의 행 이름과 열 이름이 있는 경우 출력에 포함
   if (!is.null(rownames(data))) {
-    mat_text <- paste(mat_text, "rownames(NewMat) <- c(", paste0('"', rownames(data), '"', collapse = ", "), ")\n", sep = "")
+    mat_text <- paste(mat_text, "rownames(NewMat) <- c(",
+                      paste0('"', rownames(data), '"', collapse = ", "), ")\n", sep = "")
   }
   if (!is.null(colnames(data))) {
-    mat_text <- paste(mat_text, "colnames(NewMat) <- c(", paste0('"', colnames(data), '"', collapse = ", "), ")\n", sep = "")
+    mat_text <- paste(mat_text, "colnames(NewMat) <- c(",
+                      paste0('"', colnames(data), '"', collapse = ", "), ")\n", sep = "")
   }
 
   # 패턴이 'NA'인 문자열을 NA로 대체

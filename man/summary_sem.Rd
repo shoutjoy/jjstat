@@ -13,8 +13,9 @@ summary_sem(
   md = TRUE,
   type = "all",
   opt = 1,
-  sizeMan = 10,
-  sizeMan2 = 6,
+  sizeMan = 8,
+  sizeMan2 = 5,
+  layout = "tree2",
   mar = c(1, 5, 1, 5),
   intercepts = FALSE
 )
@@ -37,6 +38,8 @@ summary_sem(
 \item{sizeMan}{sizeMan = 10}
 
 \item{sizeMan2}{sizeMan2 =6}
+
+\item{layout}{layout ="tree2"}
 
 \item{mar}{mar = c(1,5,1,5)}
 

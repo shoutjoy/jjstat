@@ -32,7 +32,7 @@ tibble = read.table(file = x, sep = "\t", header = header) %>%  tibble::tibble()
 matrix = read.table(file = x, sep = "\t", header = header) %>%  as.matrix()
 
 switch(type,
-       table= table,
+       table = table,
        data.frame = data.frame,
        tibble =  tibble,
        matrix = matrix,

@@ -9,6 +9,7 @@
 #' @param intercepts intercept=FALSE semptools
 #' @param sizeMan sizeMan = 10
 #' @param sizeMan2 sizeMan2 =6
+#' @param layout  layout ="tree2"
 #' @param mar mar = c(1,5,1,5)
 #' @param caption caption possible
 #'
@@ -26,20 +27,22 @@ summary_sem = function(lav_obj, whatLabels = "est",
                        caption="Result of path Coefficient" ,
                        effect = "~", effect2= NULL
                        ,md = TRUE, type = "all", opt=1,
-                       sizeMan = 10  , sizeMan2 = 6,
+                       sizeMan = 8  , sizeMan2 = 5,
+                       layout = "tree2",
                        mar = c(1,5,1,5),
                        intercepts=FALSE){
+   # result Table
+  res1 =  lav_obj %>% sem_effect(effect = effect, effect2 = effect2)
+  # report
+  res2 =  lav_obj %>% sem_effect(effect = effect, effect2 = effect2) %>%
+                      sem_apa(md = md, caption=caption, print=FALSE )
 
-  res1 =  lav_obj %>% sem_effect(effect =effect, effect2= effect2)
-  res2 =  lav_obj %>% sem_effect(effect =effect, effect2= effect2) %>%
-    sem_apa(md = md, caption=caption, print=FALSE )
-
-
-  res3 = lav_obj %>% sem_plot(opt = opt,
+  # SEM diagram
+  res3 = lav_obj %>% sem_plot(opt = opt, layout = layout,
                               whatLabels = whatLabels,
                               sizeMan = sizeMan , sizeMan2 = sizeMan2,
-                              intercepts=intercepts,
-                              mar=mar)
+                              intercepts = intercepts,
+                              mar = mar)
   # std = lav_obj %>% sem_plot(opt = opt,
   #                             whatLabels = "std",
   #                             intercepts=intercepts)
