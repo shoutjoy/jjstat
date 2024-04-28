@@ -44,7 +44,9 @@ make_df_text <- function(data, rownames = TRUE) {
   # rownames 옵션에 따라 처리
   if (rownames) {
     if (!is.null(rownames(data))) {
-      df_text <- paste(df_text, "row.names = c(", paste0('"', rownames(data), '"', collapse = ", "), "), ", sep = "")
+      df_text <- paste(df_text, "row.names = c(",
+                       paste0('"', rownames(data), '"', collapse = ", "),
+                       "), \n", sep = "")
     }
   }
 
@@ -58,9 +60,9 @@ make_df_text <- function(data, rownames = TRUE) {
       }
     }
     df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
-    df_text <- paste(df_text, "), ", sep = "")
+    df_text <- paste(df_text, "),\n ", sep = "")
   }
-  df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
+  df_text <- sub(",\n$", "", df_text)  # 마지막 쉼표와 공백 제거
   df_text <- paste(df_text, ")\n", sep = "")
 
   # 결과 출력
@@ -126,7 +128,10 @@ datapaste_text <-  function(data, rownames = TRUE) {
   # rownames 옵션에 따라 처리
   if (rownames) {
     if (!is.null(rownames(data))) {
-      df_text <- paste(df_text, "row.names = c(", paste0('"', rownames(data), '"', collapse = ", "), "), ", sep = "")
+      df_text <- paste(df_text,
+                       "row.names = c(", paste0('"',
+                        rownames(data), '"',
+                        collapse = ", "), "), \n", sep = "")
     }
   }
 
@@ -140,9 +145,9 @@ datapaste_text <-  function(data, rownames = TRUE) {
       }
     }
     df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
-    df_text <- paste(df_text, "), ", sep = "")
+    df_text <- paste(df_text, "), \n", sep = "")
   }
-  df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
+  df_text <- sub(", \n$", "", df_text)  # 마지막 쉼표와 공백 제거
   df_text <- paste(df_text, ")\n", sep = "")
 
   # 결과 출력
