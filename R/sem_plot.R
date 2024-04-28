@@ -21,6 +21,7 @@
 #' @param pastel pastel
 #' @param residuals residuals F
 #' @param residScale 12
+#' @param semptools using semptools TRUE
 
 #' @param mar c(1,5,1,5)
 #'
@@ -39,8 +40,17 @@
 #'
 #' example(cfa)
 #' sem_plot(fit)
+#' #'
+#' HS.model <- '
+#'     visual  =~ x1 + b1*x2 + x3
+#'     textual =~ x4 + b2*x5 + x6
+#'     speed   =~ x7 + b3*x8 + x9
+#' speed ~ visual + textual
 #'
+#' '
+#' fit1 <- sem(HS.model, data = HolzingerSwineford1939)
 #'
+#' fit1 %>%sem_plot(residuals=T, curve=2)
 #' }
 sem_plot = function(data,
                     whatLabels = "std",
@@ -48,17 +58,18 @@ sem_plot = function(data,
                     opt= 1,
                    layout = "tree3",
                    curve = 2,
-                   rotation =2,
+                   rotation = 2,
                    sizeLat = 10, sizeLat2 = 6,
                    sizeMan = 8 , sizeMan2 = 4,
-                   edge.label.cex = 0.9, edge.label.position=0.6,
+                   edge.label.cex = 0.9, edge.label.position = 0.5,
                    mar = c(1,5,1,5),
                    groups = "lat", pastel = TRUE,
                    fade = FALSE,
                    se = FALSE,
                    residuals= FALSE,
                    residScale = 12,
-                   intercepts = FALSE
+                   intercepts = FALSE,
+                   semptools=TRUE
                    ){
 
 
@@ -157,14 +168,19 @@ sem_plot = function(data,
       )
   }
 
-  if(se){
-  res2 = res%>%
-    semptools::mark_sig(data) %>%semptools::mark_se(data,sep="\n" ) %>% plot()
-  }else{
-    res1 = res %>%
-      semptools::mark_sig(data) %>% plot()
-  }
+  if(semptools){
+    if(se){
+      res1 = res%>%
+        semptools::mark_sig(data) %>%semptools::mark_se(data,sep="\n" ) %>% plot()
+    }else{
+      res1 = res %>%
+        semptools::mark_sig(data) %>% plot()
+    }
 
+  }else{
+    res1 = res
+  }
+res1
 }
 
 #'

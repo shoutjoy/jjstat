@@ -24,8 +24,7 @@ chisq_test_kge(
   text_size = 13,
   xlab = "관측기대비율",
   ylab = "var2",
-  cramer = "adjust",
-  raw = TRUE
+  cramer = "adjust"
 )
 }
 \arguments{
@@ -68,8 +67,6 @@ chisq_test_kge(
 \item{ylab}{ylab}
 
 \item{cramer}{cramer cor}
-
-\item{raw}{TRUE data.grame FALSE table data}
 }
 \value{
 multiple data

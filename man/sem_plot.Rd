@@ -17,7 +17,7 @@ sem_plot(
   sizeMan = 8,
   sizeMan2 = 4,
   edge.label.cex = 0.9,
-  edge.label.position = 0.6,
+  edge.label.position = 0.5,
   mar = c(1, 5, 1, 5),
   groups = "lat",
   pastel = TRUE,
@@ -25,7 +25,8 @@ sem_plot(
   se = FALSE,
   residuals = FALSE,
   residScale = 12,
-  intercepts = FALSE
+  intercepts = FALSE,
+  semptools = TRUE
 )
 }
 \arguments{
@@ -68,6 +69,8 @@ sem_plot(
 \item{residScale}{12}
 
 \item{intercepts}{intercepts =FALSE becouse semptools}
+
+\item{semptools}{using semptools TRUE}
 }
 \value{
 plot
@@ -87,7 +90,16 @@ sem_plot(fit)
 
 example(cfa)
 sem_plot(fit)
+#'
+HS.model <- '
+    visual  =~ x1 + b1*x2 + x3
+    textual =~ x4 + b2*x5 + x6
+    speed   =~ x7 + b3*x8 + x9
+speed ~ visual + textual
 
+'
+fit1 <- sem(HS.model, data = HolzingerSwineford1939)
 
+fit1 \%>\%sem_plot(residuals=T, curve=2)
 }
 }

@@ -56,7 +56,7 @@
 #' }
 #'
 #'
-Chisq_retest <- function(input, ncol = 2,
+chisq_retest <- function(input, ncol = 2,
                          colname = NULL,
                          rowname = NULL,
                          type= "all",

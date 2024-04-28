@@ -279,3 +279,337 @@ sem_apa <- function(data, md = FALSE, caption= "Table: ", print=TRUE) {
 }
 
 
+#' sem_apa_ie_CI
+#'
+#' @param data lavaan object
+#' @param caption "매개효과 분석 결과",
+#' @param md markdown
+#' @param est est sel 2
+#' @param std std sel 3
+#' @param sig sig sel 6
+#' @param CI CI seledct 7
+#' @param Z Z=FALSE
+#' @param tot_filter tot_filter="총",
+#' @param ind_filter ind_filter="IE"
+#'
+#' @return table
+#' @export
+#'
+
+sem_apa_ie_CI <- function(data, caption="매개효과 분석 결과 ",
+                          md = FALSE, est=2, std=3, sig = 6, CI=7 ,Z=FALSE,
+                          tot_filter="총",
+                          ind_filter="IE" ) {
+
+  data<- data %>% separate(z, c("Z","sig"), sep=" ")
+  data = data %>% replace_df(pattern="ns", imp="") %>%
+    unite(Est, est, sig, sep= "", remove=FALSE)
+  data$Est = format(data$Est, #justify="right",
+                    digits = 3)
+  # data$Path = format(data$Path, justify="right")
+
+  inter <- c()
+  for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
+    inter[i] <- paste0( "가설[",i,"] : '",
+                        data[i, 1],
+                        "'에 관한 매개효과",
+                        ifelse(str_detect( data[i, 1], ind_filter), "(간접효과) ",
+                               ifelse(str_detect( data[i, 1], tot_filter) , "(전체효과) ","(간접효과)"  )),
+                        "분석 결과, 통계적으로",
+                        ifelse(data[i, sig] == "ns", " 유의미한 효과는 없었다",
+                               " 유의미한 효과가 나타났다"),
+                        #  "(est = ", round(data[i, est], 3),
+                        "(est = ", data[i, est],
+                        ", std = ", data[i, std],
+                        ", 95%CI", data[i, CI],
+                        "). \n\n"  )
+  }
+
+  # data_1 = data %>% replace_df(pattern="ns", imp="") %>%
+  #            unite(est, est, sig, sep= "")
+  # data_1$est = format(data_1$est, justify="left")
+  # data_1$Path = format(data_1$Path, justify="left")
+  if(Z){
+    data   =  data%>%select(-est, -sig, Z)%>%
+      dplyr::rename("95% CI" = CI_95p)
+  }else{
+    data   =  data%>%select(-est, -sig, -Z)%>%
+      dplyr::rename("95% CI" = CI_95p)
+  }
+  print( data)
+
+  if(md){  print(data%>% jjstat::md(digits=3, caption=caption))}
+
+  cat("\n\n 매개효과(간접효과)에 관한 가설검정 결과, 다음과 같이 나타났다. \n\n",
+      inter,"\n\n")
+
+}
+
+
+
+#' sem_apa_ie_CI
+#'
+#' @param data lavaan object
+#' @param caption "매개효과 분석 결과",
+#' @param md markdown
+#' @param est est sel 2
+#' @param std std sel 3
+#' @param sig sig sel 6
+#' @param CI CI seledct 7
+#' @param Z Z=FALSE
+#' @param tot_filter tot_filter="총",
+#' @param ind_filter ind_filter="IE"
+#'
+#' @return table
+#' @export
+#'
+
+interpretation_ie_CI <- function(data, caption="매개효과 분석 결과 ",
+                          md = FALSE, est=2, std=3, sig = 6, CI=7 ,Z=FALSE,
+                          tot_filter="총",
+                          ind_filter="IE" ) {
+
+  data<- data %>% separate(z, c("Z","sig"), sep=" ")
+  data = data %>% replace_df(pattern="ns", imp="") %>%
+    unite(Est, est, sig, sep= "", remove=FALSE)
+  data$Est = format(data$Est, #justify="right",
+                    digits = 3)
+  # data$Path = format(data$Path, justify="right")
+
+  inter <- c()
+  for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
+    inter[i] <- paste0( "가설[",i,"] : '",
+                        data[i, 1],
+                        "'에 관한 매개효과",
+                        ifelse(str_detect( data[i, 1], ind_filter), "(간접효과) ",
+                               ifelse(str_detect( data[i, 1], tot_filter) , "(전체효과) ","(간접효과)"  )),
+                        "분석 결과, 통계적으로",
+                        ifelse(data[i, sig] == "ns", " 유의미한 효과는 없었다",
+                               " 유의미한 효과가 나타났다"),
+                        #  "(est = ", round(data[i, est], 3),
+                        "(est = ", data[i, est],
+                        ", std = ", data[i, std],
+                        ", 95%CI", data[i, CI],
+                        "). \n\n"  )
+  }
+
+  # data_1 = data %>% replace_df(pattern="ns", imp="") %>%
+  #            unite(est, est, sig, sep= "")
+  # data_1$est = format(data_1$est, justify="left")
+  # data_1$Path = format(data_1$Path, justify="left")
+  if(Z){
+    data   =  data%>%select(-est, -sig, Z)%>%
+      dplyr::rename("95% CI" = CI_95p)
+  }else{
+    data   =  data%>%select(-est, -sig, -Z)%>%
+      dplyr::rename("95% CI" = CI_95p)
+  }
+  print( data)
+
+  if(md){  print(data%>% jjstat::md(digits=3, caption=caption))}
+
+  cat("\n\n 매개효과(간접효과)에 관한 가설검정 결과, 다음과 같이 나타났다. \n\n",
+      inter,"\n\n")
+
+}
+
+
+#' sem_apa_ie
+#'
+#' @param data data
+#' @param msg msg="IE"
+#' @param md md = FALSE
+#' @param est  est=3
+#' @param std  std=4
+#' @param sig  sig = 7
+#' @param p  p=6
+#'
+#' @return ie report
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' example(sem)
+#' IE_effect(fit)
+#' IE_effect(fit) %>% sem_apa_ie()
+#' }
+sem_apa_ie <- function(data, msg="IE", md = FALSE, est=3, std=4, sig = 7, p=6  ) {
+  inter <- c()
+
+  if(msg=="IE"){
+
+    for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
+      inter[i] <- paste0( "가설[",i,"] : '",
+                          data[i, 1],
+                          "'에 관한 매개효과",
+                          ifelse(str_detect( data[i, 1], "IE"), "(간접효과) ",
+                                 ifelse(str_detect( data[i, 1], "TE") , "(전체효과) ","(간접효과) "  )),
+                          "분석 결과, 통계적으로",
+                          ifelse(data[i, sig] == "ns", " 유의미한 효과는 없었다",
+                                 " 유의미한 효과가 나타났다"),
+                          "(est = ", round(data[i, est], 3),
+                          ", std = ", round(data[i, std], 3),
+                          ", p ",
+                          ifelse(data[i, p]< 0.001,"< .001", paste0("= ", round(data[i, p], 3))),
+                          "). \n\n"
+      )
+    }
+
+    print(data)
+    if(md){  print(data%>% jjstat::md(digits=3))}
+
+    cat("\n\n 매개효과(간접효과)에 관한 가설검정 결과, 다음과 같이 나타났다. \n\n",
+        inter,"\n\n")
+
+
+  }else if(msg =="TE"){
+    for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
+      inter[i] <- paste0( "가설[",i,"] : '",
+                          data[i, 1],
+                          "'에 관한 매개효과",
+                          ifelse(str_detect( data[i, 1], "IE"), "(간접효과) ",
+                                 ifelse(str_detect( data[i, 1], "TE") , "(전체효과) ","(직접효과) "  )),
+                          "분석 결과, 통계적으로",
+                          ifelse(data[i, sig] == "ns", " 유의미한 효과는 없었다",
+                                 " 유의미한 효과가 나타났다"),
+                          "(est = ", round(data[i, est], 3),
+                          ", std = ", round(data[i, std], 3),
+                          ", p ",
+                          ifelse(data[i, p]< 0.001,"< .001", paste0("= ", round(data[i, p], 3))),
+                          "). \n\n"
+      )
+    }
+
+    print(data)
+    if(md){  print(data%>% jjstat::md(digits=3))}
+
+    cat("\n\n 매개효과(전체효과)에 관한 가설검정 결과, 다음과 같이 나타났다. \n\n",
+        inter,"\n\n")
+
+  } else if(msg =="Diff"){
+    for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
+      inter[i] <- paste0( "가설[",i,"] : '",
+                          data[i, 1],"(",data[i, 2], ")",
+                          "'에 관한 매개효과",
+                          ifelse(str_detect( data[i, 1], "IE"), "(간접효과) ",
+                                 ifelse(str_detect( data[i, 1], "TE") , "(전체효과) ","(효과차이검정) "  )),
+                          "분석 결과, 통계적으로",
+                          ifelse(data[i, sig] == "ns", " 유의미한 효과는 없었다",
+                                 " 유의미한 효과가 나타났다"),
+                          "(est = ", round(data[i, est], 3),
+                          ", std = ", round(data[i, std], 3),
+                          ", p ",
+                          ifelse(data[i, p]< 0.001,"< .001", paste0("= ", round(data[i, p], 3))),
+                          "). \n\n"
+      )
+    }
+
+    print(data)
+    if(md){  print(data%>% jjstat::md(digits=3))}
+
+    cat("\n\n 매개효과(차이효과 검정)에 관한 가설검정 결과, 다음과 같이 나타났다. \n\n",
+        inter,"\n\n")
+  }
+}
+
+
+
+#' interpretation_ie
+#'
+#' @param data data
+#' @param msg msg="IE"
+#' @param md md = FALSE
+#' @param est  est=3
+#' @param std  std=4
+#' @param sig  sig = 7
+#' @param p  p=6
+#'
+#' @return ie report
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' example(sem)
+#' IE_effect(fit)
+#' IE_effect(fit) %>% interpretation_ie()
+#' }
+interpretation_ie <- function(data, msg="IE", md = FALSE, est=3, std=4, sig = 7, p=6  ) {
+  inter <- c()
+
+  if(msg=="IE"){
+
+    for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
+      inter[i] <- paste0( "가설[",i,"] : '",
+                          data[i, 1],
+                          "'에 관한 매개효과",
+                          ifelse(str_detect( data[i, 1], "IE"), "(간접효과) ",
+                                 ifelse(str_detect( data[i, 1], "TE") , "(전체효과) ","(간접효과) "  )),
+                          "분석 결과, 통계적으로",
+                          ifelse(data[i, sig] == "ns", " 유의미한 효과는 없었다",
+                                 " 유의미한 효과가 나타났다"),
+                          "(est = ", round(data[i, est], 3),
+                          ", std = ", round(data[i, std], 3),
+                          ", p ",
+                          ifelse(data[i, p]< 0.001,"< .001", paste0("= ", round(data[i, p], 3))),
+                          "). \n\n"
+      )
+    }
+
+    print(data)
+    if(md){  print(data%>% jjstat::md(digits=3))}
+
+    cat("\n\n 매개효과(간접효과)에 관한 가설검정 결과, 다음과 같이 나타났다. \n\n",
+        inter,"\n\n")
+
+
+  }else if(msg =="TE"){
+    for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
+      inter[i] <- paste0( "가설[",i,"] : '",
+                          data[i, 1],
+                          "'에 관한 매개효과",
+                          ifelse(str_detect( data[i, 1], "IE"), "(간접효과) ",
+                                 ifelse(str_detect( data[i, 1], "TE") , "(전체효과) ","(직접효과) "  )),
+                          "분석 결과, 통계적으로",
+                          ifelse(data[i, sig] == "ns", " 유의미한 효과는 없었다",
+                                 " 유의미한 효과가 나타났다"),
+                          "(est = ", round(data[i, est], 3),
+                          ", std = ", round(data[i, std], 3),
+                          ", p ",
+                          ifelse(data[i, p]< 0.001,"< .001", paste0("= ", round(data[i, p], 3))),
+                          "). \n\n"
+      )
+    }
+
+    print(data)
+    if(md){  print(data%>% jjstat::md(digits=3))}
+
+    cat("\n\n 매개효과(전체효과)에 관한 가설검정 결과, 다음과 같이 나타났다. \n\n",
+        inter,"\n\n")
+
+  } else if(msg =="Diff"){
+    for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
+      inter[i] <- paste0( "가설[",i,"] : '",
+                          data[i, 1],"(",data[i, 2], ")",
+                          "'에 관한 매개효과",
+                          ifelse(str_detect( data[i, 1], "IE"), "(간접효과) ",
+                                 ifelse(str_detect( data[i, 1], "TE") , "(전체효과) ","(효과차이검정) "  )),
+                          "분석 결과, 통계적으로",
+                          ifelse(data[i, sig] == "ns", " 유의미한 효과는 없었다",
+                                 " 유의미한 효과가 나타났다"),
+                          "(est = ", round(data[i, est], 3),
+                          ", std = ", round(data[i, std], 3),
+                          ", p ",
+                          ifelse(data[i, p]< 0.001,"< .001", paste0("= ", round(data[i, p], 3))),
+                          "). \n\n"
+      )
+    }
+
+    print(data)
+    if(md){  print(data%>% jjstat::md(digits=3))}
+
+    cat("\n\n 매개효과(차이효과 검정)에 관한 가설검정 결과, 다음과 같이 나타났다. \n\n",
+        inter,"\n\n")
+  }
+}

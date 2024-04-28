@@ -21,7 +21,6 @@
 #' @param xlab xlab
 #' @param ylab ylab
 #' @param cramer cramer cor
-#' @param raw TRUE data.grame FALSE table data
 #'
 #' @return multiple data
 #' @export
@@ -91,20 +90,46 @@ chisq_test_kge = function(dataset,
                           text_size = 13,
                           xlab = "관측기대비율",
                           ylab = "var2",
-                          cramer="adjust",
-                          raw =TRUE
+                          cramer="adjust"
+                          # raw =TRUE
 ){
 
-  if(raw){
-    # Using data.frame
+  # if(raw){
+  #   # Using data.frame
+  #   data =  dataset %>%
+  #     dplyr::select(all_of(v1), all_of(v2)) %>%
+  #     table()
+  # }else{
+  #   # table data/ Contigency table
+  #   var1 = rownames(dataset)
+  #   var2 = colnames(dataset)
+  #
+  #   data =  dataset%>% long_df(v1,v2) %>% unCount() %>% table()
+  # }
+  #
+  if(is.matrix(dataset)|is.table(dataset)){
+    # table data/ Contigency table
+    var1 = rownames(dataset)
+    var2 = colnames(dataset)
+
+    data =  dataset%>% long_df(v1,v2) %>%
+
+      unCount() %>% table()
+
+
+  }else if(is.data.fram){
+     # Using data.frame
     data =  dataset %>%
       dplyr::select(all_of(v1), all_of(v2)) %>%
       table()
   }else{
-    # table data/ Contigency table
+    data =  dataset %>%
+      dplyr::select(all_of(v1), all_of(v2)) %>%
+      table()
 
-    data =  dataset
   }
+
+
   #  margn sum
   data_margin0 = data %>% addmargins()
 
@@ -224,7 +249,8 @@ chisq_test_kge = function(dataset,
                            digits = digits,
                            general = NULL)
 
-  cat("\n\nNOTE: ***: p < .001, **: p < .01, *: p < .05\n\n ")
+  cat("\n\nNOTE: made by Park Joonghee PhD
+      ***: p < .001, **: p < .01, *: p < .05\n\n ")
 
 
   if(ko){
