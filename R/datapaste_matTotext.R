@@ -34,8 +34,8 @@
 #'
 #' colnames(NewMat) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9")
 #'
-#'
-#'
+#' #as.numeric
+#'# NewMat <- apply(NewMat, 2, function(x) as.numeric(gsub("'", "", x)))
 #'
 #' V1      V2 V3        V4        V5       V6        V7        V8 V9
 #' [1,] "ceo_8" NA "satis_5" "satis_4" NA       "satis_3" "satis_1" NA NA
@@ -54,7 +54,8 @@
 #' #'
 #' }
 #'
-make_mat_text <- function(data) {
+#'
+make_mat_text <- function(data, text = FALSE) {
   if (!is.matrix(data)) {
     cat("Input data is not a matrix.\n")
     return()
@@ -63,6 +64,8 @@ make_mat_text <- function(data) {
   # 행렬의 행, 열 개수 확인
   n_rows <- nrow(data)
   n_cols <- ncol(data)
+  # Colsnaems <- colsnames(data)
+  # Rowsnaems <- rowsnames(data)
 
   # 빈칸을 모두 NA로 처리
   data[data == ""] <- NA
@@ -71,16 +74,26 @@ make_mat_text <- function(data) {
   # 행렬 데이터를 입력 형태로 변환
   mat_text <- "NewMat = matrix(c("
 
-  for (j in 1:n_cols) {
-    for (i in 1:n_rows) {
-      mat_text <- paste(mat_text, "'", data[i, j], "'", ", ", sep = "")
+  if(text){
+    for (j in 1:n_cols) {
+      for (i in 1:n_rows) {
+        mat_text <- paste(mat_text, "'", data[i, j], "'", ", ", sep = "")
+      }
     }
+
+  }else{
+    for (j in 1:n_cols) {
+      for (i in 1:n_rows) {
+        mat_text <- paste(mat_text, data[i, j], ", ", sep = "")
+      }
+    }
+
   }
 
   mat_text <- sub(", $", "", mat_text)  # 마지막 쉼표 제거
   mat_text <- paste(mat_text, "),\n", sep = "")
   mat_text <- paste(mat_text, "nrow = ", n_rows, ", ", sep = "")
-  mat_text <- paste(mat_text, "ncol = ", n_cols, ")\n\n\n", sep = "")
+  mat_text <- paste(mat_text, "ncol = ", n_cols, ")\n\n", sep = "")
 
   # 행렬의 행 이름과 열 이름이 있는 경우 출력에 포함
   if (!is.null(rownames(data))) {
@@ -94,6 +107,8 @@ make_mat_text <- function(data) {
 
   # 패턴이 'NA'인 문자열을 NA로 대체
   mat_text <- gsub("'NA'", "NA", mat_text)
+
+
 
   # text로 출력
   cat("\n\n", mat_text, "\n\n" )

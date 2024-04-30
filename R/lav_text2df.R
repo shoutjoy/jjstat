@@ -1,9 +1,9 @@
-#' Text to data.frame
+#' Text to data.frame /It is characterized by the use of blank spaces to separate content.
 #'
 #' @param text text
 #' @param header header = TRUE
 #' @param type res, check
-#' @param vars additinal factor
+#' @param add_vars additinal factor
 #'
 #' @return table data.frame
 #' @export
@@ -71,46 +71,129 @@
 #' 기관규모 -.10 .03 -.20 -3.36**"
 #'
 #' text2df(reg_text)
+#' #'
+#' text2df(reg_text) %>% tibble()
 #'
+#' #text to numeric
+#' text2df(reg_text)%>% Char2num() %>% tibble()
 #'
+#' text2df(reg_text)%>% Char2num(iter=2:4) %>% tibble()
 #' #' }
 #'
-text2df <- function(text, header=TRUE,
-                    type="res",
-                    vars=NULL) {
-  text <- c(text)
+text2df <- function(text, header = TRUE, type = "res",add_vars=NULL) {
   # Split text by line
-  ROW <- strsplit(text, "\n")
-  # Set the first row as the variable name
-  colnames <- strsplit(ROW[[1]], " ")[[1]]
+  ROW <- strsplit(text, "\n")[[1]]
+  # Replace "Std. Error" with "Std.Error" and "t value" with "tvalue"
+  # ROW <- gsub("Std. Error", "Std.Error", ROW)
+  # ROW <- gsub("t value", "t_value", ROW)
 
-  # Convert the remaining rows to data
-  ROW <- ROW[[1]]
+  # Set the first row as the variable name
+  colnames <- strsplit(ROW[[1]], "\\s+")[[1]]
+  #  colnames <- unlist(strsplit(ROW[[1]], "\\s+"))
+
+
+  # Remove leading whitespace from each row
+  ROW <- gsub("^\\s+", "", ROW)
+
+  # Remove empty rows
+  ROW <- ROW[nchar(trimws(ROW)) > 0]
+
+
+  # Check and convert the separator "~" to "~" if present
+  ROW <- gsub("\\s*~\\s*", "~", ROW)
+
+
+
   DATA <- lapply(ROW, function(x) {
     # Separate the alphanumeric part from the numeric part
-    strsplit(x, " ")[[1]]
+    strsplit(x, "\\s+")[[1]]
   })
-  #data bind do.cal function
-  DATA <- do.call( rbind.data.frame, DATA)
-  #header check
-  if(header){
-    DATA<- DATA[-1,]
-  }else{
-    DATA<- DATA
-  }
-  colnames(DATA)= colnames
 
-  check = list(ROW,colnames, DATA)
+  # Pad shorter rows with NAs to match the length of the longest row
+  max_length <- max(sapply(DATA, length))
+  DATA <- lapply(DATA, function(row) {
+    length_diff <- max_length - length(row)
+    c(row, rep(NA, length_diff))
+  })
+
+  # Data bind
+  DATA <- do.call(rbind.data.frame, DATA)
+
+  # Clean up the data: Convert empty strings to NA
+  DATA[DATA == ""] <- NA
+
+  # Check if header should be removed
+  if (header) {
+    DATA <- DATA[-1, , drop = FALSE]  # Remove the first row
+  }
+
+  # Set column names
+  if (header) {
+    # Adjust column names to match the number of columns in the data
+    colnames(DATA) <- colnames
+  } else {
+    # Extract the first part of the string before "~" and set it as the first column name
+    first_col_name <- gsub("~.*", "", colnames[1])
+    colnames(DATA) <- c(first_col_name, colnames[-1])
+  }
+
+
+  if ("" %in% colnames(DATA)) {
+    res <- DATA
+    colNames = colnames(res)
+    colNames = colNames[-1]
+    colnames(res) = c('variable', colNames)
+  } else {
+    res <-  DATA
+  }
 
   if(is.null(vars)){
-    res = DATA
-  }else{
-    res = bind_cols(Factor = vars, DATA)
-  }
+        res = res
+      }else{
+        res = bind_cols(Factor = add_vars, res)
+      }
 
 
-  switch(type, check = check, res = res )
+  switch(type,
+         check = list(ROW, colnames, DATA),
+         res = res)
 }
+# text2df <- function(text, header=TRUE,
+#                     type="res",
+#                     vars=NULL) {
+#   text <- c(text)
+#   # Split text by line
+#   ROW <- strsplit(text, "\n")
+#   # Set the first row as the variable name
+#   colnames <- strsplit(ROW[[1]], " ")[[1]]
+#
+#   # Convert the remaining rows to data
+#   ROW <- ROW[[1]]
+#   DATA <- lapply(ROW, function(x) {
+#     # Separate the alphanumeric part from the numeric part
+#     strsplit(x, " ")[[1]]
+#   })
+#   #data bind do.cal function
+#   DATA <- do.call( rbind.data.frame, DATA)
+#   #header check
+#   if(header){
+#     DATA<- DATA[-1,]
+#   }else{
+#     DATA<- DATA
+#   }
+#   colnames(DATA)= colnames
+#
+#   check = list(ROW,colnames, DATA)
+#
+#   if(is.null(vars)){
+#     res = DATA
+#   }else{
+#     res = bind_cols(Factor = vars, DATA)
+#   }
+#
+#
+#   switch(type, check = check, res = res )
+# }
 
 #' t_sep separate t value and star
 #'

@@ -4,7 +4,14 @@
 \alias{lowerMat_na}
 \title{lower pull matrix fill NA}
 \usage{
-lowerMat_na(mat, fill = ".", diag = ".")
+lowerMat_na(
+  mat,
+  fill = "",
+  diag = 1,
+  numeric = FALSE,
+  digits = 3,
+  justify = "right"
+)
 }
 \arguments{
 \item{mat}{matrix data}

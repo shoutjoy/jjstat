@@ -4,7 +4,7 @@
 \alias{make_mat_text}
 \title{Functions that let you input data in matrix form}
 \usage{
-make_mat_text(data)
+make_mat_text(data, text = FALSE)
 }
 \arguments{
 \item{data}{input dat a}
@@ -43,8 +43,8 @@ NewMat = matrix(c('ceo_8', NA, 'ceo_7', NA, 'ceo_6', NA, 'ceo_4', NA, 'ceo_3', N
 
 colnames(NewMat) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9")
 
-
-
+#as.numeric
+# NewMat <- apply(NewMat, 2, function(x) as.numeric(gsub("'", "", x)))
 
 V1      V2 V3        V4        V5       V6        V7        V8 V9
 [1,] "ceo_8" NA "satis_5" "satis_4" NA       "satis_3" "satis_1" NA NA
@@ -62,5 +62,6 @@ V1      V2 V3        V4        V5       V6        V7        V8 V9
 [13,] "ceo_1" NA NA        NA        NA       NA        NA        NA NA
 #'
 }
+
 
 }

@@ -9,9 +9,12 @@
 #' @export
 #'
 #'
-lowerMat <- function(mat, fill = 0, diag = 0  ) {
+lowerMat <- function(mat, fill = 0, diag = 0,
+                     digits = 3) {
   num_rows <- nrow(mat)
   num_cols <- ncol(mat)
+
+  mat<- round(mat, digits = digits)
 
   if (num_rows != num_cols) {
     stop("Input matrix is not square.")
@@ -41,9 +44,12 @@ lowerMat <- function(mat, fill = 0, diag = 0  ) {
 #' @export
 #'
 #'
-lowerMat_na <- function(mat, fill=".", diag = ".") {
+lowerMat_na <- function(mat, fill='', diag = 1,
+                        numeric = FALSE, digits = 3,
+                        justify ="right") {
   num_rows <- nrow(mat)
   num_cols <- ncol(mat)
+  mat<- round(mat, digits = digits)
 
   if (num_rows != num_cols) {
     stop("Input matrix is not square.")
@@ -59,5 +65,10 @@ lowerMat_na <- function(mat, fill=".", diag = ".") {
     }
   }
 
+if(numeric){
+  mat <- apply(mat, 2, function(x) as.numeric(gsub("'", "", x)))
+}
+
+mat <- format(mat, digist = digits, justify = justify)
   return(mat)
 }

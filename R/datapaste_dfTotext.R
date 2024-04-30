@@ -25,7 +25,7 @@
 #' }
 #'
 
-make_df_text <- function(data, rownames = TRUE) {
+make_df_text <- function(data, rownames = TRUE, text = FALSE) {
   # 데이터프레임으로 변환
   data <- as.data.frame(data)
 
@@ -50,19 +50,38 @@ make_df_text <- function(data, rownames = TRUE) {
     }
   }
 
-  for (col in col_names) {
-    df_text <- paste(df_text, col, " = c(", sep = "")
-    for (i in 1:nrow(data)) {
-      if (is.na(data[i, col])) {
-        df_text <- paste(df_text, "NA, ", sep = "")
-      } else {
-        df_text <- paste(df_text, "'", data[i, col], "', ", sep = "")
+  if(text){
+    for (col in col_names) {
+      df_text <- paste(df_text, col, " = c(", sep = "")
+      for (i in 1:nrow(data)) {
+        if (is.na(data[i, col])) {
+          df_text <- paste(df_text, "NA, ", sep = "")
+        } else {
+          df_text <- paste(df_text, "'", data[i, col], "', ", sep = "")
+        }
       }
+      df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
+      df_text <- paste(df_text, "),\n ", sep = "")
     }
-    df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
-    df_text <- paste(df_text, "),\n ", sep = "")
+
+  }else{
+    for (col in col_names) {
+      df_text <- paste(df_text, col, " = c(", sep = "")
+      for (i in 1:nrow(data)) {
+        if (is.na(data[i, col])) {
+          df_text <- paste(df_text, "NA, ", sep = "")
+        } else {
+          df_text <- paste(df_text, data[i, col], ", ", sep = "")
+        }
+      }
+      df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
+      df_text <- paste(df_text, "),\n ", sep = "")
+    }
+
   }
-  df_text <- sub(",\n$", "", df_text)  # 마지막 쉼표와 공백 제거
+
+
+  df_text <- sub(",\n $", "\n", df_text)  # 마지막 쉼표와 줄바꿈 제거
   df_text <- paste(df_text, ")\n", sep = "")
 
   # 결과 출력

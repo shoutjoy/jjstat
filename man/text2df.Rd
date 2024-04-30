@@ -2,9 +2,9 @@
 % Please edit documentation in R/lav_text2df.R
 \name{text2df}
 \alias{text2df}
-\title{Text to data.frame}
+\title{Text to data.frame /It is characterized by the use of blank spaces to separate content.}
 \usage{
-text2df(text, header = TRUE, type = "res", vars = NULL)
+text2df(text, header = TRUE, type = "res", add_vars = NULL)
 }
 \arguments{
 \item{text}{text}
@@ -13,13 +13,13 @@ text2df(text, header = TRUE, type = "res", vars = NULL)
 
 \item{type}{res, check}
 
-\item{vars}{additinal factor}
+\item{add_vars}{additinal factor}
 }
 \value{
 table data.frame
 }
 \description{
-Text to data.frame
+Text to data.frame /It is characterized by the use of blank spaces to separate content.
 }
 \examples{
 
@@ -84,8 +84,13 @@ reg_text = "var B se b t
 기관규모 -.10 .03 -.20 -3.36**"
 
 text2df(reg_text)
+#'
+text2df(reg_text) \%>\% tibble()
 
+#text to numeric
+text2df(reg_text)\%>\% Char2num() \%>\% tibble()
 
+text2df(reg_text)\%>\% Char2num(iter=2:4) \%>\% tibble()
 #' }
 
 }

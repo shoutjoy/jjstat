@@ -75,58 +75,82 @@
 #' "
 #' lav_matrix(Jiks2016, "check")
 #' lav_matrix(Jiks2016)
+#' #'
+#' ## data
+#' textdf =  "motiv 400
+#' harm      77  300
+#' stabi     32   25   100
+#' ppsych   -25  -25   -40    100
+#' ses       25   26    40    -42 100
+#' verbal    59   58    27    -16  18    100
+#' read      53   42    56    -39  43     36  100
+#' arith     60   44    49    -24  37     38   73   100
+#' spell     59   45    48    -31  33     38   87    72   100"
+#'
+#' lav_matrix(textdf)
+#' lav_matrix(textdf,type= "all")
+#'
+#' lav_matrix(textdf, "check", init=3)
+#'
+#'
 #' }
 #'
 
-lav_matrix <- function(text, type="res") {
+llav_matrix <- function(text, type = "res") {
   # 텍스트를 줄 단위로 분할
   lines <- strsplit(text, "\n")[[1]]
 
   # 헤더 추출
-  header <- gsub("\\*", "", lines)
-  header <- gsub("\\d+\\.?\\d*", "", header)
-  header <- gsub("\\s+", "", header)
+  header <- gsub("\\*", "", lines)  # 별표 제거
+  header <- gsub("\\d+\\.?\\d*", "", header)  # 숫자 및 소수점 제거
+  header <- gsub("\\s+", "", header)  # 공백 제거
   header <- gsub("\\.+\\s*$", "", header)  # 마지막에 오는 기호들 제거
-  header <- gsub("\\.-\\s*$", "", header)
-  header <- gsub("\\....\\s*$", "", header) #에외.....발생부분
-  header <- gsub("\\-\\s*$", "", header)
-  header <- gsub("[-.]+$", "", header) # -. 반복되는 추출 제거
-  header <- header[header != ""]
+  header <- gsub("\\.-\\s*$", "", header)  # 마지막에 오는 기호들 제거
+  header <- gsub("\\....\\s*$", "", header)  # 마지막에 오는 기호들 제거
+  header <- gsub("\\-\\s*$", "", header)  # 마지막에 오는 기호들 제거
+  header <- gsub("[-.]+$", "", header)  # 마지막에 오는 기호들 제거
+  header <- header[header != ""]  # 빈 값 제거
 
-  #음수의 위치를 추출해서 앞부분 제거된 결과의 위치에 맞추어서 표시 하기
+  # 음수의 위치를 추출해서 앞부분 제거된 결과의 위치에 맞추어서 표시 하기
   data_no_header_2 <- gsub("(?<=[^\\d])-(?=\\s)", "- ", lines, perl = TRUE)
-  data_no_header_2 <- trimws(data_no_header_2)
-  data_no_header_2 <- data_no_header_2[data_no_header_2 != ""]
+  data_no_header_2 <- gsub("\\s+", " ", data_no_header_2)  # 중복된 공백을 하나의 공백으로 변경
+  data_no_header_2 <- trimws(data_no_header_2)  # 왼쪽 공백 제거
+  data_no_header_2 <- data_no_header_2[data_no_header_2 != ""]  # 빈 값 제거
 
-  data_no_header_2 <- gsub("[가-힣]+", "", data_no_header_2, perl = TRUE)
-  data_no_header_2 <- gsub("[a-zA-Z]+", "", data_no_header_2, perl = TRUE)
-  data_no_header_2 <- gsub("\\*", "", data_no_header_2)  #별표시 삭제
-  data_no_header_2 <- gsub("_", "", data_no_header_2)
+  data_no_header_2 <- gsub("[가-힣]+", "", data_no_header_2, perl = TRUE)  # 한글 제거
+  data_no_header_2 <- gsub("[a-zA-Z]+", "", data_no_header_2, perl = TRUE)  # 알파벳 제거
+  data_no_header_2 <- gsub("\\*", "", data_no_header_2)  # 별표 제거
+  data_no_header_2 <- gsub("_", "", data_no_header_2)  # 밑줄 제거
+
+  # 첫 번째 데이터를 init으로 설정
+  if (length(data_no_header_2) > 0) {
+    init <- gsub("\\s+", "", data_no_header_2[1])  # 첫 번째 데이터 내 공백 제거
+    init <- ifelse(grepl("^\\d+", init), init, "")  # 첫 번째 데이터가 숫자로 시작하면 그대로, 아니면 공백 처리
+  }
 
   input2 <- paste(data_no_header_2, collapse = "")  # 벡터화
-  input2 <- gsub("\\s+", ", ", input2)   #문자뒤 콤마
-  input2 <- gsub("^, 1,", "1,", input2)  #첫번째 1의 수정
+  # 첫 번째 데이터에 대한 처리
+  input2 <- gsub("\\s+", ", ", input2)   # 문자 뒤 콤마
+  # input2 <- gsub("^, 1,", "1,", input2)  # 첫번째 1의 수정; 중복되 보임
+  # input2[1] <- sub("^, [1-9]", init, input2[1])  # 첫 번째 데이터에서 ", " 삭제: 중복
+  input2[1] <- sub("^, \\d+", init, input2[1])  # 첫 번째 데이터에서 ", " 삭제
 
-  if(type =="check"){
-    check =  list(header, data_no_header_2, input2)
-  }else{
-
-    # 헤더와 데이터를 사용하여 행렬 생성
+  if (type == "check") {
+    # check 옵션일 때 결과 반환
+    check <- list(header = header, data = data_no_header_2, data_vector = input2)
+    return(check)
+  } else {
+    # 행렬 생성
     res <- lavaan::lav_matrix_lower2full(as.numeric(unlist(strsplit(input2, ","))))
     colnames(res) <- header
     rownames(res) <- header
     cat("\n\n")
-    return(res)
-
     # return(res)
 
-
-    all =  list(header, data_no_header_2, input2, res)
+    all =  list(header = header, data = data_no_header_2, input=input2, res= res)
   }
-
-switch(type,
-       res = res,
-       all= all,
-       check = check )
+  switch(type,
+         res = res,
+         all= all,
+         check = check )
 }
-

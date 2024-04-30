@@ -4,7 +4,7 @@
 \alias{lowerMat}
 \title{lower pull matrix}
 \usage{
-lowerMat(mat, fill = 0, diag = 0)
+lowerMat(mat, fill = 0, diag = 0, digits = 3)
 }
 \arguments{
 \item{mat}{matrix data}
