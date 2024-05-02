@@ -91,6 +91,43 @@ text2df(reg_text) \%>\% tibble()
 text2df(reg_text)\%>\% Char2num() \%>\% tibble()
 
 text2df(reg_text)\%>\% Char2num(iter=2:4) \%>\% tibble()
+#'
+
+text ="d           Estimate  Std.Err  z-value  P(>|z|)
+  read~ppsych           -0.275    0.037   -7.385    0.000
+    read~motiv             0.461    0.037   12.404    0.000
+arith~motiv             0.600    0.036   16.771    0.000
+"
+text2df(text)
+text2df(text) \%>\% tibble::tibble()
+
+text ="             Estimate Std.Error tvalue Pr(>|t|)
+(Intercept) -1.336e-07  3.608e-01   0.000        1
+ppsych      -2.747e-01  3.730e-02  -7.363  7.51e-13***
+motiv        4.613e-01  3.730e-02  12.367  <2e-16***
+"
+text2df(text) \%>\%tibble()
+text2df(text) \%>\%make_df_text()
+
+
+text ="                   Estimate  Std.Err  z-value  P(>|z|)
+
+    read~ppsych           -0.275    0.037   -7.385    0.000
+    read~motiv             0.461    0.037   12.404    0.000
+
+    arith~ppsych           -0.096    0.037   -2.616    0.009
+     arith~motiv             0.576    0.037   15.695    0.000
+"
+text2df(text)
+
+
+
+text =" 과장 대리 부장 사원 주임 차장 SUM
+남자 30(39.5\%) 21(38.9\%) 34(79.1\%) 30(49.2\%)  10(37\%)     28(71.8\%) 153
+여자 46(60.5\%) 33(61.1\%) 9(20.9\%) 31(50.8\%) 17(63\%)    11(28.2\%) 147
+SUM 76 54 43 61 27 39 300
+"
+text2df(text)
 #' }
 
 }

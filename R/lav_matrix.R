@@ -96,7 +96,7 @@
 #' }
 #'
 
-llav_matrix <- function(text, type = "res") {
+lav_matrix <- function(text, type = "res") {
   # 텍스트를 줄 단위로 분할
   lines <- strsplit(text, "\n")[[1]]
 

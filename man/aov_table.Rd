@@ -32,7 +32,7 @@ aov_table(
 
 \item{posthoc}{'tukey, scheffe, duncan, lsd}
 
-\item{p.adj}{p.adj=c("none","holm","hommel", "hochberg", "bonferroni", "BH", "BY", "fdr")}
+\item{p.adj}{p.adj=c("none","holm","hommel", "hochberg", "bonferroni", "BH", "BY", "fdr") only lsd test}
 
 \item{sig}{'sig = T' is add star}
 }

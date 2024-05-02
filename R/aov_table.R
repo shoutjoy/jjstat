@@ -8,7 +8,7 @@
 #' @param sig 'sig = T' is add star
 #' @param grp_mean 'grooup mean remove
 #' @param posthoc 'tukey, scheffe, duncan, lsd
-#' @param p.adj  p.adj=c("none","holm","hommel", "hochberg", "bonferroni", "BH", "BY", "fdr")
+#' @param p.adj  p.adj=c("none","holm","hommel", "hochberg", "bonferroni", "BH", "BY", "fdr") only lsd test
 #'
 #' @return table
 #' @export
@@ -281,7 +281,7 @@ aov_table = function(data,
 #' @param sig 'sig = T' is add star
 #' @param grp_mean 'grooup mean remove
 #' @param posthoc 'tukey, scheffe, duncan, lsd
-#' @param p.adj  p.adj=c("none","holm","hommel", "hochberg", "bonferroni", "BH", "BY", "fdr")
+#' @param p.adj  p.adj=c("none","holm","hommel", "hochberg", "bonferroni", "BH", "BY", "fdr") only lsd test
 #'
 #' @return table
 #' @export

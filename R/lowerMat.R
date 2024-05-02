@@ -14,7 +14,10 @@ lowerMat <- function(mat, fill = 0, diag = 0,
   num_rows <- nrow(mat)
   num_cols <- ncol(mat)
 
+if(is.numeric(mat)){
   mat<- round(mat, digits = digits)
+}
+
 
   if (num_rows != num_cols) {
     stop("Input matrix is not square.")
@@ -71,4 +74,25 @@ if(numeric){
 
 mat <- format(mat, digist = digits, justify = justify)
   return(mat)
+}
+
+
+
+#' df or mat lower tri
+#'
+#' @param data data
+#'
+#' @return
+#' @export
+#'
+
+lowerdf <- function(data) {
+  for (i in 1:nrow(data)) {
+    for (j in 1:ncol(data)) {
+      if (j > i) {
+        data[i, j] <- ""
+      }
+    }
+  }
+  return(data)
 }
