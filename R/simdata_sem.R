@@ -1,0 +1,66 @@
+#' Structural equation data generation using the lavaan syntax
+#'
+#' @param model lavaan model
+#' @param N sample size N
+#' @param datatype "data.frame", "cor", "matrix"
+#' @param empirical  empirical
+#'
+#' @return  data
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' #'
+#' # devtools::install_github("M-E-Rademaker/cSEM")
+#' # devtools::install_github("M-E-Rademaker/cSEM.DGP")
+#' #
+#' # library(cSEM.DGP)
+#' # library(cSEM)
+#'
+#' # sample data
+#' HS.model <- ' visual  =~ x1 + x2 + x3
+#'               textual =~ x4 + x5 + x6
+#'               speed   =~ x7 + x8 + x9
+#'               '
+#'
+#' fit <- cfa(HS.model, data = HolzingerSwineford1939)
+#' summary(fit)
+#'
+#' #lavaan
+#' HS_model <- ' visual  =~ 0.77*x1 + 0.42*x2 + 0.58*x3
+#'               textual =~ 0.85*x4 + 0.86*x5 + 0.84*x6
+#'               speed   =~ 0.57*x7 + 0.72*x8 + 0.67*x9
+#'               visual ~~  0.46*textual
+#'               visual ~~  0.47*speed
+#'               textual ~~  0.28*speed
+#'           '
+#' #cSEM, cSEM.DGP
+#' # HS_simdata = generateData(.model = HS_model,
+#' #                           .return_type = "data.frame",
+#' #                           .empirical = TRUE, .N= 301)
+#'
+#' HS_simdata1 = simdata_sem(model = HS_model,
+#'                           datatype = "data.frame",
+#'                           empirical = TRUE, N= 301)
+#' fit1 <- cfa(HS.model, data = HS_simdata1)
+#' summary(fit1)
+#' fit1 %>% diagram2("std",rotation =2, mar=c(3,12,3,8), groups=T)
+#' #'
+#' #'
+#' #'
+#'
+#' }
+simdata_sem = function(model, N = 100,
+                       datatype = "data.frame",
+                       empirical=TRUE){
+  library(cSEM.DGP)
+  library(cSEM)
+
+  simdata = generateData(.model = model,
+                         .return_type = datatype,
+                         .empirical = empirical,
+                         .N= N)
+
+  simdata
+}
