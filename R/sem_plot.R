@@ -21,6 +21,7 @@
 #' @param pastel pastel
 #' @param residuals residuals F
 #' @param residScale 12
+#' @param exoVar exoVar=FLASE
 #' @param semptools using semptools TRUE
 
 #' @param mar c(1,5,1,5)
@@ -66,6 +67,7 @@ sem_plot = function(data,
                    groups = "lat", pastel = TRUE,
                    fade = FALSE,
                    se = FALSE,
+                   exoVar = FALSE,
                    residuals= FALSE,
                    residScale = 12,
                    intercepts = FALSE,
@@ -116,7 +118,7 @@ sem_plot = function(data,
                         edge.width=1.3,
                         edge.color = "gray20",
                         curve = curve,
-                        exoVar = FALSE,
+                        exoVar = exoVar,
                         residuals = residuals,
                         residScale =residScale,
                         intercepts = intercepts,
@@ -135,8 +137,9 @@ sem_plot = function(data,
                         border.width = 1.5, style="lisrel",
                         edge.label.cex = edge.label.cex,
                         edge.label.position= edge.label.position,
-                        edge.color = "black",
+                        # edge.color = "black",
                         curve = curve,
+                        exoVar = exoVar,
                         groups = groups, pastel = pastel,
                         residuals = residuals,
                         residScale =residScale,
@@ -160,6 +163,7 @@ sem_plot = function(data,
                         edge.label.position= edge.label.position,
                         edge.color = "black",
                         curve= curve,
+                        exoVar = exoVar,
                         groups = groups, pastel = pastel,
                         residuals = F,
                         residScale = 12,

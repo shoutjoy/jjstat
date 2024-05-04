@@ -82,7 +82,7 @@ mat <- format(mat, digist = digits, justify = justify)
 #'
 #' @param data data
 #'
-#' @return
+#' @return matrix
 #' @export
 #'
 

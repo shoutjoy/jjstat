@@ -9,6 +9,9 @@ lowerdf(data)
 \arguments{
 \item{data}{data}
 }
+\value{
+matrix
+}
 \description{
 df or mat lower tri
 }

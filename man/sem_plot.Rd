@@ -23,6 +23,7 @@ sem_plot(
   pastel = TRUE,
   fade = FALSE,
   se = FALSE,
+  exoVar = FALSE,
   residuals = FALSE,
   residScale = 12,
   intercepts = FALSE,
@@ -63,6 +64,8 @@ sem_plot(
 \item{fade}{default FALSE when opt =3}
 
 \item{se}{se false}
+
+\item{exoVar}{exoVar=FLASE}
 
 \item{residuals}{residuals F}
 
