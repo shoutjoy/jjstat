@@ -659,10 +659,11 @@ cfa2 <- function(x, format="markdown",
   raw = list(fit=fitMeasures,
              model_fit=modelfitdata,
             factorloading = factorloading_0,
-            bar = gg,
-            alpha_AVE_CR= alpha_AVE_CR_0,
-            FornellNacker = FornellNacker,
+
+            convergent= alpha_AVE_CR_0,
+            discriminant = FornellNacker,
             # htmt = htmt2,
+            bar = gg,
             lv.cor.sig = lv.cor.sig0)
   # all.reuslt
   ## cfa2() output option ---------------
