@@ -7,7 +7,7 @@
 diagram2(
   lav_obj,
   whatLabels = "est",
-  rotation = 4,
+  rotation = 2,
   nDigits = 2,
   residScale = 18,
   mar = c(2, 8, 3, 10),
@@ -17,6 +17,8 @@ diagram2(
   sizeLat = 10,
   style = "lisrel",
   sig = TRUE,
+  residuals = FALSE,
+  curve = 1,
   groups = FALSE
 )
 }
@@ -45,6 +47,10 @@ diagram2(
 
 \item{sig}{sig=TRUE}
 
+\item{residuals}{residuals=TRUE}
+
+\item{curve}{curve=1}
+
 \item{groups}{true color}
 }
 \value{
@@ -59,6 +65,18 @@ diagram sem plot 2
 
 example(sem)
 fit\%>\% diagram2()
+#'
+fit \%>\%diagram2(mar=c(3,8,3,6), sizeLat = 6, sizeMan = 6,
+                edge.label.cex = 0.7)
+
+#model
+fit \%>\%diagram2("model", sig=F)
+
+fit \%>\%diagram2("model", sig=F, residuals=F, curve=2)
+
+fit \%>\%diagram2("model", sig=F, residuals=F, curve=2, rotation = 4)
+#'
+
 
 }
 
