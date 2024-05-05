@@ -23,6 +23,7 @@ sem_model(
   asize = 2,
   mar = c(2, 8, 3, 10),
   nDigits = 2,
+  sample.nobs = 100,
   groups = FALSE
 )
 }
@@ -62,6 +63,8 @@ sem_model(
 \item{mar}{c(2,8,3,10)}
 
 \item{nDigits}{2}
+
+\item{sample.nobs}{sample.nobs= 100}
 
 \item{groups}{FALSE}
 }

@@ -18,6 +18,7 @@
 #' @param asize 1.5
 #' @param mar c(2,8,3,10)
 #' @param nDigits 2
+#' @param sample.nobs sample.nobs = 100
 #' @param groups FALSE
 #'
 #' @return plot
@@ -79,6 +80,7 @@ diagram_model = function(model,
                          exoCov=TRUE,
                          curve=1.5, asize=2,
                          mar=c(2,8,3,10),nDigits=2,
+                         sample.nobs = 100,
                          groups=FALSE){
 
   #first step : Determining the model type
@@ -101,7 +103,7 @@ diagram_model = function(model,
 
   #generate sample data simulated
   testdata =  lavaan::simulateData( model = model,
-                                    sample.nobs = 100,
+                                    sample.nobs = sample.nobs,
                                     model.type = model.type  )
   # testdata =  simdata_sem(model = model_test, N = 100 )
   # test calculated
@@ -183,6 +185,7 @@ diagram_model = function(model,
 #' @param asize 1.5
 #' @param mar c(2,8,3,10)
 #' @param nDigits 2
+#' @param sample.nobs sample.nobs= 100
 #' @param groups FALSE
 #'
 #' @return plot
@@ -244,6 +247,7 @@ sem_model = function(model,
                          exoCov=TRUE,
                          curve=1.5, asize=2,
                          mar=c(2,8,3,10),nDigits=2,
+                         sample.nobs=100,
                          groups=FALSE){
 
   #first step : Determining the model type
@@ -266,7 +270,7 @@ sem_model = function(model,
 
   #generate sample data simulated
   testdata =  lavaan::simulateData( model = model,
-                                    sample.nobs = 100,
+                                    sample.nobs = sample.nobs,
                                     model.type = model.type  )
   # testdata =  simdata_sem(model = model_test, N = 100 )
   # test calculated
