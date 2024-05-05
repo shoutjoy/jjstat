@@ -19,6 +19,7 @@ diagram2(
   sig = TRUE,
   residuals = FALSE,
   curve = 1,
+  layout = "tree",
   groups = FALSE
 )
 }
@@ -50,6 +51,8 @@ diagram2(
 \item{residuals}{residuals=TRUE}
 
 \item{curve}{curve=1}
+
+\item{layout}{"tree"}
 
 \item{groups}{true color}
 }

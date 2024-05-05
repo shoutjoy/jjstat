@@ -63,6 +63,7 @@ diagram = function(lav_obj, what="est",
 #' @param sig sig=TRUE
 #' @param residuals residuals=TRUE
 #' @param curve curve=1
+#' @param layout "tree"
 #' @param groups true color
 #'
 #' @return plot
@@ -95,14 +96,14 @@ diagram2 = function(lav_obj, whatLabels = "est",
                     mar=c(2,8,3,10),
                     edge.label.cex= 1,    sizeMan = 8, sizeMan2 = 4,
                     sizeLat = 10, style="lisrel",sig=TRUE,
-                    residuals=FALSE,curve=1,
+                    residuals=FALSE,curve=1,layout = "tree",
                     groups=FALSE
 ){
 
   if(groups){
     dia =   lav_obj %>% semPlot::semPaths(
       whatLabels = whatLabels, fade = FALSE, posCol="black",
-      nCharNodes = 10,
+      nCharNodes = 10,layout = layout,
       edge.color="black",
       rotation = rotation,
       edge.label.cex =edge.label.cex,
@@ -121,7 +122,7 @@ diagram2 = function(lav_obj, whatLabels = "est",
   }else{
     dia =   lav_obj %>% semPlot::semPaths(
       whatLabels = whatLabels, fade = FALSE, posCol="black",
-      nCharNodes = 10,
+      nCharNodes = 10,layout = layout,
       edge.color="black",
       rotation = rotation,
       edge.label.cex =edge.label.cex,

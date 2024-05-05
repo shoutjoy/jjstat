@@ -191,6 +191,9 @@ cfa2 <- function(x, format="markdown",
           caption="FitMeasure and criterian
           (*)satisfy By kline(2011) Suggestion")
 
+
+
+
   # TEST[[2]]$test %in% c("satorra.bentler", "yuan.bentler.mplus", "yuan.bentler")
   # if(length(fitMeasures(x)) == 45 ){
   if(length(fitMeasures(x)) == length(fitMeasures(x)) ){
@@ -290,6 +293,8 @@ cfa2 <- function(x, format="markdown",
 
   }
 
+
+
 #summary
   fitMeasures_s1 <- modelfitdata %>%
     knitr::kable(format=format,
@@ -336,7 +341,6 @@ cfa2 <- function(x, format="markdown",
           (1) cr(critical ratio = Estimate/S.E) p<0.05,
           (2) std.damda >= 0.5(Bagozzi & Yi(1988)")
   }
-
 
 
 
@@ -419,6 +423,7 @@ cfa2 <- function(x, format="markdown",
   }
 
 
+
   #Cronbach alpha
   alpha.1 <-  semTools::reliability(x,return.total = F) %>%
     # alpha.1 <- reliability(x) %>%
@@ -472,6 +477,8 @@ cfa2 <- function(x, format="markdown",
           caption = "03 Convergent validity
           Internal consistency(Cronbach's Alpha, 1951)(>0.7)
           AVE(>0.5) & CR(>0.7): Fornell & Lacker(1981)")
+
+
 
 
 
@@ -569,6 +576,9 @@ cfa2 <- function(x, format="markdown",
           rho < Square Root of(AVE)
            By Fornell & Lacker(1981)")
   }
+
+
+
   # 05-2 discriminant :HTMT #####
   # Assessing Discriminant Validity using Heterotrait–Monotrait Ratio
   # discriminant validity through the heterotrait-monotrait ratio (HTMT) of the correlations (Henseler, Ringlet & Sarstedt, 2015)
@@ -627,13 +637,16 @@ cfa2 <- function(x, format="markdown",
 
 
 
+
+
+
   ## final result  --------------
   all.reuslt <-list(model = model,
                     fit_criterian = fit,
                     model_fit = fitMeasures_s1,
                     factorloadings = factorloading,
                     Internal_Consistency = FL,
-                    Convegent = alpha_AVE_CR,
+                    Convergent = alpha_AVE_CR,
                     Discriminant = validity,
                     Discriminant_HTMT = htmt,
                     # Latent_Cor=lv.cor,
@@ -641,6 +654,15 @@ cfa2 <- function(x, format="markdown",
                     loadings_Bar = gg,
                     variable_order = varnames_check
   )
+
+
+  raw = list(fit=fitMeasures, model_fit=modelfitdata,
+            factorloading = factorloading_0,
+            bar = gg,
+            alpha_AVE_CR= alpha_AVE_CR_0,
+            FornellNacker = FornellNacker,
+            htmt = htmt2,
+            lv.cor.sig = lv.cor.sig0)
   # all.reuslt
   ## cfa2() output option ---------------
   # switch(res,
@@ -661,6 +683,8 @@ cfa2 <- function(x, format="markdown",
   #        loadings_Bar = gg )
   switch(type,
          all = all.reuslt,
+         raw = raw,
+         data.frame = raw,
          model = model,
          modelfit = modelfitdata,
          modelfit2 = fitMeasures_s1,
