@@ -27,71 +27,45 @@
 #'
 #'
 #' }
-long_df = function(data,
-                   rowname = "rownames",
-                   names_to = "names",
-                   values_to = "values",
-                   cols = NULL,
-                   fix = NULL,
-                   rownames_to_column = TRUE){
-
-  data = data %>% data.frame()
-  #col option
-  if(is.null(cols)){
-    cols_selection  = data%>% keep(is.numeric) %>% colnames()
-  }else{
-    cols_selection = cols
+long_df <- function(data,
+                    rowname = "rownames",
+                    names_to = "names",
+                    values_to = "values",
+                    cols = NULL,
+                    fix = NULL,
+                    rownames_to_column = TRUE) {
+  data = data.frame(data)
+  # 데이터프레임으로 변환하고 행 이름을 추가
+  if (rownames_to_column) {
+    data <- data %>%
+      tibble::rownames_to_column(var = rowname)
   }
 
+  # 선택할 열 결정
+  if (is.null(cols)) {
+    cols_selection <- select(data, where(is.numeric)) %>% colnames()
+  } else {
+    cols_selection <- cols
+  }
 
-  colName = colnames(data)
-  # rowName = rownames(data) #accent
+  # 열 이름 추출
+  colName <- names(data)
 
-  if(rownames_to_column){
-    data1 = data %>%
-            data.frame() %>%
-              tibble::rownames_to_column()
+  # pivot_longer 적용
+  if (is.null(fix)) {
+    data_long <- data %>%
+      tidyr::pivot_longer(cols = cols_selection,
+                          names_to = names_to,
+                          values_to = values_to)
+  } else {
+    # 고정 열을 지정하여 pivot_longer 적용
+    data_long <- data %>%
+      tidyr::pivot_longer(cols = -c(all_of(fix)),
+                          names_to = names_to,
+                          values_to = values_to)
+  }
 
-    colnames(data1)= c(rowname, colName)
-
-    # If you don't need to create rownames_to_columns
-    if(is.null(fix)){
-
-      data2 <- data1%>%
-        tidyr::pivot_longer(names_to = names_to,
-                            values_to = values_to,
-                            cols = cols_selection)
-    }else{
-
-     index =  match(rowname, colnames(data1))
-      data2 <- data1%>%
-        # dplyr::select(-rownames) %>%
-        tidyr::pivot_longer(names_to = names_to,
-                            values_to = values_to,
-                            cols = -c( {index}, all_of(fix))
-                            )
-    }
-
-
-  }else{
-
-    data1 = data %>% data.frame()
-
-    # If you don't need to create rownames_to_columns
-    if(is.null(fix)){
-
-      data2 <- data1%>%
-        tidyr::pivot_longer(names_to = names_to,
-                     values_to = values_to,
-                     cols = cols_selection)
-    }else{
-      data2 <- data1%>%
-        tidyr::pivot_longer(names_to = names_to,
-                     values_to = values_to,
-                     cols = -all_of(fix))
-         }
- }
-  data2
+  return(data_long)
 }
 
 
@@ -136,7 +110,7 @@ to_long = function(data,
   data = data %>% data.frame()
 
   if(is.null(cols)){
-    cols_selection  = data%>% keep(is.numeric) %>% colnames()
+    cols_selection  = select(data, where(is.numeric)) %>% colnames()
 
   }else{
     cols_selection = cols
