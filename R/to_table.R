@@ -47,7 +47,13 @@
 #'
 #' mtcars %>%select(cyl, am) %>% table() %>%data.frame() %>%to_table() %>%add_sum()
 #'
+#' mat = matrix(c(10, 50, 10, 28, 22, 16, 68,12, 14, 124, 116, 120),
+#' ncol = 4,
+#' dimnames = list(c("20대","30대","40대"),
+#'                 c("A","B","C","D")))
+#' mat
 #'
+#' mat  %>% long_df("age","brand","count") %>%to_table()
 #' # mean data to table
 #' aggregate(len ~ ., data = ToothGrowth, mean) %>% xtabs(formula = len ~.)
 #' #this is jjstat method
@@ -57,7 +63,8 @@
 #'
 #' }
 to_table <- function(data, sel = ncol(data)-1, value = ncol(data), type = "mat") {
-  # 데이터 재구조화
+  data<-data.frame(data)
+    # 데이터 재구조화
   transformed_data <- spread(data, key = all_of(sel), value = all_of(value) )
   transformed_data <- transformed_data%>%dplyr::select(-1)
 
@@ -72,3 +79,5 @@ to_table <- function(data, sel = ncol(data)-1, value = ncol(data), type = "mat")
          mat = res_mat)
 
 }
+
+

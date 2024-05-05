@@ -60,7 +60,13 @@ mtcars \%>\%select(am, cyl) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%
 
 mtcars \%>\%select(cyl, am) \%>\% table() \%>\%data.frame() \%>\%to_table() \%>\%add_sum()
 
+mat = matrix(c(10, 50, 10, 28, 22, 16, 68,12, 14, 124, 116, 120),
+ncol = 4,
+dimnames = list(c("20대","30대","40대"),
+                c("A","B","C","D")))
+mat
 
+mat  \%>\% long_df("age","brand","count") \%>\%to_table()
 # mean data to table
 aggregate(len ~ ., data = ToothGrowth, mean) \%>\% xtabs(formula = len ~.)
 #this is jjstat method
