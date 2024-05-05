@@ -4,12 +4,14 @@
 \alias{make_df_text}
 \title{data.frame to input text}
 \usage{
-make_df_text(data, rownames = TRUE, text = FALSE)
+make_df_text(data, rownames = FALSE, text = FALSE)
 }
 \arguments{
 \item{data}{data.frame}
 
 \item{rownames}{rownames=TRUE, FALSE -> nothing rownames}
+
+\item{text}{Convert all configurations to char, e.g. '10'}
 }
 \value{
 text

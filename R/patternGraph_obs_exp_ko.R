@@ -60,7 +60,7 @@
 #'   patternGraph_obs_exp_ko()
 #'
 #'
-#' select
+#'
 #' }
 #'
 patternGraph_obs_exp_ko = function(data,

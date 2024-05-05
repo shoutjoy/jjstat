@@ -74,5 +74,8 @@ aggregate(len ~ ., data = ToothGrowth, mean) \%>\% to_table()
 
 aggregate(len ~ ., data = ToothGrowth, mean) \%>\% to_table("dose","len")
 
+#same method
+aggregate(len ~ ., data = ToothGrowth, mean) \%>\% xtabs(len ~ supp + dose, data =.)
+
 }
 }

@@ -4,7 +4,7 @@
 \alias{gtl}
 \title{Googole Translate korean to english}
 \usage{
-gtl(text = "hi.", slang = "ko", elang = "en", show = "translate")
+gtl(text = "hi.", slang = "ko", elang = "en", show = "data")
 }
 \arguments{
 \item{text}{input your text}

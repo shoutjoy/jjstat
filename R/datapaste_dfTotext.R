@@ -2,6 +2,7 @@
 #'
 #' @param data data.frame
 #' @param rownames rownames=TRUE, FALSE -> nothing rownames
+#' @param text Convert all configurations to char, e.g. '10'
 #'
 #' @return text
 #' @export
@@ -25,7 +26,7 @@
 #' }
 #'
 
-make_df_text <- function(data, rownames = TRUE, text = FALSE) {
+make_df_text <- function(data, rownames = FALSE, text = FALSE) {
   # 데이터프레임으로 변환
   data <- as.data.frame(data)
 

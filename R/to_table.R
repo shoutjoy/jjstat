@@ -61,6 +61,9 @@
 #'
 #' aggregate(len ~ ., data = ToothGrowth, mean) %>% to_table("dose","len")
 #'
+#' #same method
+#' aggregate(len ~ ., data = ToothGrowth, mean) %>% xtabs(len ~ supp + dose, data =.)
+#'
 #' }
 to_table <- function(data, sel = ncol(data)-1, value = ncol(data), type = "mat") {
   data<-data.frame(data)

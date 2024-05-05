@@ -95,7 +95,7 @@ g <- function (text = "hi.",
 gtl <- function (text = "hi.",
                slang = "ko",
                elang = "en",
-               show = "translate") {
+               show = "data") {
   library(tidyverse)
   library(rvest)
   library(httpuv)
