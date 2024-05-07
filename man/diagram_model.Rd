@@ -6,8 +6,8 @@
 \usage{
 diagram_model(
   model,
-  whatLabels = "model",
   residuals = TRUE,
+  whatLabels = "model",
   rotation = 2,
   residScale = 12,
   layout = "tree",
@@ -24,15 +24,19 @@ diagram_model(
   mar = c(2, 8, 3, 10),
   nDigits = 2,
   sample.nobs = 100,
-  groups = FALSE
+  border.width = 2,
+  edge.width = 1.5,
+  groups = FALSE,
+  growth = FALSE,
+  type = "plot"
 )
 }
 \arguments{
 \item{model}{lavaan syntax}
 
-\item{whatLabels}{"model}
-
 \item{residuals}{residauls TRUE}
+
+\item{whatLabels}{"model}
 
 \item{rotation}{rotation=2}
 
@@ -66,7 +70,15 @@ diagram_model(
 
 \item{sample.nobs}{sample.nobs = 100}
 
+\item{border.width}{border.width=1}
+
+\item{edge.width}{edge.width=1.5}
+
 \item{groups}{FALSE}
+
+\item{growth}{growth= FALSE, TRUE  model.type ="grouwth"}
+
+\item{type}{type ="plot, and res is lavaan simdata result}
 }
 \value{
 plot

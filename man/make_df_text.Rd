@@ -4,7 +4,7 @@
 \alias{make_df_text}
 \title{data.frame to input text}
 \usage{
-make_df_text(data, rownames = FALSE, text = FALSE)
+make_df_text(data, rownames = FALSE, text = TRUE)
 }
 \arguments{
 \item{data}{data.frame}

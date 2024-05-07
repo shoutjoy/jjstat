@@ -55,7 +55,7 @@
 #' }
 #'
 #'
-make_mat_text <- function(data, text = FALSE) {
+make_mat_text <- function(data, text = TRUE) {
   if (!is.matrix(data)) {
     cat("Input data is not a matrix.\n")
     return()

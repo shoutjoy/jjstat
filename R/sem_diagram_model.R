@@ -20,6 +20,10 @@
 #' @param nDigits 2
 #' @param sample.nobs sample.nobs = 100
 #' @param groups FALSE
+#' @param border.width border.width=1
+#' @param edge.width edge.width=1.5
+#' @param growth growth= FALSE, TRUE  model.type ="grouwth"
+#' @param type type ="plot, and res is lavaan simdata result
 #'
 #' @return plot
 #'
@@ -65,8 +69,8 @@
 #' #'
 #' }
 diagram_model = function(model,
-                         whatLabels = "model",
                          residuals= TRUE,
+                         whatLabels = "model",
                          rotation = 2,
                          residScale = 12,
                          layout = "tree",
@@ -75,13 +79,18 @@ diagram_model = function(model,
                          sizeMan2 = 4,
                          sizeLat = 10,
                          style="lisrel",
-                         sig= FALSE,
-                         exoVar=FALSE,
-                         exoCov=TRUE,
-                         curve=1.5, asize=2,
-                         mar=c(2,8,3,10),nDigits=2,
+                         sig = FALSE,
+                         exoVar = FALSE,
+                         exoCov = TRUE,
+                         curve = 1.5, asize=2,
+                         mar = c(2,8,3,10),
+                         nDigits = 2,
                          sample.nobs = 100,
-                         groups=FALSE){
+                         border.width = 2,
+                         edge.width = 1.5,
+                         groups = FALSE,
+                         growth = FALSE,
+                         type="plot"){
 
   #first step : Determining the model type
   model_string = model
@@ -91,6 +100,10 @@ diagram_model = function(model,
   modified_model_string <- gsub("=~", "", modified_model_string)
 
   # Check if the modified model string contains any '~'
+
+  if(growth){
+    model.type ="growth"
+  }else{
   if (grepl("~", modified_model_string, fixed = TRUE)) {
     # return("sem")
     model.type ="sem"
@@ -98,14 +111,14 @@ diagram_model = function(model,
     # return("cfa")
     model.type ="cfa"
   }
-
+}
 
 
   #generate sample data simulated
   testdata =  lavaan::simulateData( model = model,
                                     sample.nobs = sample.nobs,
                                     model.type = model.type  )
-  # testdata =  simdata_sem(model = model_test, N = 100 )
+
   # test calculated
   lav_obj = lavaan::sem(model, data= testdata)
 
@@ -124,9 +137,9 @@ diagram_model = function(model,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat,
       shapeLat = "circle",
-      border.width = 2,
+      border.width = border.width,
+      edge.width = edge.width,
       groups = "lat",pastel = TRUE,
-      edge.width = 1.5,
       curve = curve,
       nDigits = nDigits,
       asize= asize,
@@ -145,8 +158,8 @@ diagram_model = function(model,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat,
       shapeLat="circle",
-      border.width = 2,
-      edge.width=1.5,
+      border.width = border.width,
+      edge.width = edge.width,
       curve=curve,
       nDigits = nDigits,
       asize= asize,
@@ -160,7 +173,7 @@ diagram_model = function(model,
   }else{
     dia
   }
-
+  switch(type, plot= dia, res = lav_obj)
 }
 
 

@@ -26,7 +26,7 @@
 #' }
 #'
 
-make_df_text <- function(data, rownames = FALSE, text = FALSE) {
+make_df_text <- function(data, rownames = FALSE, text = TRUE) {
   # 데이터프레임으로 변환
   data <- as.data.frame(data)
 

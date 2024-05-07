@@ -36,8 +36,8 @@ switch(type,
        data.frame = data.frame,
        tibble =  tibble,
        matrix = matrix,
-       datapasta_df = make_df_text(data.frame),
-       datapasta_mat = make_mat_text(data.frame),
+       df = make_df_text(data.frame),
+       mat = make_mat_text(data.frame),
 
        )
 
