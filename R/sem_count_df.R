@@ -7,6 +7,7 @@
 #' @param whatLabels model, If it is an actual measurement, est
 #' @param sig FALSE not outpur significant
 #' @param plot plot FALSE
+#' @param rotation rotation 4
 #'
 #' @return table and plot
 #' @export
@@ -40,7 +41,9 @@
 #'
 #' #이함수에서 보려면
 #' sem_count_df(m1, plot=TRUE)
-#' #'
+#'
+#' #simulation data lavaan
+#' sem_count_df(m1,"lav")
 #'
 #' }
 sem_count_df = function(model,
@@ -48,7 +51,8 @@ sem_count_df = function(model,
                         growth = FALSE,
                         sample.nobs = 100,
                         whatLabels="model",
-                        sig=FALSE, plot=FALSE
+                        sig=FALSE, plot=FALSE,
+                        rotation=2
 ){
   model_string = model
 
@@ -105,7 +109,7 @@ sem_count_df = function(model,
 
   if(plot){
     x11()
-    g = diagram2(lav_obj, whatLabels=whatLabels,sig=sig)
+    g = diagram2(lav_obj, whatLabels=whatLabels,sig=sig, rotation = rotation)
   }else{
     g = NULL
 
@@ -122,14 +126,12 @@ sem_count_df = function(model,
              Parameters_to_measure=inspect(lav_obj),
              g=g )
   fit = tibble(measure_parameter_df)
+  lavaan = lav_obj
 
-
-  switch(type, all = res, fit= fit, res=res)
+  switch(type, all = res, fit= fit, res=res,lav = lavaan)
 }
-
-
-#
-#' 0이 아닌 요소의 개수를 세는 함수
+#'
+#' 0이 아닌 요소의 개수를 세는 함수 count_nonzero_elements
 #'
 #' @param matrix matrix
 #'
@@ -159,15 +161,21 @@ sem_count_df = function(model,
 #' count_ne(theta)
 #' }
 #'
-count_ne <- function(matrix) {
-  count <- 0
-  n <- nrow(matrix)
-  for (i in 1:n) {
-    for (j in 1:ncol(matrix)) {
-      if (matrix[i, j] != 0) {
-        count <- count + 1
+count_ne<- function(matrix) {
+  #count_nonzero_elements
+  if (nrow(matrix) == ncol(matrix)) {  # 정사각 행렬인지 확인
+    count <- 0
+    n <- nrow(matrix)
+    for (i in 1:n) {
+      for (j in 1:ncol(matrix)) {
+        if (i >= j && matrix[i, j] != 0) {  # 대각 성분 및 하위 삼각 행렬에 있는 0이 아닌 요소의 개수 세기
+          count <- count + 1
+        }
       }
     }
+    return(count)
+  } else {  # 정사각 행렬이 아닌 경우 모든 0이 아닌 요소의 개수 세기
+    nonzero_count <- sum(matrix != 0)
+    return(nonzero_count)
   }
-  return(count)
 }

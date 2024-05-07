@@ -11,7 +11,8 @@ sem_count_df(
   sample.nobs = 100,
   whatLabels = "model",
   sig = FALSE,
-  plot = FALSE
+  plot = FALSE,
+  rotation = 2
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ sem_count_df(
 \item{sig}{FALSE not outpur significant}
 
 \item{plot}{plot FALSE}
+
+\item{rotation}{rotation 4}
 }
 \value{
 table and plot
@@ -64,7 +67,9 @@ sem_count_df(m1a,"all")
 
 #이함수에서 보려면
 sem_count_df(m1, plot=TRUE)
-#'
+
+#simulation data lavaan
+sem_count_df(m1,"lav")
 
 }
 }

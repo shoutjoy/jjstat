@@ -2,7 +2,7 @@
 % Please edit documentation in R/sem_count_df.R
 \name{count_ne}
 \alias{count_ne}
-\title{0이 아닌 요소의 개수를 세는 함수}
+\title{0이 아닌 요소의 개수를 세는 함수 count_nonzero_elements}
 \usage{
 count_ne(matrix)
 }
@@ -13,7 +13,7 @@ count_ne(matrix)
 count
 }
 \description{
-0이 아닌 요소의 개수를 세는 함수
+0이 아닌 요소의 개수를 세는 함수 count_nonzero_elements
 }
 \examples{
 
