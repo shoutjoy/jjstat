@@ -9,7 +9,7 @@ chisq_test_By2(
   v1,
   v2,
   sel,
-  correct = FALSE,
+  correct = TRUE,
   simulate.p.value = FALSE,
   warning = FALSE,
   type = "all"

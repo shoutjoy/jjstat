@@ -29,5 +29,6 @@ Suggests:
 Depends:
     tidyverse,
     lavaan,
+    broom,
     R (>= 2.10),
 

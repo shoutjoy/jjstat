@@ -88,13 +88,13 @@ chisq_test_By2 <- function(data,
                            v1,
                            v2,
                            sel,
-                           correct=FALSE,
+                           correct=TRUE,
                            simulate.p.value=FALSE,
                            warning = FALSE,
                            type= "all") {
   # 데이터 처리 및 chisq.test() 진행
   tbl_df <-data %>%
-    select({{v1}},{{v2}}, {{sel}})%>%
+    dplyr::select({{v1}},{{v2}}, {{sel}})%>%
     group_by({{sel}})%>%
     table()
 
@@ -131,7 +131,7 @@ chisq_test_By2 <- function(data,
 
   #nest
   tbl_nest <-data %>%
-    select({{v1}},{{v2}}, {{sel}})%>%
+    dplyr::select({{v1}},{{v2}}, {{sel}})%>%
     group_by_at({{sel}})%>%
     nest()
 
@@ -146,22 +146,66 @@ chisq_test_By2 <- function(data,
 
   switch(type, all = all, res= result_df)
 }
+#
+# results <- lapply(unique(data[[sel]]), function(group) {
+#   tbl <- table(data[data[[sel]] == group, c(v1, v2)])
+#   chisq <- chisq.test(tbl, correct = correct, simulate.p.value = simulate.p.value)$statistic
+#   df <- chisq.test(tbl, correct = correct, simulate.p.value = simulate.p.value)$parameter
+#   p <- chisq.test(tbl, correct = correct, simulate.p.value = simulate.p.value)$p.value
+#   n <- sum(tbl)
+#   data.frame(level = group, n = n, chisq, df, p)
+# }) %>% suppressWarnings()
 
-# chisq_test_By2 = function(dataset, v1, v2, sel=NULL, type="res"){
-#
-#   res = dataset %>%
-#     select(all_of(c(v1, v2, sel))) %>%
-#     group_by_at(vars(all_of(sel)))  %>%
-#     nest() %>%
-#     mutate(
-#       chisq = map_dbl(data, ~ suppressWarnings(chisq.test(.)$statistic) ),
-#       df = map_dbl(data, ~suppressWarnings(chisq.test(.)$parameter)),
-#       chisq_p = map_dbl(data, ~suppressWarnings(chisq.test(.)$p.value)))
-#
-#   long =  res%>% unnest(data)
-#
-#   switch(type, res=res, long = print(long, n=Inf) )
-#
-# }
-#
+
+
+#' 그룹별 카이제곱 분석
+#'
+#' @param data data
+#' @param grp group variable
+#' @param formula ~ vq +v2
+#' @param raw warning
+#'
+#' @return table
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' #'
+#' chisq_test_By3(mtcars, cyl, ~ am+vs )
+#' chisq_test_By3(mtcars, cyl, ~ am+vs , raw=T)
+#'
+#' }
+chisq_test_By3= function(data, grp, formula , raw =FALSE){
+
+
+  freqTable =  data %>%
+    group_by({{grp}})%>%
+    group_map(
+      ~tibble::as_tibble(
+        xtabs(formula, data = .)
+      )%>%to_table()
+    )
+
+  names(freqTable)= unique(data%>%pull({{grp}}))
+  # freqTable = lapply(freqTable, to_table)
+  if(raw){
+    res = data %>% group_by( {{grp}} )%>%
+      group_modify(
+        ~broom::tidy(
+          xtabs(formula, data = .)%>%chisq.test()
+        ))%>%p_mark_sig() %>%select(1,2,3,4,6,5)
+
+  }else{
+    res = data %>% group_by( {{grp}} )%>%
+      group_modify(
+        ~broom::tidy(
+          xtabs(formula, data = .)%>%chisq.test()
+        ) )%>% select(1:(ncol(.)-1)) %>%p_mark_sig()%>% suppressWarnings()
+  }
+
+  Res =  list(freqTable=freqTable, chisq=res)
+  Res
+}
+
 
