@@ -1,6 +1,6 @@
 #' Text to data.frame /It is characterized by the use of blank spaces to separate content.
 #'
-#' @param text text
+#' @param text text(Row variable names must not contain spaces. )
 #' @param header header = TRUE
 #' @param type res, check
 #' @param add_vars additinal factor
@@ -117,83 +117,63 @@
 #' text2df(text)
 #' #' }
 #'
-text2df <- function(text, header = TRUE, type = "res",add_vars=NULL) {
-  # Split text by line
+text2df <- function (text, header = TRUE,
+                     type = "res", add_vars = NULL){
+  text = text
   ROW <- strsplit(text, "\n")[[1]]
-  # Replace "Std. Error" with "Std.Error" and "t value" with "tvalue"
-  # ROW <- gsub("Std. Error", "Std.Error", ROW)
-  # ROW <- gsub("t value", "t_value", ROW)
-
-  # Set the first row as the variable name
   colnames <- strsplit(ROW[[1]], "\\s+")[[1]]
-  #  colnames <- unlist(strsplit(ROW[[1]], "\\s+"))
 
 
-  # Remove leading whitespace from each row
   ROW <- gsub("^\\s+", "", ROW)
-
-  # Remove empty rows
   ROW <- ROW[nchar(trimws(ROW)) > 0]
-
-
-  # Check and convert the separator "~" to "~" if present
   ROW <- gsub("\\s*~\\s*", "~", ROW)
-
-
-
   DATA <- lapply(ROW, function(x) {
-    # Separate the alphanumeric part from the numeric part
     strsplit(x, "\\s+")[[1]]
   })
 
-  # Pad shorter rows with NAs to match the length of the longest row
+
   max_length <- max(sapply(DATA, length))
   DATA <- lapply(DATA, function(row) {
     length_diff <- max_length - length(row)
     c(row, rep(NA, length_diff))
   })
 
-  # Data bind
+
+  #combine
   DATA <- do.call(rbind.data.frame, DATA)
 
-  # Clean up the data: Convert empty strings to NA
   DATA[DATA == ""] <- NA
-
-  # Check if header should be removed
   if (header) {
-    DATA <- DATA[-1, , drop = FALSE]  # Remove the first row
+    DATA <- DATA[-1, , drop = FALSE]
   }
-
-  # Set column names
   if (header) {
-    # Adjust column names to match the number of columns in the data
     colnames(DATA) <- colnames
-  } else {
-    # Extract the first part of the string before "~" and set it as the first column name
+  }
+  else {
     first_col_name <- gsub("~.*", "", colnames[1])
     colnames(DATA) <- c(first_col_name, colnames[-1])
   }
-
-
   if ("" %in% colnames(DATA)) {
     res <- DATA
     colNames = colnames(res)
     colNames = colNames[-1]
-    colnames(res) = c('variable', colNames)
-  } else {
-    res <-  DATA
+    colnames(res) = c("variable", colNames)
+  }
+  else {
+    res <- DATA
   }
 
-  if(is.null(vars)){
-        res = res
-      }else{
-        res = bind_cols(Factor = add_vars, res)
-      }
 
 
-  switch(type,
-         check = list(ROW, colnames, DATA),
-         res = res)
+  if (is.null(vars)) {
+    res = res
+  }
+  else {
+    res = bind_cols(Factor = add_vars, res)
+  }
+
+
+  switch(type, check = list(ROW, colnames, DATA), res = res)
 }
 
 
