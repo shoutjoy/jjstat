@@ -117,8 +117,11 @@
 #' text2df(text)
 #' #' }
 #'
-text2df <- function (text, header = TRUE,
-                     type = "res", add_vars = NULL){
+text2df <- function (text,
+                     header = TRUE,
+                     type = "res",
+                     add_vars = NULL){
+
   text = text
   ROW <- strsplit(text, "\n")[[1]]
   colnames <- strsplit(ROW[[1]], "\\s+")[[1]]
@@ -165,13 +168,14 @@ text2df <- function (text, header = TRUE,
 
 
 
-  if (is.null(vars)) {
+  if (is.null(add_vars)) {
     res = res
   }
   else {
     res = bind_cols(Factor = add_vars, res)
   }
-
+  # NAME = colnames(res[,1])
+  # res= res%>%tibble::column_to_rownames(NAME)
 
   switch(type, check = list(ROW, colnames, DATA), res = res)
 }

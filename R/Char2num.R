@@ -56,16 +56,22 @@
 #' text2df(reg_text)%>% Char2num(iter=2:4) %>% tibble()
 #' }
 #'
-Char2num <- function(data, iter = NULL, char_col=1) {
+Char2num <- function(data, iter = NULL, char_col=1, last_col=FALSE ) {
   # Check for columns with combined numeric and '*' values
   combined_columns <- sapply(data, function(col) any(grepl("\\d+\\*", col)))
 
   # Exclude combined columns from iter
   if (is.null(iter)) {
     iter <- ifelse(combined_columns, which(!combined_columns), 1:ncol(data))
-    # Exclude first and last column from iter
-    # Exclude first and last column from iter
-    iter <- iter[!iter %in% c(char_col, ncol(data))]
+
+     if(last_col){
+       # Exclude first and last column from iter
+       iter <- iter[!iter %in% c(char_col, ncol(data))]
+     }else{
+           # Exclude first and last column from iter
+        iter <- iter[!iter %in% c(char_col)]
+     }
+
 
   } else {
     # iter <- iter[!combined_columns]

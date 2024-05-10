@@ -4,7 +4,7 @@
 \alias{Char2num}
 \title{Functions to convert character to numeric}
 \usage{
-Char2num(data, iter = NULL, char_col = 1)
+Char2num(data, iter = NULL, char_col = 1, last_col = FALSE)
 }
 \arguments{
 \item{data}{data.frame}
