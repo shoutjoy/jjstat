@@ -3,6 +3,8 @@
 #' @param data data
 #' @param ... contrast
 #' @param test chisq.test, fisher.test
+#' @param p.adjust c("bonferroni","fdr","BH","BY","holm","hochberg","hommel")
+#' @param adj cadjust p value TRUE
 #' @param name rowname, when  pairwise
 #'
 #' @return data
@@ -52,7 +54,9 @@
 #' }
 #'
 #'
-chisq_contrast <- function(data, ..., test=chisq.test, name= FALSE) {
+chisq_contrast <- function(data, ..., test=chisq.test,
+                           p.adjust = "bonferroni",
+                           adj = TRUE,name= FALSE) {
   data = as.data.frame(data)
   # 사용자로부터 대조군을 입력받음
   contrasts <- list(...)
@@ -79,6 +83,8 @@ chisq_contrast <- function(data, ..., test=chisq.test, name= FALSE) {
     chi_sq_tidy[[i]] <- broom::tidy(test(result))
   }
 
+
+  # test separate
   if(identical(test, stats::chisq.test)){
     # case chisq.test
     chi_res <- do.call(rbind, chi_sq_tidy) %>%
@@ -88,7 +94,17 @@ chisq_contrast <- function(data, ..., test=chisq.test, name= FALSE) {
       dplyr::select( contr, statistic, p.value, sig, parameter, method)%>%
       dplyr::rename(chisq=statistic, df=parameter)
 
+    #if you need adjust pvalue
+    if(adj){
+      chi_res <- chi_res %>%
+        dplyr::select(-sig)%>%
+        mutate(adj.p = p.adjust(p.value,method=p.adjust))%>%
+        p_mark_sig("adj.p")%>%
+        dplyr::select( contr, chisq, p.value,adj.p, sig, df, method)
+    }
+
   }else {
+
     if (all(names(chi_sq_tidy[[1]]) == names(chi_sq_tidy[[2]]))) {
       # "alternative" 열이 없는 경우에만 조정
       chi_res <- do.call(rbind, chi_sq_tidy) %>%
@@ -96,14 +112,33 @@ chisq_contrast <- function(data, ..., test=chisq.test, name= FALSE) {
         p_mark_sig() %>%
         dplyr::select(contr,  estimate, p.value,sig, conf.low, conf.high, method) %>%
         rename(odds_ratio = estimate)
-    } else {
+
+      #if you need adjust pvalue
+      if(adj){
+        chi_res <- chi_res %>%
+          dplyr::select(-sig)%>%
+          mutate(adj.p = p.adjust(p.value,method=p.adjust))%>%
+          p_mark_sig("adj.p")%>%
+          dplyr::select(contr, odds_ratio, p.value, adj.p, conf.low, conf.high, method)
+      }
+
+
+    }else {
       # "alternative" 열이 있는 경우에는 그대로 사용
       chi_res <- lapply(chi_sq_tidy,
                         function(x) dplyr::select(x, p.value, method)) %>%
         do.call(what=rbind) %>%
-        dplyr::mutate(contr = contrast_strings)%>%p_mark_sig("p.value")%>%
-        dplyr::select(4,2,5,3)
+        dplyr::mutate(contr = contrast_strings)%>%
+        p_mark_sig("p.value")%>%
+        dplyr::select( contr, p.value, sig,   method)
 
+      #if you need adjust pvalue
+      if(adj){
+        chi_res <- chi_res %>% dplyr::select(-sig)%>%
+          mutate(adj.p = p.adjust(p.value,method=p.adjust))%>%
+          p_mark_sig("adj.p")%>%
+          dplyr::select( contr, p.value, adj.p, sig,   method)
+      }
     }
   }
 
@@ -111,7 +146,10 @@ chisq_contrast <- function(data, ..., test=chisq.test, name= FALSE) {
   if(name){
     chi_res = cbind.data.frame(selected = Rownames,  chi_res)
   }
-  Res = list( results, chi_res)
+
+  cat("Adjusted p-values used the", p.adjust, "method.\n\n")
+
+  Res = list(Table = results, Contrast = chi_res)
   Res
 
 }

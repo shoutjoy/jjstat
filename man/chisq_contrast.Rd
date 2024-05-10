@@ -4,7 +4,14 @@
 \alias{chisq_contrast}
 \title{Chisq test Contrast test}
 \usage{
-chisq_contrast(data, ..., test = chisq.test, name = FALSE)
+chisq_contrast(
+  data,
+  ...,
+  test = chisq.test,
+  p.adjust = "bonferroni",
+  adj = TRUE,
+  name = FALSE
+)
 }
 \arguments{
 \item{data}{data}
@@ -12,6 +19,10 @@ chisq_contrast(data, ..., test = chisq.test, name = FALSE)
 \item{...}{contrast}
 
 \item{test}{chisq.test, fisher.test}
+
+\item{p.adjust}{c("bonferroni","fdr","BH","BY","holm","hochberg","hommel")}
+
+\item{adj}{cadjust p value TRUE}
 
 \item{name}{rowname, when  pairwise}
 }
