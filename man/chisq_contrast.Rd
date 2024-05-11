@@ -9,7 +9,7 @@ chisq_contrast(
   ...,
   test = chisq.test,
   p.adjust = "bonferroni",
-  adj = TRUE,
+  adj = FALSE,
   name = FALSE
 )
 }

@@ -56,7 +56,7 @@
 #'
 chisq_contrast <- function(data, ..., test=chisq.test,
                            p.adjust = "bonferroni",
-                           adj = TRUE,name= FALSE) {
+                           adj = FALSE, name= FALSE) {
   data = as.data.frame(data)
   # 사용자로부터 대조군을 입력받음
   contrasts <- list(...)
