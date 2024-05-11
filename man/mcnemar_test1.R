@@ -48,8 +48,8 @@
 #'
 #' }
 #'
-mcnemar_test = function(mat, correct = TRUE, exact=TRUE, show=TRUE){
-  mat= as.matrix(mat)
+mcnemar_test = function(mat, correct = TRUE, exact = TRUE, show = TRUE){
+  mat = as.matrix(mat)
   if(exact){
     exacttest= "(exact)"
   }else{
