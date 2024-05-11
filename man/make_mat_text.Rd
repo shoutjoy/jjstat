@@ -4,7 +4,7 @@
 \alias{make_mat_text}
 \title{Functions that let you input data in matrix form}
 \usage{
-make_mat_text(data, byrow = FALSE)
+make_mat_text(data, text = TRUE, byrow = FALSE)
 }
 \arguments{
 \item{data}{input dat a}

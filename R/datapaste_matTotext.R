@@ -66,7 +66,7 @@
 #' }
 #'
 #'
-make_mat_text <- function(data, byrow = FALSE) {  # byrow 옵션 추가
+make_mat_text <- function(data, text = TRUE, byrow = FALSE) {  # byrow 옵션 추가
   if (!is.matrix(data)) {
     cat("Input data is not a matrix.\n")
     return()
@@ -141,7 +141,6 @@ make_mat_text <- function(data, byrow = FALSE) {  # byrow 옵션 추가
   cat("\n\n")
   replace_df(pattern='NA',imp=NA, NewMat)
 }
-
 
 #' 첫번째 열이 존재하는 경우에 사용하는 make_mat_text2
 #'
