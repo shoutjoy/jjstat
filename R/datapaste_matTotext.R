@@ -61,6 +61,9 @@
 #'
 #'  rownames(NewMat) <- c("row1", "row2", "row3", "row4", "row5", "row6", "row7")
 #' colnames(NewMat) <- c("col1", "col2", "col3", "col4", "col5", "col6", "col7")
+#'
+#' NewMat %>%make_mat_text(byrow=FALSE)
+#' NewMat %>%make_mat_text(byrow=TRUE)
 #' #'
 #' #'
 #' }
@@ -115,7 +118,7 @@ make_mat_text <- function(data, text = TRUE, byrow = FALSE) {  # byrow 옵션 �
   if (byrow) {  # byrow가 TRUE일 때만 byrow=TRUE 추가
     mat_text <- paste(mat_text, "byrow = TRUE", ")\n\n", sep = " ")
   } else {
-    mat_text <- paste(mat_text, "byrow = FALSE", ")\n\n", sep = "")  # 기존 코드 유지
+    mat_text <- paste(mat_text, " byrow = FALSE", ")\n\n", sep = "")  # 기존 코드 유지
   }
 
   # 행렬의 행 이름과 열 이름이 있는 경우 출력에 포함

@@ -16,6 +16,8 @@ diagram2(
   sizeMan2 = 4,
   sizeLat = 10,
   sizeLat2 = 6,
+  border.width = 2,
+  edge.width = 1.5,
   style = "lisrel",
   sig = TRUE,
   asize = 1.5,
@@ -23,6 +25,8 @@ diagram2(
   residuals = FALSE,
   curve = 1,
   layout = "tree",
+  exoVar = TRUE,
+  exoCov = TRUE,
   groups = FALSE
 )
 }
@@ -49,6 +53,10 @@ diagram2(
 
 \item{sizeLat2}{sizeLat2 = 6}
 
+\item{border.width}{border.width 2}
+
+\item{edge.width}{edge.width 1.5}
+
 \item{style}{style="lisrel"}
 
 \item{sig}{sig=TRUE}
@@ -62,6 +70,10 @@ diagram2(
 \item{curve}{curve=1}
 
 \item{layout}{"tree"}
+
+\item{exoVar}{exoVar=TRUE,}
+
+\item{exoCov}{exoCov=TRUE,}
 
 \item{groups}{true color}
 }

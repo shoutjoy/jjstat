@@ -71,6 +71,9 @@ V1      V2 V3        V4        V5       V6        V7        V8 V9
 
  rownames(NewMat) <- c("row1", "row2", "row3", "row4", "row5", "row6", "row7")
 colnames(NewMat) <- c("col1", "col2", "col3", "col4", "col5", "col6", "col7")
+
+NewMat \%>\%make_mat_text(byrow=FALSE)
+NewMat \%>\%make_mat_text(byrow=TRUE)
 #'
 #'
 }
