@@ -66,6 +66,7 @@ diagram = function(lav_obj, what="est",
 #' @param curve curve=1
 #' @param asize asize = 1.5
 #' @param layout "tree"
+#' @param shapeLat shapeLat ="circle",
 #' @param groups true color
 #'
 #' @return plot
@@ -87,8 +88,19 @@ diagram = function(lav_obj, what="est",
 #' fit %>%diagram2("model", sig=F, residuals=F, curve=2)
 #'
 #' fit %>%diagram2("model", sig=F, residuals=F, curve=2, rotation = 4)
-#' #'
 #'
+#' #making method layout
+#' make_layout(nc=10)
+#' make_layout(nc=10, nr=6)
+#' make_layout(3,6)
+#'
+#' lay1 = make_layout(6)
+#' lay1
+#'
+#' edit_layout(lay1)
+#' lay1 %>%edit_layout()
+#' lay2 = lay1 %>%edit_layout()
+#' lay2
 #'
 #' }
 #'
@@ -100,7 +112,7 @@ diagram2 = function(lav_obj, whatLabels = "est",
                     sizeMan = 8, sizeMan2 = 4,
                     sizeLat = 10,  sizeLat2 = 6,
                     style="lisrel",sig=TRUE,
-                    asize= 1.5,
+                    asize= 1.5,shapeLat ="circle",
                     residuals=FALSE,curve=1,layout = "tree",
                     groups=FALSE
 ){
@@ -117,7 +129,7 @@ diagram2 = function(lav_obj, whatLabels = "est",
       exoVar=TRUE, exoCov=TRUE,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat, sizeLat2 = sizeLat2,
-      shapeLat ="circle",
+      shapeLat =shapeLat,
       border.width = 2,
       groups ="lat",pastel = TRUE,
       edge.width = 1.5,
@@ -137,7 +149,7 @@ diagram2 = function(lav_obj, whatLabels = "est",
       exoVar=TRUE, exoCov=TRUE,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat, sizeLat2 = sizeLat2,
-      shapeLat="circle",
+      shapeLat=shapeLat,
       border.width = 2,
       edge.width=1.5,
       curve=curve,

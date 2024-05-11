@@ -4,10 +4,12 @@
 \alias{make_mat_text}
 \title{Functions that let you input data in matrix form}
 \usage{
-make_mat_text(data, text = TRUE)
+make_mat_text(data, byrow = FALSE)
 }
 \arguments{
 \item{data}{input dat a}
+
+\item{byrow}{byrow=FALSE  or TRUE}
 }
 \value{
 make test
@@ -60,6 +62,16 @@ V1      V2 V3        V4        V5       V6        V7        V8 V9
 [11,] "ceo_2" NA NA        NA        NA       NA        NA        NA NA
 [12,] NA      NA NA        NA        NA       NA        NA        NA NA
 [13,] "ceo_1" NA NA        NA        NA       NA        NA        NA NA
+#' #'
+ lay_str1 \%>\%make_mat_text3(byrow=T)
+
+
+ NewMat = matrix(c(NA, NA, 'PEOU', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'CUX', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'AT', NA, 'USE', 'SUX', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'PU', NA, NA, NA, NA),
+                 nrow = 7, ncol = 7, byrow = TRUE )
+
+ rownames(NewMat) <- c("row1", "row2", "row3", "row4", "row5", "row6", "row7")
+colnames(NewMat) <- c("col1", "col2", "col3", "col4", "col5", "col6", "col7")
+#'
 #'
 }
 

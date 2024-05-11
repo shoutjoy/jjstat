@@ -19,6 +19,7 @@ diagram2(
   style = "lisrel",
   sig = TRUE,
   asize = 1.5,
+  shapeLat = "circle",
   residuals = FALSE,
   curve = 1,
   layout = "tree",
@@ -54,6 +55,8 @@ diagram2(
 
 \item{asize}{asize = 1.5}
 
+\item{shapeLat}{shapeLat ="circle",}
+
 \item{residuals}{residuals=TRUE}
 
 \item{curve}{curve=1}
@@ -84,8 +87,19 @@ fit \%>\%diagram2("model", sig=F)
 fit \%>\%diagram2("model", sig=F, residuals=F, curve=2)
 
 fit \%>\%diagram2("model", sig=F, residuals=F, curve=2, rotation = 4)
-#'
 
+#making method layout
+make_layout(nc=10)
+make_layout(nc=10, nr=6)
+make_layout(3,6)
+
+lay1 = make_layout(6)
+lay1
+
+edit_layout(lay1)
+lay1 \%>\%edit_layout()
+lay2 = lay1 \%>\%edit_layout()
+lay2
 
 }
 

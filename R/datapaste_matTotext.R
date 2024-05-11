@@ -2,6 +2,7 @@
 #' Functions that let you input data in matrix form
 #'
 #' @param data input dat a
+#' @param byrow byrow=FALSE  or TRUE
 #'
 #' @return make test
 #' @export
@@ -51,11 +52,21 @@
 #' [11,] "ceo_2" NA NA        NA        NA       NA        NA        NA NA
 #' [12,] NA      NA NA        NA        NA       NA        NA        NA NA
 #' [13,] "ceo_1" NA NA        NA        NA       NA        NA        NA NA
+#' #' #'
+#'  lay_str1 %>%make_mat_text3(byrow=T)
+#'
+#'
+#'  NewMat = matrix(c(NA, NA, 'PEOU', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'CUX', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'AT', NA, 'USE', 'SUX', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'PU', NA, NA, NA, NA),
+#'                  nrow = 7, ncol = 7, byrow = TRUE )
+#'
+#'  rownames(NewMat) <- c("row1", "row2", "row3", "row4", "row5", "row6", "row7")
+#' colnames(NewMat) <- c("col1", "col2", "col3", "col4", "col5", "col6", "col7")
+#' #'
 #' #'
 #' }
 #'
 #'
-make_mat_text <- function(data, text = TRUE) {
+make_mat_text <- function(data, byrow = FALSE) {  # byrow 옵션 추가
   if (!is.matrix(data)) {
     cat("Input data is not a matrix.\n")
     return()
@@ -64,8 +75,6 @@ make_mat_text <- function(data, text = TRUE) {
   # Check the number of rows and columns in a matrix
   n_rows <- nrow(data)
   n_cols <- ncol(data)
-  # Colsnaems <- colsnames(data)
-  # Rowsnaems <- rowsnames(data)
 
   # 빈칸을 모두 NA로 처리
   data[data == ""] <- NA
@@ -74,29 +83,40 @@ make_mat_text <- function(data, text = TRUE) {
   # Convert matrix data to input form
   mat_text <- "NewMat = matrix(c("
 
-  #Set all data to be wrapped in ''
-  if(text){
-    for (j in 1:n_cols) {
-      for (i in 1:n_rows) {
-        mat_text <- paste(mat_text, "'", data[i, j], "'", ", ", sep = "")
+  # byrow 옵션에 따라 데이터를 가져오는 순서 변경
+  if (byrow) {  # byrow가 TRUE일 경우
+    for (i in 1:n_rows) {
+      for (j in 1:n_cols) {
+        if (text) {
+          mat_text <- paste(mat_text, "'", data[i, j], "'", ", ", sep = "")
+        } else {
+          mat_text <- paste(mat_text, data[i, j], ", ", sep = "")
+        }
       }
     }
-
-  }else{
-    # Disable wrapping with '' in all data
+  } else {  # byrow가 FALSE일 경우 (기존과 동일)
     for (j in 1:n_cols) {
       for (i in 1:n_rows) {
-        mat_text <- paste(mat_text, data[i, j], ", ", sep = "")
+        if (text) {
+          mat_text <- paste(mat_text, "'", data[i, j], "'", ", ", sep = "")
+        } else {
+          mat_text <- paste(mat_text, data[i, j], ", ", sep = "")
+        }
       }
     }
-
-
   }
+
 
   mat_text <- sub(", $", "", mat_text)  # 마지막 쉼표 제거
   mat_text <- paste(mat_text, "),\n", sep = "")
   mat_text <- paste(mat_text, "nrow = ", n_rows, ", ", sep = "")
-  mat_text <- paste(mat_text, "ncol = ", n_cols, ")\n\n", sep = "")
+  mat_text <- paste(mat_text, "ncol = ", n_cols, ",", sep = "")
+
+  if (byrow) {  # byrow가 TRUE일 때만 byrow=TRUE 추가
+    mat_text <- paste(mat_text, "byrow = TRUE", ")\n\n", sep = " ")
+  } else {
+    mat_text <- paste(mat_text, "byrow = FALSE", ")\n\n", sep = "")  # 기존 코드 유지
+  }
 
   # 행렬의 행 이름과 열 이름이 있는 경우 출력에 포함
   if (!is.null(rownames(data))) {
@@ -111,8 +131,6 @@ make_mat_text <- function(data, text = TRUE) {
   # 패턴이 'NA'인 문자열을 NA로 대체
   mat_text <- gsub("'NA'", "NA", mat_text)
 
-
-
   # text로 출력
   cat("\n\n", mat_text, "\n\n" )
 
@@ -122,7 +140,6 @@ make_mat_text <- function(data, text = TRUE) {
   # replace_df 출력
   cat("\n\n")
   replace_df(pattern='NA',imp=NA, NewMat)
-
 }
 
 
