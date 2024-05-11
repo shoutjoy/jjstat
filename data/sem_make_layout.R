@@ -22,7 +22,7 @@
 #' lay2
 #' }
 #'
-make_layout = function(nc = 6, nr=NULL){
+make_layout = function(nc = 10, nr=NULL){
   if(is.null(nr)){
     layout = matrix(c(rep("", nc^2) ), ncol = nc )
   }else{

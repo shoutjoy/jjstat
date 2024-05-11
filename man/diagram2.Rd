@@ -10,13 +10,15 @@ diagram2(
   rotation = 2,
   nDigits = 2,
   residScale = 18,
-  mar = c(2, 8, 3, 10),
+  mar = c(2, 8, 3, 8),
   edge.label.cex = 1,
   sizeMan = 8,
   sizeMan2 = 4,
   sizeLat = 10,
+  sizeLat2 = 6,
   style = "lisrel",
   sig = TRUE,
+  asize = 1.5,
   residuals = FALSE,
   curve = 1,
   layout = "tree",
@@ -44,9 +46,13 @@ diagram2(
 
 \item{sizeLat}{sizeLat = 10,}
 
+\item{sizeLat2}{sizeLat2 = 6}
+
 \item{style}{style="lisrel"}
 
 \item{sig}{sig=TRUE}
+
+\item{asize}{asize = 1.5}
 
 \item{residuals}{residuals=TRUE}
 

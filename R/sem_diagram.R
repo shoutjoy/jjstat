@@ -59,10 +59,12 @@ diagram = function(lav_obj, what="est",
 #' @param sizeMan  sizeMan = 8,
 #' @param sizeMan2  sizeMan2 = 4,
 #' @param sizeLat  sizeLat = 10,
+#' @param sizeLat2  sizeLat2 = 6
 #' @param style  style="lisrel"
 #' @param sig sig=TRUE
 #' @param residuals residuals=TRUE
 #' @param curve curve=1
+#' @param asize asize = 1.5
 #' @param layout "tree"
 #' @param groups true color
 #'
@@ -93,9 +95,12 @@ diagram = function(lav_obj, what="est",
 #'
 diagram2 = function(lav_obj, whatLabels = "est",
                     rotation = 2, nDigits=2,  residScale=18,
-                    mar=c(2,8,3,10),
-                    edge.label.cex= 1,    sizeMan = 8, sizeMan2 = 4,
-                    sizeLat = 10, style="lisrel",sig=TRUE,
+                    mar=c(2,8,3,8),
+                    edge.label.cex= 1,
+                    sizeMan = 8, sizeMan2 = 4,
+                    sizeLat = 10,  sizeLat2 = 6,
+                    style="lisrel",sig=TRUE,
+                    asize= 1.5,
                     residuals=FALSE,curve=1,layout = "tree",
                     groups=FALSE
 ){
@@ -111,12 +116,13 @@ diagram2 = function(lav_obj, whatLabels = "est",
       residScale=  residScale,
       exoVar=TRUE, exoCov=TRUE,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
-      sizeLat = sizeLat,
-      shapeLat="circle",
+      sizeLat = sizeLat, sizeLat2 = sizeLat2,
+      shapeLat ="circle",
       border.width = 2,
-      groups="lat",pastel=TRUE,
-      edge.width=1.5,
-      curve=curve,
+      groups ="lat",pastel = TRUE,
+      edge.width = 1.5,
+      curve = curve,
+      asize= asize,
       nDigits = nDigits,
       style =  style,  mar=mar)
   }else{
@@ -126,16 +132,17 @@ diagram2 = function(lav_obj, whatLabels = "est",
       edge.color="black",
       rotation = rotation,
       edge.label.cex =edge.label.cex,
-      residuals= residuals,
-      residScale=  residScale,
+      residuals = residuals,
+      residScale =  residScale,
       exoVar=TRUE, exoCov=TRUE,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
-      sizeLat = sizeLat,
+      sizeLat = sizeLat, sizeLat2 = sizeLat2,
       shapeLat="circle",
       border.width = 2,
       edge.width=1.5,
       curve=curve,
       nDigits = nDigits,
+      asize= asize,
       style =  style,  mar=mar)
   }
 
