@@ -112,9 +112,7 @@ chisq_test_kge = function(dataset,
     var1 = rownames(dataset)
     var2 = colnames(dataset)
 
-    data =  dataset%>% long_df(v1,v2) %>%
-
-      unCount() %>% table()
+    data =  dataset%>% long_df(v1,v2) %>% unCount() %>% table()
 
 
   }else if(is.data.fram){
@@ -137,7 +135,8 @@ chisq_test_kge = function(dataset,
   data_rowsum_df = data %>%  rbind(SUM = apply(., MARGIN = 2 , FUN = sum) )
   data_colsum = data_rowsum_df %>% apply(., MARGIN = 1 , FUN = sum)
 
-  #비율을 생성하여 결합(%까지 생성하여 결합)
+  #비율을 생성하여 결합(%까지 생성하여 결합#
+
   data_margin = data  %>%
     jjstat::accent_table( v1, v2, trans = trans, type = "ratio")
 
@@ -235,7 +234,7 @@ chisq_test_kge = function(dataset,
 
 
   #observer/Expected 에 유의성 표시
-  chi_table_sig = format(calculate_chi_sig(data, simple = simple), 3)%>%suppressWarnings()
+  chi_table_sig = format(calculate_chi_sig(data), 3)%>%suppressWarnings()
 
   ###마크다운   유의성표시된 것으로 변경----
   chi_table_md0 = chi_table_sig %>%data.frame() %>%

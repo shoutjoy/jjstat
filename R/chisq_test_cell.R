@@ -2,7 +2,10 @@
 #' Chi-square analysis by cell
 #'
 #' @param data table
-#' @param type all, res, cramer, ratio
+#' @param type res, alll()default), chisq_result , observed   expected,   residuals ,  chisq_cell ,  stdres, chisq_cell_sig ,  cramersv ,  OE_ratio,    OE_sig ,   graph
+#' @param trans plot transpose
+#' @param plot TRUE
+#' @param digits digits= 3
 #'
 #' @return chisq
 #' @export
@@ -29,45 +32,106 @@
 #' }
 #'
 #'
-chisq_test_cell <- function(data, type="all") {
-  # 카이제곱 검정 수행
-  chi_test <- chisq.test(data)
+chisq_test_cell <- function(data,type="res", trans = FALSE, plot=TRUE,  digits=3) {
+  # Calculate chi-squared test
+  if(is.table(data)){
+    data= data %>%as.data.frame()%>%to_table()
+  }else{
+    data =as.matrix(data)
+  }
+
+  chisq_result <- chisq.test(data)
+  cramersv = cramers_v(data)
+  # Extract standardized residuals
+  observed <- chisq_result$observed
+  expected <- chisq_result$expected
+  OE_ratio = observed/expected
+  stdres <- chisq_result$stdres
+  residuals <- chisq_result$residuals
+  chisq_cell <- chisq_result$residuals^2
+
+  # df= (ncol(data)-1)*(nrow(data)-1)
+  # p_values <- pchisq(chisq_cell, 1, lower.tail = FALSE)
+  # # Create a matrix to store significance markers
+  markers <- matrix("", nrow = nrow(stdres), ncol = ncol(stdres))
+  # # Mark values based on thresholds
+  markers[abs(stdres) >= 1.96] <- "*"
+  markers[abs(stdres) >= 2.58] <- "**"
+  markers[abs(stdres) >= 3.09] <- "***"
+
+  # # Combine stdres and markers
+  chisq_sig <- combine_data(round(chisq_cell, digits), markers,"")
+  OE_sig <- combine_data(round(OE_ratio, digits), markers,"")
+  chisq_sig <- format(chisq_sig, justify="left")
+
+  oesig_add = OE_sig%>%long_df("row","col","sig", cols=1:ncol(OE_sig)+1)
+  oeplot = OE_ratio%>%long_df("row","col","values")
+
+  if(plot){
+    if(trans){
+      x11()
+      # oesig_add = OE_sig%>%long_df("row","col","sig", cols=1:ncol(OE_sig)+1)
+      graph = bind_cols(oeplot, sig=oesig_add$sig)%>%
+        ggplot(aes(x=row, y=values))+
+        geom_bar(stat="identity", aes(fill=row), show.legend = FALSE)+
+        geom_text(aes(label= sig), vjust=-.3)+
+        theme_bw()+
+        facet_wrap(~ col)+
+        scale_fill_grey()
+
+    }else{
+      x11()
 
 
-  chi_test$observed <- as.matrix(chi_test$observed)
-  chi_test$expected <- as.matrix(chi_test$expected)
-  cor_ratio = chi_test$observed / chi_test$expected
-  cramer = cramers_v(data)
-  # residuals 제곱값 계산
-  residuals_squared <- chi_test$residuals^2
+      graph = bind_cols(oeplot, sig=oesig_add$sig)%>%
+        ggplot(aes(x=col, y=values))+
+        geom_bar(stat="identity", aes(fill=col), show.legend = FALSE)+
+        geom_text(aes(label= sig), vjust=-.3)+
+        theme_bw()+
+        facet_wrap(~ row)+
+        scale_fill_grey()
+    }
+  }else{
+    graph=NULL
+  }
 
-  # 자유도(df)
-  # df <- chi_test$parameter  #이건 적용하면 안됨
-  df = 1
+  all= list(chisq_result = chisq_result,
+            observed = observed,
+            expected = expected,
+            residuals = residuals,
+            chisq_cell = chisq_cell%>%addmargins(),
+            stdres = stdres,
+            chisq_cell_sig = chisq_sig,
+            cramersv = cramersv,
+            OE_ratio = OE_ratio,
+            OE_sig = OE_sig,
+            oeplot=oeplot,
+            oesig_add= oesig_add,
+            graph = graph)
 
-  # 각 셀별 p값 계산
-  p_values <- pchisq(residuals_squared, df, lower.tail = FALSE)
+  res = list(chisq_result = chisq_result,
+             #  observed= observed,
+             #  expected=expected,
+             #  residuals = residuals,
+             #  chisq_cell = chisq_cell%>%addmargins(),
+             #  stdres = stdres,
+             chisq_cell_sig = chisq_sig,
+             cramersv = cramersv,
+             #  OE_ratio=OE_ratio,
+             OE_sig = OE_sig,
+             graph=graph )
 
-  # 행렬로 출력
-  p_matrix <- matrix(p_values, nrow = nrow(data), ncol = ncol(data))
-  colnames(p_matrix) <- colnames(data)
-  rownames(p_matrix) <- rownames(data)
-
-  p_sig = jjstat::add_significance_symbols(p_matrix)
-
-  res = jjstat::combine_data( round(residuals_squared, 2),   p_sig )
-  ratio = jjstat::combine_data( round(cor_ratio, 2),   p_sig )
-
-  all = list(
-    # chisq=chi_test,
-    cell_chisq = res,
-    cramer=cramer,
-    ratio = ratio
+  switch(type, res=res, all=all, chisq_result = chisq_result,
+         observed = observed,
+         expected = expected,
+         residuals = residuals,
+         chisq_cell = chisq_cell%>%addmargins(),
+         stdres = stdres,
+         chisq_cell_sig = chisq_sig,
+         cramersv = cramersv,
+         OE_ratio = OE_ratio,
+         OE_sig = OE_sig,
+         graph = graph
   )
-  print(chi_test)
-
-  switch(type,
-         all = all, res= res,cramer=cramer,
-         ratio=ratio)
 
 }

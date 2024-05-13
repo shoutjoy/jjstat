@@ -4,12 +4,18 @@
 \alias{chisq_test_cell}
 \title{Chi-square analysis by cell}
 \usage{
-chisq_test_cell(data, type = "all")
+chisq_test_cell(data, type = "res", trans = FALSE, plot = TRUE, digits = 3)
 }
 \arguments{
 \item{data}{table}
 
-\item{type}{all, res, cramer, ratio}
+\item{type}{res, alll()default), chisq_result , observed   expected,   residuals ,  chisq_cell ,  stdres, chisq_cell_sig ,  cramersv ,  OE_ratio,    OE_sig ,   graph}
+
+\item{trans}{plot transpose}
+
+\item{plot}{TRUE}
+
+\item{digits}{digits= 3}
 }
 \value{
 chisq

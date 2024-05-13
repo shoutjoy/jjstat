@@ -48,32 +48,34 @@ Functions to check the chi-square test of a paper
 ## jjpaper
 ## https://blog.naver.com/shoutjoy/223005233887
 
-Chisq_retest(c(111, 33, 64, 58), ncol=2 )
+chisq_retest(c(111, 33, 64, 58), ncol=2 )
 ## 논문에 나온 값이 잘못됨 :chisq = 17.793
 ## this chisq = 16.7
 
-Chisq_retest(c(111, 33, 64, 58), ncol=2, type="chisq" )
+chisq_retest(c(111, 33, 64, 58), ncol=2, type="chisq" )
 
-Chisq_retest(c(111, 33, 64, 58), ncol=2,
+chisq_retest(c(111, 33, 64, 58), ncol=2,
 colname = c("experience", "Non-experience"),
 rowname =c("E-Leanring","FaceToFace"))
 
-Chisq_retest(c(4,10, 78, 46, 6, 0,5,79,36,2), ncol=2 )
+chisq_retest(c(4,10, 78, 46, 6, 0,5,79,36,2), ncol=2, simulate.p.value=T )
 
-Chisq_retest(c(4,10, 78, 46, 6, 0,5,79,36,2), ncol=2,
+chisq_retest(c(4,10, 78, 46, 6, 0,5,90,36,2), ncol=2 ,simulate.p.value=T)
+
+chisq_retest(c(4,10, 78, 46, 6, 0,5,79,36,2), ncol=2,
 colname = c("experience", "Non-experience"),
 rowname = c("maxlow","low","mid","high","maxhigh") )
 
 
 ##  Comparison of gender learning methods --> An invalid value was calculated.
 ## chisq = 5.238, p =0.015 But recalculate chisq = 4.69, p = 0.0303
-Chisq_retest(c(84, 60, 54, 68), ncol=2 ,
+chisq_retest(c(84, 60, 54, 68), ncol=2 ,
              colname = c("experience", "Non-experience"),
                           rowname = c("male", "female"))
 
 ## Comparing Learner Characteristics by Grade Level, Mina Choi (2007)
 
-Chisq_retest(c(18,38, 40, 48, 52,35,19,16), ncol=2 ,
+chisq_retest(c(18,38, 40, 48, 52,35,19,16), ncol=2 ,
 colname = c("experience", "Non-experience"),
 rowname = c("1학년","2학년","3학년","4학년")
 
