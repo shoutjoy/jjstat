@@ -1,4 +1,3 @@
-
 #' kge_chisq_table chisq table observed/Expected table-
 #'
 #' @param dataset data.frame
@@ -61,17 +60,17 @@
 #'   rownames_to_column("학력") %>%
 #'   to_long(names_to = "영재성",cols=2:6) %>%
 #'   unCount() %>%
-#'   chisq_test_kge(v1="영재성", v2="학력")
+#'   chisq_test_cor(v1="영재성", v2="학력")
 #'
 #'
 #' shin2013_mat%>%  data.frame() %>%
 #'   long_df("학력","영재성") %>%
 #'   unCount() %>%
-#'   chisq_test_kge("학력","영재성")
+#'   chisq_test_cor("학력","영재성")
 
 #'
 #' }
-chisq_test_kge = function(dataset,
+chisq_test_cor = function(dataset,
                           v1="var1",
                           v2="var2",
                           title ="Table",
@@ -112,11 +111,13 @@ chisq_test_kge = function(dataset,
     var1 = rownames(dataset)
     var2 = colnames(dataset)
 
-    data =  dataset%>% long_df(v1,v2) %>% unCount() %>% table()
+    data =  dataset%>% long_df(v1,v2) %>%
+
+      unCount() %>% table()
 
 
   }else if(is.data.fram){
-     # Using data.frame
+    # Using data.frame
     data =  dataset %>%
       dplyr::select(all_of(v1), all_of(v2)) %>%
       table()
@@ -135,8 +136,7 @@ chisq_test_kge = function(dataset,
   data_rowsum_df = data %>%  rbind(SUM = apply(., MARGIN = 2 , FUN = sum) )
   data_colsum = data_rowsum_df %>% apply(., MARGIN = 1 , FUN = sum)
 
-  #비율을 생성하여 결합(%까지 생성하여 결합#
-
+  #비율을 생성하여 결합(%까지 생성하여 결합)
   data_margin = data  %>%
     jjstat::accent_table( v1, v2, trans = trans, type = "ratio")
 
@@ -313,5 +313,6 @@ chisq_test_kge = function(dataset,
   )
 
 
-}
+  #  result
 
+}
