@@ -10,6 +10,7 @@
 #' @param sizeMan 8
 #' @param sizeMan2 4
 #' @param sizeLat 10
+#' @param sizeLat2 6
 #' @param style lisrel
 #' @param sig FALSE
 #' @param exoVar FALSE
@@ -23,6 +24,7 @@
 #' @param border.width border.width=1
 #' @param edge.width edge.width=1.5
 #' @param growth growth= FALSE, TRUE  model.type ="grouwth"
+#' @param structural structural = FALSE
 #' @param type type ="plot, and res is lavaan simdata result
 #'
 #' @return plot
@@ -69,7 +71,7 @@
 #' #'
 #' }
 diagram_model = function(model,
-                         residuals= TRUE,
+                         residuals= FALSE,
                          whatLabels = "model",
                          rotation = 2,
                          residScale = 12,
@@ -78,18 +80,20 @@ diagram_model = function(model,
                          sizeMan = 8,
                          sizeMan2 = 4,
                          sizeLat = 10,
+                         sizeLat2 = 6,
                          style="lisrel",
                          sig = FALSE,
                          exoVar = FALSE,
                          exoCov = TRUE,
                          curve = 1.5, asize=2,
-                         mar = c(2,8,3,10),
+                         mar = c(3,8,3,10),
                          nDigits = 2,
                          sample.nobs = 100,
                          border.width = 2,
                          edge.width = 1.5,
                          groups = FALSE,
                          growth = FALSE,
+                         structural = FALSE,
                          type="plot"){
 
   #first step : Determining the model type
@@ -136,6 +140,7 @@ diagram_model = function(model,
       exoCov = exoCov,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat,
+      sizeLat2 = sizeLat2,
       shapeLat = "circle",
       border.width = border.width,
       edge.width = edge.width,
@@ -143,6 +148,7 @@ diagram_model = function(model,
       curve = curve,
       nDigits = nDigits,
       asize= asize,
+      structural = structural,
       style =  style,  mar=mar)
   }else{
     dia =   lav_obj %>% semPlot::semPaths(
@@ -157,12 +163,14 @@ diagram_model = function(model,
       exoCov = exoCov,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat,
+      sizeLat2 = sizeLat2,
       shapeLat="circle",
       border.width = border.width,
       edge.width = edge.width,
       curve=curve,
       nDigits = nDigits,
       asize= asize,
+      structural = structural,
       style =  style,  mar=mar)
   }
 
@@ -254,6 +262,7 @@ sem_model = function(model,
                          sizeMan = 8,
                          sizeMan2 = 4,
                          sizeLat = 10,
+                         sizeLat2 = 6,
                          style="lisrel",
                          sig= FALSE,
                          exoVar=FALSE,
@@ -261,6 +270,7 @@ sem_model = function(model,
                          curve=1.5, asize=2,
                          mar=c(2,8,3,10),nDigits=2,
                          sample.nobs=100,
+                     structual= FALSE,
                          groups=FALSE){
 
   #first step : Determining the model type
@@ -303,6 +313,7 @@ sem_model = function(model,
       exoCov = exoCov,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat,
+      sizeLat2 = sizeLat2,
       shapeLat = "circle",
       border.width = 2,
       groups = "lat",pastel = TRUE,
@@ -310,6 +321,7 @@ sem_model = function(model,
       curve = curve,
       nDigits = nDigits,
       asize= asize,
+      structural = structural,
       style =  style,  mar=mar)
   }else{
     dia =   lav_obj %>% semPlot::semPaths(
@@ -324,12 +336,14 @@ sem_model = function(model,
       exoCov = exoCov,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat,
+      sizeLat2 = sizeLat2,
       shapeLat="circle",
       border.width = 2,
       edge.width=1.5,
       curve=curve,
       nDigits = nDigits,
       asize= asize,
+      structural = structural,
       style =  style,  mar=mar)
   }
 

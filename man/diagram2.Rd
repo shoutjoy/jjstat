@@ -27,6 +27,7 @@ diagram2(
   layout = "tree",
   exoVar = TRUE,
   exoCov = TRUE,
+  structual = FALSE,
   groups = FALSE
 )
 }
@@ -74,6 +75,8 @@ diagram2(
 \item{exoVar}{exoVar=TRUE,}
 
 \item{exoCov}{exoCov=TRUE,}
+
+\item{structual}{structual=FALSE}
 
 \item{groups}{true color}
 }

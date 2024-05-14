@@ -6,7 +6,7 @@
 \usage{
 diagram_model(
   model,
-  residuals = TRUE,
+  residuals = FALSE,
   whatLabels = "model",
   rotation = 2,
   residScale = 12,
@@ -15,19 +15,21 @@ diagram_model(
   sizeMan = 8,
   sizeMan2 = 4,
   sizeLat = 10,
+  sizeLat2 = 6,
   style = "lisrel",
   sig = FALSE,
   exoVar = FALSE,
   exoCov = TRUE,
   curve = 1.5,
   asize = 2,
-  mar = c(2, 8, 3, 10),
+  mar = c(3, 8, 3, 10),
   nDigits = 2,
   sample.nobs = 100,
   border.width = 2,
   edge.width = 1.5,
   groups = FALSE,
   growth = FALSE,
+  structural = FALSE,
   type = "plot"
 )
 }
@@ -51,6 +53,8 @@ diagram_model(
 \item{sizeMan2}{4}
 
 \item{sizeLat}{10}
+
+\item{sizeLat2}{6}
 
 \item{style}{lisrel}
 
@@ -77,6 +81,8 @@ diagram_model(
 \item{groups}{FALSE}
 
 \item{growth}{growth= FALSE, TRUE  model.type ="grouwth"}
+
+\item{structural}{structural = FALSE}
 
 \item{type}{type ="plot, and res is lavaan simdata result}
 }

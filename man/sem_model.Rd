@@ -15,6 +15,7 @@ sem_model(
   sizeMan = 8,
   sizeMan2 = 4,
   sizeLat = 10,
+  sizeLat2 = 6,
   style = "lisrel",
   sig = FALSE,
   exoVar = FALSE,
@@ -24,6 +25,7 @@ sem_model(
   mar = c(2, 8, 3, 10),
   nDigits = 2,
   sample.nobs = 100,
+  structual = FALSE,
   groups = FALSE
 )
 }

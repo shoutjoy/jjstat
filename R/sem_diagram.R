@@ -60,6 +60,7 @@ diagram = function(lav_obj, what="est",
 #' @param sizeMan2  sizeMan2 = 4,
 #' @param sizeLat  sizeLat = 10,
 #' @param sizeLat2  sizeLat2 = 6
+#' @param structual  structual=FALSE
 #' @param style  style="lisrel"
 #' @param sig sig=TRUE
 #' @param residuals residuals=TRUE
@@ -121,6 +122,7 @@ diagram2 = function(lav_obj, whatLabels = "est",
                     asize= 1.5, shapeLat ="circle",
                     residuals=FALSE,curve=1,layout = "tree",
                     exoVar=TRUE, exoCov=TRUE,
+                    structual=FALSE,
                     groups=FALSE
 ){
 
@@ -143,6 +145,7 @@ diagram2 = function(lav_obj, whatLabels = "est",
       curve = curve,
       asize= asize,
       nDigits = nDigits,
+      structual=structual,
       style =  style,  mar=mar)
   }else{
     dia =   lav_obj %>% semPlot::semPaths(
@@ -162,6 +165,7 @@ diagram2 = function(lav_obj, whatLabels = "est",
       curve=curve,
       nDigits = nDigits,
       asize= asize,
+      structual=structual,
       style =  style,  mar=mar)
   }
 
