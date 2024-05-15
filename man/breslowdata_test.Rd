@@ -26,7 +26,7 @@ For the Breslow-Day test to be valid, the sample size should be relatively large
 Alternatively, it might be better to cast the entire inference problem into the setting of a logistic regression model. Here, the underlying question of the Breslow-Day test can be answered by investigating whether an interaction term with the strata variable is necessary (e.g. using a likelihood ratio test using the anova function).
 }
 \examples{
-\fontrun{
+\dontrun{
 #'
 migraine <- xtabs(freq ~ .,
                   cbind(expand.grid(treatment=c("active", "placebo"),

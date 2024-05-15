@@ -250,7 +250,7 @@ cmh_test = function (x, y = NULL, z = NULL,
 #' @export
 #'
 #' @examples
-#' \fontrun{
+#' \dontrun{
 #' #'
 #' migraine <- xtabs(freq ~ .,
 #'                   cbind(expand.grid(treatment=c("active", "placebo"),

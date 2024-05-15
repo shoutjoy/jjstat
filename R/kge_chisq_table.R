@@ -170,7 +170,7 @@ kge_chisq_table = function(dataset,
     # g= NULL
   }
   #observer/Expected 에 유의성 표시
-  chi_table_sig = format(calculate_chi_sig(data, simple = simple), 3)
+  chi_table_sig = format(calculate_chi_sig(data), 3)
 
 
   # **column names ----
