@@ -8,9 +8,10 @@ p_mark_sig(
   data,
   col = "p.value",
   unite = FALSE,
+  unite_col = NULL,
   digits = 3,
   ns = "ns",
-  rownames_to_column = TRUE
+  rownames_to_column = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ p_mark_sig(
 \item{col}{'col' specifies the name of the column representing the p value in the data. By default, it is set to p.value. For example, if it is written as p, pvalue, p_value, etc., you can change the name.}
 
 \item{unite}{TRUE combine pvalue and sig}
+
+\item{unite_col}{unite_col is the variable we want to merge with sig}
 
 \item{digits}{default 3}
 
@@ -42,13 +45,6 @@ library(rstatix)
   rstatix::t_test(data =., len ~ supp) \%>\%
   p_mark_sig("p")
 
-##method 2
- ToothGrowth \%>\%
- group_by(dose) \%>\%
- rstatix::t_test(data =., len ~ supp) \%>\%
-  p_mark_sig("p", unite=TRUE)
-
-
   ### NEW
   TukeyHSD(aov(weight ~ feed, chickwts))$feed \%>\% as.data.frame() \%>\%
   mutate(sig = add_sig(`p adj`))
@@ -56,6 +52,22 @@ library(rstatix)
   TukeyHSD(aov(weight ~ feed, chickwts))$feed \%>\% p_mark_sig("p adj")
 
 
+##method 2
+ ToothGrowth \%>\%
+ group_by(dose) \%>\%
+ rstatix::t_test(data =., len ~ supp) \%>\%
+  p_mark_sig("p", unite=TRUE)
+
+
+ ToothGrowth \%>\%
+     group_by(dose) \%>\%
+    rstatix::t_test(data =., len ~ supp) \%>\%
+    p_mark_sig("p", unite = TRUE, unite_col = "statistic" ,ns="")
+
+ ToothGrowth \%>\%
+   group_by(dose) \%>\%
+   rstatix::t_test(data =., len ~ supp) \%>\%
+   p_mark_sig("p", unite = TRUE, unite_col = "statistic" )
 }
 
 

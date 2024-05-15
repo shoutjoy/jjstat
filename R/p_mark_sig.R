@@ -5,6 +5,7 @@
 #' @param unite TRUE combine pvalue and sig
 #' @param digits default 3
 #' @param ns ns="ns"
+#' @param unite_col unite_col is the variable we want to merge with sig
 #' @param rownames_to_column drownames_to_column if you need
 #' @export
 #'
@@ -21,13 +22,6 @@
 #'   rstatix::t_test(data =., len ~ supp) %>%
 #'   p_mark_sig("p")
 #'
-#' ##method 2
-#'  ToothGrowth %>%
-#'  group_by(dose) %>%
-#'  rstatix::t_test(data =., len ~ supp) %>%
-#'   p_mark_sig("p", unite=TRUE)
-#'
-#'
 #'   ### NEW
 #'   TukeyHSD(aov(weight ~ feed, chickwts))$feed %>% as.data.frame() %>%
 #'   mutate(sig = add_sig(`p adj`))
@@ -35,15 +29,33 @@
 #'   TukeyHSD(aov(weight ~ feed, chickwts))$feed %>% p_mark_sig("p adj")
 #'
 #'
+#' ##method 2
+#'  ToothGrowth %>%
+#'  group_by(dose) %>%
+#'  rstatix::t_test(data =., len ~ supp) %>%
+#'   p_mark_sig("p", unite=TRUE)
+#'
+#'
+#'  ToothGrowth %>%
+#'      group_by(dose) %>%
+#'     rstatix::t_test(data =., len ~ supp) %>%
+#'     p_mark_sig("p", unite = TRUE, unite_col = "statistic" ,ns="")
+#'
+#'  ToothGrowth %>%
+#'    group_by(dose) %>%
+#'    rstatix::t_test(data =., len ~ supp) %>%
+#'    p_mark_sig("p", unite = TRUE, unite_col = "statistic" )
+
 #' }
 #'
 #'
 p_mark_sig <-function(data,
                       col = "p.value",
                       unite = FALSE,
+                      unite_col = NULL,
                       digits = 3,
                       ns = "ns",
-                      rownames_to_column = TRUE
+                      rownames_to_column = FALSE
 ){
   #
   library(tidyverse)
@@ -78,9 +90,21 @@ p_mark_sig <-function(data,
 
 
   if(unite){
+  if(is.null(unite_col)){
+    #Automatically combine p.value with sig
     res = res %>% dplyr::rename(p.value = all_of( col) ) %>%
       mutate_if(is.numeric, round, digits)
+
     res = res %>% tidyr::unite(p.value, p.value, sig, sep="")
+
+  }else{
+    # unite sig with a specified variable
+    res = res %>% Round(digits = digits) %>%
+      tidyr::unite(est, all_of(unite_col), sig, sep="")%>%
+      rename(!!unite_col := est)
+  }
+
+
     res= res%>% tibble::tibble()
   }else{
     res = res }

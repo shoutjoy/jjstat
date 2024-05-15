@@ -31,7 +31,7 @@
 #' #Build and adjust with data from within
 #' fm %>% mutate(gender = age)
 #' fm %>% mutate_col(age_int = substring(fm$age,1,2))
-#' fm %>% mutate_col(gender = paste(age,values,sep="//"))
+#' fm %>% mutate_col(gender = paste(fm$age,fm$values,sep="//"))
 #'
 #' # Double data generation
 #' fm %>%
