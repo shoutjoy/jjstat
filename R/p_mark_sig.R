@@ -7,6 +7,7 @@
 #' @param ns ns="ns"
 #' @param unite_col unite_col is the variable we want to merge with sig
 #' @param rownames_to_column drownames_to_column if you need
+#' @param exclude Round exclude varible
 #' @export
 #'
 #' @examples
@@ -55,7 +56,8 @@ p_mark_sig <-function(data,
                       unite_col = NULL,
                       digits = 3,
                       ns = "ns",
-                      rownames_to_column = FALSE
+                      rownames_to_column = FALSE,
+                      exclude= NULL
 ){
   #
   library(tidyverse)
@@ -99,7 +101,7 @@ p_mark_sig <-function(data,
 
   }else{
     # unite sig with a specified variable
-    res = res %>% Round(digits = digits) %>%
+    res = res %>% Round(digits = digits, exclude = exclude) %>%
       tidyr::unite(est, all_of(unite_col), sig, sep="")%>%
       rename(!!unite_col := est)
   }
