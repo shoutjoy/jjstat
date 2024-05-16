@@ -37,12 +37,16 @@
 #'
 #' chisq_gof_posthoc(c(49, 30, 63, 59, 40, 60))
 #'
+#' lapply(dfat %>%table_sum(c(1,0,0)), unlist)
 #' #'
 #' }
 #'
 #'
 #'
 chisq_gof_posthoc <- function(counts, type="all", method="fdr") {
+
+  # 입력 데이터가 데이터 프레임인 경우 각 열을 벡터로 변환
+  counts = as.numeric(counts)
 
   overall =  chisq.test(count) %>%tidy()
   #data combination

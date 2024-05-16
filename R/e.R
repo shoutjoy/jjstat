@@ -43,7 +43,7 @@ e = function (text = "hello let's start translate english to korean.",
     res
   }else if(show=="translate"){
     res = result
-    cat(res)
+    cat(res,"\n")
 
   }else if(show=="data"){
     res = result

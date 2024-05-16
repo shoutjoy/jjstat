@@ -49,6 +49,7 @@ chisq_gof_posthoc(count, method="bonferroni")
 
 chisq_gof_posthoc(c(49, 30, 63, 59, 40, 60))
 
+lapply(dfat \%>\%table_sum(c(1,0,0)), unlist)
 #'
 }
 
