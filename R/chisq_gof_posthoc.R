@@ -148,7 +148,7 @@ chisq_gof_posthoc <- function(counts, type="all", method="fdr") {
 #'
 #'
 chisq_each <- function(counts, type="all", method="fdr") {
-
+  counts = as.numeric(counts)
   overall =  chisq.test(count) %>%tidy()
   #data combination
   Names <- combn(length(counts), 2,
