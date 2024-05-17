@@ -4,7 +4,7 @@
 \alias{chisq_gof_posthoc}
 \title{chisq_gof_posthoc}
 \usage{
-chisq_gof_posthoc(Xs, type = "all", method = "fdr")
+chisq_gof_posthoc(Xs, type = "res", method = "fdr")
 }
 \arguments{
 \item{Xs}{data}
@@ -49,8 +49,7 @@ chisq_gof_posthoc(X, method="bonferroni")
 
 chisq_gof_posthoc(c(49, 30, 63, 59, 40, 60))
 
-lapply(dfat \%>\%table_sum(c(1,0,0)), unlist)
-#'
+#' #'
 }
 
 

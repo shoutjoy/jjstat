@@ -37,18 +37,18 @@
 #'
 #' chisq_gof_posthoc(c(49, 30, 63, 59, 40, 60))
 #'
-#' lapply(dfat %>%table_sum(c(1,0,0)), unlist)
-#' #'
+#' #' #'
 #' }
 #'
 #'
 #'
-chisq_gof_posthoc <- function(Xs, type="all", method="fdr") {
+chisq_gof_posthoc <- function(Xs, type="res", method="fdr") {
 
   # 입력 데이터가 데이터 프레임인 경우 각 열을 벡터로 변환
   Xs = as.numeric(Xs)
 
   overall =  chisq.test(Xs) %>%tidy()
+  overall_msg = chisq.test(Xs)%>% chisq_apa(show = FALSE)
   #data combination
   Names <- combn(length(Xs), 2,
                  FUN = function(x) paste0(Xs[x[1]], "_", Xs[x[2]]))
@@ -76,28 +76,48 @@ chisq_gof_posthoc <- function(Xs, type="all", method="fdr") {
   tab.p <- pairwise.table(fun.p, as.character(Xs),
                           p.adjust.method= method)
   # adjust the p value
-  adj.p = tab.p%>%
-    long_df("cell_1","cell_2","adj.p") %>%
-    drop_na () %>%#arrange(cell_2) %>%
-    mutate(cell_2 = substring(cell_2,2,3) ) %>%
-    dplyr::select(cell_2, cell_1, adj.p)%>%
-    tidyr::unite(pairwise, cell_2, cell_1)
+  # adj.p = tab.p%>%
+  #   long_df("cell_1","cell_2","adj.p") %>%
+  #   drop_na () %>%#arrange(cell_2) %>%
+  #   mutate(cell_2 = substring(cell_2,2,3) ) %>%
+  #   dplyr::select(cell_2, cell_1, adj.p)%>%
+  #   tidyr::unite(pairwise, cell_2, cell_1)
+
+
+  adj.p= tab.p%>%
+    long_df("cell_1","cell_2","p.value") %>%
+    drop_na () %>%
+    mutate(cell_1 = gsub("X", "", cell_1),
+           cell_2 = gsub("X", "", cell_2)) %>%
+    p_mark_sig()%>%
+    dplyr::select(cell_2, cell_1, p.value, sig)%>%
+    tidyr::unite(pairwise, cell_2, cell_1) #
+  #Remove trailing values
+  adj.p = adj.p %>%
+    mutate(pairwise = gsub("\\.\\d+", "", pairwise))%>%
+    rename(adj.p = p.value, adj.p_sig = sig)
 
   if(type=="res"){
     cat("\n p adjust method =",method,"\n")
   }
+  #Consolidate duplicate rows into one
+  unique_adj.p <- adj.p %>% distinct()
+  unique_combined_results <- combined_results %>% distinct()
+  unique_combined_results <- unique_combined_results%>%p_mark_sig()%>%
+    rename(p_sig = sig)
+  #main result
+  res = full_join(unique_combined_results,
+                  unique_adj.p,
+                  by="pairwise")
 
-
-  res = full_join(combined_results,
-                  adj.p, by="pairwise")%>%
-    p_mark_sig("adj.p")
-
-  Res= list(gof_test = overall,
-            p = adj.p, chisq = combined_results,
-            posthoc = res)
-
-  # Res
-  switch(type, all= Res,res=res, p=adj.p, chisq =combined_results )
+#all data
+Res = list(gof_test = overall,
+          apa= overall_msg,
+          adj.p = adj.p,
+          chisq = combined_results%>%p_mark_sig(),
+          posthoc = res)
+#select result
+  switch(type, all= Res,res=res, p=adj.p, chisq = combined_results )
 
 }
 

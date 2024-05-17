@@ -27,11 +27,16 @@ chisq_multcomp <-function(x, p.method="fdr") {
                           p.adjust.method=p.method)
   plist= tab.p%>%
     long_df("cell_1","cell_2","p.value") %>%
-    drop_na () %>%#arrange(cell_2) %>%
-    mutate(cell_2 = substring(cell_2,2,3) ) %>%p_mark_sig()%>%
+    drop_na () %>%
+    mutate(cell_1 = gsub("X", "", cell_1),
+           cell_2 = gsub("X", "", cell_2)) %>%
+    p_mark_sig()%>%
     dplyr::select(cell_2, cell_1, p.value, sig)%>%
     tidyr::unite(pairwise, cell_2, cell_1)
-
-
+cat("\n")
+cat(p.method)
+cat("\n")
   plist
+  # tab.p
+
 }
