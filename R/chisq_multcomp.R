@@ -15,7 +15,7 @@
 #' }
 chisq_multcomp <-function(x, p.method="fdr") {
   #FDR(False Discovery Rate)
-
+  x = as.numeric(x)
   #   x <- sort(x)
 
   fun.p <- function(i,j) {

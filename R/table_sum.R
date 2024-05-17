@@ -85,6 +85,7 @@ table_sum <- function(data, con=NULL, trans = FALSE, sep="/") {
     dplyr::select(-1) %>%
     tibble::column_to_rownames("row_names")
 
+  res= as.matrix(res)
   return(res)
 
 }

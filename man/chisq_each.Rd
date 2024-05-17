@@ -4,10 +4,10 @@
 \alias{chisq_each}
 \title{chisq_gof_posthoc}
 \usage{
-chisq_each(counts, type = "all", method = "fdr")
+chisq_each(Xs, type = "all", method = "fdr")
 }
 \arguments{
-\item{counts}{data}
+\item{Xs}{data}
 
 \item{type}{all, res, p, chisq}
 
@@ -24,28 +24,28 @@ chisq_gof_posthoc
 \dontrun{
 #'
 #'
-count <- c(49, 30, 63, 59)
+X <- c(49, 30, 63, 59)
 
-chisq_each(count, "res")
-chisq_each(count,"all")$gof_test
-chisq_each(count,"all")$p
-chisq_each(count,"all")$chisq
-chisq_each(count, typ="all")
-chisq_each(count, typ="res")
-chisq_each(count, type="p")
-chisq_each(count, type="chisq")
+chisq_each(X, "res")
+chisq_each(X,"all")$gof_test
+chisq_each(X,"all")$p
+chisq_each(X,"all")$chisq
+chisq_each(X, typ="all")
+chisq_each(X, typ="res")
+chisq_each(X, type="p")
+chisq_each(X, type="chisq")
 
-chisq_each(count, method="bonferroni")
+chisq_each(X, method="bonferroni")
 
-count1 <- c(4, 3, 6, 19)
-chisq_each(count1)
-chisq_each(count1, typ="all")
-chisq_each(count1, type="p")
-chisq_each(count1, type="chisq")
-chisq_each(count1, method="bonferroni")
+X1 <- c(4, 3, 6, 19)
+chisq_each(X1)
+chisq_each(X1, typ="all")
+chisq_each(X1, type="p")
+chisq_each(X1, type="chisq")
+chisq_each(X1, method="bonferroni")
 
 
-chisq_each(count, method="bonferroni")
+chisq_each(X, method="bonferroni")
 
 chisq_each(c(49, 30, 63, 59, 40, 60))
 

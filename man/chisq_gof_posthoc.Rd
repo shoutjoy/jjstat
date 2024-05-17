@@ -4,10 +4,10 @@
 \alias{chisq_gof_posthoc}
 \title{chisq_gof_posthoc}
 \usage{
-chisq_gof_posthoc(counts, type = "all", method = "fdr")
+chisq_gof_posthoc(Xs, type = "all", method = "fdr")
 }
 \arguments{
-\item{counts}{data}
+\item{Xs}{data}
 
 \item{type}{all, res, p, chisq}
 
@@ -24,28 +24,28 @@ chisq_gof_posthoc
 \dontrun{
 #'
 
-count <- c(49, 30, 63, 59)
+X <- c(49, 30, 63, 59)
 
-chisq_gof_posthoc(count, "res")
-chisq_gof_posthoc(count,"all")$gof_test
-chisq_gof_posthoc(count,"all")$p
-chisq_gof_posthoc(count,"all")$chisq
-chisq_gof_posthoc(count, typ="all")
-chisq_gof_posthoc(count, typ="res")
-chisq_gof_posthoc(count, type="p")
-chisq_gof_posthoc(count, type="chisq")
+chisq_gof_posthoc(X, "res")
+chisq_gof_posthoc(X,"all")$gof_test
+chisq_gof_posthoc(X,"all")$p
+chisq_gof_posthoc(X,"all")$chisq
+chisq_gof_posthoc(X, typ="all")
+chisq_gof_posthoc(X, typ="res")
+chisq_gof_posthoc(X, type="p")
+chisq_gof_posthoc(X, type="chisq")
 
-chisq_gof_posthoc(count, method="bonferroni")
+chisq_gof_posthoc(X, method="bonferroni")
 
-count1 <- c(4, 3, 6, 19)
-chisq_gof_posthoc(count1)
-chisq_gof_posthoc(count1, typ="all")
-chisq_gof_posthoc(count1, type="p")
-chisq_gof_posthoc(count1, type="chisq")
-chisq_gof_posthoc(count1, method="bonferroni")
+X1 <- c(4, 3, 6, 19)
+chisq_gof_posthoc(X1)
+chisq_gof_posthoc(X1, typ="all")
+chisq_gof_posthoc(X1, type="p")
+chisq_gof_posthoc(X1, type="chisq")
+chisq_gof_posthoc(X1, method="bonferroni")
 
 
-chisq_gof_posthoc(count, method="bonferroni")
+chisq_gof_posthoc(X, method="bonferroni")
 
 chisq_gof_posthoc(c(49, 30, 63, 59, 40, 60))
 

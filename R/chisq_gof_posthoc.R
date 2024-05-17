@@ -1,6 +1,6 @@
 #' chisq_gof_posthoc
 #'
-#' @param counts data
+#' @param Xs data
 #' @param type all, res, p, chisq
 #' @param method p.adust
 #'
@@ -12,28 +12,28 @@
 #' \dontrun{
 #' #'
 #'
-#' count <- c(49, 30, 63, 59)
+#' X <- c(49, 30, 63, 59)
 #'
-#' chisq_gof_posthoc(count, "res")
-#' chisq_gof_posthoc(count,"all")$gof_test
-#' chisq_gof_posthoc(count,"all")$p
-#' chisq_gof_posthoc(count,"all")$chisq
-#' chisq_gof_posthoc(count, typ="all")
-#' chisq_gof_posthoc(count, typ="res")
-#' chisq_gof_posthoc(count, type="p")
-#' chisq_gof_posthoc(count, type="chisq")
+#' chisq_gof_posthoc(X, "res")
+#' chisq_gof_posthoc(X,"all")$gof_test
+#' chisq_gof_posthoc(X,"all")$p
+#' chisq_gof_posthoc(X,"all")$chisq
+#' chisq_gof_posthoc(X, typ="all")
+#' chisq_gof_posthoc(X, typ="res")
+#' chisq_gof_posthoc(X, type="p")
+#' chisq_gof_posthoc(X, type="chisq")
 #'
-#' chisq_gof_posthoc(count, method="bonferroni")
+#' chisq_gof_posthoc(X, method="bonferroni")
 #'
-#' count1 <- c(4, 3, 6, 19)
-#' chisq_gof_posthoc(count1)
-#' chisq_gof_posthoc(count1, typ="all")
-#' chisq_gof_posthoc(count1, type="p")
-#' chisq_gof_posthoc(count1, type="chisq")
-#' chisq_gof_posthoc(count1, method="bonferroni")
+#' X1 <- c(4, 3, 6, 19)
+#' chisq_gof_posthoc(X1)
+#' chisq_gof_posthoc(X1, typ="all")
+#' chisq_gof_posthoc(X1, type="p")
+#' chisq_gof_posthoc(X1, type="chisq")
+#' chisq_gof_posthoc(X1, method="bonferroni")
 #'
 #'
-#' chisq_gof_posthoc(count, method="bonferroni")
+#' chisq_gof_posthoc(X, method="bonferroni")
 #'
 #' chisq_gof_posthoc(c(49, 30, 63, 59, 40, 60))
 #'
@@ -43,15 +43,15 @@
 #'
 #'
 #'
-chisq_gof_posthoc <- function(counts, type="all", method="fdr") {
+chisq_gof_posthoc <- function(Xs, type="all", method="fdr") {
 
   # 입력 데이터가 데이터 프레임인 경우 각 열을 벡터로 변환
-  counts = as.numeric(counts)
+  Xs = as.numeric(Xs)
 
-  overall =  chisq.test(count) %>%tidy()
+  overall =  chisq.test(Xs) %>%tidy()
   #data combination
-  Names <- combn(length(counts), 2,
-                 FUN = function(x) paste0(counts[x[1]], "_", counts[x[2]]))
+  Names <- combn(length(Xs), 2,
+                 FUN = function(x) paste0(Xs[x[1]], "_", Xs[x[2]]))
 
 
   #repeat chisq.test
@@ -69,11 +69,11 @@ chisq_gof_posthoc <- function(counts, type="all", method="fdr") {
   #p.adjust------------
   ##pairwise
   fun.p <- function(i,j) {
-    xi <- counts[i]
-    xj <- counts[j]
+    xi <- Xs[i]
+    xj <- Xs[j]
     suppressWarnings(chisq.test(c(xi, xj)))$p.value  }
   # calulate the p
-  tab.p <- pairwise.table(fun.p, as.character(counts),
+  tab.p <- pairwise.table(fun.p, as.character(Xs),
                           p.adjust.method= method)
   # adjust the p value
   adj.p = tab.p%>%
@@ -105,7 +105,7 @@ chisq_gof_posthoc <- function(counts, type="all", method="fdr") {
 
 #' chisq_gof_posthoc
 #'
-#' @param counts data
+#' @param Xs data
 #' @param type all, res, p, chisq
 #' @param method p.adust
 #'
@@ -117,28 +117,28 @@ chisq_gof_posthoc <- function(counts, type="all", method="fdr") {
 #' \dontrun{
 #' #'
 #' #'
-#' count <- c(49, 30, 63, 59)
+#' X <- c(49, 30, 63, 59)
 #'
-#' chisq_each(count, "res")
-#' chisq_each(count,"all")$gof_test
-#' chisq_each(count,"all")$p
-#' chisq_each(count,"all")$chisq
-#' chisq_each(count, typ="all")
-#' chisq_each(count, typ="res")
-#' chisq_each(count, type="p")
-#' chisq_each(count, type="chisq")
+#' chisq_each(X, "res")
+#' chisq_each(X,"all")$gof_test
+#' chisq_each(X,"all")$p
+#' chisq_each(X,"all")$chisq
+#' chisq_each(X, typ="all")
+#' chisq_each(X, typ="res")
+#' chisq_each(X, type="p")
+#' chisq_each(X, type="chisq")
 #'
-#' chisq_each(count, method="bonferroni")
+#' chisq_each(X, method="bonferroni")
 #'
-#' count1 <- c(4, 3, 6, 19)
-#' chisq_each(count1)
-#' chisq_each(count1, typ="all")
-#' chisq_each(count1, type="p")
-#' chisq_each(count1, type="chisq")
-#' chisq_each(count1, method="bonferroni")
+#' X1 <- c(4, 3, 6, 19)
+#' chisq_each(X1)
+#' chisq_each(X1, typ="all")
+#' chisq_each(X1, type="p")
+#' chisq_each(X1, type="chisq")
+#' chisq_each(X1, method="bonferroni")
 #'
 #'
-#' chisq_each(count, method="bonferroni")
+#' chisq_each(X, method="bonferroni")
 #'
 #' chisq_each(c(49, 30, 63, 59, 40, 60))
 #'
@@ -147,12 +147,15 @@ chisq_gof_posthoc <- function(counts, type="all", method="fdr") {
 #'
 #'
 #'
-chisq_each <- function(counts, type="all", method="fdr") {
-  counts = as.numeric(counts)
-  overall =  chisq.test(count) %>%tidy()
+chisq_each <- function(Xs, type="all", method="fdr") {
+
+  # 입력 데이터가 데이터 프레임인 경우 각 열을 벡터로 변환
+  Xs = as.numeric(Xs)
+
+  overall =  chisq.test(Xs) %>%tidy()
   #data combination
-  Names <- combn(length(counts), 2,
-                 FUN = function(x) paste0(counts[x[1]], "_", counts[x[2]]))
+  Names <- combn(length(Xs), 2,
+                 FUN = function(x) paste0(Xs[x[1]], "_", Xs[x[2]]))
 
 
   #repeat chisq.test
@@ -170,11 +173,11 @@ chisq_each <- function(counts, type="all", method="fdr") {
   #p.adjust------------
   ##pairwise
   fun.p <- function(i,j) {
-    xi <- counts[i]
-    xj <- counts[j]
+    xi <- Xs[i]
+    xj <- Xs[j]
     suppressWarnings(chisq.test(c(xi, xj)))$p.value  }
   # calulate the p
-  tab.p <- pairwise.table(fun.p, as.character(counts),
+  tab.p <- pairwise.table(fun.p, as.character(Xs),
                           p.adjust.method= method)
   # adjust the p value
   adj.p = tab.p%>%
