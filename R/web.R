@@ -11,6 +11,7 @@
 #' @examples
 #'
 #' \dontrun{
+#' mtcars%>%web()
 #'
 #' }
 #'
@@ -42,10 +43,10 @@ web <- function(data, digits = 3, font_size = 14, file = "output.html") {
   html_content <- htmltools::tags$html(
     htmltools::tags$head(
       htmltools::tags$title("Data Table Output"),
-      HTML(style)
+      htmltools::HTML(style)
     ),
     htmltools::tags$body(
-      div(class = "custom-table", htmltools::HTML(html_table))
+      htmltools::div(class = "custom-table", htmltools::HTML(html_table))
     )
   )
 

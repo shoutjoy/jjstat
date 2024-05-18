@@ -24,6 +24,7 @@ Functions that output to a web browser
 \examples{
 
 \dontrun{
+mtcars\%>\%web()
 
 }
 
