@@ -39,15 +39,16 @@ web <- function(data, digits = 3, font_size = 14, file = "output.html") {
   ", font_size)
 
   # Generate HTML file content
-  html_content <- tags$html(
-    tags$head(
-      tags$title("Data Table Output"),
+  html_content <- htmltools::tags$html(
+    htmltools::tags$head(
+      htmltools::tags$title("Data Table Output"),
       HTML(style)
     ),
-    tags$body(
-      div(class = "custom-table", HTML(html_table))
+    htmltools::tags$body(
+      div(class = "custom-table", htmltools::HTML(html_table))
     )
   )
+
 
   # Create a temporary HTML file
   html_file <- tempfile(fileext = ".html")
