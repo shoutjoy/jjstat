@@ -33,8 +33,10 @@ chisq_multcomp <-function(x, p.method="fdr") {
     p_mark_sig()%>%
     dplyr::select(cell_2, cell_1, p.value, sig)%>%
     tidyr::unite(pairwise, cell_2, cell_1)
+
+
 cat("\n")
-cat(p.method)
+cat(paste0("p adjust method: ", p.method))
 cat("\n")
   plist
   # tab.p

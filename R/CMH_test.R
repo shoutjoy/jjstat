@@ -14,12 +14,19 @@
 #' @examples
 #'
 #' \dontrun{
-#' #'
-#' data(Titanic, package = "datasets")
-#' Titanic
-#' cmh_test(temp)
-#' cmh_test(temp)%>%tidy()
-
+#'
+#' CAD <-array(c(8, 4, 10, 11, 21, 6, 9, 9), dim = c(2, 2, 2),
+#'             dimnames = list(
+#'               EKG = c(">=0.1 ST Dep", "< 0.1 ST Dep"),
+#'               Response = c("Case", "Control"),
+#'               Penicillin.Level = c("Female", "Male")))
+#' CAD
+#'
+#' #Example: Coronary Artery Disease
+#' mantelhaen.test(CAD,correct=FALSE)
+#'
+#' cmh_test(CAD,correct=FALSE)%>%tidy()
+#'
 #' }
 cmh_test = function (x, y = NULL, z = NULL,
                      alternative = c("two.sided", "less", "greater"),
@@ -90,20 +97,14 @@ cmh_test = function (x, y = NULL, z = NULL,
       s.diag <- sum(x[1L, 1L, ] * x[2L, 2L, ]/n)
       s.offd <- sum(x[1L, 2L, ] * x[2L, 1L, ]/n)
       ESTIMATE <- s.diag/s.offd
-      sd <- sqrt(sum((x[1L, 1L, ] + x[2L, 2L, ]) * x[1L,
-                                                     1L, ] * x[2L, 2L, ]/n^2)/(2 * s.diag^2) + sum(((x[1L,
-                                                                                                       1L, ] + x[2L, 2L, ]) * x[1L, 2L, ] * x[2L, 1L,
-                                                                                                       ] + (x[1L, 2L, ] + x[2L, 1L, ]) * x[1L, 1L, ] *
-                                                                                                      x[2L, 2L, ])/n^2)/(2 * s.diag * s.offd) + sum((x[1L,
-                                                                                                                                                       2L, ] + x[2L, 1L, ]) * x[1L, 2L, ] * x[2L, 1L,
-                                                                                                                                                       ]/n^2)/(2 * s.offd^2))
-      CINT <- switch(alternative, less = c(0, ESTIMATE *
-                                             exp(qnorm(conf.level) * sd)), greater = c(ESTIMATE *
-                                                                                         exp(qnorm(conf.level, lower.tail = FALSE) * sd),
-                                                                                       Inf), two.sided = {
-                                                                                         ESTIMATE * exp(c(1, -1) * qnorm((1 - conf.level)/2) *
-                                                                                                          sd)
-                                                                                       })
+      sd <- sqrt(sum((x[1L, 1L, ] + x[2L, 2L, ]) * x[1L,1L, ] * x[2L, 2L, ]/n^2)/(2 * s.diag^2) +
+                   sum(((x[1L, 1L, ] + x[2L, 2L, ]) * x[1L, 2L, ] * x[2L, 1L, ] +
+                     (x[1L, 2L, ] + x[2L, 1L, ]) * x[1L, 1L, ] * x[2L, 2L, ])/n^2)/(2 * s.diag * s.offd) +
+                   sum((x[1L,2L, ] + x[2L, 1L, ]) * x[1L, 2L, ] * x[2L, 1L, ]/n^2)/(2 * s.offd^2))
+      CINT <- switch(alternative,
+                     less = c(0, ESTIMATE * exp(qnorm(conf.level) * sd)),
+                     greater = c(ESTIMATE *exp(qnorm(conf.level, lower.tail = FALSE) * sd),Inf),
+                     two.sided = { ESTIMATE * exp(c(1, -1) * qnorm((1 - conf.level)/2) *sd)})
       RVAL <- list(statistic = STATISTIC, parameter = PARAMETER,
                    p.value = PVAL)
     }
@@ -163,8 +164,8 @@ cmh_test = function (x, y = NULL, z = NULL,
         if (mu > x)
           uniroot(function(t) mn2x2xk(t) - x, c(0, 1))$root
         else if (mu < x)
-          1/uniroot(function(t) mn2x2xk(1/t) - x, c(.Machine$double.eps,
-                                                    1))$root
+          1/uniroot(function(t) mn2x2xk(1/t) - x,
+                    c(.Machine$double.eps,1))$root
         else 1
       }
       ESTIMATE <- mle(s)
@@ -187,17 +188,15 @@ cmh_test = function (x, y = NULL, z = NULL,
         if (p > alpha)
           uniroot(function(t) pn2x2xk(x, t, upper.tail = TRUE) -
                     alpha, c(0, 1))$root
-        else if (p < alpha)
-          1/uniroot(function(t) pn2x2xk(x, 1/t, upper.tail = TRUE) -
+        else if (p < alpha) 1/uniroot(function(t) pn2x2xk(x, 1/t, upper.tail = TRUE) -
                       alpha, c(.Machine$double.eps, 1))$root
         else 1
       }
-      CINT <- switch(alternative, less = c(0, ncp.U(s,
-                                                    1 - conf.level)), greater = c(ncp.L(s, 1 - conf.level),
-                                                                                  Inf), two.sided = {
-                                                                                    alpha <- (1 - conf.level)/2
-                                                                                    c(ncp.L(s, alpha), ncp.U(s, alpha))
-                                                                                  })
+      CINT <- switch(alternative,
+                     less = c(0, ncp.U(s,1 - conf.level)),
+                     greater = c(ncp.L(s, 1 - conf.level),Inf),
+                     two.sided = {alpha <- (1 - conf.level)/2
+                     c(ncp.L(s, alpha), ncp.U(s, alpha))})
       STATISTIC <- c(S = s)
       RVAL <- list(statistic = STATISTIC, p.value = PVAL)
     }
@@ -217,10 +216,9 @@ cmh_test = function (x, y = NULL, z = NULL,
       colsums <- colSums(f)[-J]
       n <- n + c(f[-I, -J])
       m <- m + c(outer(rowsums, colsums))/ntot
-      V <- V + (kronecker(diag(ntot * colsums, nrow = J -
-                                 1L) - outer(colsums, colsums), diag(ntot * rowsums,
-                                                                     nrow = I - 1L) - outer(rowsums, rowsums))/(ntot^2 *
-                                                                                                                  (ntot - 1)))
+      V <- V + (kronecker(diag(ntot * colsums,
+                               nrow = J -1L) - outer(colsums, colsums),
+     diag(ntot * rowsums, nrow = I - 1L) - outer(rowsums, rowsums))/(ntot^2 *(ntot - 1)))
     }
     n <- n - m
     STATISTIC <- c(crossprod(n, qr.solve(V, n)))

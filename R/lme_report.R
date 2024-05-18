@@ -50,6 +50,7 @@ lme_report <- function(lmedata,
                        show.ci=FALSE){
 
   library(multilevelTools)
+  library(lmerTest)
   #formula output
   formula = lmedata@call
 

@@ -33,6 +33,7 @@
 #' fm %>% mutate_col(age_int = substring(fm$age,1,2))
 #' fm %>% mutate_col(gender = paste(fm$age,fm$values,sep="//"))
 #'
+#' fm %>% mutate_col(gender = paste(.$age,.$values,sep="//"), col=2)
 #' # Double data generation
 #' fm %>%
 #'   mutate_col(insert_2 = rep("female", nrow(fm)), col = 2) %>%
@@ -40,6 +41,7 @@
 #' }
 #'
 mutate_col <- function(data, ..., col = ncol(data)) {
+  attach(data)
   # Create a new column
   new_col <- names(list(...))[1]  # Extract names for new columns
   new_col_values <- list(...)[[1]]  # Extract values in a new column
@@ -58,5 +60,7 @@ mutate_col <- function(data, ..., col = ncol(data)) {
   col_names = col_names[-(length(col_names))]
   data <- data[, col_names]
   #result
-  data
+  detach(data)
+  return(data)
+
 }
