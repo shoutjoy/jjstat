@@ -20,6 +20,7 @@
 #' @param asize 1.5
 #' @param mar c(2,8,3,10)
 #' @param nDigits 2
+#' @param shapeLat "circle, ellipse
 #' @param sample.nobs sample.nobs = 100
 #' @param groups FALSE
 #' @param border.width border.width=1
@@ -90,6 +91,7 @@ diagram_model = function(model,
                          curve = 1.5, asize=2,
                          mar = c(3,8,3,10),
                          nDigits = 2,
+                         shapeLat="circle",
                          sample.nobs = 100,
                          border.width = 2,
                          edge.width = 1.5,
@@ -144,7 +146,7 @@ diagram_model = function(model,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat,
       sizeLat2 = sizeLat2,
-      shapeLat = "circle",
+      shapeLat = shapeLat,
       border.width = border.width,
       edge.width = edge.width,
       groups = "lat",pastel = TRUE,
@@ -168,7 +170,7 @@ diagram_model = function(model,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat,
       sizeLat2 = sizeLat2,
-      shapeLat="circle",
+      shapeLat=shapeLat,
       border.width = border.width,
       edge.width = edge.width,
       curve=curve,

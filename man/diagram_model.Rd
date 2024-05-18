@@ -25,6 +25,7 @@ diagram_model(
   asize = 2,
   mar = c(3, 8, 3, 10),
   nDigits = 2,
+  shapeLat = "circle",
   sample.nobs = 100,
   border.width = 2,
   edge.width = 1.5,
@@ -74,6 +75,8 @@ diagram_model(
 \item{mar}{c(2,8,3,10)}
 
 \item{nDigits}{2}
+
+\item{shapeLat}{"circle, ellipse}
 
 \item{sample.nobs}{sample.nobs = 100}
 
