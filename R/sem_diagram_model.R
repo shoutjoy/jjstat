@@ -7,6 +7,7 @@
 #' @param residScale residScale=12
 #' @param layout layout="tree"
 #' @param edge.label.cex 1
+#' @param edge.label.position 0.5
 #' @param sizeMan 8
 #' @param sizeMan2 4
 #' @param sizeLat 10
@@ -77,6 +78,7 @@ diagram_model = function(model,
                          residScale = 12,
                          layout = "tree",
                          edge.label.cex= 1,
+                         edge.label.position =0.5,
                          sizeMan = 8,
                          sizeMan2 = 4,
                          sizeLat = 10,
@@ -134,6 +136,7 @@ diagram_model = function(model,
       edge.color = "black",
       rotation = rotation,
       edge.label.cex = edge.label.cex,
+      edge.label.position=edge.label.position,
       residuals = residuals,
       residScale =  residScale,
       exoVar = exoVar,
@@ -157,6 +160,7 @@ diagram_model = function(model,
       edge.color="black",
       rotation = rotation,
       edge.label.cex =edge.label.cex,
+      edge.label.position= edge.label.position,
       residuals= residuals,
       residScale=  residScale,
       exoVar = exoVar,
@@ -195,6 +199,7 @@ diagram_model = function(model,
 #' @param residScale residScale=12
 #' @param layout layout="tree"
 #' @param edge.label.cex 1
+#' @param edge.label.position 0.5
 #' @param sizeMan 8
 #' @param sizeMan2 4
 #' @param sizeLat 10
@@ -259,6 +264,7 @@ sem_model = function(model,
                          residScale = 12,
                          layout = "tree",
                          edge.label.cex= 1,
+                     edge.label.position=0.5,
                          sizeMan = 8,
                          sizeMan2 = 4,
                          sizeLat = 10,
@@ -268,7 +274,8 @@ sem_model = function(model,
                          exoVar=FALSE,
                          exoCov=TRUE,
                          curve=1.5, asize=2,
-                         mar=c(2,8,3,10),nDigits=2,
+                         mar=c(2,8,3,10),
+                     nDigits=2,
                          sample.nobs=100,
                      structual= FALSE,
                          groups=FALSE){
@@ -307,6 +314,7 @@ sem_model = function(model,
       edge.color = "black",
       rotation = rotation,
       edge.label.cex = edge.label.cex,
+      edge.label.position=edge.label.position,
       residuals = residuals,
       residScale =  residScale,
       exoVar = exoVar,
@@ -330,6 +338,7 @@ sem_model = function(model,
       edge.color="black",
       rotation = rotation,
       edge.label.cex =edge.label.cex,
+      edge.label.position=edge.label.position,
       residuals= residuals,
       residScale=  residScale,
       exoVar = exoVar,

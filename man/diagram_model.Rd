@@ -12,6 +12,7 @@ diagram_model(
   residScale = 12,
   layout = "tree",
   edge.label.cex = 1,
+  edge.label.position = 0.5,
   sizeMan = 8,
   sizeMan2 = 4,
   sizeLat = 10,
@@ -47,6 +48,8 @@ diagram_model(
 \item{layout}{layout="tree"}
 
 \item{edge.label.cex}{1}
+
+\item{edge.label.position}{0.5}
 
 \item{sizeMan}{8}
 
