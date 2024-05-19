@@ -24,14 +24,17 @@ diagram_model(
   curve = 1.5,
   asize = 2,
   mar = c(3, 8, 3, 10),
-  nDigits = 2,
+  nDigits = 3,
   shapeLat = "circle",
+  group_match = "lat",
   sample.nobs = 100,
   border.width = 2,
   edge.width = 1.5,
   groups = FALSE,
   growth = FALSE,
   structural = FALSE,
+  edgeLabels = NULL,
+  nodeLabels = NULL,
   type = "plot"
 )
 }
@@ -89,6 +92,10 @@ diagram_model(
 \item{growth}{growth= FALSE, TRUE  model.type ="grouwth"}
 
 \item{structural}{structural = FALSE}
+
+\item{edgeLabels}{edgeLabels=NULL}
+
+\item{nodeLabels}{nodeLabels=NULL}
 
 \item{type}{type ="plot, and res is lavaan simdata result}
 }

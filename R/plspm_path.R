@@ -82,7 +82,7 @@ plspm_path <- function(row_names = c("r1","r2","r3"),
     }
   }
 
-  return(path_matrix)
+  return(t(path_matrix))
 }
 
 

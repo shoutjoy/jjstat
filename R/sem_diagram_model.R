@@ -25,6 +25,8 @@
 #' @param groups FALSE
 #' @param border.width border.width=1
 #' @param edge.width edge.width=1.5
+#' @param edgeLabels edgeLabels=NULL
+#' @param nodeLabels nodeLabels=NULL
 #' @param growth growth= FALSE, TRUE  model.type ="grouwth"
 #' @param structural structural = FALSE
 #' @param type type ="plot, and res is lavaan simdata result
@@ -90,14 +92,17 @@ diagram_model = function(model,
                          exoCov = TRUE,
                          curve = 1.5, asize=2,
                          mar = c(3,8,3,10),
-                         nDigits = 2,
+                         nDigits = 3,
                          shapeLat="circle",
+                         group_match = "lat",
                          sample.nobs = 100,
                          border.width = 2,
                          edge.width = 1.5,
                          groups = FALSE,
                          growth = FALSE,
                          structural = FALSE,
+                         edgeLabels=NULL,
+                         nodeLabels=NULL,
                          type="plot"){
 
   #first step : Determining the model type
@@ -112,14 +117,14 @@ diagram_model = function(model,
   if(growth){
     model.type ="growth"
   }else{
-  if (grepl("~", modified_model_string, fixed = TRUE)) {
-    # return("sem")
-    model.type ="sem"
-  } else {
-    # return("cfa")
-    model.type ="cfa"
+    if (grepl("~", modified_model_string, fixed = TRUE)) {
+      # return("sem")
+      model.type ="sem"
+    } else {
+      # return("cfa")
+      model.type ="cfa"
+    }
   }
-}
 
 
   #generate sample data simulated
@@ -149,47 +154,130 @@ diagram_model = function(model,
       shapeLat = shapeLat,
       border.width = border.width,
       edge.width = edge.width,
-      groups = "lat",pastel = TRUE,
+      groups = group_match, pastel = TRUE,
       curve = curve,
       nDigits = nDigits,
       asize= asize,
+      # edgeLabels = edgeLabels,
+      # nodeLabels = nodeLabels,
       structural = structural,
       style =  style,  mar=mar)
   }else{
-    dia =   lav_obj %>% semPlot::semPaths(
-      whatLabels = whatLabels, fade = FALSE, posCol="black",
-      nCharNodes = 10, layout = layout,
-      edge.color="black",
-      rotation = rotation,
-      edge.label.cex =edge.label.cex,
-      edge.label.position= edge.label.position,
-      residuals= residuals,
-      residScale=  residScale,
-      exoVar = exoVar,
-      exoCov = exoCov,
-      sizeMan = sizeMan, sizeMan2 = sizeMan2,
-      sizeLat = sizeLat,
-      sizeLat2 = sizeLat2,
-      shapeLat=shapeLat,
-      border.width = border.width,
-      edge.width = edge.width,
-      curve=curve,
-      nDigits = nDigits,
-      asize= asize,
-      structural = structural,
-      style =  style,  mar=mar)
+
+    if(is.null(edgeLabels) & is.null(nodeLabels)){
+      dia = lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10, layout = layout,
+        edge.color="black",
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        edge.label.position= edge.label.position,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar = exoVar,
+        exoCov = exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat,
+        sizeLat2 = sizeLat2,
+        shapeLat=shapeLat,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        # edgeLabels = edgeLabels,
+        # nodeLabels = nodeLabels,
+        structural = structural,
+        style =  style,  mar=mar)
+
+    }else if(!is.null(edgeLabels)){
+      dia = lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10, layout = layout,
+        edge.color="black",
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        edge.label.position= edge.label.position,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar = exoVar,
+        exoCov = exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat,
+        sizeLat2 = sizeLat2,
+        shapeLat=shapeLat,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        edgeLabels = edgeLabels,
+        # nodeLabels = nodeLabels,
+        structural = structural,
+        style =  style,  mar=mar)
+    }else if(!is.null(nodeLabels)){
+      dia = lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10, layout = layout,
+        edge.color="black",
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        edge.label.position= edge.label.position,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar = exoVar,
+        exoCov = exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat,
+        sizeLat2 = sizeLat2,
+        shapeLat=shapeLat,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        # edgeLabels = edgeLabels,
+        nodeLabels = nodeLabels,
+        structural = structural,
+        style =  style,  mar=mar)
+    }else if(!is.null(edgeLabels) & !is.null(nodeLabels)){
+      dia = lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10, layout = layout,
+        edge.color="black",
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        edge.label.position= edge.label.position,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar = exoVar,
+        exoCov = exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat,
+        sizeLat2 = sizeLat2,
+        shapeLat=shapeLat,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        edgeLabels = edgeLabels,
+        nodeLabels = nodeLabels,
+        structural = structural,
+        style =  style,  mar=mar)
+    }
+
   }
 
 
   if(sig){
-    dia%>%
+    dia = dia%>%
       semptools::mark_sig(lav_obj) %>%plot()
   }else{
-    dia
+    dia = dia
   }
-  switch(type, plot= dia, res = lav_obj)
+  switch(type, plot = dia, res = lav_obj)
 }
-
 
 
 #' Drawing Structural Equation Models Using the lavaan Syntax (park JH PhD)
