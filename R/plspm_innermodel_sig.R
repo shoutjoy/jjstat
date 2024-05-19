@@ -1,0 +1,89 @@
+#' Showing significance using PLSPM regression
+#'
+#' @param data plspm data
+#' @param unite TRUE
+#' @param rhs from
+#' @param lhs to
+#'
+#' @return data result
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'
+#' # path matrix
+#' IMAG = c(0,0,0,0,0,0)
+#' EXPE = c(1,0,0,0,0,0)
+#' QUAL = c(0,1,0,0,0,0)
+#' VAL = c(0,1,1,0,0,0)
+#' SAT = c(1,1,1,1,0,0)
+#' LOY = c(1,0,0,0,1,0)
+#' sat_path = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
+#'
+#' # blocks of outer model
+#' sat_blocks = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
+#' # apply plspm
+#' satpls = plspm(satisfaction, sat_path, sat_blocks, modes = sat_mod,
+#'                scaled = FALSE)
+#'
+#' #default
+#' satpls%>%innermodel_sig()
+#' satpls$inner_model %>%innermodel_sig()
+#'
+#' satpls %>%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
+#' satpls$inner_model  %>%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
+#'
+#' satpls %>%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
+#' satpls$inner_model %>%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
+#'
+#' #'
+#' }
+#'
+innermodel_sig <- function(data, unite=TRUE, rhs ="endo", lhs ="exo") {
+  # Check if data inherits from 'plspm'
+  if (inherits(data, "plspm")) {
+    data <- data[["inner_model"]]
+  }
+
+  # Create an empty dataframe
+  df <- data.frame(matrix(ncol = 6, nrow = 0))
+  colnames(df) <- c("endo", "exo", "Estimate", "Std. Error", "t value", "Pr(>|t|)")
+
+  # Iterate over the list and add rows to the dataframe
+  for (i in seq_along(data)) {
+    # Extract values from each list element
+    endo <- names(data)[i]
+    exo <- rownames(data[[i]])
+    values <- data[[i]]
+
+    # Combine endo and exo into a dataframe
+    new_df <- data.frame(endo = rep(endo, length(exo)),
+                         exo = exo,
+                         Estimate = values[, "Estimate"],
+                         `Std. Error` = values[, "Std. Error"],
+                         `t value` = values[, "t value"],
+                         `Pr(>|t|)` = values[, "Pr(>|t|)"])
+
+    # Append the new dataframe to the main dataframe
+    df <- rbind(df, new_df)%>%tibble()
+  }
+
+  colnames(df) <- c("endo", "exo", "Est", "SE", "t", "p.value")
+  if(unite){
+    df = df%>%filter(exo !="Intercept") %>%
+      p_mark_sig(unite=TRUE, unite_col="Est", ns="")%>%
+      unite(Path, exo, endo, sep=" -> ") %>%
+      mutate(p.value = ifelse(p.value< 0.001, "<.001",p.value))
+  }else{
+    df = df%>%filter(exo !="Intercept") %>%
+      p_mark_sig(unite=TRUE, unite_col="Est", ns="")%>%
+      # unite(Path, exo, endo, sep=" -> ") %>%
+      mutate(p.value = ifelse(p.value< 0.001, "<.001",p.value))
+
+    df = df %>%rename(!!rhs := endo, !!lhs := exo)
+    # colnames(df)[1] <- endo
+    # colnames(df)[2] <- exo
+  }
+  return(df)
+}
