@@ -40,7 +40,7 @@
 #' #'
 #' }
 #'
-innermodel_sig <- function(data, unite=TRUE, rhs ="endo", lhs ="exo") {
+plspm_paths_sig <- function(data, unite=TRUE, rhs ="endo", lhs ="exo") {
   # Check if data inherits from 'plspm'
   if (inherits(data, "plspm")) {
     data <- data[["inner_model"]]

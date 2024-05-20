@@ -25,6 +25,8 @@ to_long(
 
 \item{fix}{column fixed (thereofore not using cols )}
 
+\item{rownames_to_column}{rownames_to_column=FALSE}
+
 \item{rowname}{defai;t acce}
 }
 \value{

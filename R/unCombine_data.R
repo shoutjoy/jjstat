@@ -46,9 +46,9 @@ uncombine_data = function(data,
   N_row = nrow(data)
   N_rownames = rownames(data)
 
-  s1 = data %>% rownames_to_column() %>%
-    pivot_longer(cols=2:(ncol(data)+1), names_to = "names", values_to="values") %>%
-    separate(values, into= into, sep = sep)
+  s1 = data %>% tibble::rownames_to_column() %>%
+    tidyr::pivot_longer(cols=2:(ncol(data)+1), names_to = "names", values_to="values") %>%
+    tidyr::separate(values, into= into, sep = sep)
   s1$value = as.numeric(s1$value)
   #pattern check
   if(is.null(pattern)){
@@ -152,9 +152,9 @@ unCombine = function(data,
   N_row = nrow(data)
   N_rownames = rownames(data)
 
-  s1 = data %>% rownames_to_column() %>%
-    pivot_longer(cols=2:(ncol(data)+1), names_to = "names", values_to="values") %>%
-    separate(values, into= into, sep = sep)
+  s1 = data %>% tibble::rownames_to_column() %>%
+    tidyr::pivot_longer(cols=2:(ncol(data)+1), names_to = "names", values_to="values") %>%
+    tidyr::separate(values, into= into, sep = sep)
   s1$value = as.numeric(s1$value)
   #pattern check
   if(is.null(pattern)){

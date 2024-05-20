@@ -24,9 +24,13 @@ Create, modify, and delete columns col position
 \dontrun{
 #'
 fm <- data.frame(
-  age = c("20대", "20대", "20대", "30대", "30대", "30대", "40대", "40대", "40대"),
-  manufacturer = c("google", "apple", "samsung", "google", "apple", "samsung", "google", "apple", "samsung"),
-  values = c(794, 804, 1243, 987, 1055, 2517, 1528, 1519, 2255)
+  age = c("20대", "20대", "20대", "30대",
+  "30대", "30대", "40대", "40대", "40대"),
+  manufacturer = c("google", "apple", "samsung",
+  "google", "apple", "samsung", "google",
+   "apple", "samsung"),
+  values = c(794, 804, 1243, 987, 1055,
+  2517, 1528, 1519, 2255)
 )
 fm
 
@@ -50,6 +54,17 @@ fm \%>\% mutate_col(gender = paste(.$age,.$values,sep="//"), col=2)
 fm \%>\%
   mutate_col(insert_2 = rep("female", nrow(fm)), col = 2) \%>\%
   mutate_col( insert_4 = rep("a",9), col = 4)
+
+
+# second data
+data2 <- data.frame(
+  weight = c(4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14,
+             4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69,
+             6.31, 5.12, 5.54, 5.50, 5.37, 5.29, 4.92, 6.15, 5.80, 5.26),
+  ids = c(paste0("C", 1:10), paste0("T",1:10), paste0("S", 1:10))
+)
+data2 \%>\%mutate_col(group= .$weight, col=2)
+
 }
 
 }

@@ -43,11 +43,14 @@ Regression analysis with covariance matrix, for paper checking
 
 \dontrun{
 #' #method1
-cov_lm_sem(formula="mpg ~ cyl+disp+hp+drat+wt" ,n = 32, cov = cov(mtcars[1:6]))
+cov_lm_sem(formula="mpg ~ cyl+disp+hp+drat+wt" ,
+n = 32, cov = cov(mtcars[1:6]))
 # method 2
-cov_lm_sem(dv = "mpg", ivs = c("cyl", "disp", "hp", "drat", "wt"), n = 32, cov = cov(mtcars[1:6]))
+cov_lm_sem(dv = "mpg", ivs = c("cyl", "disp", "hp", "drat", "wt"),
+n = 32, cov = cov(mtcars[1:6]))
 # method 2 cor matrix
-cov_lm_sem(formula="mpg ~ cyl+disp+hp+drat+wt" ,n = 32, cov = cor(mtcars[1:6]),
+cov_lm_sem(formula="mpg ~ cyl+disp+hp+drat+wt" ,n = 32,
+cov = cor(mtcars[1:6]),
            sds = mtcars[1:6]\%>\%sapply(sd))
 #est
 cov_lm(formula="mpg ~ cyl+disp+hp+drat+wt; qsec ~ mpg +vs;" ,
@@ -77,11 +80,13 @@ Songkj2024
 
 colnames(Songkj2024)=c("학습애정열정","학습기회개방성",
                        "솔선수범독립성","효율학습자자아개념",
-                       "학업적효능감","사회적효능감","자기조절효능감","경력개발역량",
+                       "학업적효능감","사회적효능감",
+                       "자기조절효능감","경력개발역량",
                        "성별","연령")
 rownames(Songkj2024)=c("학습애정열정","학습기회개방성",
                        "솔선수범독립성","효율학습자자아개념",
-                       "학업적효능감","사회적효능감","자기조절효능감","경력개발역량",
+                       "학업적효능감","사회적효능감",
+                       "자기조절효능감","경력개발역량",
                        "성별","연령")
 
 #기술통계 데이터
@@ -99,17 +104,25 @@ Songkj2024_cov = cor2cov(Songkj2024, sds= songki2024_stat$sd)
 # Songkj2024_cov
 # original
 Songkj2024_model_1="
-학업적효능감 ~ 학습애정열정 + 학습기회개방성 + 솔선수범독립성 + 효율학습자자아개념+ 성별 + 연령
+학업적효능감 ~ 학습애정열정 + 학습기회개방성 +
+솔선수범독립성 + 효율학습자자아개념+ 성별 + 연령
 "
 Songkj2024_sem1 = sem( Songkj2024_model_1,
-                       sample.cov = Songkj2024 , sample.nobs =  389  )
+                       sample.cov = Songkj2024 ,
+                       sample.nobs =  389  )
 
 #cor, std
-cov_lm(formula="학업적효능감 ~ 학습애정열정 + 학습기회개방성 + 솔선수범독립성 + 효율학습자자아개념 + 성별 + 연령" ,n = 389, cov = Songkj2024)
+cov_lm(formula="학업적효능감 ~ 학습애정열정 +
+학습기회개방성 + 솔선수범독립성 + 효율학습자자아개념 +
+성별 + 연령" ,n = 389, cov = Songkj2024)
 # cov
-cov_lm(formula="학업적효능감 ~ 학습애정열정 + 학습기회개방성 + 솔선수범독립성 + 효율학습자자아개념 + 성별 + 연령" ,n = 389, cov = Songkj2024, sds = songki2024_stat$sd)
+cov_lm(formula="학업적효능감 ~ 학습애정열정 +
+학습기회개방성 + 솔선수범독립성 + 효율학습자자아개념 +
+성별 + 연령" ,n = 389, cov = Songkj2024, sds = songki2024_stat$sd)
 # cov
-cov_lm(formula="학업적효능감 ~ 학습애정열정 + 학습기회개방성 + 솔선수범독립성 + 효율학습자자아개념 + 성별 + 연령" ,n = 389, cov = Songkj2024_cov)
+cov_lm(formula="학업적효능감 ~ 학습애정열정 +
+학습기회개방성 + 솔선수범독립성 +
+효율학습자자아개념 + 성별 + 연령" ,n = 389, cov = Songkj2024_cov)
 }
 
 }

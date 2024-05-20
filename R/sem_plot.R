@@ -23,6 +23,8 @@
 #' @param residScale 12
 #' @param exoVar exoVar=FLASE
 #' @param semptools using semptools TRUE
+#' @param type type res 1
+#'
 
 #' @param mar c(1,5,1,5)
 #'

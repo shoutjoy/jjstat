@@ -23,6 +23,8 @@ summary_sem(
 \arguments{
 \item{lav_obj}{lavaan object}
 
+\item{whatLabels}{whatLabels est}
+
 \item{caption}{caption possible}
 
 \item{effect}{select "~"}

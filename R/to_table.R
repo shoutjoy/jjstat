@@ -27,7 +27,8 @@
 #'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table()%>%add_ratio()
 #'
-#' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table()%>%add_ratio()%>%as.matrix()%>%addmargins()
+#' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%
+#' to_table()%>%add_ratio()%>%as.matrix()%>%addmargins()
 #'
 #' mtcars %>%select(am, vs) %>% table() %>%data.frame() %>%to_table()%>%add_ratio_df()
 #'
@@ -49,7 +50,7 @@
 #'
 #' mat = matrix(c(10, 50, 10, 28, 22, 16, 68,12, 14, 124, 116, 120),
 #' ncol = 4,
-#' dimnames = list(c("20대","30대","40대"),
+#' dimnames = list(c("20s","30s","40s"),
 #'                 c("A","B","C","D")))
 #' mat
 #'
@@ -67,11 +68,11 @@
 #' }
 to_table <- function(data, sel = ncol(data)-1, value = ncol(data), type = "mat") {
   data<-data.frame(data)
-    # 데이터 재구조화
+    # Restructuring dataRestructuring data
   transformed_data <- spread(data, key = all_of(sel), value = all_of(value) )
   transformed_data <- transformed_data%>%dplyr::select(-1)
 
-  # 행 이름 변경
+  # change row name
   rownames(transformed_data) <- unique(data[[1]])
   colnames(transformed_data) <- unique(data[[2]])
 

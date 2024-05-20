@@ -29,6 +29,8 @@ wald_test(
 \item{est2}{est2 name}
 
 \item{digits}{round}
+
+\item{type}{res1 res2,}
 }
 \value{
 test result
@@ -50,6 +52,26 @@ wald_test(-0.795,-0.795/-1.138,-0.795+0.149,
            est1 = "남성",
            est2 = "여성")
 
+}
+
+
+wald_test <- function(b1, se1, b2, se2, est1=NULL, est2=NULL){
+  library(broom)
+  t1 = b1/se1
+  t2 = b2/se2
+
+  z = (b1 - b2)/ sqrt(se1^2 + se2^2)
+  p = 2*(1-pnorm(abs(z)))
+
+  var1 = paste0(est1,"_est1 = ", b1,", se = ", round(se1, 3), ", t = ", t1,"." )
+  var2 = paste0(est2,"_est2 = ", b2,", se = ", round(se2, 3), ", t = ", t2,"." )
+
+  res = broom::tidy(c(z.value = z,  pvalue = p))
+  colnames(res)=c("statistics","value")
+
+  res = res\%>\% dplry::mutate(coef=c(var1, var2))
+  res
+  # list(res, var1, var2)
 }
 
 

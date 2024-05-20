@@ -47,7 +47,7 @@ item <- function(...) {
 #'
 #' }
 #'
-blocks <- function(..., dataset = NULL, output = "match") {
+plspm_blocks <- function(..., dataset = NULL, output = "match") {
   block_list <- list(...)
 
   # Combine the blocks into a named list

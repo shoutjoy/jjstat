@@ -16,7 +16,10 @@
 #' @examples
 #'
 #' \dontrun{
-#' ##Mina Choi. (2007). Analysis of learning effects according to online and offline learning environments in the same class by the same instructor. Educational Information Media Research, 13(4>  5-23.
+#' ## Mina Choi. (2007). Analysis of learning effects
+#' # according to online and offline learning environments
+#' #  in the same class by the same instructor.
+#' #  Educational Information Media Research, 13(4>  5-23.
 #' ## jjpaper
 #' ## https://blog.naver.com/shoutjoy/223005233887
 #'
@@ -27,20 +30,24 @@
 #' chisq_retest(c(111, 33, 64, 58), ncol=2, type="chisq" )
 #'
 #' chisq_retest(c(111, 33, 64, 58), ncol=2,
-#' colname = c("experience", "Non-experience"),
-#' rowname =c("E-Leanring","FaceToFace"))
+#'   colname = c("experience", "Non-experience"),
+#'   rowname =c("E-Leanring","FaceToFace"))
 #'
-#' chisq_retest(c(4,10, 78, 46, 6, 0,5,79,36,2), ncol=2, simulate.p.value=T )
+#' chisq_retest(c(4,10, 78, 46, 6, 0,5,79,36,2),
+#'   ncol=2, simulate.p.value=T )
 #'
-#'chisq_retest(c(4,10, 78, 46, 6, 0,5,90,36,2), ncol=2 ,simulate.p.value=T)
+#' chisq_retest(c(4,10, 78, 46, 6, 0,5,90,36,2),
+#'   ncol=2 ,simulate.p.value=T)
 #'
 #' chisq_retest(c(4,10, 78, 46, 6, 0,5,79,36,2), ncol=2,
-#' colname = c("experience", "Non-experience"),
-#' rowname = c("maxlow","low","mid","high","maxhigh") )
+#'   colname = c("experience", "Non-experience"),
+#'   rowname = c("maxlow","low","mid","high","maxhigh") )
 #'
 #'
-#'##  Comparison of gender learning methods --> An invalid value was calculated.
-#'## chisq = 5.238, p =0.015 But recalculate chisq = 4.69, p = 0.0303
+#'##  Comparison of gender learning methods
+#' # --> An invalid value was calculated.
+#'## chisq = 5.238, p =0.015
+#'# But recalculate chisq = 4.69, p = 0.0303
 #' chisq_retest(c(84, 60, 54, 68), ncol=2 ,
 #'              colname = c("experience", "Non-experience"),
 #'                           rowname = c("male", "female"))
@@ -53,8 +60,9 @@
 #'
 #'
 #' ##If the value entered is not a vector value, but a value calculated with table(),
-#' it is automatically calculated with the ....
+#' # it is automatically calculated with the ....
 #' table(mtcars$am, mtcars$vs) %>% Chisq_retest()
+#'
 #' }
 #'
 #'

@@ -3,7 +3,7 @@
 #'
 #' @param aov_data aov data
 #' @param type type is all, res, g, post hoc
-#' @param adjust
+#' @param adjust node fdr bonferroni
 #'
 #' @return plot and analysis result
 #' @export
@@ -17,6 +17,7 @@
 #'
 #' ##Error in emmeans::emmeans(., iv) :
 #' aov(mpg ~ factor(cyl), data=mtcars)%>%posthoc_plot()
+#'
 #' }
 #'
 posthoc_plot = function(aov_data,

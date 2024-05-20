@@ -40,7 +40,8 @@ mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%a
 
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_ratio()
 
-mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_ratio()\%>\%as.matrix()\%>\%addmargins()
+mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%
+to_table()\%>\%add_ratio()\%>\%as.matrix()\%>\%addmargins()
 
 mtcars \%>\%select(am, vs) \%>\% table() \%>\%data.frame() \%>\%to_table()\%>\%add_ratio_df()
 
@@ -62,7 +63,7 @@ mtcars \%>\%select(cyl, am) \%>\% table() \%>\%data.frame() \%>\%to_table() \%>\
 
 mat = matrix(c(10, 50, 10, 28, 22, 16, 68,12, 14, 124, 116, 120),
 ncol = 4,
-dimnames = list(c("20대","30대","40대"),
+dimnames = list(c("20s","30s","40s"),
                 c("A","B","C","D")))
 mat
 

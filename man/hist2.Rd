@@ -20,9 +20,14 @@ graph histogram
 histogram
 }
 \examples{
-#' \dontrun{
+ \dontrun{
+
 set.seed(123)
+
 data <- rnorm(100)
+
 hist2(data)
-}
+
+ }
+
 }

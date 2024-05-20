@@ -72,7 +72,7 @@
 #' }
 #'
 #'
-inner_plot <- function(path_mat,
+plspm_innerplot <- function(path_mat,
                        layout = "spring", posCol = "black", rotation=1,
                        negCol = "red",     fade = FALSE,
                        edge.labels = FALSE,     edge.label.cex = 1.2,

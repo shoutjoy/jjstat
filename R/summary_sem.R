@@ -1,5 +1,5 @@
 #' summary sem result and apa report
-#'
+#' @param whatLabels whatLabels est
 #' @param lav_obj lavaan object
 #' @param effect select "~"
 #' @param effect2 select 2nd

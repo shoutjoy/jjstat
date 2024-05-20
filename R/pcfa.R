@@ -82,7 +82,7 @@ if(is.data.frame(R)){
     colnames(Gof.c)="Value"
 
     Gof.c <- Gof.c%>%
-      dplyr::mutate(eig.prop= paste0("Dim",1: ncol(R))) %>%
+      dplyr::mutate(eig.prop = paste0("Dim",1: ncol(R))) %>%
       dplyr::select(eig.prop, Value)
 
 
@@ -108,6 +108,7 @@ if(is.data.frame(R)){
 
     if(name == "auto"){
       rownames(LoadingMatrix) = text_name}
+
     if(name == "manual"){
       rownames(LoadingMatrix) = rowname}
 

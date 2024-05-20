@@ -78,7 +78,7 @@ long_df <- function(data,
 #' @param cols colrange
 #' @param fix  column fixed (thereofore not using cols )
 #' @param rowname defai;t acce
-#'
+#' @param rownames_to_column rownames_to_column=FALSE
 #' @return longdata
 #' @export
 #'

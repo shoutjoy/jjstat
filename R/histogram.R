@@ -11,6 +11,7 @@
 #' set.seed(123)
 #' data <- rnorm(100)
 #' histogram(data)
+#'
 #' }
 #'
 histogram = function(data, color="gray60"){
@@ -46,11 +47,16 @@ histogram = function(data, color="gray60"){
 #' @export
 #'
 #' @examples
-#' #' \dontrun{
+#'  \dontrun{
+#'
 #' set.seed(123)
+#'
 #' data <- rnorm(100)
+#'
 #' hist2(data)
-#' }
+#'
+#'  }
+#'
 hist2 = function(data,
                  color = "lightblue",
                  linecolor = "red"){

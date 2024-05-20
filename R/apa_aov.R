@@ -127,6 +127,8 @@ aov_apa <- function(aov_post_data, md=FALSE) {
   cat("\n\n",paste0("'", iv,"'에 관한 '",dv, "'의 ANOVA 분석 결과 통계적으로 유의하였다(F(",df1,", ",df2,") = ",round(Fvalue, 2),", p ",
                     pvalue,
                     #  format( round(pvalue,3), digits=3, scienctific=TRUE),
-                    " 이에 따라 ",  "The Least Significant Difference(LSD) 사후분석(POST HOC)을 실시하였다. 각 요인(factor)의 수준(level)에 따른 차이의 유의성 결과는 다음과 같다."),"\n\n", inter,"\n\n")
+                    " 이에 따라 ",
+                    "The Least Significant Difference(LSD) 사후분석(POST HOC)을 실시하였다. 각 요인(factor)의 수준(level)에 따른 차이의 유의성 결과는 다음과 같다."),
+      "\n\n", inter,"\n\n")
 }
 

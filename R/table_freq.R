@@ -9,6 +9,7 @@
 #' @param size_axis default 12, axis test
 #' @param legend.position legend.position="" none. top, bottom, left, right
 #' @param type all, res=data, g=plot=graph
+#' @param plot plot
 #'
 #' @return Freqency table
 #' @export

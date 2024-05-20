@@ -12,8 +12,8 @@ path <- function(from, to) {
 
 #' plspm path create
 #'
-#' @param row_names rowname
-#' @param col_names colname
+#' @param rownames rowname
+#' @param colnames colname
 #' @param relationship input path
 #'
 #' @return matrix
@@ -23,8 +23,8 @@ path <- function(from, to) {
 #'
 #' \dontrun{
 #' edu_path <- plspm_path(
-#'   row_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
-#'   col_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
+#'   rownames = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
+#'   colnames = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
 #'   relationship = list(
 #'     list(from = "Value",
 #'          to = c("Support", "Advising", "Tutoring")),
@@ -38,8 +38,8 @@ path <- function(from, to) {
 #'
 #'
 #' edu_path <- plspm_path(
-#'   row_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
-#'   col_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
+#'   rownames = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
+#'   colnames = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
 #'   relationship = list(
 #'
 #'     path(form = "Support", to ="Advising"),
@@ -55,8 +55,8 @@ path <- function(from, to) {
 #' edu_path
 #'
 #' }
-plspm_path <- function(row_names = c("r1","r2","r3"),
-                        col_names = NULL,
+plspm_paths <- function(rownames = c("r1","r2","r3"),
+                        colnames = NULL,
                         relationship = NULL) {
 
   if(is.null(col_names)){

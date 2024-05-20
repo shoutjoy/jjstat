@@ -24,6 +24,8 @@ table_freq(
 
 \item{prop}{proportion value, default TRUE}
 
+\item{plot}{plot}
+
 \item{angle}{axis text angle}
 
 \item{size_text}{default 3, bargraph text}

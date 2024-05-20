@@ -18,7 +18,7 @@ posthoc_plot(
 
 \item{type}{type is all, res, g, post hoc}
 
-\item{adjust}{}
+\item{adjust}{node fdr bonferroni}
 }
 \value{
 plot and analysis result
@@ -35,6 +35,7 @@ aov(mpg ~ cyl, data=mtcars \%>\%as_trt("cyl"))\%>\%posthoc_plot()
 
 ##Error in emmeans::emmeans(., iv) :
 aov(mpg ~ factor(cyl), data=mtcars)\%>\%posthoc_plot()
+
 }
 
 }

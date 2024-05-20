@@ -13,6 +13,7 @@
 #' @param Colsnames new select col pivot long
 #' @param trans trans plot transpose
 #' @param type res
+
 #'
 #' @return result fill data
 #' @export
@@ -292,6 +293,7 @@ patternGraph_obs_exp = function(data,
                                 Colsnames = NULL,
                                 type="g"
 ){
+library(tidyverse)
 
   data1 <- data
 
@@ -340,14 +342,14 @@ patternGraph_obs_exp = function(data,
 
   if(raw){
     #contigency table인 경우
-    data_long = bind_cols(data_long_oe, data_long_sig[, 3]) %>%
+    data_long = dplyr::bind_cols(data_long_oe, data_long_sig[, 3]) %>%
       tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
     g0 = data_long  %>% ggplot(aes(x = 성조형, y = 관측기대비율))
 
   }else{
     #관측/기대 표가 들어 온경우  kge_chisq_table에서 사용시
-    data_long = bind_cols(data_long_df, data_long_sig[, 3]) %>%
+    data_long = dplyr::bind_cols(data_long_df, data_long_sig[, 3]) %>%
       tidyr::unite(Sig, 관측기대비율, star, remove = FALSE, sep = "")
 
     g0 = data_long  %>% ggplot(aes(x = 성조형, y = 관측기대비율))

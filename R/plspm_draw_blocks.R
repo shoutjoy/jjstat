@@ -47,7 +47,7 @@
 #'
 #' }
 #'
- draw_blocks <- function(data,
+ plspm_drawblocks <- function(data,
                          latent_size = 20,
                          edge_width = 1,
                          edge.alpha = 0.7,

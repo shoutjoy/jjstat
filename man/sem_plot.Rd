@@ -35,6 +35,8 @@ sem_plot(
 
 \item{whatLabels}{ste}
 
+\item{type}{type res 1}
+
 \item{opt}{1, 2, 3,}
 
 \item{layout}{layY(opt =2, you make layout), or tree3}

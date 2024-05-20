@@ -42,15 +42,23 @@
 #'
 #'
 #'
-#' lay_p = matrix(c('IMA', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'EXP', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'QUA', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'VAL', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'SAT', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'LOY', NA, NA, NA, NA, NA, NA, NA, NA),
-#'                nrow = 10, ncol = 10, byrow = FALSE)
+#' lay_p = matrix(c('IMA', NA, NA, NA, NA, NA, NA,
+#'  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+#'  'EXP', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+#'  NA, NA, NA, NA, 'QUA', NA, NA, NA, NA, NA, NA,
+#'  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+#'  NA, NA, NA, NA, NA, NA, 'VAL', NA, NA, NA, NA,
+#'  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'SAT',
+#'  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+#'  NA, NA, NA, NA, 'LOY', NA, NA, NA, NA, NA, NA, NA, NA),
+#'  nrow = 10, ncol = 10, byrow = FALSE)
 #'
 #' satpls %>% innermodel_plspm(layout=lay_p, edge.label.position = 0.6,
 #'                             border.color="gray99", groups=1:6)
 #'
 #' #'
 #' }
-innermodel_plspm <- function(data,
+plspm_innermodel <- function(data,
                              digits = 3,
                              layout = "spring",
                              fade = FALSE,

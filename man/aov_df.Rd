@@ -45,9 +45,11 @@ table
 \examples{
 
 \dontrun{
-aov_table(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear", "carb"))
+aov_table(data = mtcars, dv_var = "mpg",
+iv_vars = c("cyl", "gear", "carb"))
 
-aov_table(data = mtcars, dv_var = "mpg",iv_vars = c("cyl", "gear", "carb"),
+aov_table(data = mtcars, dv_var = "mpg",
+iv_vars = c("cyl", "gear", "carb"),
            mean = TRUE)
 
 aov_table(data = mtcars, dv_var = "mpg",
