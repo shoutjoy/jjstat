@@ -14,11 +14,21 @@
 #' sleep %>% missfillinFor()
 #' sleep %>% missfillinFor(fn=median)
 #' }
-missfillinFor <- function(data, fn=mean){
-
-  for(i in 1:ncol(data)){
-    data[i] = data[i] %>% missfillin(fn=fn)
+# missfillinFor <- function(data, fn=mean){
+#
+#   for(i in 1:ncol(data)){
+#     data[i] = data[i] %>% missfillin(fn=fn)
+#   }
+#   data
+# }
+missfillinFor <- function(data, fn = mean, range = NULL) {
+  if (is.null(range)) {
+    range <- 1:ncol(data)
   }
-  # colSums(!is.na(data))
+
+  for(i in range) {
+    data[, i] = data[, i] %>% missfillin(fn = fn)
+  }
+
   data
 }

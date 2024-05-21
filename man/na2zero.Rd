@@ -4,12 +4,14 @@
 \alias{na2zero}
 \title{NA replace to value default 0}
 \usage{
-na2zero(data, imp = 0)
+na2zero(data, imp = 0, range = NULL)
 }
 \arguments{
 \item{data}{data.frame or matrix}
 
 \item{imp}{imputation value default 0}
+
+\item{range}{range is column}
 }
 \value{
 dat
@@ -24,6 +26,22 @@ NA replace to value default 0
 data \%>\% na2zero()
 data \%>\% na2zero(0)
 data \%>\% na2zero(1)
+
+#'
+
+# Example data frame entry
+df <- data.frame(a = c(1, NA, 3), b = c(NA, 2, 3))
+na2zero(df)
+
+# Vector input examples
+vec <- c(1, NA, 3)
+print(na2zero(vec))
+
+# Character Vector Input Example
+char_vec <- c("a", NA, "b")
+print(na2zero(char_vec))
+#'
+
 }
 
 }

@@ -25,6 +25,22 @@ Treat selected variables as factors
 
  mtcars1 = mtcars \%>\% sel_as_trt("cyl", "am","vs", "gear", "carb")
  str(mtcars1)
+
+ #col number
+ mtcars\%>\%as_trt(c(2,8:11))\%>\%str()
+#'
+# 데이터 프레임 생성
+df <- data.frame(matrix(1:500, ncol=100))
+colnames(df) <- paste0("P", sprintf("\%02d", 1:100))
+
+# 열 번호 범위로 변환
+as_trt(df, 81:91)\%>\%str()
+as_trt(df, "P81:P91")\%>\%str()
+as_trt(df, "P81","P91")\%>\%str()
+as_trt(df, 81, 92)\%>\%str()
+#'
+
+
 }
 
 }

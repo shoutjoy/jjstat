@@ -33,7 +33,7 @@ summary_fa = function(fa_data, digits=3){
 
   eigenvalues[3,] <- cumsum(eigenvalues[2,])
 
-  rownames(eigenvalues) <- c("eigen_vlaue","Proportion Var","Cumulative_Var")
+  rownames(eigenvalues) <- c("eigen_vlaue","Proportion_Var","Cumulative_Var")
 
 
 

@@ -4,7 +4,7 @@
 \alias{missfillinFor}
 \title{Fill in missing information at once}
 \usage{
-missfillinFor(data, fn = mean)
+missfillinFor(data, fn = mean, range = NULL)
 }
 \arguments{
 \item{data}{data,frame}
