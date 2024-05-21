@@ -22,29 +22,29 @@
 #'   MR3 = c(-0.037, 0.032, 0.389, -0.233, 0.195, -0.153, -0.228, -0.525, 0.174, 0.01, 0.011, 0.077, 0.174, 0.029, 0.021, 0.346, 0.176, 0.383, 0.561, -0.157, 0.399, 0.236, 0.242, 0.191, -0.104, 1.62, 0.065, 0.434)
 #' )
 
-# # 함수 실행 예시
+# # Example of running a function
 # fa_print(data, cut = 0.3, sort = TRUE)
 #' }
 #'
 fa_print <- function(data, cut = 0.4, sort = TRUE) {
-  # 조건에 맞는 행을 필터링하여 data_head와 data_tail을 분리
+  # Separate data_head and data_tail by filtering rows that meet a condition
   data_head <- data[!data$source %in% c("eigen_vlaue", "Proportion_Var", "Cumulative_Var"), ]
   data_tail <- data[data$source %in% c("eigen_vlaue", "Proportion_Var", "Cumulative_Var"), ]
 
-  # data_head에 대해 cut 값을 적용하여 ""로 대체
+  # Apply cut value for data_head to replace with ""
   for (i in 2:ncol(data_head)) {
     if (is.numeric(data_head[[i]])) {
       data_head[[i]] <- ifelse(abs(data_head[[i]]) < cut, "", data_head[[i]])
     }
   }
 
-  # sort가 TRUE일 경우 모든 열을 기준으로 정렬
+  # Sort by all columns if sort is TRUE
   if (sort) {
-    # 열 이름을 제외한 데이터 부분만 정렬
+    # Sort only parts of data except column names
     data_head <- data_head[do.call(order, as.list(data_head[ , -1])), ]
   }
 
-  # 두 부분을 다시 결합
+  # Combine the two parts back together
   res <- rbind(data_head, data_tail)
 
   return(data.frame(res))
