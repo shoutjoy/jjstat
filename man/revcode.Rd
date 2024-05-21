@@ -4,7 +4,7 @@
 \alias{revcode}
 \title{Custom function to perform reverse coding for multiple variables with custom n values}
 \usage{
-revcode(data, n = 8, ..., postfix = "_r")
+revcode(data, n = 8, ..., postfix = "_r", replace = FALSE)
 }
 \arguments{
 \item{data}{Data frame containing the variables}
@@ -14,6 +14,8 @@ revcode(data, n = 8, ..., postfix = "_r")
 \item{...}{Variable names to be reverse coded}
 
 \item{postfix}{postfix is reverse variable name default '_r'}
+
+\item{replace}{How to enter and replace the reverse coding results}
 }
 \value{
 add reverse data in data.frame
@@ -41,5 +43,34 @@ revcode(mtcars[,c("cyl", "gear","carb")], 12, "cyl")
 
 revcode(mtcars[,c("cyl", "gear","carb")],
             n = c(12, 6, 9),"cyl","gear","carb")
+#'
+df <- data.frame(
+  A = c(1, 2, 3, 4, 5),
+  B = c(5, 4, 3, 2, 1)
+)
+
+# Passing variable names as symbols
+df_new1 <- revcode(df, n = 6, A, B)
+print(df_new1)
+str(df_new1)
+print(attr(df_new1$A_r, "reverse")) # Output properties for verification
+print(attr(df_new1$B_r, "reverse"))
+
+# pass the variable name as a string
+df_new2 <- revcode(df, n = 6, "A", "B")
+print(df_new2)
+str(df_new2)
+print(attr(df_new2$A_r, "reverse"))  # Output properties for verification
+print(attr(df_new2$B_r, "reverse"))
+
+# Reverse-code to replace original column
+df_replaced <- revcode(df, n = 6, A, B, replace = TRUE)
+print(df_replaced)
+str(df_replaced)
+print(attr(df_replaced$A, "reverse"))  # Output properties for verification
+print(attr(df_replaced$B, "reverse"))
+
+#'
+
 }
 }
