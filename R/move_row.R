@@ -27,18 +27,22 @@
 #'
 #'
 move_row <- function(data, insert) {
-  # 이동할 행과 이동될 위치 추출
+  # Extract rows to move and where they will be moved
   select_row <- insert[1]
   to <- insert[2]
 
-  # 이동할 행을 추출
+  # Extract rows to move
   row_to_move <- data[select_row, ]
 
-  # 이동될 위치로부터 아래쪽 행들을 한 칸씩 아래로 이동
-  data <- rbind(data[1:(to-1), ], data[to:nrow(data)-1, ])
+  # Move rows down one space from the position to be moved
+  data <- rbind(data[1:(to-1), ], data[to:nrow(data), ])
 
-  # 이동할 행을 이동될 위치에 삽입
+  # Insert the row to be moved at the location where it will be moved
   data[to, ] <- row_to_move
 
+  # Remove the original position of the moved row
+  data <- data[-select_row, ]
   return(data)
 }
+
+
