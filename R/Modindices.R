@@ -38,12 +38,24 @@
 #'
 #'
 #'
-Modindices<- function(x,
-                      mi.level = 10,
-                      op1 = "~~"
-                     ){
-  modindices(x) %>%
-    filter(op==op1 & mi> mi.level) %>%
-    arrange(desc(mi))
+Modindices <- function(x, mi.level = 10, op1 = "~~") {
+  library(dplyr) # Ensure dplyr is loaded
+
+  mi_data <- modindices(x)
+
+  # Update the filter and arrange accordingly
+  mi_data %>%data.frame()%>%
+    dplyr::filter(op == op1 & mi > mi.level) %>%
+    dplyr::arrange(desc(mi))
 
 }
+
+# Modindices<- function(x,
+#                       mi.level = 10,
+#                       op1 = "~~"
+#                      ){
+#   modindices(x) %>%
+#     filter(op==op1 & mi> mi.level) %>%
+#     arrange(desc(mi))
+#
+# }

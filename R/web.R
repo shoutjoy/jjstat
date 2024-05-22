@@ -4,6 +4,7 @@
 #' @param digits default 3
 #' @param font_size default 14
 #' @param file file name default "output.html
+#' @param out TRUE browser
 #'
 #' @return web output
 #' @export
@@ -15,7 +16,7 @@
 #'
 #' }
 #'
-web <- function(data, digits = 3, font_size = 14, file = "output.html") {
+web <- function(data, out=TRUE, digits = 3, font_size = 14, file = "output.html") {
   # library(htmlTable)
   # library(htmltools)
 
@@ -55,6 +56,11 @@ web <- function(data, digits = 3, font_size = 14, file = "output.html") {
   html_file <- tempfile(fileext = ".html")
   writeLines(as.character(html_content), html_file)
 
-  # Open an HTML file with a web browser
-  browseURL(html_file)
+  if(out){
+    # Open an HTML file with a web browser
+    browseURL(html_file)
+  }else{
+    data
+  }
+
 }
