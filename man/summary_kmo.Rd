@@ -4,7 +4,7 @@
 \alias{summary_kmo}
 \title{Kaiser-Meyer-Olkin factor adequacy (KMO)}
 \usage{
-summary_kmo(data, test = "none", cat = TRUE)
+summary_kmo(data, test = "df", cat = TRUE)
 }
 \arguments{
 \item{data}{data, cor data, result data}

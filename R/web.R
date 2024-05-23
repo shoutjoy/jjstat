@@ -60,7 +60,7 @@ web <- function(data, out=TRUE, digits = 3, font_size = 14, file = "output.html"
     # Open an HTML file with a web browser
     browseURL(html_file)
   }else{
-    data
+    data.frame(data)
   }
 
 }

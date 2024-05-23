@@ -4,7 +4,7 @@
 \alias{summary_bartlett}
 \title{Factorization Bartlett test results}
 \usage{
-summary_bartlett(data, test = "none", cat = TRUE)
+summary_bartlett(data, test = "df", cat = TRUE)
 }
 \arguments{
 \item{data}{data. cor data. result data}

@@ -29,7 +29,7 @@
 #' New %>%cor()%>%psych::cortest.bartlett()%>% summary_bartlett()
 #'
 #' }
-summary_bartlett <- function(data, test = "none", cat = TRUE) {
+summary_bartlett <- function(data, test = "df", cat = TRUE) {
 
   if (test == "df") {
     bartlett_result = data %>%

@@ -138,11 +138,10 @@ add_bind_stat <- function(data, ..., fun = mean, type="res") {
 #'
 bind_add_stat <- function(data, ..., fun = mean, type="res") {
   term <- list(...)
-  col_names <- vector("list", length(term))  # 리스트 초기화
-  cols <- vector("list", length(term))       # 리스트 초기화
-  cols_check <- vector("list", length(term))       # 리스트 초기화
-  # colnas <- vector("list", length(term))       # 리스트 초기화
-  # Colsnames = colnames(data)
+  col_names <- vector("list", length(term))
+  cols <- vector("list", length(term))
+  cols_check <- vector("list", length(term))
+
 
   for (i in seq_along(term)) {
     cols_check[[i]] <- term[[i]][-1]
@@ -152,23 +151,17 @@ bind_add_stat <- function(data, ..., fun = mean, type="res") {
     cols_check  = cols_check%>%unlist()
   }else{
 
-    #  cols_check <- cols_check%>%unlist() %>% as.numeric()
     #suppres sWarnings  message
     cols_check <- suppressWarnings(cols_check%>%unlist() %>% as.numeric())
   }
 
-  #   if (any(length(cols_check) <= 1 )) {
-  #   cols_check <- NULL
-  # } else if (length(cols_check) > 1) {
-  #  cols_check <- unlist(cols_check) %>% as.numeric()
-  #  }
 
   for (i in seq_along(term)) {
-    col_names[[i]] <- term[[i]][1]  # 리스트에 값 할당
-    cols[[i]] <- term[[i]][-1]      # 리스트에 값 할당
+    col_names[[i]] <- term[[i]][1]  # Assigning values to a list
+    cols[[i]] <- term[[i]][-1]      # Assigning values to a list
 
     if(unique(is.na(unlist(cols_check)))){
-      cols[[i]] <- term[[i]][-1]      # 리스트에 값 할당
+      cols[[i]] <- term[[i]][-1]      # Assigning values to a list
 
     }else{
 

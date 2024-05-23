@@ -24,7 +24,7 @@
 #' New %>%cor()%>%psych::KMO()%>% summary_kmo()
 #' }
 #'
-summary_kmo <- function(data, test="none", cat=TRUE) {
+summary_kmo <- function(data, test="df", cat=TRUE) {
   if (test == "df") {
     result <- data %>% cor() %>% psych::KMO() %>% suppressWarnings()
   } else if (test == "cor") {
