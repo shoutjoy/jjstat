@@ -4,7 +4,14 @@
 \alias{fa_print}
 \title{Print Factor Analysis}
 \usage{
-fa_print(data, cut = 0.4, sort = TRUE)
+fa_print(
+  data,
+  cut = 0.4,
+  sort = TRUE,
+  desc = TRUE,
+  star = FALSE,
+  justify = "right"
+)
 }
 \arguments{
 \item{data}{suammry fa}
@@ -12,6 +19,12 @@ fa_print(data, cut = 0.4, sort = TRUE)
 \item{cut}{cut off 0.4}
 
 \item{sort}{TRUE FALSE}
+
+\item{desc}{decreasing=TRUE}
+
+\item{star}{star > cut}
+
+\item{justify}{justify is align "right"}
 }
 \value{
 data.frame
@@ -34,5 +47,4 @@ data <- data.frame(
   MR3 = c(-0.037, 0.032, 0.389, -0.233, 0.195, -0.153, -0.228, -0.525, 0.174, 0.01, 0.011, 0.077, 0.174, 0.029, 0.021, 0.346, 0.176, 0.383, 0.561, -0.157, 0.399, 0.236, 0.242, 0.191, -0.104, 1.62, 0.065, 0.434)
 )
 }
-
 }
