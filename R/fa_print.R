@@ -34,8 +34,8 @@ fa_print <- function(data, cut = 0.4, sort = TRUE) {
   # Apply cut value for data_head to replace with ""
   for (i in 2:ncol(data_head)) {
     if (is.numeric(data_head[[i]])) {
-      data_head[[i]] <- ifelse(abs(data_head[[i]]) < cut, "", data_head[[i]])
-    }
+      data_head[[i]] <- ifelse(data_head[[i]] < cut, "", data_head[[i]])
+    } # remove abs()
   }
 
   # Sort by all columns if sort is TRUE

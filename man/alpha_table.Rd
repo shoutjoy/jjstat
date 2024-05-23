@@ -10,6 +10,7 @@ alpha_table(
   show = "data",
   format = "markdown",
   digits = 3,
+  check.keys = TRUE,
   variable = "."
 )
 }
@@ -23,6 +24,8 @@ alpha_table(
 \item{format}{markdown, html}
 
 \item{digits}{default 3}
+
+\item{check.keys}{check.keys=TRUE}
 
 \item{variable}{. output}
 }

@@ -3,7 +3,7 @@
 #' @param data data.fram
 #' @param reorder  reorder=c(select row order)
 #'
-#' @return
+#' @return data
 #' @export
 #'
 #' @examples
@@ -28,7 +28,7 @@ table_reorder <- function(data, reorder = 1:nrow(data)) {
   current_order <- 1:nrow(data)
 
   # Rearrange rows of data in a selected order
-  reordered_data <- data[order(current_order[reorder]), ]
+  reordered_data <- data[current_order[reorder], ]
 
   return(reordered_data)
 }

@@ -3,7 +3,7 @@
 #'
 #' @param data Data frame containing the variables
 #' @param ... Variable names to be included in the alpha table, column name and number. Variable names to be included in the alpha table
-#'
+#' @param check.keys check.keys=TRUE
 #' @return alpha table
 #' @export
 #'
@@ -38,7 +38,7 @@
 #'
 #' }
 #'
-bind_alpha_table = function(data, ...){
+bind_alpha_table = function(data, ..., check.keys=TRUE){
   # Arguments:
   #   data: Data frame containing the variables
   #   ...: Variable names to be included in the alpha table
@@ -46,15 +46,18 @@ bind_alpha_table = function(data, ...){
 
   if(length(form)==1){
     result = jjstat::alpha_table( subset(data, select = form[[1]]),
-                                  show="data", variable = letters[1] )
+                                  show="data", variable = letters[1] ,
+                                  check.keys=check.keys)
 
   }else if(length(form) > 1 ){
     result = jjstat::alpha_table(subset(data,select = form[[1]]),
-                                 show="data", variable = letters[1] )
+                                 show="data", variable = letters[1],
+                                 check.keys=check.keys)
     for (i in 2:length(form)) {
       result <- rbind(result,
                       jjstat::alpha_table(subset(data, select = form[[i]]),
-                                          show="data", variable = letters[i] ))
+                                          show="data", variable = letters[i],
+                                          check.keys=check.keys))
     }
   }
 

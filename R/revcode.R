@@ -1,7 +1,7 @@
 #' Custom function to perform reverse coding for multiple variables with custom n values
 #'
 #' @param data Data frame containing the variables
-#' @param n Vector of maximum scale values (one for each variable), c("v1","v2",...)
+#' @param n Vector of maximum scale values (one for each vadata:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAbElEQVR4Xs2RQQrAMAgEfZgf7W9LAguybljJpR3wEse5JOL3ZObDb4x1loDhHbBOFU6i2Ddnw2KNiXcdAXygJlwE8OFVBHDgKrLgSInN4WMe9iXiqIVsTMjH7z/GhNTEibOxQswcYIWYOR/zAjBJfiXh3jZ6AAAAAElFTkSuQmCCriable), c("v1","v2",...)
 #' @param ... Variable names to be reverse coded
 #' @param postfix postfix is reverse variable name default '_r'
 #' @param replace How to enter and replace the reverse coding results

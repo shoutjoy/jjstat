@@ -4,12 +4,16 @@
 \alias{mr}
 \title{Functions to move rows to a desired position}
 \usage{
-mr(data, from, to)
+mr(data, from, to, history = FALSE)
 }
 \arguments{
 \item{data}{data.fram}
 
-\item{insert}{select row to position}
+\item{from}{row from}
+
+\item{to}{row to}
+
+\item{history}{history}
 }
 \value{
 data
@@ -21,19 +25,27 @@ Functions to move rows to a desired position
 
 \dontrun{
 #'
-# Example data
-data <- data.frame(
-  source = c("A05", "A08", "A04", "A06", "A09", "A11", "A13", "A02", "A03", "A01", "A14", "A15", "A07", "A12", "A10", "eigen_value", "Proportion_Var", "Cumulative_Var"),
-  MR1 = c("", "", "", "", "", "", "", "0.362", "0.449", "0.457", "0.47", "0.538", "0.62", "0.792", "0.96", "3.363", "0.224", "0.224"),
-  MR2 = c("", "0.382", "", "", "0.445", "0.724", "0.906", "0.392", "", "", "0.487", "", "", "", "", "2.095", "0.14", "0.364"),
-  MR3 = c("", "", "0.402", "0.963", "", "", "", "", "", "", "", "", "", "", "", "1.691", "0.113", "0.477")
+#' # Example data
+car = data.frame(
+  rownames = c(paste0("Row_",1:6)),
+  mpg = c('21', '21', '22.8', '21.4', '18.7', '18.1'),
+  cyl = c('6', '6', '4', '6', '8', '6'),
+  disp = c('160', '160', '108', '258', '360', '225')
 )
+car
+car \%>\% mr(1,6)
+car \%>\% mr(6,1)
+car \%>\% mr(6,2)
+car \%>\% mr(6,3)
+car \%>\% mr(1,3)
+car \%>\% mr(6,5)
 
-#
-new_position <- c(4, 2)  # Move row 4 to row 2
-moved_data <- move_row(data, new_position)
-print(moved_data)
-
+#history
+car \%>\%
+  mr(6,1)\%>\%
+  mr(1,3)\%>\%
+  mr(3,2)
+#'
 }
 
 

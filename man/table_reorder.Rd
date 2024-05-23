@@ -11,6 +11,9 @@ table_reorder(data, reorder = 1:nrow(data))
 
 \item{reorder}{reorder=c(select row order)}
 }
+\value{
+data
+}
 \description{
 Reorder rows of data
 }

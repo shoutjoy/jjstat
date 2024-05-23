@@ -7,6 +7,7 @@
 #' @param format  markdown, html
 #' @param digits  default 3
 #' @param variable . output
+#' @param check.keys check.keys=TRUE
 #' @export
 #'
 #' @examples
@@ -36,7 +37,7 @@ alpha_table = function(alpha_data_res,
                        title="",
                        show="data",
                        format="markdown",
-                       digits=3,
+                       digits=3,check.keys=TRUE,
                        variable="."
 ){
 
@@ -64,7 +65,7 @@ alpha_table = function(alpha_data_res,
 
     }else if(show == "markdown"){
       #When calculating directly using data
-      data_res <- alpha_data_res %>%psych::alpha(check.keys = TRUE)
+      data_res <- alpha_data_res %>%psych::alpha(check.keys = check.keys)
 
       alpha = paste0("alpha = ",
                      round(data_res$total[1],3),
@@ -83,8 +84,7 @@ alpha_table = function(alpha_data_res,
 
     }else if(show == "data"){
       #Required when combining multiple data to create another table
-      data_res <- alpha_data_res %>%psych::alpha(check.keys = TRUE)
-
+      data_res <- alpha_data_res %>%psych::alpha(check.keys = check.keys)
       alpha = paste0("alpha = ",
                      round(data_res$total[1],3),
                      ", 95%CI[",round(data_res$feldt[[1]],2),", ",

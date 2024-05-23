@@ -4,12 +4,14 @@
 \alias{bind_alpha_table}
 \title{Alpha Table Combination}
 \usage{
-bind_alpha_table(data, ...)
+bind_alpha_table(data, ..., check.keys = TRUE)
 }
 \arguments{
 \item{data}{Data frame containing the variables}
 
 \item{...}{Variable names to be included in the alpha table, column name and number. Variable names to be included in the alpha table}
+
+\item{check.keys}{check.keys=TRUE}
 }
 \value{
 alpha table
