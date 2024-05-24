@@ -31,7 +31,7 @@
 #' }
 nice_aov_df <- function(df, show=TRUE, digits = 2) {
   # Convert all columns to character to avoid factor issues
-  df= df%>%Round(digits=digits)
+  df= df%>%Round(digits=digits, type="data.frame")
   df[] <- lapply(df, as.character)
 
   # Get the unique values of the 'iv' column
