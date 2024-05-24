@@ -72,7 +72,6 @@ diagram = function(lav_obj, what="est",
 #' @param border.width border.width 2
 #' @param exoVar exoVar=TRUE,
 #' @param exoCov  exoCov=TRUE,
-#' @param edgeLabels  edgeLabels=NULL
 #' @param nodeLabels  nodeLabels=NULL
 #' @param groups true color
 #'
@@ -129,57 +128,107 @@ diagram2 = function(lav_obj, whatLabels = "est",
                     exoVar=TRUE,
                     exoCov=TRUE,
                     structual=FALSE,
-                    edgeLabels=NULL,
                     nodeLabels=NULL,
                     groups=FALSE
 ){
 
   if(groups){
-    dia =   lav_obj %>% semPlot::semPaths(
-      whatLabels = whatLabels, fade = FALSE, posCol="black",
-      nCharNodes = 10,layout = layout,
-      edge.color="black",
-      rotation = rotation,
-      edge.label.cex =edge.label.cex,
-      residuals= residuals,
-      residScale=  residScale,
-      exoVar=exoVar,
-      exoCov=exoCov,
-      sizeMan = sizeMan, sizeMan2 = sizeMan2,
-      sizeLat = sizeLat, sizeLat2 = sizeLat2,
-      shapeLat =shapeLat,
-      border.width = border.width,
-      groups ="lat",pastel = TRUE,
-      edge.width = edge.width,
-      curve = curve,
-      asize= asize,
-      nDigits = nDigits,
-      structual=structual,
-      edgeLabels = edgeLabels,
-      nodeLabels = nodeLabels,
-      style =  style,  mar=mar)
+    if(is.null(nodeLabels)){
+      dia =   lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10,layout = layout,
+        edge.color="black",
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar=exoVar,
+        exoCov=exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat, sizeLat2 = sizeLat2,
+        shapeLat =shapeLat,
+        border.width = border.width,
+        groups ="lat",pastel = TRUE,
+        edge.width = edge.width,
+        curve = curve,
+        asize= asize,
+        nDigits = nDigits,
+        structual=structual,
+        # nodeLabels = nodeLabels,
+        style =  style,  mar=mar)
+
+    }else{
+      dia =   lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10,layout = layout,
+        edge.color="black",
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar=exoVar,
+        exoCov=exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat, sizeLat2 = sizeLat2,
+        shapeLat =shapeLat,
+        border.width = border.width,
+        groups ="lat",pastel = TRUE,
+        edge.width = edge.width,
+        curve = curve,
+        asize= asize,
+        nDigits = nDigits,
+        structual=structual,
+        nodeLabels = nodeLabels,
+        style =  style,  mar=mar)
+    }
+
+
   }else{
-    dia =   lav_obj %>% semPlot::semPaths(
-      whatLabels = whatLabels, fade = FALSE, posCol="black",
-      nCharNodes = 10,layout = layout,
-      edge.color="black",
-      rotation = rotation,
-      edge.label.cex =edge.label.cex,
-      residuals = residuals,
-      residScale =  residScale,
-      exoVar=exoVar, exoCov=exoCov,
-      sizeMan = sizeMan, sizeMan2 = sizeMan2,
-      sizeLat = sizeLat, sizeLat2 = sizeLat2,
-      shapeLat=shapeLat,
-      border.width = border.width,
-      edge.width = edge.width,
-      curve=curve,
-      nDigits = nDigits,
-      asize= asize,
-      structual=structual,
-      edgeLabels = edgeLabels,
-      nodeLabels = nodeLabels,
-      style =  style,  mar=mar)
+    if(is.null(nodeLabels)){
+      dia =   lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10,layout = layout,
+        edge.color="black",
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        residuals = residuals,
+        residScale =  residScale,
+        exoVar=exoVar, exoCov=exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat, sizeLat2 = sizeLat2,
+        shapeLat=shapeLat,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        structual=structual,
+        # nodeLabels = nodeLabels,
+        style =  style,  mar=mar)
+    }else{
+      dia =   lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10,layout = layout,
+        edge.color="black",
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        residuals = residuals,
+        residScale =  residScale,
+        exoVar=exoVar, exoCov=exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat, sizeLat2 = sizeLat2,
+        shapeLat=shapeLat,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        structual=structual,
+        nodeLabels = nodeLabels,
+        style =  style,  mar=mar)
+    }
+
+
   }
 
 

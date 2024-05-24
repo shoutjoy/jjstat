@@ -28,7 +28,6 @@ diagram2(
   exoVar = TRUE,
   exoCov = TRUE,
   structual = FALSE,
-  edgeLabels = NULL,
   nodeLabels = NULL,
   groups = FALSE
 )
@@ -79,8 +78,6 @@ diagram2(
 \item{exoCov}{exoCov=TRUE,}
 
 \item{structual}{structual=FALSE}
-
-\item{edgeLabels}{edgeLabels=NULL}
 
 \item{nodeLabels}{nodeLabels=NULL}
 
