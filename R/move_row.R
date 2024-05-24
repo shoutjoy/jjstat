@@ -193,19 +193,19 @@ mr <- function(data, from, to, history=FALSE) {
 #'
 #'
 #' # Testing the function with direct pair inputs
-#' move_rows2(car, 6, 1,  history=FALSE)
-#' move_rows2(car, 6, 1,1,2)
-#' move_rows2(car, 6, 1, 1, 2, 2, 6, history=TRUE)
-#' car%>%move_rows2(6, 1, 1, 2, 2, 6, history=TRUE)
-#' move_rows2(car, 6, 1, 1, 2, 2, 6, 6,3, history=TRUE)
-#' car%>%move_rows2(c(6,1), c(1,2),c(2,6),c(6,5), history=T)
-#' car%>%move_rows2(6, 1, 1, 2, 2, 6, 6,3, history=T)
+#' move_rows(car, 6, 1,  history=FALSE)
+#' move_rows(car, 6, 1,1,2)
+#' move_rows(car, 6, 1, 1, 2, 2, 6, history=TRUE)
+#' car%>%move_rows(6, 1, 1, 2, 2, 6, history=TRUE)
+#' move_rows(car, 6, 1, 1, 2, 2, 6, 6,3, history=TRUE)
+#' car%>%move_rows(c(6,1), c(1,2),c(2,6),c(6,5), history=T)
+#' car%>%move_rows(6, 1, 1, 2, 2, 6, 6,3, history=T)
 #'
 #'
 #' # Testing the function with list of pairs inputs
-#' move_rows2(car, c(6, 1), history=TRUE)
+#' move_rows(car, c(6, 1), history=TRUE)
 #' move_rows(car, c(6, 1),c(1,2), history=TRUE)
-#' move_rows2(car, c(6, 1), c(1, 2), c(2, 6),c(6,3), history=TRUE)
+#' move_rows(car, c(6, 1), c(1, 2), c(2, 6),c(6,3), history=TRUE)
 #' #'
 #' #'
 #'
@@ -215,16 +215,15 @@ mr <- function(data, from, to, history=FALSE) {
 #'
 
 move_rows <- function(data, ..., history=TRUE) {
+  # Capture all the arguments passed
+  args <- list(...)
 
-  if(length(args0) == 0) {
+  if(length(args) == 0) {
     cat("\n To change the location of your data, enter a from line and a to line!
      move_rows(1, 3) -> from 1st row  to 3rd row position
      \n\n")
     return(data)
   }
-
-  # Capture all the arguments passed
-  args <- list(...)
 
   # Determine the input style: list of pairs or sequence of values
   if (is.list(args) && length(args[[1]]) == 2) {
@@ -358,6 +357,13 @@ move_rows <- function(data, ..., history=TRUE) {
 mrs <- function(data, ..., history=TRUE) {
   # Capture all the arguments passed
   args <- list(...)
+
+  if(length(args) == 0) {
+    cat("\n To change the location of your data, enter a from line and a to line!
+     move_rows(1, 3) -> from 1st row  to 3rd row position
+     \n\n")
+    return(data)
+  }
 
   # Determine the input style: list of pairs or sequence of values
   if (is.list(args) && length(args[[1]]) == 2) {

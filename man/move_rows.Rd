@@ -72,19 +72,19 @@ move_rows(car, c(6, 1), c(1, 2), c(2, 6), history=TRUE)
 
 
 # Testing the function with direct pair inputs
-move_rows2(car, 6, 1,  history=FALSE)
-move_rows2(car, 6, 1,1,2)
-move_rows2(car, 6, 1, 1, 2, 2, 6, history=TRUE)
-car\%>\%move_rows2(6, 1, 1, 2, 2, 6, history=TRUE)
-move_rows2(car, 6, 1, 1, 2, 2, 6, 6,3, history=TRUE)
-car\%>\%move_rows2(c(6,1), c(1,2),c(2,6),c(6,5), history=T)
-car\%>\%move_rows2(6, 1, 1, 2, 2, 6, 6,3, history=T)
+move_rows(car, 6, 1,  history=FALSE)
+move_rows(car, 6, 1,1,2)
+move_rows(car, 6, 1, 1, 2, 2, 6, history=TRUE)
+car\%>\%move_rows(6, 1, 1, 2, 2, 6, history=TRUE)
+move_rows(car, 6, 1, 1, 2, 2, 6, 6,3, history=TRUE)
+car\%>\%move_rows(c(6,1), c(1,2),c(2,6),c(6,5), history=T)
+car\%>\%move_rows(6, 1, 1, 2, 2, 6, 6,3, history=T)
 
 
 # Testing the function with list of pairs inputs
-move_rows2(car, c(6, 1), history=TRUE)
+move_rows(car, c(6, 1), history=TRUE)
 move_rows(car, c(6, 1),c(1,2), history=TRUE)
-move_rows2(car, c(6, 1), c(1, 2), c(2, 6),c(6,3), history=TRUE)
+move_rows(car, c(6, 1), c(1, 2), c(2, 6),c(6,3), history=TRUE)
 #'
 #'
 
