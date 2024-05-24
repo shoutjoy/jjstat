@@ -12,6 +12,7 @@ diagram2(
   residScale = 18,
   mar = c(2, 8, 3, 8),
   edge.label.cex = 1,
+  edge.label.position = 0.5,
   sizeMan = 8,
   sizeMan2 = 4,
   sizeLat = 10,
@@ -46,6 +47,8 @@ diagram2(
 \item{mar}{c(2,8,3,10)}
 
 \item{edge.label.cex}{edge.label.cex= 1}
+
+\item{edge.label.position}{edge.label.position= 0.5}
 
 \item{sizeMan}{sizeMan = 8,}
 

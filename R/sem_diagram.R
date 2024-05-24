@@ -56,6 +56,7 @@ diagram = function(lav_obj, what="est",
 #' @param residScale residScale=18
 #' @param mar c(2,8,3,10)
 #' @param edge.label.cex edge.label.cex= 1
+#' @param edge.label.position edge.label.position= 0.5
 #' @param sizeMan  sizeMan = 8,
 #' @param sizeMan2  sizeMan2 = 4,
 #' @param sizeLat  sizeLat = 10,
@@ -115,16 +116,20 @@ diagram2 = function(lav_obj, whatLabels = "est",
                     rotation = 2, nDigits=2,  residScale=18,
                     mar=c(2,8,3,8),
                     edge.label.cex= 1,
+                    edge.label.position =0.5,
                     sizeMan = 8,
                     sizeMan2 = 4,
                     sizeLat = 10,
                     sizeLat2 = 6,
                     border.width = 2,
                     edge.width = 1.5,
-                    style="lisrel",sig=TRUE,
+                    style="lisrel",
+                    sig=TRUE,
                     asize= 1.5,
                     shapeLat ="circle",
-                    residuals=FALSE,curve=1,layout = "tree",
+                    residuals=FALSE,
+                    curve=1,
+                    layout = "tree",
                     exoVar=TRUE,
                     exoCov=TRUE,
                     structual=FALSE,
@@ -140,6 +145,7 @@ diagram2 = function(lav_obj, whatLabels = "est",
         edge.color="black",
         rotation = rotation,
         edge.label.cex =edge.label.cex,
+        edge.label.position = edge.label.position,
         residuals= residuals,
         residScale=  residScale,
         exoVar=exoVar,
@@ -158,12 +164,13 @@ diagram2 = function(lav_obj, whatLabels = "est",
         style =  style,  mar=mar)
 
     }else{
-      dia =   lav_obj %>% semPlot::semPaths(
+      dia = lav_obj %>% semPlot::semPaths(
         whatLabels = whatLabels, fade = FALSE, posCol="black",
         nCharNodes = 10,layout = layout,
         edge.color="black",
         rotation = rotation,
         edge.label.cex =edge.label.cex,
+        edge.label.position = edge.label.position,
         residuals= residuals,
         residScale=  residScale,
         exoVar=exoVar,
@@ -190,7 +197,8 @@ diagram2 = function(lav_obj, whatLabels = "est",
         nCharNodes = 10,layout = layout,
         edge.color="black",
         rotation = rotation,
-        edge.label.cex =edge.label.cex,
+        edge.label.cex = edge.label.cex,
+        edge.label.position = edge.label.position,
         residuals = residuals,
         residScale =  residScale,
         exoVar=exoVar, exoCov=exoCov,
@@ -208,22 +216,24 @@ diagram2 = function(lav_obj, whatLabels = "est",
     }else{
       dia =   lav_obj %>% semPlot::semPaths(
         whatLabels = whatLabels, fade = FALSE, posCol="black",
-        nCharNodes = 10,layout = layout,
-        edge.color="black",
+        nCharNodes = 10,
+        layout = layout,
+        edge.color = "black",
         rotation = rotation,
-        edge.label.cex =edge.label.cex,
+        edge.label.cex = edge.label.cex,
+        edge.label.position = edge.label.position,
         residuals = residuals,
         residScale =  residScale,
-        exoVar=exoVar, exoCov=exoCov,
+        exoVar = exoVar, exoCov=exoCov,
         sizeMan = sizeMan, sizeMan2 = sizeMan2,
         sizeLat = sizeLat, sizeLat2 = sizeLat2,
         shapeLat=shapeLat,
         border.width = border.width,
         edge.width = edge.width,
-        curve=curve,
+        curve = curve,
         nDigits = nDigits,
-        asize= asize,
-        structual=structual,
+        asize = asize,
+        structual = structual,
         nodeLabels = nodeLabels,
         style =  style,  mar=mar)
     }
@@ -233,10 +243,11 @@ diagram2 = function(lav_obj, whatLabels = "est",
 
 
   if(sig){
-    dia%>%
+   res= dia%>%
       semptools::mark_sig(lav_obj) %>%plot()
   }else{
-    dia
+    res = dia
   }
 
+   res
 }
