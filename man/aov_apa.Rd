@@ -4,7 +4,14 @@
 \alias{aov_apa}
 \title{Report aov data (format APA)}
 \usage{
-aov_apa(aov_post_data, ns = 7, np = 6, md = FALSE)
+aov_apa(
+  aov_post_data,
+  ns = 7,
+  np = 6,
+  digits = 3,
+  md = FALSE,
+  posthoc_type = "The Multi Least Significant Difference(MLSD)"
+)
 }
 \arguments{
 \item{aov_post_data}{aov_post data}
@@ -12,6 +19,8 @@ aov_apa(aov_post_data, ns = 7, np = 6, md = FALSE)
 \item{ns}{ncol sig column 7}
 
 \item{np}{ncol p  column 6}
+
+\item{digits}{digits 3}
 
 \item{md}{md = TRUE is markdown outpput}
 }

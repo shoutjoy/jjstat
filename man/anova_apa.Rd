@@ -4,10 +4,23 @@
 \alias{anova_apa}
 \title{Report aov data (format APA)}
 \usage{
-anova_apa(aov_post_data, np = 7, ns = 8, md = FALSE)
+anova_apa(
+  aov_post_data,
+  ns = 7,
+  np = 6,
+  digits = 3,
+  md = FALSE,
+  posthoc_type = "The Multi Least Significant Difference(MLSD)"
+)
 }
 \arguments{
 \item{aov_post_data}{aov_post data}
+
+\item{ns}{ncol sig column 7}
+
+\item{np}{ncol p  column 6}
+
+\item{digits}{digits 3}
 
 \item{md}{md = TRUE is markdown outpput}
 }
@@ -19,15 +32,14 @@ Report aov data (format APA)
 }
 \examples{
 \dontrun{
-Mtcars <- mtcars\%>\%as_trt("cyl")
-aov(mpg ~ cyl , data=Mtcars) \%>\% aov_post() \%>\% anova_apa()
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post() \%>\% anova_apa()
 # This is error
-aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="contrast") \%>\% anova_apa()
+aov(mpg ~ cyl , data=Mtcars)\%>\%aov_post(type="contrast")\%>\% anova_apa()
 
-# aov(mpg ~ cyl , data=Mtcars) \%>\% aov_post(type="all")
+# aov(mpg ~ cyl , data=Mtcars)\%>\%aov_post(type="all")
 
-aov(mpg ~ cyl , data=Mtcars) \%>\% aov_post(type="all") \%>\% anova_apa()
-aov(mpg ~ cyl , data=Mtcars) \%>\% aov_post(type="res") \%>\% anova_apa()
+aov(mpg ~ cyl , data=Mtcars)\%>\%aov_post(type="all")\%>\% anova_apa()
+aov(mpg ~ cyl , data=Mtcars)\%>\%aov_post(type="res")\%>\% anova_apa()
 
 }
 
