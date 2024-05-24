@@ -215,6 +215,14 @@ mr <- function(data, from, to, history=FALSE) {
 #'
 
 move_rows <- function(data, ..., history=TRUE) {
+
+  if(length(args0) == 0) {
+    cat("\n To change the location of your data, enter a from line and a to line!
+     move_rows(1, 3) -> from 1st row  to 3rd row position
+     \n\n")
+    return(data)
+  }
+
   # Capture all the arguments passed
   args <- list(...)
 

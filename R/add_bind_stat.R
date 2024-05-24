@@ -39,10 +39,10 @@
 #'
 add_bind_stat <- function(data, ..., fun = mean, type="res") {
   term <- list(...)
-  col_names <- vector("list", length(term))  # 리스트 초기화
-  cols <- vector("list", length(term))       # 리스트 초기화
-  cols_check <- vector("list", length(term))       # 리스트 초기화
-  # colnas <- vector("list", length(term))       # 리스트 초기화
+  col_names <- vector("list", length(term))  #Initialize the list
+  cols <- vector("list", length(term))       #Initialize the list
+  cols_check <- vector("list", length(term))#Initialize the list
+  # colnas <- vector("list", length(term))
   # Colsnames = colnames(data)
 
   for (i in seq_along(term)) {
@@ -65,11 +65,11 @@ add_bind_stat <- function(data, ..., fun = mean, type="res") {
   #  }
 
   for (i in seq_along(term)) {
-    col_names[[i]] <- term[[i]][1]  # 리스트에 값 할당
-    cols[[i]] <- term[[i]][-1]      # 리스트에 값 할당
+    col_names[[i]] <- term[[i]][1]  # Assign a value to the list
+    cols[[i]] <- term[[i]][-1]      # Assign a value to the list
 
     if(unique(is.na(unlist(cols_check)))){
-      cols[[i]] <- term[[i]][-1]      # 리스트에 값 할당
+      cols[[i]] <- term[[i]][-1]     # Assign a value to the list
 
     }else{
 
