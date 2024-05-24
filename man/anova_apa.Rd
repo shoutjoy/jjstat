@@ -8,6 +8,8 @@ anova_apa(
   aov_post_data,
   ns = 7,
   np = 6,
+  ndf = 4,
+  nt = 5,
   digits = 3,
   md = FALSE,
   posthoc_type = "The Multi Least Significant Difference(MLSD)"
@@ -18,7 +20,11 @@ anova_apa(
 
 \item{ns}{ncol sig column 7}
 
-\item{np}{ncol p  column 6}
+\item{np}{ncol p value column 6}
+
+\item{ndf}{ncol df column 4}
+
+\item{nt}{ncol t value column 5}
 
 \item{digits}{digits 3}
 

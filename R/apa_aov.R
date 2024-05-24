@@ -1,10 +1,11 @@
-
 #' Report aov data (format APA)
 #'
 #' @param aov_post_data aov_post data
 #' @param md md = TRUE is markdown outpput
 #' @param ns ncol sig column 7
-#' @param np ncol p  column 6
+#' @param ndf ncol df column 4
+#' @param nt ncol t value column 5
+#' @param np ncol p value column 6
 #' @param digits digits 3
 #'
 #' @return report data
@@ -24,9 +25,9 @@
 #'
 #' }
 #'
-anova_apa <- function(aov_post_data, ns=7, np=6,
-                    digits=3, md=FALSE,
-                    posthoc_type="The Multi Least Significant Difference(MLSD)") {
+anova_apa <- function(aov_post_data, ns=7, np=6, ndf=4, nt=5,
+                      digits=3, md=FALSE,
+                      posthoc_type="The Multi Least Significant Difference(MLSD)") {
 
   if(length(aov_post_data) == 8){
     stop("You shouldn't do it with 'type=contrast', do it with type='df'. do it! ")
@@ -50,12 +51,14 @@ anova_apa <- function(aov_post_data, ns=7, np=6,
 
   inter <- c()
   for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
-    inter[i] <- paste0("가설[",i,"]",data[i, 1], "(", round(data[i, 2], digits), ")",
+    inter[i] <- paste0("가설[",i,"] ",data[i, 1], "(diff = ",
+                       round(data[i, 2], digits), ")",
                        "에 관한 차이", "분석 결과, 통계적으로",
                        ifelse(data[i, ns] == "ns", " 유의미한 효과는 없었다",
                               " 유의미한 효과가 나타났다"),
-                       "(diff = ", round(data[i, 3], 3), ", p ",
-                       ifelse(data[i, np]< 0.001,"< .001", paste0("= ", round(data[i, np], 3))),
+                       "(t(",data[i, ndf],") = ", round(data[i, nt], 3), ", p ",
+                       ifelse(data[i, np]< 0.001,"< .001",
+                              paste0("= ", round(data[i, np], 3))),
                        ")."
     )
   }
@@ -76,12 +79,15 @@ anova_apa <- function(aov_post_data, ns=7, np=6,
 
 
 
+
 #' Report aov data (format APA)
 #'
 #' @param aov_post_data aov_post data
 #' @param md md = TRUE is markdown outpput
 #' @param ns ncol sig column 7
-#' @param np ncol p  column 6
+#' @param ndf ncol df column 4
+#' @param nt ncol t value column 5
+#' @param np ncol p value column 6
 #' @param digits digits 3
 #'
 #' @return report data
@@ -101,7 +107,7 @@ anova_apa <- function(aov_post_data, ns=7, np=6,
 #'
 #' }
 #'
-aov_apa <- function(aov_post_data, ns=7, np=6,
+aov_apa <- function(aov_post_data, ns=7, np=6, ndf=4, nt=5,
                     digits=3, md=FALSE,
                     posthoc_type="The Multi Least Significant Difference(MLSD)") {
 
@@ -127,12 +133,14 @@ aov_apa <- function(aov_post_data, ns=7, np=6,
 
   inter <- c()
   for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
-    inter[i] <- paste0("가설[",i,"]",data[i, 1], "(", round(data[i, 2], digits), ")",
+    inter[i] <- paste0("가설[",i,"] ",data[i, 1], "(diff = ",
+                       round(data[i, 2], digits), ")",
                        "에 관한 차이", "분석 결과, 통계적으로",
                        ifelse(data[i, ns] == "ns", " 유의미한 효과는 없었다",
                               " 유의미한 효과가 나타났다"),
-                       "(diff = ", round(data[i, 3], 3), ", p ",
-                       ifelse(data[i, np]< 0.001,"< .001", paste0("= ", round(data[i, np], 3))),
+                       "(t(",data[i, ndf],") = ", round(data[i, nt], 3), ", p ",
+                       ifelse(data[i, np]< 0.001,"< .001",
+                              paste0("= ", round(data[i, np], 3))),
                        ")."
     )
   }
