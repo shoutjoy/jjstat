@@ -72,6 +72,8 @@ diagram = function(lav_obj, what="est",
 #' @param border.width border.width 2
 #' @param exoVar exoVar=TRUE,
 #' @param exoCov  exoCov=TRUE,
+#' @param edgeLabels  edgeLabels=NULL
+#' @param nodeLabels  nodeLabels=NULL
 #' @param groups true color
 #'
 #' @return plot
@@ -114,15 +116,21 @@ diagram2 = function(lav_obj, whatLabels = "est",
                     rotation = 2, nDigits=2,  residScale=18,
                     mar=c(2,8,3,8),
                     edge.label.cex= 1,
-                    sizeMan = 8, sizeMan2 = 4,
-                    sizeLat = 10,  sizeLat2 = 6,
+                    sizeMan = 8,
+                    sizeMan2 = 4,
+                    sizeLat = 10,
+                    sizeLat2 = 6,
                     border.width = 2,
                     edge.width = 1.5,
                     style="lisrel",sig=TRUE,
-                    asize= 1.5, shapeLat ="circle",
+                    asize= 1.5,
+                    shapeLat ="circle",
                     residuals=FALSE,curve=1,layout = "tree",
-                    exoVar=TRUE, exoCov=TRUE,
+                    exoVar=TRUE,
+                    exoCov=TRUE,
                     structual=FALSE,
+                    edgeLabels=NULL,
+                    nodeLabels=NULL,
                     groups=FALSE
 ){
 
@@ -135,7 +143,8 @@ diagram2 = function(lav_obj, whatLabels = "est",
       edge.label.cex =edge.label.cex,
       residuals= residuals,
       residScale=  residScale,
-      exoVar=exoVar, exoCov=exoCov,
+      exoVar=exoVar,
+      exoCov=exoCov,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat, sizeLat2 = sizeLat2,
       shapeLat =shapeLat,
@@ -146,6 +155,8 @@ diagram2 = function(lav_obj, whatLabels = "est",
       asize= asize,
       nDigits = nDigits,
       structual=structual,
+      edgeLabels = edgeLabels,
+      nodeLabels = nodeLabels,
       style =  style,  mar=mar)
   }else{
     dia =   lav_obj %>% semPlot::semPaths(
@@ -166,6 +177,8 @@ diagram2 = function(lav_obj, whatLabels = "est",
       nDigits = nDigits,
       asize= asize,
       structual=structual,
+      edgeLabels = edgeLabels,
+      nodeLabels = nodeLabels,
       style =  style,  mar=mar)
   }
 
