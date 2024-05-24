@@ -46,6 +46,13 @@ bind_add_stat(mtcars,
    c("Mean_col3", 5:6),
    c("Mean_col4", 7:9))
  ##col_check
+#'  '
+bind_add_stat(mtcars,
+              c("Mean_col1", "mpg:cyl"),
+              c("Mean_col2", "disp:hp"),
+              c("Mean_col3", "drat:wt"),
+              c("Mean_col4", "qsec:am"))
+
 }
 
 }
