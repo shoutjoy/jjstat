@@ -94,7 +94,7 @@ ttest_df <- function(data,
                          dv = dv_var,
                          levels = levels_paste,   # unite
                          level = levels,
-                         Mean_diff = tidy_result$estimate,
+
                          Mean1 = tidy_result$estimate1,
                          Mean2 = tidy_result$estimate2,
                          Mean = meandata,
@@ -108,7 +108,7 @@ ttest_df <- function(data,
   # Adding results to a data frame
 
   if (grp_mean) {
-    result_df <- result_df %>% dplyr::select(-levels, -Mead_diff, -Mean1, -Mean2)
+    result_df <- result_df %>% dplyr::select(-levels, , -Mean1, -Mean2)
 
     result_df2 <- result_df %>%
       mutate(p_value = format_number(p_value, n3 = 3, n1 = 5)) %>%
@@ -128,7 +128,8 @@ ttest_df <- function(data,
     result_df  = result_df %>% dplyr::select(-Mean, -level)
 
     result_df = dplyr::distinct(result_df,
-                                iv, dv, levels,Mead_diff,Mean1, Mean2, df, t_value, p_value)
+                                iv, dv, levels,
+                                Mean1, Mean2, df, t_value, p_value)
     result_df2 = result_df %>%
       mutate(p_value = format_number(as.vector(p_value), n3 = 3, n1=5)) %>%
       Round(digits, exclude = "p_value") %>%

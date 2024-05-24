@@ -2,6 +2,7 @@
 #'
 #' @param df aov_Df
 #' @param digits 2
+#' @param show TRUE nice, FALSE pass
 #'
 #' @return result
 #' @export
@@ -28,7 +29,7 @@
 #'
 #'
 #' }
-nice_aov_df <- function(df, digits = 2) {
+nice_aov_df <- function(df, show=TRUE, digits = 2) {
   # Convert all columns to character to avoid factor issues
   df= df%>%Round(digits=digits)
   df[] <- lapply(df, as.character)
@@ -56,6 +57,14 @@ nice_aov_df <- function(df, digits = 2) {
   # Blank out duplicates in the 'iv' column of the result_df
   duplicated_iv <- duplicated(result_df$iv)
   result_df$iv[duplicated_iv] <- ""
-  return(result_df)
+
+
+  # Ease of use, used when passing
+  if(show){
+    return(result_df)
+  }else{
+    df
+  }
+
 
 }

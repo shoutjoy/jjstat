@@ -4,10 +4,12 @@
 \alias{nice_aov_df}
 \title{Nice tables for papers in aov_df results  to  word, html}
 \usage{
-nice_aov_df(df, digits = 2)
+nice_aov_df(df, show = TRUE, digits = 2)
 }
 \arguments{
 \item{df}{aov_Df}
+
+\item{show}{TRUE nice, FALSE pass}
 
 \item{digits}{2}
 }
