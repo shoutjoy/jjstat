@@ -38,20 +38,18 @@
 #'
 #'
 #'
-aov_table = function(data,
-                dv_var = NULL,
-                iv_vars = NULL,
-                grp_mean = TRUE,
-                unite_p = FALSE,
-                unite_F = FALSE,
-                digits = 2,
-                posthoc="lsd",
-                p.adj= "none",
-                sig = FALSE
+aov_table <- function(data,
+                     dv_var = NULL,
+                     iv_vars = NULL,
+                     grp_mean = TRUE,
+                     unite_p = FALSE,
+                     unite_F = FALSE,
+                     digits = 2,
+                     posthoc="lsd",
+                     p.adj= "bonferroni",
+                     sig = FALSE
 ) {
-  # data: data.frame
-  # dv_var: Dependent variable column name (string)
-  # iv_vars: List of independent variable column names (string vector)
+
   if(!is.data.frame(data)){
     stop("you need input data.frame")
   }
@@ -82,7 +80,7 @@ aov_table = function(data,
     #                          anova_result, lsdHSD(anova_result ))
     #     lsdlist = lsd[[1]] %>% as.data.frame.list()
     #
-    lsd = agricolae::LSD.test(anova_result, iv, console = FALSE, p.adj=p.adj)
+    lsd = agricolae::LSD.test(anova_result, iv, console = FALSE, p.adj= p.adj)
     lsdlist = lsd$groups[[2]]
 
     duncan = agricolae::duncan.test(anova_result, iv, console = FALSE)
@@ -175,25 +173,17 @@ aov_table = function(data,
 
     result_df2 = result_df %>%
       mutate(p_value = format_number(p_value, n3 = 3, n1=5)) %>%
-      Round(digits, exclude = "p_value")%>%
+      # Round(digits, exclude = "p_value")%>%
       tibble::tibble()
 
     result_df2$p_value = as.numeric(result_df2$p_value)
-
 
     if(sig){
       result_df2 = result_df2 %>% mutate(sig = add_sig(p_value))
 
     }else{
       result_df2 = result_df2
-
     }
-
-
-
-
-
-
 
 
   }else{
@@ -204,24 +194,20 @@ aov_table = function(data,
     result_df = dplyr::distinct(result_df,
                                 iv, dv, levels, POSTHOCs,
                                 df1, df2, F_value, p_value)
-
-
-
-
     result_df2 = result_df %>%
       mutate(p_value = format_number(as.vector(p_value), n3 = 3, n1=5)) %>%
-      Round(digits, exclude = "p_value")%>%
+      # Round(digits, exclude = "p_value")%>%
       tibble::tibble()
 
 
     result_df2$p_value = as.numeric(result_df2$p_value)
 
-
-
     if(sig){
       result_df2 = result_df2 %>% mutate(sig = add_sig(p_value))
+
     }else{
       result_df2 = result_df2
+
     }
 
   }
@@ -241,7 +227,8 @@ aov_table = function(data,
 
     result_df2 = result_df1 %>%
       tidyr::unite(F_value, F_value, sig, sep="") %>%
-      Round(digits, exclude = "p_value") %>% tibble::tibble()
+      # Round(digits, exclude = "p_value") %>%
+      tibble::tibble()
 
 
   }else if(unite_p){
@@ -255,7 +242,7 @@ aov_table = function(data,
     # result_df1$F_value = round(result_df1$F_value , digits)
 
     result_df2 = result_df1 %>%
-      Round(digits, exclude = "p_value") %>%
+      # Round(digits, exclude = "p_value") %>%
       mutate(p_value = format_number(p_value, n3=2)) %>%
       tidyr::unite(p_value, p_value, sig, sep="") %>%
       tibble::tibble()
@@ -263,7 +250,6 @@ aov_table = function(data,
   }  # result_df2
   result_df2
 }
-
 
 
 
@@ -344,9 +330,7 @@ aov_df <- function(data,
                    p.adj= "bonferroni",
                    sig = FALSE
 ) {
-  # data: data.frame
-  # dv_var: Dependent variable column name (string)
-  # iv_vars: List of independent variable column names (string vector)
+
   if(!is.data.frame(data)){
     stop("you need input data.frame")
   }

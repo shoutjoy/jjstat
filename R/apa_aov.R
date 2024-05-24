@@ -21,20 +21,21 @@
 #'
 #' }
 #'
-anova_apa <- function(aov_post_data, md=FALSE) {
+anova_apa <- function(aov_post_data, np=7, ns=8, md=FALSE) {
   if(length(aov_post_data) == 8){
     stop("You shouldn't do it with 'type=contrast', do it with type='df'. do it! ")
   }
+
   data <- aov_post_data$contrast
 
-  aov_df = aov_post_data$aov
-  Fvalue= aov_df[1, 5]
-  pvalue = ifelse(aov_df[1, 6] < 0.001 ,
+  anova_dfs = aov_post_data$aov
+  Fvalue= anova_dfs[1, 5]
+  pvalue = ifelse(anova_dfs[1, 6] < 0.001 ,
                   "< .001).",
-                  paste0("= ",round( aov_df[1, 6],4),")." ))
+                  paste0("= ",round( anova_dfs[1, 6],4),")." ))
 
-  df1= aov_df[1, 2]
-  df2= aov_df[2, 2]
+  df1= anova_dfs[1, 2]
+  df2= anova_dfs[2, 2]
 
   form = aov_post_data$call
   iv  = form[2]
@@ -46,10 +47,10 @@ anova_apa <- function(aov_post_data, md=FALSE) {
   for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
     inter[i] <- paste0("가설",data[i, 1], "(", data[i, 2], ")",
                        "에 관한 차이", "분석 결과, 통계적으로",
-                       ifelse(data[i, 8] == "ns", " 유의미한 효과는 없었다",
+                       ifelse(data[i, ns] == "ns", " 유의미한 효과는 없었다",
                               " 유의미한 효과가 나타났다"),
                        "(est = ", round(data[i, 3], 3), ", p ",
-                       ifelse(data[i, 7]< 0.001,"< .001", paste0("= ", round(data[i, 7], 3))),
+                       ifelse(data[i, np]< 0.001,"< .001", paste0("= ", round(data[i, np], 3))),
                        "). \n"
     )
   }
@@ -70,6 +71,8 @@ anova_apa <- function(aov_post_data, md=FALSE) {
 #'
 #' @param aov_post_data aov_post data
 #' @param md md = TRUE is markdown outpput
+#' @param ns ncol sig column 7
+#' @param np ncol p  column 6
 #'
 #' @return report data
 #' @export
@@ -88,20 +91,22 @@ anova_apa <- function(aov_post_data, md=FALSE) {
 #'
 #' }
 #'
-aov_apa <- function(aov_post_data, md=FALSE) {
+aov_apa <- function(aov_post_data, ns=7, np=6, md=FALSE) {
   if(length(aov_post_data) == 8){
     stop("You shouldn't do it with 'type=contrast', do it with type='df'. do it! ")
   }
   data <- aov_post_data$contrast
 
-  aov_df = aov_post_data$aov
-  Fvalue= aov_df[1, 5]
-  pvalue = ifelse(aov_df[1, 6] < 0.001 ,
-                  "< .001).",
-                  paste0("= ",round( aov_df[1, 6],4),")." ))
+  anova_dfs = aov_post_data$aov
 
-  df1= aov_df[1, 2]
-  df2= aov_df[2, 2]
+  Fvalue= anova_dfs[1, 5]
+
+  pvalue = ifelse(anova_dfs[1, 6] < 0.001 ,
+                  "< .001).",
+                  paste0("= ",round( anova_dfs[1, 6],4),")." ))
+
+  df1= anova_dfs[1, 2]
+  df2= anova_dfs[2, 2]
 
   form = aov_post_data$call
   iv  = form[2]
@@ -113,10 +118,10 @@ aov_apa <- function(aov_post_data, md=FALSE) {
   for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
     inter[i] <- paste0("가설",data[i, 1], "(", data[i, 2], ")",
                        "에 관한 차이", "분석 결과, 통계적으로",
-                       ifelse(data[i, 8] == "ns", " 유의미한 효과는 없었다",
+                       ifelse(data[i, ns] == "ns", " 유의미한 효과는 없었다",
                               " 유의미한 효과가 나타났다"),
                        "(est = ", round(data[i, 3], 3), ", p ",
-                       ifelse(data[i, 7]< 0.001,"< .001", paste0("= ", round(data[i, 7], 3))),
+                       ifelse(data[i, np]< 0.001,"< .001", paste0("= ", round(data[i, np], 3))),
                        ")."
     )
   }

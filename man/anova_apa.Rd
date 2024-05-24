@@ -4,7 +4,7 @@
 \alias{anova_apa}
 \title{Report aov data (format APA)}
 \usage{
-anova_apa(aov_post_data, md = FALSE)
+anova_apa(aov_post_data, np = 7, ns = 8, md = FALSE)
 }
 \arguments{
 \item{aov_post_data}{aov_post data}

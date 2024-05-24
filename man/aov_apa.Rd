@@ -4,10 +4,14 @@
 \alias{aov_apa}
 \title{Report aov data (format APA)}
 \usage{
-aov_apa(aov_post_data, md = FALSE)
+aov_apa(aov_post_data, ns = 7, np = 6, md = FALSE)
 }
 \arguments{
 \item{aov_post_data}{aov_post data}
+
+\item{ns}{ncol sig column 7}
+
+\item{np}{ncol p  column 6}
 
 \item{md}{md = TRUE is markdown outpput}
 }
