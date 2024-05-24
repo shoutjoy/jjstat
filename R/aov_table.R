@@ -253,9 +253,22 @@ aov_table <- function(data,
 
 
 
-
-
-
+#' aov_rename
+#'
+#' @param data data
+#'
+#' @return result
+#' @export
+#'
+aov_rename = function(data){
+  data = data %>%rename(
+    독립변수 = iv, 종속변수= dv,
+    수준=level, 평균 = Mean,
+    사후분석= POSTHOC,
+    F = F_value, p = p_value
+  )
+  data.frame(data)
+}
 
 
 
