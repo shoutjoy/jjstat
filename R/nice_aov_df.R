@@ -29,7 +29,7 @@
 #'
 #'
 #' }
-nice_aov_df <- function(df, show=TRUE, digits = 2) {
+nice_aov_df <- function(df, show=TRUE, tibble=FALSE, digits = 2) {
   # Convert all columns to character to avoid factor issues
   df= df%>%Round(digits=digits, type="data.frame")
   df[] <- lapply(df, as.character)
@@ -61,9 +61,14 @@ nice_aov_df <- function(df, show=TRUE, digits = 2) {
 
   # Ease of use, used when passing
   if(show){
-    return(result_df)
+    if(tibble){
+      return(tibble::tibble(result_df))
+    }else{
+      return(result_df)
+    }
+
   }else{
-    df
+     tibble::tibble(df)%>%pall()
   }
 
 
