@@ -5,17 +5,17 @@
 \title{plspm path create}
 \usage{
 plspm_paths(
-  rownames = c("r1", "r2", "r3"),
-  colnames = NULL,
+  row_names = c("r1", "r2", "r3"),
+  col_names = NULL,
   relationship = NULL
 )
 }
 \arguments{
+\item{relationship}{input path}
+
 \item{rownames}{rowname}
 
 \item{colnames}{colname}
-
-\item{relationship}{input path}
 }
 \value{
 matrix

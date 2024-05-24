@@ -55,8 +55,8 @@ path <- function(from, to) {
 #' edu_path
 #'
 #' }
-plspm_paths <- function(rownames = c("r1","r2","r3"),
-                        colnames = NULL,
+plspm_paths <- function(row_names = c("r1","r2","r3"),
+                        col_names = NULL,
                         relationship = NULL) {
 
   if(is.null(col_names)){

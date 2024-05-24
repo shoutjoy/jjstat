@@ -49,6 +49,9 @@ models1 <- '
     y4 ~~ y8
     y6 ~~ y8
 
+fits1 <- sem(models1, data=PoliticalDemocracy)
+
+
 models2 ='
   # measurement model
     ind60 =~ x1 + x2 + x3
@@ -62,11 +65,8 @@ models2 ='
    te := a2 +a1*a3
    diff := a1 - a3
 
-
-
-
-fits1 <- sem(models1, data=PoliticalDemocracy)
 fits2 <- sem(models2, data=PoliticalDemocracy)
+
 summary(fits1, standardized=TRUE)
 summary(fits2, standardized=TRUE)
 fits2 \%>\% sem_effect_ie()

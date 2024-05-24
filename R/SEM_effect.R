@@ -69,6 +69,7 @@ DE_effect = function(model_sem, effect = "~", effect2= NULL){
 
   res0 = parameterEstimates(model_sem, ci=F, stand=T)
   arrow = ifelse(effect=="~"," -> ",
+
                  ifelse(effect== "=~"," <- ",
                         ifelse (effect== "~~"," ~~ ",
                                 ifelse(effect == ":=", ": ","") ) ))
@@ -85,8 +86,7 @@ DE_effect = function(model_sem, effect = "~", effect2= NULL){
         filter(op %in% c(effect) ) %>%
         unite(Path, rhs, lhs, sep = arrow) %>%
         select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        p_mark_sig("pvalue")
 
       res = res1
 
@@ -95,15 +95,13 @@ DE_effect = function(model_sem, effect = "~", effect2= NULL){
         filter(op %in% c(effect) ) %>%
         unite(Path, rhs, lhs, sep = arrow) %>%
         select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        p_mark_sig("pvalue")
 
       res2 = res0 %>%
         filter(op %in% c(effect2) ) %>%
         unite(Path, rhs, lhs, sep = arrow2) %>%
         select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        p_mark_sig("pvalue")
 
       res = bind_rows(res1, res2 )
     }
@@ -115,9 +113,7 @@ DE_effect = function(model_sem, effect = "~", effect2= NULL){
         filter(op %in% c(effect) ) %>%
         unite(Path, rhs, lhs, sep = arrow) %>%
         select(Path,  est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
-
+        p_mark_sig("pvalue")
       res = res1
 
     }else{
@@ -132,8 +128,7 @@ DE_effect = function(model_sem, effect = "~", effect2= NULL){
         filter(op %in% c(effect2) ) %>%
         unite(Path, rhs, lhs, sep = arrow2) %>%
         select(Path,  est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        p_mark_sig("pvalue")
 
       res = bind_rows(res1, res2 )
     }
@@ -232,9 +227,8 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
       res1 = res0 %>%
         filter(op %in% c(effect) ) %>%
         unite(Path, rhs, lhs, sep = arrow) %>%
-        select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        dplyr::select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
+        p_mark_sig("pvalue")
 
       res = res1
 
@@ -242,16 +236,14 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
       res1 = res0 %>%
         filter(op %in% c(effect) ) %>%
         unite(Path, rhs, lhs, sep = arrow) %>%
-        select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        dplyr::select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
+        p_mark_sig("pvalue")
 
       res2 = res0 %>%
         filter(op %in% c(effect2) ) %>%
         unite(Path, rhs, lhs, sep = arrow2) %>%
-        select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        dplyr::select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
+        p_mark_sig("pvalue")
 
       res = bind_rows(res1, res2 )
     }
@@ -262,9 +254,8 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
       res1 = res0 %>%
         filter(op %in% c(effect) ) %>%
         unite(Path, rhs, lhs, sep = arrow) %>%
-        select(Path,  est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        dplyr::select(Path,  est, "std" = std.all, se, z, pvalue) %>%
+        p_mark_sig("pvalue")
 
       res = res1
 
@@ -272,22 +263,21 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
       res1 = res0 %>%
         filter(op %in% c(effect) ) %>%
         unite(Path, rhs, lhs, sep = arrow) %>%
-        select(Path, est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        dplyr::select(Path, est, "std" = std.all, se, z, pvalue) %>%
+        p_mark_sig("pvalue")
 
       res2 = res0 %>%
         filter(op %in% c(effect2) ) %>%
         unite(Path, rhs, lhs, sep = arrow2) %>%
-        select(Path,  est, "std" = std.all, se, z, pvalue) %>%
-        p_mark_sig("pvalue") %>%
-        select(-vars)
+        dplyr::select(Path,  est, "std" = std.all, se, z, pvalue) %>%
+        p_mark_sig("pvalue")
 
       res = bind_rows(res1, res2 )
     }
   }
   return(res)
 }
+
 
 
 
@@ -324,6 +314,9 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
 #'     y4 ~~ y8
 #'     y6 ~~ y8
 #'
+#' fits1 <- sem(models1, data=PoliticalDemocracy)
+#'
+#'
 #' models2 ='
 #'   # measurement model
 #'     ind60 =~ x1 + x2 + x3
@@ -337,11 +330,8 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
 #'    te := a2 +a1*a3
 #'    diff := a1 - a3
 #'
-#'
-#'
-#'
-#' fits1 <- sem(models1, data=PoliticalDemocracy)
 #' fits2 <- sem(models2, data=PoliticalDemocracy)
+#'
 #' summary(fits1, standardized=TRUE)
 #' summary(fits2, standardized=TRUE)
 #' fits2 %>% sem_effect_ie()
@@ -356,7 +346,7 @@ sem_effect_ci = function(model_sem,
   if(ci){
     res = res%>%select("Path"=lhs, rhs, est, "std"= std.all,
                        se, z, pvalue, ci.lower, ci.upper)%>%
-      p_mark_sig("pvalue" )%>%select(-vars,-se, -pvalue)%>%
+      p_mark_sig("pvalue" )%>%select(-se, -pvalue)%>%
       Round(3)%>%
       unite(CI_95, ci.lower, ci.upper, sep=", ")%>%
       unite(z, z, sig, sep=" ")%>%
@@ -365,7 +355,7 @@ sem_effect_ci = function(model_sem,
 
   }else{
     res = res%>%select("Path"=lhs, rhs, est, "std"= std.all, se, z, pvalue)%>%
-      p_mark_sig("pvalue") %>%select(-vars)
+      p_mark_sig("pvalue")
   }
 
 
