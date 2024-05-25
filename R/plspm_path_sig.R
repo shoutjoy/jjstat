@@ -11,6 +11,8 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(plspm)
+#' data(satisfaction)
 #'
 #' # path matrix
 #' IMAG = c(0,0,0,0,0,0)
@@ -23,19 +25,20 @@
 #'
 #' # blocks of outer model
 #' sat_blocks = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
+#' sat_mod=c(rep("A", ncol(sat_path)))
 #' # apply plspm
 #' satpls = plspm(satisfaction, sat_path, sat_blocks, modes = sat_mod,
 #'                scaled = FALSE)
 #'
 #' #default
-#' satpls%>%innermodel_sig()
-#' satpls$inner_model %>%innermodel_sig()
+#' satpls%>%plspm_paths_sig()
+#' satpls$inner_model %>%plspm_paths_sig()
 #'
-#' satpls %>%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
+#' satpls %>%plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
 #' satpls$inner_model  %>%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
 #'
-#' satpls %>%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
-#' satpls$inner_model %>%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
+#' satpls %>%plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
+#' satpls$inner_model %>%plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
 #'
 #' #'
 #' }
@@ -70,6 +73,7 @@ plspm_paths_sig <- function(data, unite=TRUE, rhs ="endo", lhs ="exo") {
   }
 
   colnames(df) <- c("endo", "exo", "Est", "SE", "t", "p.value")
+
   if(unite){
     df = df%>%filter(exo !="Intercept") %>%
       p_mark_sig(unite=TRUE, unite_col="Est", ns="")%>%

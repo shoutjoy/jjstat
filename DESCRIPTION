@@ -30,5 +30,6 @@ Depends:
     tidyverse,
     lavaan,
     broom,
+    plspm,
     R (>= 2.10),
 

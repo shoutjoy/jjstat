@@ -5,8 +5,6 @@
 \title{Function to create blocks------------}
 \usage{
 plspm_blocks(..., dataset = NULL, output = "match")
-
-plspm_blocks(..., dataset = NULL, output = "match")
 }
 \arguments{
 \item{...}{list data}
@@ -17,18 +15,14 @@ plspm_blocks(..., dataset = NULL, output = "match")
 }
 \value{
 list blocks
-
-list blocks
 }
 \description{
-Function to create blocks------------
-
 Function to create blocks------------
 }
 \examples{
 
 \dontrun{
-edu_blocks_named2 <- blocks(
+edu_blocks_named2 <- plspm_blocks(
   Support = item(1:4),
   Advising = item(5:8),
   Tutoring= item( 9:12),
@@ -39,34 +33,7 @@ edu_blocks_named2 <- blocks(
 edu_blocks_named2
 
 # # Example usage
-edu_blocks_named1 <- blocks(
-  Support = item("sup.help", "sup.under", "sup.safe", "sup.conc"),
-  Advising = item("adv.comp", "adv.acces", "adv.comm", "adv.qual"),
-  Tutoring = item("tut.prof", "tut.sched", "tut.stud", "tut.qual"),
-  Value = item("val.devel", "val.deci", "val.meet", "val.info"),
-  Satisfaction = item("sat.glad", "sat.expe", "sat.over"),
-  Loyalty = item("loy.proud", "loy.recom", "loy.asha", "loy.back"),
-  dataset = education , # Provide your dataset here
-  output = "match_colnames"
-)
-
-
-}
-
-
-\dontrun{
-edu_blocks_named2 <- blocks(
-  Support = item(1:4),
-  Advising = item(5:8),
-  Tutoring= item( 9:12),
-  Value = item(13:16),
-  Satisfaction = item(17:19),
-  Loyalty =item(20:23),
-  output = "match_colnames"
-edu_blocks_named2
-
-# # Example usage
-edu_blocks_named1 <- blocks(
+edu_blocks_named1 <- plspm_blocks(
   Support = item("sup.help", "sup.under", "sup.safe", "sup.conc"),
   Advising = item("adv.comp", "adv.acces", "adv.comm", "adv.qual"),
   Tutoring = item("tut.prof", "tut.sched", "tut.stud", "tut.qual"),
