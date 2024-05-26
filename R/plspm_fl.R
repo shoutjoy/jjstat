@@ -7,7 +7,7 @@
 #'
 #' @examples
 #'
-#' \donrun{
+#' \dontrun{
 #'
 #' data(satisfaction)
 #' #model 1

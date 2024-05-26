@@ -143,73 +143,86 @@ plspm_innermodel_plot <- function(plsdata,
                                   layout = "spring",
                                   fade = FALSE,
                                   node = FALSE,
-                                  border.width=1.5,
-                                  border.color="gray30",
+                                  border.width = 1.5,
+                                  border.color = "gray90",
                                   edge.label.cex = 1,
-                                  edge.label.position = 0.5,
-                                  asize=3,
+                                  edge.label.position = 0.6,
+                                  asize = 4,
                                   vsize = 8,#
                                   esize = 10,#
-                                  edge_labels_sig= TRUE,
-                                  posCol="gray20",
+                                  edge_labels_sig = TRUE,
+                                  posCol = "gray20",
                                   negCol = "red",
-                                  shape="circle",
+                                  shape = "circle",
                                   grp = TRUE,
-                                  groups=NULL,
-                                  pastel= 'pastel',
-                                  trans=TRUE) {
+                                  groups = NULL,
+                                  pastel = 'pastel',
+                                  trans = TRUE) {
   # Check if data inherits from 'plspm'
-  data = plsdata
-
-  if (inherits(data, "plspm")) {
-    data <- data[["path_coefs"]]
+  if(length(plsdata) == 13){
+    pathdata =  plsdata$path_coefs
+  }else{
+    #Cannot get the innermodel value in this case.
+    pathdata = plsdata
   }
-
   # Generate edge labels
   if(edge_labels_sig){
-    edge_data <- plsdata[["inner_model"]]
-    edge_labels = plspm_edge_values(edge_data)
-  }else{
-    edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(data)),
-                          nrow = nrow(t(data)),
-                          ncol = ncol(t(data)))
-  }
+    if(length(plsdata) != 13){
+      # If you entered path_coefs
+      edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(pathdata)),
+                            nrow = nrow(t(pathdata)),
+                            ncol = ncol(t(pathdata)))
+      cat("\n\nTo indicate the significance of a path, enter the full PLSPM data \n\n")
+    }else{
+      # This value should get the inner_model value from the full value.
+      edge_data <- plsdata$inner_model
+      edge_labels = plspm_edge_values(edge_data)
+      # Converting to a data conversion factor value
+    }
 
+  }else{
+    edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(pathdata)),
+                          nrow = nrow(t(pathdata)),
+                          ncol = ncol(t(pathdata)))
+  }
 
   #matrix transpose
   if(trans){
-    data = t(data)
+    pathdata = t(pathdata)
   }else{
-    data= data
+    pathdata= pathdata
   }
+
   # full nodename
   if(node){
-    nodeNames = colnames(data) %>%unlist()%>%as.character()
+    nodeNames = colnames(pathdata) %>%unlist()%>%as.character()
   }else{
     nodeNames = NULL
   }
 
+  # groups
   if(grp){
-    groups = colnames(data)
+    groups = colnames(pathdata)
   }
+
   # Plot using qgraph
-  qgraph(data,
-         layout = layout,
-         posCol = posCol,
-         negCol = negCol,
-         fade = fade,
-         border.width = border.width,
-         border.color = border.color,
-         shape = shape,
-         edge.labels = edge_labels,
-         asize = asize,
-         vsize = vsize,
-         esize = esize,
-         nodeNames=nodeNames,
-         edge.label.cex = edge.label.cex,
-         edge.label.position = edge.label.position,
-         groups = groups,
-         palette = pastel)
+  qgraph::qgraph(pathdata,
+                 layout = layout,
+                 posCol = posCol,
+                 negCol = negCol,
+                 fade = fade,
+                 border.width = border.width,
+                 border.color = border.color,
+                 shape = shape,
+                 edge.labels = edge_labels,
+                 asize = asize,
+                 vsize = vsize,
+                 esize = esize,
+                 nodeNames = nodeNames,
+                 edge.label.cex = edge.label.cex,
+                 edge.label.position = edge.label.position,
+                 groups = groups,
+                 palette = pastel)
 
 }
 

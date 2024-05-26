@@ -17,7 +17,7 @@ Fornell and Locker 1981 method, discrimninat validation
 }
 \examples{
 
-\donrun{
+\dontrun{
 
 data(satisfaction)
 #model 1
