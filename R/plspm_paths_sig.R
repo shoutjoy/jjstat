@@ -4,6 +4,7 @@
 #' @param unite TRUE
 #' @param rhs from
 #' @param lhs to
+#' @param digits round 3
 #'
 #' @return data result
 #'
@@ -43,7 +44,7 @@
 #' #'
 #' }
 #'
-plspm_paths_sig <- function(data, unite=TRUE, rhs ="endo", lhs ="exo") {
+plspm_paths_sig <- function(data, unite=FALSE, rhs ="endo", lhs ="exo",digits=3) {
   # Check if data inherits from 'plspm'
   if (inherits(data, "plspm")) {
     data <- data[["inner_model"]]
@@ -69,25 +70,27 @@ plspm_paths_sig <- function(data, unite=TRUE, rhs ="endo", lhs ="exo") {
                          `Pr(>|t|)` = values[, "Pr(>|t|)"])
 
     # Append the new dataframe to the main dataframe
-    df <- rbind(df, new_df)%>%tibble()
+    df <- rbind(df, new_df)%>%Round(digits)
   }
 
   colnames(df) <- c("endo", "exo", "Est", "SE", "t", "p.value")
 
   if(unite){
-    df = df%>%filter(exo !="Intercept") %>%
+    df = df%>% dplyr::filter(exo !="Intercept") %>%
       p_mark_sig(unite=TRUE, unite_col="Est", ns="")%>%
-      unite(Path, exo, endo, sep=" -> ") %>%
-      mutate(p.value = ifelse(p.value< 0.001, "<.001",p.value))
-  }else{
-    df = df%>%filter(exo !="Intercept") %>%
-      p_mark_sig(unite=TRUE, unite_col="Est", ns="")%>%
-      # unite(Path, exo, endo, sep=" -> ") %>%
-      mutate(p.value = ifelse(p.value< 0.001, "<.001",p.value))
+      tidyr::unite(Path, exo, endo, sep=" -> ") %>%
+      dplyr::mutate(p.value = ifelse(p.value< 0.001, "<.001",p.value))
 
-    df = df %>%rename(!!rhs := endo, !!lhs := exo)
+  }else{
+    df = df%>% dplyr::filter(exo !="Intercept") %>%
+      p_mark_sig(unite=FALSE, unite_col="Est")%>%
+      # unite(Path, exo, endo, sep=" -> ") %>%
+      dplyr::mutate(p.value = ifelse(p.value< 0.001, "<.001", round(p.value, digits )))
+
+    df = df %>%dplyr::rename(!!rhs := endo, !!lhs := exo) %>%data.frame()
     # colnames(df)[1] <- endo
     # colnames(df)[2] <- exo
   }
   return(df)
 }
+

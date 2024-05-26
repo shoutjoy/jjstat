@@ -96,10 +96,10 @@
 #' outerplot(satpls, what = "loadings")
 #'
 #' }
-plspm_sem = function(Data, path_matrix, blocks, modes = NULL,
+plspm_sem = function(Data, path_matrix, blocks, modes = rep("A",ncol(path_matrix)),
                      scaling = NULL, scheme = "centroid", scaled = TRUE,
                      tol = 1e-06, maxiter = 100, plscomp = NULL,
-                     boot.val = FALSE, br = NULL, dataset = TRUE, summary=TRUE){
+                     boot.val = TRUE, br = 100, dataset = TRUE, summary=TRUE){
 
   #using plspm
   res =  plspm::plspm(Data = Data, path_matrix = path_matrix,

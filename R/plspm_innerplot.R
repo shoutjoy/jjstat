@@ -40,7 +40,7 @@
 #' LOY = c(1,0,0,0,1,0)
 #' sat_path = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
 #'
-#' sat_path%>%inner_plot()
+#' sat_path%>%plspm_innerplot()
 #' #'
 #' path1 = plspm_path(
 #'   row_names = c("IMAG","EXPE","QUAL","VAL","SAT","LOY"),
@@ -54,7 +54,7 @@
 #'   )
 #' )
 #' path1
-#' path1%>%inner_plot()
+#' path1%>%plspm_innerplot()
 #'
 #' #'
 #' model1 = "
@@ -66,7 +66,25 @@
 #' "
 #' # Generate the matrix
 #' lavpath = plspm_lav2path(model1)
-#' lavpath%>%inner_plot()
+#'
+#'
+#' lavpath%>%plspm_innerplot()
+#'
+#' #color
+#' sat_path %>%plspm_innerplot(groups=1:6)
+#'
+#'
+#'
+#' lay_p = matrix(c('IMA', NA, NA, NA, NA, NA, NA, NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'EXP', NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'QUA',
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, 'VAL', NA, NA, NA, NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'SAT', NA, NA, NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'LOY',
+#'                  NA, NA, NA, NA, NA, NA, NA, NA),
+#'                nrow = 10, ncol = 10, byrow = FALSE)
+#' lay_p
 #' #'
 #' #'
 #' }

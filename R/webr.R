@@ -6,6 +6,7 @@
 #' @param border_width 1
 #' @param border_color "gray"
 #' @param file file = "output.html"
+#' @param show TRUE: web FALSE" console
 #'
 #' @return web
 #' @export
@@ -19,7 +20,7 @@
 #' webr(mtcars, font_size=20)
 #' }
 #'
-webr <- function(data, digits = 3, font_size = 14, border_width = 1, border_color = "#ccc", file = "output.html") {
+webr <- function(data,show= TRUE, digits = 3, font_size = 18, border_width = 1, border_color = "#ccc", file = "output.html") {
   # 데이터프레임 확인
   if (!is.data.frame(data)) {
     stop("data must be a data frame")
@@ -69,5 +70,12 @@ webr <- function(data, digits = 3, font_size = 14, border_width = 1, border_colo
   # 임시 HTML 파일 생성 및 열기
   temp_file <- tempfile(fileext = ".html")
   writeLines(html_content, temp_file)
+
+if(show){
   browseURL(temp_file)
+}else{
+    data
+  }
+
+
 }

@@ -6,8 +6,9 @@
 \usage{
 webr(
   data,
+  show = TRUE,
   digits = 3,
-  font_size = 14,
+  font_size = 18,
   border_width = 1,
   border_color = "#ccc",
   file = "output.html"
@@ -15,6 +16,8 @@ webr(
 }
 \arguments{
 \item{data}{data.frame}
+
+\item{show}{TRUE: web FALSE" console}
 
 \item{digits}{round 3}
 

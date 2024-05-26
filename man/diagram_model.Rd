@@ -10,7 +10,7 @@ diagram_model(
   whatLabels = "model",
   rotation = 2,
   residScale = 12,
-  layout = "tree",
+  layout = "tree2",
   edge.label.cex = 1,
   edge.label.position = 0.5,
   sizeMan = 8,

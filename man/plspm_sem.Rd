@@ -8,15 +8,15 @@ plspm_sem(
   Data,
   path_matrix,
   blocks,
-  modes = NULL,
+  modes = rep("A", ncol(path_matrix)),
   scaling = NULL,
   scheme = "centroid",
   scaled = TRUE,
   tol = 1e-06,
   maxiter = 100,
   plscomp = NULL,
-  boot.val = FALSE,
-  br = NULL,
+  boot.val = TRUE,
+  br = 100,
   dataset = TRUE,
   summary = TRUE
 )

@@ -57,7 +57,7 @@ chisq_test_cell <- function(data,type="res", trans = FALSE, plot=TRUE,  digits=3
   # # Mark values based on thresholds
   markers[abs(stdres) >= 1.96] <- "*"
   markers[abs(stdres) >= 2.58] <- "**"
-  markers[abs(stdres) >= 3.09] <- "***"
+  markers[abs(stdres) >= 3.29] <- "***"
 
   # # Combine stdres and markers
   chisq_sig <- combine_data(round(chisq_cell, digits), markers,"")
