@@ -9,15 +9,19 @@ plspm_innermodel_plot(
   digits = 3,
   layout = "spring",
   fade = FALSE,
+  node = FALSE,
   border.width = 1.5,
   border.color = "gray30",
   edge.label.cex = 1,
   edge.label.position = 0.5,
   asize = 3,
+  vsize = 8,
+  esize = 10,
   edge_labels_sig = TRUE,
   posCol = "gray20",
   negCol = "red",
   shape = "circle",
+  grp = TRUE,
   groups = NULL,
   pastel = "pastel",
   trans = TRUE
@@ -30,6 +34,8 @@ plspm_innermodel_plot(
 
 \item{fade}{FALSE}
 
+\item{node}{nodeNames legeng when node =TRUE}
+
 \item{border.width}{1.5}
 
 \item{border.color}{gray30}
@@ -38,7 +44,11 @@ plspm_innermodel_plot(
 
 \item{edge.label.position}{0.5}
 
-\item{asize}{3}
+\item{asize}{3 arrow size}
+
+\item{vsize}{8 nodesixe}
+
+\item{esize}{10 edgesize}
 
 \item{edge_labels_sig}{Tedge_labels_sig= TRUE add sig star}
 
@@ -47,6 +57,8 @@ plspm_innermodel_plot(
 \item{negCol}{red}
 
 \item{shape}{cicle}
+
+\item{grp}{groups on T}
 
 \item{groups}{NULL}
 
@@ -155,9 +167,12 @@ satpls \%>\% plspm_innermodel_plot(layout=lay_p, edge.label.position = 0.6,
 
 # various type
 satpls \%>\% plspm_innermodel_plot()
+satpls \%>\% plspm_innermodel_plot(node =TRUE)
 
 satpls \%>\% plspm_innermodel_plot(layout=lay_p, edge.label.position = 0.6,
                                  border.color="gray99", groups=1:6)
+satpls \%>\% plspm_innermodel_plot(layout=lay_p, edge.label.position = 0.6,
+                                 border.color="gray99", groups=1:6, node=TRUE)
 
 satpls \%>\% plspm_innermodel_plot(shape="square", layout=lay_p,
                                  edge.label.position = 0.6)

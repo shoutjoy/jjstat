@@ -4,16 +4,20 @@
 #' @param digits 3
 #' @param layout default spring
 #' @param fade FALSE
+#' @param node nodeNames legeng when node =TRUE
 #' @param border.width 1.5
 #' @param border.color  gray30
 #' @param edge.label.cex  1
 #' @param edge.label.position 0.5
 #' @param edge_labels_sig Tedge_labels_sig= TRUE add sig star
-#' @param asize 3
+#' @param asize 3 arrow size
+#' @param vsize 8 nodesixe
+#' @param esize 10 edgesize
 #' @param posCol gray20
 #' @param negCol red
 #' @param shape cicle
 #' @param groups NULL
+#' @param grp groups on T
 #' @param pastel pastel
 #' @param trans true
 #'
@@ -113,9 +117,12 @@
 #'
 #' # various type
 #' satpls %>% plspm_innermodel_plot()
+#' satpls %>% plspm_innermodel_plot(node =TRUE)
 #'
 #' satpls %>% plspm_innermodel_plot(layout=lay_p, edge.label.position = 0.6,
 #'                                  border.color="gray99", groups=1:6)
+#' satpls %>% plspm_innermodel_plot(layout=lay_p, edge.label.position = 0.6,
+#'                                  border.color="gray99", groups=1:6, node=TRUE)
 #'
 #' satpls %>% plspm_innermodel_plot(shape="square", layout=lay_p,
 #'                                  edge.label.position = 0.6)
@@ -126,24 +133,27 @@ plspm_innermodel_plot <- function(plsdata,
                                   digits = 3,
                                   layout = "spring",
                                   fade = FALSE,
+                                  node = FALSE,
                                   border.width=1.5,
                                   border.color="gray30",
                                   edge.label.cex = 1,
                                   edge.label.position = 0.5,
                                   asize=3,
+                                  vsize = 8,#
+                                  esize = 10,#
                                   edge_labels_sig= TRUE,
                                   posCol="gray20",
                                   negCol = "red",
                                   shape="circle",
-                                  groups = NULL, pastel= 'pastel',
+                                  grp = TRUE,
+                                  groups=NULL,
+                                  pastel= 'pastel',
                                   trans=TRUE) {
   # Check if data inherits from 'plspm'
   data = plsdata
 
   if (inherits(data, "plspm")) {
     data <- data[["path_coefs"]]
-
-
   }
 
   # Generate edge labels
@@ -156,10 +166,22 @@ plspm_innermodel_plot <- function(plsdata,
                           ncol = ncol(t(data)))
   }
 
+
+  #matrix transpose
   if(trans){
     data = t(data)
   }else{
     data= data
+  }
+  # full nodename
+  if(node){
+    nodeNames = colnames(data) %>%unlist()%>%as.character()
+  }else{
+    nodeNames = NULL
+  }
+
+  if(grp){
+    groups = colnames(data)
   }
   # Plot using qgraph
   qgraph(data,
@@ -172,14 +194,15 @@ plspm_innermodel_plot <- function(plsdata,
          shape = shape,
          edge.labels = edge_labels,
          asize = asize,
+         vsize = vsize,
+         esize = esize,
+         nodeNames=nodeNames,
          edge.label.cex = edge.label.cex,
          edge.label.position = edge.label.position,
          groups = groups,
          palette = pastel)
-  # edge_labels
+
 }
-
-
 
 
 

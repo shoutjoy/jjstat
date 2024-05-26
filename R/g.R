@@ -131,7 +131,8 @@ gtl <- function (text = "hi.",
                 "\n",
                 "Translate result:\n\n",
                 translate= result)
-    cat(res,"\n\n")
+    return(res)
+    cat("\n\n")
     # res
   }
 
