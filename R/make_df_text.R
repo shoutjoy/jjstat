@@ -3,6 +3,7 @@
 #' @param data data.frame
 #' @param rownames rownames=TRUE, FALSE -> nothing rownames
 #' @param text Convert all configurations to char, e.g. '10'
+#' @param col_text columns to be used as letters, the rest as numeric
 #'
 #' @return text
 #' @export
@@ -26,23 +27,23 @@
 #' }
 #'
 
-make_df_text <- function(data, rownames = FALSE, text = TRUE) {
-  # 데이터프레임으로 변환
+make_df_text <- function(data, rownames = FALSE, text = TRUE, col_text=1) {
+  # Convert to dataframes
   data <- as.data.frame(data)
 
-  # 데이터프레임의 칼럼 이름 가져오기
+  # Get column names for a dataframe
   col_names <- names(data)
 
-  # 데이터프레임에 데이터가 있는지 확인
+  # Verify that data exists in the dataframe
   if (nrow(data) == 0) {
     cat("Data frame is empty.\n")
     return()
   }
 
   # 텍스트로 변환
-  df_text <- "New = data.frame("
+  df_text <- "New_df = data.frame("
 
-  # rownames 옵션에 따라 처리
+  # Enter row names as characters based on rownames option
   if (rownames) {
     if (!is.null(rownames(data))) {
       df_text <- paste(df_text, "row.names = c(",
@@ -51,37 +52,45 @@ make_df_text <- function(data, rownames = FALSE, text = TRUE) {
     }
   }
 
-  if(text){
+  if(text){ # Convert all data to text
     for (col in col_names) {
       df_text <- paste(df_text, col, " = c(", sep = "")
       for (i in 1:nrow(data)) {
         if (is.na(data[i, col])) {
           df_text <- paste(df_text, "NA, ", sep = "")
         } else {
-          df_text <- paste(df_text, "'", data[i, col], "', ", sep = "")
+          df_text <- paste(df_text, "'", data[i, col], "', ", sep = "") #Quotation marks
         }
       }
-      df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
+      df_text <- sub(", $", "", df_text)  # Remove the last comma and space
       df_text <- paste(df_text, "),\n ", sep = "")
     }
-
   }else{
-    for (col in col_names) {
+
+    for (col_index in 1:length(col_names)) {
+      col <- col_names[col_index]
       df_text <- paste(df_text, col, " = c(", sep = "")
+
+
       for (i in 1:nrow(data)) {
         if (is.na(data[i, col])) {
           df_text <- paste(df_text, "NA, ", sep = "")
         } else {
-          df_text <- paste(df_text, data[i, col], ", ", sep = "")
+          # Convert selected columns to letters The rest are numeric
+          if (col_index == col_text) {
+            df_text <- paste(df_text, "'", data[i, col], "', ", sep = "")
+            # quotes in first column only
+          } else {
+            df_text <- paste(df_text, data[i, col], ", ", sep = "")
+          }
         }
       }
+
       df_text <- sub(", $", "", df_text)  # 마지막 쉼표와 공백 제거
       df_text <- paste(df_text, "),\n ", sep = "")
     }
 
   }
-
-
   df_text <- sub(",\n $", "\n", df_text)  # 마지막 쉼표와 줄바꿈 제거
   df_text <- paste(df_text, ")\n", sep = "")
 

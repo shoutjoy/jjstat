@@ -127,6 +127,15 @@
 #' satpls %>% plspm_innermodel_plot(shape="square", layout=lay_p,
 #'                                  edge.label.position = 0.6)
 #'
+#'
+#'
+#' satpls %>% plspm_innermodel_plot()
+#' satpls %>% plspm_innermodel_plot(node =TRUE)
+#' satpls %>% plspm_innermodel_plot(grp=FALSE)
+#' satpls %>% plspm_innermodel_plot(node = FALSE,grp=TRUE)
+#' satpls %>% plspm_innermodel_plot(node = TRUE,grp=FALSE)
+#' satpls %>% plspm_innermodel_plot(node = FALSE,grp=FALSE)
+#' satpls %>% plspm_innermodel_plot(node = TRUE,grp=TRUE)
 #' #'
 #' }
 plspm_innermodel_plot <- function(plsdata,

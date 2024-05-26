@@ -4,7 +4,7 @@
 \alias{make_df_text}
 \title{data.frame to input text}
 \usage{
-make_df_text(data, rownames = FALSE, text = TRUE)
+make_df_text(data, rownames = FALSE, text = TRUE, col_text = 1)
 }
 \arguments{
 \item{data}{data.frame}
@@ -12,6 +12,8 @@ make_df_text(data, rownames = FALSE, text = TRUE)
 \item{rownames}{rownames=TRUE, FALSE -> nothing rownames}
 
 \item{text}{Convert all configurations to char, e.g. '10'}
+
+\item{col_text}{columns to be used as letters, the rest as numeric}
 }
 \value{
 text
