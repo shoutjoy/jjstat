@@ -74,9 +74,11 @@ plspm_blocks <- function(..., dataset = NULL,
     # If items are character and output is "match", keep them as is
     if (is_char && output == "match") {
       combined_blocks[[names_list[i]]] <- current_block
+
     } else if (is_numeric && output == "match") {
          # If items are numeric and output is "match", convert to numeric
       combined_blocks[[names_list[i]]] <- as.numeric(current_block)
+
     } else if (output == "match_colnames") {
         # If output is "match_colnames", match items with column names
       # Check if current_block is numeric and retrieve column names from dataset
@@ -86,6 +88,7 @@ plspm_blocks <- function(..., dataset = NULL,
       # Keep only the column names that exist in the dataset
       current_block <- current_block[current_block %in% colnames(dataset)]
       combined_blocks[[names_list[i]]] <- current_block
+
     } else {
       # If items are mixed or output is not "match_colnames", convert to numeric
       current_block <- as.numeric(current_block)
