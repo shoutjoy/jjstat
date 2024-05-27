@@ -32,6 +32,9 @@ item <- function(...) {
 # ')
 #' edu_blocks_named2
 #'
+#' # to lavaan syntax
+#' edu_blocks_named2 %>% plspm_blocks2lav()%>%cat("\n")
+#'
 #' # # Example usage
 #' edu_blocks_named1 <- plspm_blocks(
 #'   Support = item("sup.help", "sup.under", "sup.safe", "sup.conc"),
@@ -43,8 +46,18 @@ item <- function(...) {
 #'   dataset = education , # Provide your dataset here
 #'   output = "match_colnames"
 #' )
-#'
-#'
+#' #'
+#' sat_blocks1 <- plspm_blocks(
+#'   IMAG = item(paste0("imag",1:5)),
+#'   EXPE = item(paste0("expe", 1:5)),
+#'   QUAL = item( paste0("qual", 1:5)),
+#'   VAL = item(paste0("val", 1:4)),
+#'   SAT = item(paste0("sat", 1:4)),
+#'   LOY = item(paste0("loy", 1:4))
+#' )
+#' sat_blocks1
+#' ##to lavaan syntax
+#' sat_blocks1 %>% plspm_blocks2lav()%>%cat("\n")
 #' }
 #'
 plspm_blocks <- function(..., dataset = NULL,

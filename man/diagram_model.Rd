@@ -13,6 +13,7 @@ diagram_model(
   layout = "tree2",
   edge.label.cex = 1,
   edge.label.position = 0.5,
+  edge.color = "black",
   sizeMan = 8,
   sizeMan2 = 4,
   sizeLat = 10,
@@ -35,6 +36,7 @@ diagram_model(
   structural = FALSE,
   edgeLabels = NULL,
   nodeLabels = NULL,
+  fixedStyle = 1,
   type = "plot"
 )
 }
@@ -54,6 +56,8 @@ diagram_model(
 \item{edge.label.cex}{1}
 
 \item{edge.label.position}{0.5}
+
+\item{edge.color}{edge.color= black}
 
 \item{sizeMan}{8}
 
@@ -96,6 +100,8 @@ diagram_model(
 \item{edgeLabels}{edgeLabels=NULL}
 
 \item{nodeLabels}{nodeLabels=NULL}
+
+\item{fixedStyle}{fixedStyle=1 default rbase linetype}
 
 \item{type}{type ="plot, and res is lavaan simdata result}
 }
@@ -142,6 +148,39 @@ diagram_model(model= model_test, style="ram", groups=F)
 diagram_model(model= model_test, residuals=T)
 diagram_model(model= m1a, residuals=T)
 
+
+#plspm model
+#model 1
+model1 = "
+EXPE ~ IMAG
+QUAL ~ EXPE
+VAL ~  QUAL+ EXPE
+SAT ~ IMAG + EXPE + QUAL + VAL
+LOY ~ SAT + IMAG
+"
+sat_path = plspm_lav2path(model1,
+                          fct_order=c("IMAG", "EXPE","QUAL", "VAL", "SAT", "LOY" ))
+sat_path
+
+blocks_model ="
+IMAG =~ imag1 + imag2 + imag3 + imag4 + imag5
+EXPE =~ expe1 + expe2 + expe3 + expe4 + expe5
+QUAL =~ qual1 + qual2 + qual3 + qual4 + qual5
+VAL =~ val1 + val2 + val3 + val4
+SAT =~ sat1 + sat2 + sat3 + sat4
+LOY =~ loy1 + loy2 + loy3 + loy4
+"
+blocks_model
+plspm_lav2blocks(blocks_model)
+
+#model 그리기
+paste(model1, blocks_model)\%>\%
+
+  diagram_model(rotation = 1, sizeLat = 6, sizeMan = 4, sizeMan2=3,
+                mar=c(2,2,2,2))
+
+#'
+#'
 #'
 }
 }

@@ -109,10 +109,10 @@
 #'                             ncol=ncol(t(satpls$path_coefs))),
 #'        edge.label.cex = 1,
 #'        edge.label.position=0.4,
-#'        groups = NULL, palette='pastel'
-#' )
+#'        groups = NULL, palette='pastel' )
 #'
-#'
+#' satpls %>% plspm_path_coefs_plot()
+#' satpls %>% plspm_path_coefs_plot(node =TRUE)
 #'
 #'
 #' }

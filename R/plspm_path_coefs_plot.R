@@ -96,7 +96,7 @@
 #'                         boot.val =TRUE, br=100)
 #'
 #' #default
-#' satpls %>% plspm_innermodel_plot()
+#' satpls %>% plspm_path_coefs_plot()
 #'
 #'
 #'
@@ -111,34 +111,36 @@
 #'  NA, NA, NA, NA, 'LOY', NA, NA, NA, NA, NA, NA, NA, NA),
 #'  nrow = 10, ncol = 10, byrow = FALSE)
 #'
-#' satpls %>% plspm_innermodel_plot(layout=lay_p, edge.label.position = 0.6,
+#' satpls %>% plspm_path_coefs_plot(layout=lay_p, edge.label.position = 0.6,
 #'                             border.color="gray99", groups=1:6)
 #'
 #'
 #' # various type
-#' satpls %>% plspm_innermodel_plot()
-#' satpls %>% plspm_innermodel_plot(node =TRUE)
+#' satpls %>% plspm_path_coefs_plot()
+#' satpls %>% plspm_path_coefs_plot(node =TRUE)
 #'
-#' satpls %>% plspm_innermodel_plot(layout=lay_p, edge.label.position = 0.6,
+#' satpls %>% plspm_path_coefs_plot(layout=lay_p, edge.label.position = 0.6,
 #'                                  border.color="gray99", groups=1:6)
-#' satpls %>% plspm_innermodel_plot(layout=lay_p, edge.label.position = 0.6,
+#' satpls %>% plspm_path_coefs_plot(layout=lay_p, edge.label.position = 0.6,
 #'                                  border.color="gray99", groups=1:6, node=TRUE)
 #'
-#' satpls %>% plspm_innermodel_plot(shape="square", layout=lay_p,
+#' satpls %>% plspm_path_coefs_plot(shape="square", layout=lay_p,
 #'                                  edge.label.position = 0.6)
 #'
 #'
 #'
-#' satpls %>% plspm_innermodel_plot()
-#' satpls %>% plspm_innermodel_plot(node =TRUE)
-#' satpls %>% plspm_innermodel_plot(grp=FALSE)
-#' satpls %>% plspm_innermodel_plot(node = FALSE,grp=TRUE)
-#' satpls %>% plspm_innermodel_plot(node = TRUE,grp=FALSE)
-#' satpls %>% plspm_innermodel_plot(node = FALSE,grp=FALSE)
-#' satpls %>% plspm_innermodel_plot(node = TRUE,grp=TRUE)
+#' satpls %>% plspm_path_coefs_plot()
+#' satpls %>% plspm_path_coefs_plot(node =TRUE)
+#' satpls %>% plspm_path_coefs_plot(grp=FALSE)
+#' satpls %>% plspm_path_coefs_plot(node = FALSE,grp=TRUE)
+#' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=FALSE)
+#' satpls %>% plspm_path_coefs_plot(node = FALSE,grp=FALSE)
+#' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=TRUE)
 #' #'
 #' }
-plspm_innermodel_plot <- function(plsdata,
+plspm_path_coefs_plot <- function(plsdata,
+                                  grp = TRUE,
+                                  groups = NULL,
                                   digits = 3,
                                   layout = "spring",
                                   fade = FALSE,
@@ -154,8 +156,6 @@ plspm_innermodel_plot <- function(plsdata,
                                   posCol = "gray20",
                                   negCol = "red",
                                   shape = "circle",
-                                  grp = TRUE,
-                                  groups = NULL,
                                   pastel = 'pastel',
                                   trans = TRUE) {
   # Check if data inherits from 'plspm'
@@ -176,6 +176,10 @@ plspm_innermodel_plot <- function(plsdata,
     }else{
       # This value should get the inner_model value from the full value.
       edge_data <- plsdata$inner_model
+
+
+      #significant values
+
       edge_labels = plspm_edge_values(edge_data)
       # Converting to a data conversion factor value
     }

@@ -4,10 +4,12 @@
 \alias{plspm_mat_lav}
 \title{plspm_mat_lavaan syntax}
 \usage{
-plspm_mat_lav(data)
+plspm_mat_lav(data, free = FALSE)
 }
 \arguments{
 \item{data}{matrix}
+
+\item{free}{TRUE is free parameter}
 }
 \value{
 syntax lavaan
@@ -90,6 +92,14 @@ plspm_mat_lav(data_null)\%>\%cat()
 plspm_mat_lav(data_null)\%>\%
   diagram_model(whatLabels = "model", layout="tree2", nDigits=3,
                 edge.label.position=0.65, rotation=1)
+
+
+
+
+
+
+
+
 }
 
 }

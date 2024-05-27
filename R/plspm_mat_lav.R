@@ -1,6 +1,7 @@
 #' plspm_mat_lavaan syntax
 #'
 #' @param data matrix
+#' @param free TRUE is free parameter
 #'
 #' @return syntax lavaan
 #' @export
@@ -80,9 +81,17 @@
 #' plspm_mat_lav(data_null)%>%
 #'   diagram_model(whatLabels = "model", layout="tree2", nDigits=3,
 #'                 edge.label.position=0.65, rotation=1)
+#'
+#'
+#'
+#'
+#'
+#'
+#'
+#'
 #' }
 #'
-plspm_mat_lav <- function(data) {
+plspm_mat_lav <- function(data, free=FALSE) {
   # 행렬의 행 이름과 열 이름 가져오기
   if(is.null(rownames(data)) & is.null(colnames(data)) ){
     rownames(data) = paste0("eta", 1:nrow(data))
@@ -101,7 +110,20 @@ plspm_mat_lav <- function(data) {
   node_names <- rownames(data)
   col_names <- colnames(data)
 
-  # 모델 명세 생성
+  # generate model
+  if(free){
+
+    model <- ""
+    for (i in 1:nrow(data)) {
+      for (j in 1:ncol(data)) {
+        if (data[i, j] != 0) {
+          model <- paste0(model, col_names[j], " ~ ",
+                           node_names[i], "\n")
+        }
+      }
+    }
+
+  }else{
   model <- ""
   for (i in 1:nrow(data)) {
     for (j in 1:ncol(data)) {
@@ -111,6 +133,8 @@ plspm_mat_lav <- function(data) {
       }
     }
   }
+
+  }###
 
   return(model)
 

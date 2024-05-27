@@ -1,10 +1,8 @@
-
-#' plspm_CRAVE
+#' plspm_loadings_plot
 #'
-#' @param plsdata plspmdata
-#' @param digits  digists 3
+#' @param plsres plspm data
 #'
-#' @return CR and AVE
+#' @return plot
 #' @export
 #'
 #' @examples
@@ -60,34 +58,37 @@
 #' satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1, scaled = FALSE,
 #'                         boot.val =TRUE, br=100)
 #'
-#' #CR a AVE
-#' satpls%>% plspm_CRAVE()
 #'
-#' satpls_summary%>% plspm_CRAVE()
+#' #plot
+#' satpls %>%plspm_loadings_plot()
+#' satpls$outer_model%>%plspm_loadings_plot()
 #'
-#' satpls_boot%>% plspm_CRAVE()
-#'
-#' satpls_boot_summary%>% plspm_CRAVE()
-#' #'
-#' }
+#'  }
 #'
 #'
-#'
-plspm_CRAVE = function(plsdata, digits = 3){
+plspm_loadings_plot = function(plsres){
 
-  if(length(plsdata)==11){
-    plsdf = plsdata
-  }else if(length(plsdata)==13){
-    plsdf = summary(plsdata)
+  if(length(plsres)==13){
+    plsdf = plsres[["outer_model"]]
+  }else{
+    plsdf = plsres
   }
+  print(plsdf)
 
-  .cr = plsdf$unidim%>%
-    row2col("Latent")%>%
-    dplyr::select(Latent, C.alpha, DG.rho)%>%
-    dplyr::rename(Cronbach= C.alpha, `CR(DG.rho)` = DG.rho)
+  ggplot(plsdf,
+         aes(x = name, y = loading, fill = block)) +
+    geom_bar(stat = 'identity', position = 'dodge') +
+    geom_text(aes(label= round(loading,2)), vjust=-.5)+
+    # threshold line (to peek acceptable loadings above 0.7)
+    geom_hline(yintercept = 0.7, color = 'gray30', linetype=2) +
+    geom_hline(yintercept = 0.5, color = 'gray10', linetype=2) +
+    # add title
+    ggtitle("Barchart of Loadings") +
+    theme_bw()+
+    # rotate x-axis names
+    theme(
+      axis.text.x = element_text(size=12, angle = 90, face="bold"),
+      axis.text.y = element_text(size=12, angle = 0, face="bold")
+    )
 
-  .ave = plsdf$inner_summary$AVE
-
-  res = cbind.data.frame(.cr, AVE = .ave)%>% round2(digits = digits)
-  res
 }
