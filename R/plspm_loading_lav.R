@@ -74,5 +74,6 @@ plspm_loading_lav <- function(input_data, col="loading") {
     paste(collapse = "\n")
 
   cat("\n seleted:",col,"\n\n")
+
   return(lavaan_syntax)
 }

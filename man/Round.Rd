@@ -4,16 +4,16 @@
 \alias{Round}
 \title{Find and round numeric variables only}
 \usage{
-Round(data, digits = 2, exclude = NULL, type = "tibble")
+Round(data, digits = 2, type = "tibble", exclude = NULL)
 }
 \arguments{
 \item{data}{data.frame}
 
 \item{digits}{default 2}
 
-\item{exclude}{exclude variable not adapted}
-
 \item{type}{data type tibble or data.frame , matrix}
+
+\item{exclude}{exclude variable not adapted}
 }
 \value{
 rounding data
