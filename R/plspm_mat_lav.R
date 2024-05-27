@@ -82,11 +82,30 @@
 #'   diagram_model(whatLabels = "model", layout="tree2", nDigits=3,
 #'                 edge.label.position=0.65, rotation=1)
 #'
+#' #'
+#' lay_p = matrix(c('IMA', NA, NA, NA, NA, NA, NA, NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'EXP', NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'QUA',
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, 'VAL', NA, NA, NA, NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'SAT', NA, NA, NA,
+#'                  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'LOY',
+#'                  NA, NA, NA, NA, NA, NA, NA, NA),
+#'                nrow = 10, ncol = 10, byrow = FALSE)
+#' lay_p
 #'
+#' # Using digaram_model
 #'
+#' satpls$path_coefs %>% plspm_mat_lav() %>%
+#'   diagram_model(layout="tree2", whatLabels = "est",
+#'                 rotation =1, edge.label.position=0.6)
 #'
-#'
-#'
+#' satpls$path_coefs %>% plspm_mat_lav() %>%
+#'   diagram_model(layout="tree2", whatLabels = "est",
+#'                 rotation =1, edge.label.position=0.6,
+#'                 edgeLabels=satpls_fit$inner_model %>%plspm_edge_values())
+#' #'
+#' #'
 #'
 #'
 #' }

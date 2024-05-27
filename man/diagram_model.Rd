@@ -27,6 +27,8 @@ diagram_model(
   mar = c(3, 8, 3, 10),
   nDigits = 3,
   shapeLat = "circle",
+  shapeMan = "rectangle",
+  shapeInt = "triangle",
   group_match = "lat",
   sample.nobs = 100,
   border.width = 2,
@@ -84,6 +86,10 @@ diagram_model(
 \item{nDigits}{2}
 
 \item{shapeLat}{"circle, ellipse}
+
+\item{shapeMan}{retangle}
+
+\item{shapeInt}{triangle ,}
 
 \item{sample.nobs}{sample.nobs = 100}
 

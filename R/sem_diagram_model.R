@@ -24,6 +24,8 @@
 #' @param mar c(2,8,3,10)
 #' @param nDigits 2
 #' @param shapeLat "circle, ellipse
+#' @param shapeMan retangle
+#' @param shapeInt  triangle ,
 #' @param sample.nobs sample.nobs = 100
 #' @param groups FALSE
 #' @param border.width border.width=1
@@ -130,6 +132,8 @@ diagram_model = function(model,
                          mar = c(3,8,3,10),
                          nDigits = 3,
                          shapeLat="circle",
+                         shapeMan="rectangle",
+                         shapeInt = "triangle",
                          group_match = "lat",
                          sample.nobs = 100,
                          border.width = 2,
@@ -189,6 +193,8 @@ diagram_model = function(model,
       sizeLat = sizeLat,
       sizeLat2 = sizeLat2,
       shapeLat = shapeLat,
+      shapeMan = shapeMan,
+      shapeInt = shapeInt,
       border.width = border.width,
       edge.width = edge.width,
       groups = group_match, pastel = TRUE,
@@ -218,6 +224,8 @@ diagram_model = function(model,
         sizeLat = sizeLat,
         sizeLat2 = sizeLat2,
         shapeLat=shapeLat,
+        shapeMan = shapeMan,
+        shapeInt = shapeInt,
         border.width = border.width,
         edge.width = edge.width,
         curve=curve,
@@ -244,7 +252,9 @@ diagram_model = function(model,
         sizeMan = sizeMan, sizeMan2 = sizeMan2,
         sizeLat = sizeLat,
         sizeLat2 = sizeLat2,
-        shapeLat=shapeLat,
+        shapeLat = shapeLat,
+        shapeMan = shapeMan,
+        shapeInt = shapeInt,
         border.width = border.width,
         edge.width = edge.width,
         curve=curve,
@@ -271,6 +281,8 @@ diagram_model = function(model,
         sizeLat = sizeLat,
         sizeLat2 = sizeLat2,
         shapeLat=shapeLat,
+        shapeMan = shapeMan,
+        shapeInt = shapeInt,
         border.width = border.width,
         edge.width = edge.width,
         curve=curve,
@@ -296,6 +308,8 @@ diagram_model = function(model,
         sizeLat = sizeLat,
         sizeLat2 = sizeLat2,
         shapeLat=shapeLat,
+        shapeMan = shapeMan,
+        shapeInt = shapeInt,
         border.width = border.width,
         edge.width = edge.width,
         curve=curve,
@@ -331,9 +345,13 @@ diagram_model = function(model,
 #' @param layout layout="tree"
 #' @param edge.label.cex 1
 #' @param edge.label.position 0.5
+#' @param edge.color edge.color= black
+#' @param edge.width edge.width=1.5
+#' @param edgeLabels edgeLabels=NULL
 #' @param sizeMan 8
 #' @param sizeMan2 4
 #' @param sizeLat 10
+#' @param sizeLat2 6
 #' @param style lisrel
 #' @param sig FALSE
 #' @param exoVar FALSE
@@ -342,8 +360,17 @@ diagram_model = function(model,
 #' @param asize 1.5
 #' @param mar c(2,8,3,10)
 #' @param nDigits 2
-#' @param sample.nobs sample.nobs= 100
+#' @param shapeLat "circle, ellipse
+#' @param shapeMan retangle
+#' @param shapeInt  triangle ,
+#' @param sample.nobs sample.nobs = 100
 #' @param groups FALSE
+#' @param border.width border.width=1
+#' @param nodeLabels nodeLabels=NULL
+#' @param growth growth= FALSE, TRUE  model.type ="grouwth"
+#' @param structural structural = FALSE
+#' @param fixedStyle fixedStyle=1 default rbase linetype
+#' @param type type ="plot, and res is lavaan simdata result
 #'
 #' @return plot
 #'
@@ -389,27 +416,39 @@ diagram_model = function(model,
 #' #'
 #' }
 sem_model = function(model,
-                         whatLabels = "model",
-                         residuals= TRUE,
+                         residuals= FALSE,
+                         whatLabels = "est",
                          rotation = 2,
                          residScale = 12,
-                         layout = "tree",
+                         layout = "tree2",
                          edge.label.cex= 1,
-                     edge.label.position=0.5,
+                         edge.label.position =0.5,
+                         edge.color = "black",
                          sizeMan = 8,
                          sizeMan2 = 4,
                          sizeLat = 10,
                          sizeLat2 = 6,
                          style="lisrel",
-                         sig= FALSE,
-                         exoVar=FALSE,
-                         exoCov=TRUE,
-                         curve=1.5, asize=2,
-                         mar=c(2,8,3,10),
-                     nDigits=2,
-                         sample.nobs=100,
-                     structual= FALSE,
-                         groups=FALSE){
+                         sig = FALSE,
+                         exoVar = FALSE,
+                         exoCov = TRUE,
+                         curve = 1.5, asize=2,
+                         mar = c(3,8,3,10),
+                         nDigits = 3,
+                         shapeLat="circle",
+                         shapeMan="rectangle",
+                         shapeInt = "triangle",
+                         group_match = "lat",
+                         sample.nobs = 100,
+                         border.width = 2,
+                         edge.width = 1.5,
+                         groups = FALSE,
+                         growth = FALSE,
+                         structural = FALSE,
+                         edgeLabels=NULL,
+                         nodeLabels=NULL,
+                         fixedStyle = 1,
+                         type="plot"){
 
   #first step : Determining the model type
   model_string = model
@@ -419,21 +458,25 @@ sem_model = function(model,
   modified_model_string <- gsub("=~", "", modified_model_string)
 
   # Check if the modified model string contains any '~'
-  if (grepl("~", modified_model_string, fixed = TRUE)) {
-    # return("sem")
-    model.type ="sem"
-  } else {
-    # return("cfa")
-    model.type ="cfa"
-  }
 
+  if(growth){
+    model.type ="growth"
+  }else{
+    if (grepl("~", modified_model_string, fixed = TRUE)) {
+      # return("sem")
+      model.type ="sem"
+    } else {
+      # return("cfa")
+      model.type ="cfa"
+    }
+  }
 
 
   #generate sample data simulated
   testdata =  lavaan::simulateData( model = model,
                                     sample.nobs = sample.nobs,
                                     model.type = model.type  )
-  # testdata =  simdata_sem(model = model_test, N = 100 )
+
   # test calculated
   lav_obj = lavaan::sem(model, data= testdata)
 
@@ -442,7 +485,7 @@ sem_model = function(model,
     dia =   lav_obj %>% semPlot::semPaths(
       whatLabels = whatLabels, fade = FALSE, posCol="black",
       nCharNodes = 10, layout = layout,
-      edge.color = "black",
+      edge.color = edge.color,
       rotation = rotation,
       edge.label.cex = edge.label.cex,
       edge.label.position=edge.label.position,
@@ -453,46 +496,144 @@ sem_model = function(model,
       sizeMan = sizeMan, sizeMan2 = sizeMan2,
       sizeLat = sizeLat,
       sizeLat2 = sizeLat2,
-      shapeLat = "circle",
-      border.width = 2,
-      groups = "lat",pastel = TRUE,
-      edge.width = 1.5,
+      shapeLat = shapeLat,
+      shapeMan = shapeMan,
+      shapeInt = shapeInt,
+      border.width = border.width,
+      edge.width = edge.width,
+      groups = group_match, pastel = TRUE,
       curve = curve,
       nDigits = nDigits,
       asize= asize,
+      fixedStyle = fixedStyle,
+      # edgeLabels = edgeLabels,
+      # nodeLabels = nodeLabels,
       structural = structural,
       style =  style,  mar=mar)
   }else{
-    dia =   lav_obj %>% semPlot::semPaths(
-      whatLabels = whatLabels, fade = FALSE, posCol="black",
-      nCharNodes = 10, layout = layout,
-      edge.color="black",
-      rotation = rotation,
-      edge.label.cex =edge.label.cex,
-      edge.label.position=edge.label.position,
-      residuals= residuals,
-      residScale=  residScale,
-      exoVar = exoVar,
-      exoCov = exoCov,
-      sizeMan = sizeMan, sizeMan2 = sizeMan2,
-      sizeLat = sizeLat,
-      sizeLat2 = sizeLat2,
-      shapeLat="circle",
-      border.width = 2,
-      edge.width=1.5,
-      curve=curve,
-      nDigits = nDigits,
-      asize= asize,
-      structural = structural,
-      style =  style,  mar=mar)
+
+    if(is.null(edgeLabels) & is.null(nodeLabels)){
+      dia = lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10, layout = layout,
+        edge.color="black",
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        edge.label.position= edge.label.position,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar = exoVar,
+        exoCov = exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat,
+        sizeLat2 = sizeLat2,
+        shapeLat=shapeLat,
+        shapeMan = shapeMan,
+        shapeInt = shapeInt,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        fixedStyle = fixedStyle,
+        # edgeLabels = edgeLabels,
+        # nodeLabels = nodeLabels,
+        structural = structural,
+        style =  style,  mar=mar)
+
+    }else if(!is.null(edgeLabels)){
+      dia = lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10, layout = layout,
+        edge.color=edge.color,
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        edge.label.position= edge.label.position,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar = exoVar,
+        exoCov = exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat,
+        sizeLat2 = sizeLat2,
+        shapeLat = shapeLat,
+        shapeMan = shapeMan,
+        shapeInt = shapeInt,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        fixedStyle = fixedStyle,
+        edgeLabels = edgeLabels,
+        # nodeLabels = nodeLabels,
+        structural = structural,
+        style =  style,  mar=mar)
+    }else if(!is.null(nodeLabels)){
+      dia = lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10, layout = layout,
+        edge.color=edge.color,
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        edge.label.position= edge.label.position,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar = exoVar,
+        exoCov = exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat,
+        sizeLat2 = sizeLat2,
+        shapeLat=shapeLat,
+        shapeMan = shapeMan,
+        shapeInt = shapeInt,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        # edgeLabels = edgeLabels,
+        nodeLabels = nodeLabels,
+        structural = structural,
+        style =  style,  mar=mar)
+    }else if(!is.null(edgeLabels) & !is.null(nodeLabels)){
+      dia = lav_obj %>% semPlot::semPaths(
+        whatLabels = whatLabels, fade = FALSE, posCol="black",
+        nCharNodes = 10, layout = layout,
+        edge.color=edge.color,
+        rotation = rotation,
+        edge.label.cex =edge.label.cex,
+        edge.label.position= edge.label.position,
+        residuals= residuals,
+        residScale=  residScale,
+        exoVar = exoVar,
+        exoCov = exoCov,
+        sizeMan = sizeMan, sizeMan2 = sizeMan2,
+        sizeLat = sizeLat,
+        sizeLat2 = sizeLat2,
+        shapeLat=shapeLat,
+        shapeMan = shapeMan,
+        shapeInt = shapeInt,
+        border.width = border.width,
+        edge.width = edge.width,
+        curve=curve,
+        nDigits = nDigits,
+        asize= asize,
+        fixedStyle = fixedStyle,
+        edgeLabels = edgeLabels,
+        nodeLabels = nodeLabels,
+        structural = structural,
+        style =  style,  mar=mar)
+    }
+
   }
 
 
   if(sig){
-    dia%>%
+    dia = dia%>%
       semptools::mark_sig(lav_obj) %>%plot()
   }else{
-    dia
+    dia = dia
   }
-
+  switch(type, plot = dia, res = lav_obj)
 }

@@ -49,9 +49,11 @@ plspm_boot_effect <- function(plsres, accept = FALSE,
     plsres_summary  = summary(plsres)
     boottotal.efs <- plsres_summary$boot$total.efs
 
-  }else{
+  }else if(length(plsres) ==11){
     #bootsrap effect signification
     boottotal.efs <- plsres$boot$total.efs
+  }else if(length(plsres)==5){
+    boottotal.efs <- plsres
   }
 
 

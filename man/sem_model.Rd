@@ -6,13 +6,14 @@
 \usage{
 sem_model(
   model,
-  whatLabels = "model",
-  residuals = TRUE,
+  residuals = FALSE,
+  whatLabels = "est",
   rotation = 2,
   residScale = 12,
-  layout = "tree",
+  layout = "tree2",
   edge.label.cex = 1,
   edge.label.position = 0.5,
+  edge.color = "black",
   sizeMan = 8,
   sizeMan2 = 4,
   sizeLat = 10,
@@ -23,19 +24,30 @@ sem_model(
   exoCov = TRUE,
   curve = 1.5,
   asize = 2,
-  mar = c(2, 8, 3, 10),
-  nDigits = 2,
+  mar = c(3, 8, 3, 10),
+  nDigits = 3,
+  shapeLat = "circle",
+  shapeMan = "rectangle",
+  shapeInt = "triangle",
+  group_match = "lat",
   sample.nobs = 100,
-  structual = FALSE,
-  groups = FALSE
+  border.width = 2,
+  edge.width = 1.5,
+  groups = FALSE,
+  growth = FALSE,
+  structural = FALSE,
+  edgeLabels = NULL,
+  nodeLabels = NULL,
+  fixedStyle = 1,
+  type = "plot"
 )
 }
 \arguments{
 \item{model}{lavaan syntax}
 
-\item{whatLabels}{"model}
-
 \item{residuals}{residauls TRUE}
+
+\item{whatLabels}{"model}
 
 \item{rotation}{rotation=2}
 
@@ -47,11 +59,15 @@ sem_model(
 
 \item{edge.label.position}{0.5}
 
+\item{edge.color}{edge.color= black}
+
 \item{sizeMan}{8}
 
 \item{sizeMan2}{4}
 
 \item{sizeLat}{10}
+
+\item{sizeLat2}{6}
 
 \item{style}{lisrel}
 
@@ -69,9 +85,31 @@ sem_model(
 
 \item{nDigits}{2}
 
-\item{sample.nobs}{sample.nobs= 100}
+\item{shapeLat}{"circle, ellipse}
+
+\item{shapeMan}{retangle}
+
+\item{shapeInt}{triangle ,}
+
+\item{sample.nobs}{sample.nobs = 100}
+
+\item{border.width}{border.width=1}
+
+\item{edge.width}{edge.width=1.5}
 
 \item{groups}{FALSE}
+
+\item{growth}{growth= FALSE, TRUE  model.type ="grouwth"}
+
+\item{structural}{structural = FALSE}
+
+\item{edgeLabels}{edgeLabels=NULL}
+
+\item{nodeLabels}{nodeLabels=NULL}
+
+\item{fixedStyle}{fixedStyle=1 default rbase linetype}
+
+\item{type}{type ="plot, and res is lavaan simdata result}
 }
 \value{
 plot

@@ -68,7 +68,7 @@ diagram2(
 
 \item{asize}{asize = 1.5}
 
-\item{shapeLat}{shapeLat ="circle",}
+\item{shapeLat}{shapeLat ="circle",ellipse}
 
 \item{residuals}{residuals=TRUE}
 

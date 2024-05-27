@@ -68,7 +68,7 @@ diagram = function(lav_obj, what="est",
 #' @param curve curve=1
 #' @param asize asize = 1.5
 #' @param layout "tree"
-#' @param shapeLat shapeLat ="circle",
+#' @param shapeLat shapeLat ="circle",ellipse
 #' @param edge.width edge.width 1.5
 #' @param border.width border.width 2
 #' @param exoVar exoVar=TRUE,
