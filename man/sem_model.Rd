@@ -29,11 +29,11 @@ sem_model(
   shapeLat = "circle",
   shapeMan = "rectangle",
   shapeInt = "triangle",
-  group_match = "lat",
   sample.nobs = 100,
   border.width = 2,
   edge.width = 1.5,
-  groups = FALSE,
+  Groups = FALSE,
+  group_match = "lat",
   growth = FALSE,
   structural = FALSE,
   edgeLabels = NULL,
@@ -97,7 +97,9 @@ sem_model(
 
 \item{edge.width}{edge.width=1.5}
 
-\item{groups}{FALSE}
+\item{Groups}{FALSE}
+
+\item{group_match}{group_match lat}
 
 \item{growth}{growth= FALSE, TRUE  model.type ="grouwth"}
 

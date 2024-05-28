@@ -62,7 +62,8 @@ aov_table(data = mtcars, dv_var = "mpg",
 
 aov_table(data = mtcars, dv_var = "mpg",
  iv_vars = c("cyl", "gear", "carb"),
-  grp_mean = TRUE, unite_F = TRUE) \%>\% markdown_table()
+  grp_mean = TRUE, unite_F = TRUE) \%>\% aov_rename()
+  markdown_table()
 }
 
 

@@ -27,7 +27,8 @@
 #' @param shapeMan retangle
 #' @param shapeInt  triangle ,
 #' @param sample.nobs sample.nobs = 100
-#' @param groups FALSE
+#' @param Groups FALSE
+#' @param group_match "FALSE"lat#'
 #' @param border.width border.width=1
 #' @param nodeLabels nodeLabels=NULL
 #' @param growth growth= FALSE, TRUE  model.type ="grouwth"
@@ -134,11 +135,11 @@ diagram_model = function(model,
                          shapeLat="circle",
                          shapeMan="rectangle",
                          shapeInt = "triangle",
-                         group_match = "lat",
                          sample.nobs = 100,
                          border.width = 2,
                          edge.width = 1.5,
-                         groups = FALSE,
+                         Groups = FALSE,
+                         group_match = "lat",
                          growth = FALSE,
                          structural = FALSE,
                          edgeLabels=NULL,
@@ -177,7 +178,7 @@ diagram_model = function(model,
   lav_obj = lavaan::sem(model, data= testdata)
 
   # diagram2(lavobj, "model", sig=F)
-  if(groups){
+  if(Groups){
     dia =   lav_obj %>% semPlot::semPaths(
       whatLabels = whatLabels, fade = FALSE, posCol="black",
       nCharNodes = 10, layout = layout,
@@ -197,7 +198,8 @@ diagram_model = function(model,
       shapeInt = shapeInt,
       border.width = border.width,
       edge.width = edge.width,
-      groups = group_match, pastel = TRUE,
+      groups = group_match,
+      pastel = TRUE,
       curve = curve,
       nDigits = nDigits,
       asize= asize,
@@ -212,7 +214,7 @@ diagram_model = function(model,
       dia = lav_obj %>% semPlot::semPaths(
         whatLabels = whatLabels, fade = FALSE, posCol="black",
         nCharNodes = 10, layout = layout,
-        edge.color="black",
+        edge.color= edge.color,
         rotation = rotation,
         edge.label.cex =edge.label.cex,
         edge.label.position= edge.label.position,
@@ -364,7 +366,8 @@ diagram_model = function(model,
 #' @param shapeMan retangle
 #' @param shapeInt  triangle ,
 #' @param sample.nobs sample.nobs = 100
-#' @param groups FALSE
+#' @param Groups FALSE
+#' @param group_match group_match lat
 #' @param border.width border.width=1
 #' @param nodeLabels nodeLabels=NULL
 #' @param growth growth= FALSE, TRUE  model.type ="grouwth"
@@ -438,11 +441,11 @@ sem_model = function(model,
                          shapeLat="circle",
                          shapeMan="rectangle",
                          shapeInt = "triangle",
-                         group_match = "lat",
                          sample.nobs = 100,
                          border.width = 2,
                          edge.width = 1.5,
-                         groups = FALSE,
+                         Groups = FALSE,
+                         group_match = "lat",
                          growth = FALSE,
                          structural = FALSE,
                          edgeLabels=NULL,
@@ -481,7 +484,7 @@ sem_model = function(model,
   lav_obj = lavaan::sem(model, data= testdata)
 
   # diagram2(lavobj, "model", sig=F)
-  if(groups){
+  if(Groups){
     dia =   lav_obj %>% semPlot::semPaths(
       whatLabels = whatLabels, fade = FALSE, posCol="black",
       nCharNodes = 10, layout = layout,
@@ -516,7 +519,7 @@ sem_model = function(model,
       dia = lav_obj %>% semPlot::semPaths(
         whatLabels = whatLabels, fade = FALSE, posCol="black",
         nCharNodes = 10, layout = layout,
-        edge.color="black",
+        edge.color=edge.color,
         rotation = rotation,
         edge.label.cex =edge.label.cex,
         edge.label.position= edge.label.position,

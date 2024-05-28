@@ -4,12 +4,14 @@
 \alias{plspm_mat_lav}
 \title{plspm_mat_lavaan syntax}
 \usage{
-plspm_mat_lav(data, free = FALSE)
+plspm_mat_lav(data, free = FALSE, hypo = FALSE)
 }
 \arguments{
 \item{data}{matrix}
 
 \item{free}{TRUE is free parameter}
+
+\item{hypo}{hypothesis paste}
 }
 \value{
 syntax lavaan
@@ -116,8 +118,34 @@ satpls$path_coefs \%>\% plspm_mat_lav() \%>\%
                 rotation =1, edge.label.position=0.6,
                 edgeLabels=satpls_fit$inner_model \%>\%plspm_edge_values())
 #'
-#'
+#' #'
+data <- matrix(c(0, 1, 0, 1, 0, 1, 1, 0, 0), nrow=3, byrow=TRUE)
+rownames(data) <- c("자기효능감", "진로동기", "진로태도")
+colnames(data) <- c("진로동기", "진로태도", "진로준비")
+data
+# hypo=TRUE인 경우
+cat(plspm_mat_lav(data, hypo=TRUE))
+# 진로동기 ~ H1*자기효능감
+# 진로태도 ~ H2*자기효능감
+# 진로준비 ~ H3*자기효능감
+# 진로준비 ~ H4*진로동기
+# 진로준비 ~ H5*진로태도
 
+# free=TRUE, hypo=FALSE인 경우
+cat(plspm_mat_lav(data, free=TRUE, hypo=FALSE))
+# 진로동기 ~ 자기효능감
+# 진로태도 ~ 자기효능감
+# 진로준비 ~ 자기효능감
+# 진로준비 ~ 진로동기
+# 진로준비 ~ 진로태도
+
+# free=FALSE인 경우
+cat(plspm_mat_lav(data, free=FALSE, hypo=FALSE))
+# 진로동기 ~ 1*자기효능감
+# 진로태도 ~ 1*자기효능감
+# 진로준비 ~ 1*자기효능감
+# 진로준비 ~ 1*진로동기
+# 진로준비 ~ 1*진로태도
 
 }
 

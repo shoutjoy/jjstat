@@ -4,7 +4,7 @@
 #' @param plsres plspm result
 #' @param wide plot type TRUE block, FALSE wide plot
 #'
-#' @return
+#' @return pplot
 #' @export
 #'
 #' @examples

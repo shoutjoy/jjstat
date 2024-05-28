@@ -11,6 +11,9 @@ plspm_crossloadings_plot(plsres, wide = F)
 
 \item{wide}{plot type TRUE block, FALSE wide plot}
 }
+\value{
+pplot
+}
 \description{
 plspm_crossloadings_plot
 }
