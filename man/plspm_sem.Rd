@@ -16,7 +16,7 @@ plspm_sem(
   maxiter = 100,
   plscomp = NULL,
   boot.val = TRUE,
-  br = 200,
+  br = 500,
   dataset = TRUE,
   summary = TRUE
 )

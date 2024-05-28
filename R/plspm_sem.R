@@ -96,22 +96,51 @@
 #' outerplot(satpls, what = "loadings")
 #'
 #' }
-plspm_sem = function(Data, path_matrix, blocks, modes = rep("A",ncol(path_matrix)),
-                     scaling = NULL, scheme = "centroid", scaled = TRUE,
-                     tol = 1e-06, maxiter = 100, plscomp = NULL,
-                     boot.val = TRUE, br = 200, dataset = TRUE, summary=TRUE){
 
-  #using plspm
-  res =  plspm::plspm(Data = Data, path_matrix = path_matrix,
+plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
+                      scaling = NULL, scheme = "centroid", scaled = TRUE,
+                      tol = 1e-06, maxiter = 100, plscomp = NULL,
+                      boot.val = TRUE, br = 500, dataset = TRUE, summary = TRUE) {
+
+  library(progress)
+  # 기본 PLSPM 분석 수행
+  res <- plspm::plspm(Data = Data, path_matrix = path_matrix,
                       blocks = blocks, modes = modes,
-                      scaling = scaling, scheme = "centroid", scaled = scaled,
+                      scaling = scaling, scheme = scheme, scaled = scaled,
                       tol = tol, maxiter = maxiter, plscomp = plscomp,
-                      boot.val = boot.val, br = br, dataset = dataset)
+                      boot.val = FALSE, br = br, dataset = dataset)
 
-  if(summary){
-    print(summary(res))
-    return(res)
-  }else{
-    return(res)
+  # 부트스트랩 검증 수행
+  if (boot.val & !is.null(br) & br > 0) {
+    pb <- progress::progress_bar$new(
+      format = "Bootstrapping [:bar] :percent :eta",
+      total = br, clear = FALSE, width = 60
+    )
+
+    boot_results <- list()
+
+    for (i in 1:br) {
+      pb$tick()
+      boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
+      boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
+                               blocks = blocks, modes = modes,
+                               scaling = scaling, scheme = scheme, scaled = scaled,
+                               tol = tol, maxiter = maxiter, plscomp = plscomp,
+                               boot.val = FALSE, br = NULL, dataset = FALSE)
+      boot_results[[i]] <- boot_res$path_coefs
+    }
+
+    # 부트스트랩 통계 계산
+    boot_coefs <- do.call(cbind, boot_results)
+    boot_means <- apply(boot_coefs, 1, mean)
+    boot_sds <- apply(boot_coefs, 1, sd)
+
+    res$bootstrap <- list(means = boot_means, sds = boot_sds)
   }
+
+  if (summary) {
+    print(summary(res))
+  }
+
+  return(res)
 }

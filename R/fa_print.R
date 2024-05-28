@@ -40,7 +40,7 @@ fa_print <- function(data, cut = 0.4,
     # Apply cut value for data_head to replace with ""
     for (i in 2:ncol(data_head)) {
       if (is.numeric(data_head[[i]])) {
-        data_head[[i]] <- ifelse(data_head[[i]] < cut,
+        data_head[[i]] <- ifelse(abs(data_head[[i]]) < cut,
                                  format(paste0(
                                    format(data_head[[i]],nsmall=3)," "),
                                    nsmall = 3, width = 8,
@@ -56,7 +56,7 @@ fa_print <- function(data, cut = 0.4,
     # Apply cut value for data_head to replace with ""
     for (i in 2:ncol(data_head)) {
       if (is.numeric(data_head[[i]])) {
-        data_head[[i]] <- ifelse(data_head[[i]] < cut, "",
+        data_head[[i]] <- ifelse(abs(data_head[[i]]) < cut, "",
                                  format(data_head[[i]], nsmall=3))
       } # remove abs()
     }
@@ -75,8 +75,9 @@ fa_print <- function(data, cut = 0.4,
 
   return(data.frame(res))
 }
-# fa_print <- function(data, cut = 0.4, sort = TRUE, desc=TRUE) {
-#   # Separate data_head and data_tail by filtering rows that meet a condition
+#'
+#' fa_print <- function(data, cut = 0.4, sort = TRUE, desc=TRUE) {
+#'   # Separate data_head and data_tail by filtering rows that meet a condition
 #   data_head <- data[!data$source %in% c("eigen_vlaue", "Proportion_Var", "Cumulative_Var"), ]
 #   data_tail <- data[data$source %in% c("eigen_vlaue", "Proportion_Var", "Cumulative_Var"), ]
 #
