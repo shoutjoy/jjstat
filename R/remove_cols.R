@@ -35,7 +35,7 @@
 #' }
 #'
 #'
-remove_col <- function(data, rm_col=NULL, ...) {
+remove_cols <- function(data, rm_col=NULL, ...) {
   # 추가적인 열 제거 인자를 리스트로 변환
   additional_rm_cols <- list(...)
 
