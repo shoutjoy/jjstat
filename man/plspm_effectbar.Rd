@@ -8,8 +8,8 @@ plspm_effectbar(
   x_pls,
   axis_x = 1.3,
   axis_y = 1.1,
-  mar = c(cex.names * 11, 3, 1, 0.5),
-  border_col = 1,
+  mar = c(axis_x * 9, 3, 1, 0.5),
+  border = 1,
   col = c("#9E9AC8", "#DADAEB")
 )
 }
@@ -22,7 +22,9 @@ plspm_effectbar(
 
 \item{mar}{mar = c(cex.names*11, 3, 1, 0.5)}
 
-\item{border_col}{NA bar color 1:black, 2 red}
+\item{border}{1}
+
+\item{col}{NA bar color 1:black, 2 red}
 }
 \value{
 data
@@ -39,9 +41,10 @@ dftest = data.frame(relationships = c("자기효능감 -> 진로동기", "자기
  indirect = c(0, 0, 0.40132831512848, 0, 0, 0),
  total = c(0.883044251414839, 0.455400556420822, 0.815418036014653, 0, 0.39512331888417, 0.115100737249484)
 )
-dftest\%>\%plspm_effectbar(cex.names=1.2)
-jutpls \%>\%plspm_effectbar(cex.names=1.2, border=1)
-jutpls \%>\%plspm_effectbar(cex.names=1.2, col=c("gray30","gray70"))
+dftest\%>\%plspm_effectbar(axis_x=1.2)
+dftest\%>\%plspm_effectbar(axis_x=2)
+jutpls \%>\%plspm_effectbar(axis_x=1.2, border=1)
+jutpls \%>\%plspm_effectbar(axis_x=1.2, col=c("gray30","gray70"))
 #'
 }
 

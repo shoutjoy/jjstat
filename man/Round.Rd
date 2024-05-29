@@ -4,7 +4,7 @@
 \alias{Round}
 \title{Find and round numeric variables only}
 \usage{
-Round(data, digits = 2, type = "tibble", exclude = NULL)
+Round(data, digits = 3, type = "tibble", exclude = NULL)
 }
 \arguments{
 \item{data}{data.frame}

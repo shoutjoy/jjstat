@@ -123,6 +123,7 @@ qgraph(qgraph(t(satpls$path_coefs)),
        edge.label.position=0.4,
        groups = NULL, palette='pastel' )
 
+ plspm_edge_values(satpls)
 satpls \%>\% plspm_path_coefs_plot()
 satpls \%>\% plspm_path_coefs_plot(node =TRUE)
 

@@ -4,6 +4,7 @@
 #' @param unite unite sig star +t
 #' @param digits 3
 #' @param col position t value
+#' @param ns ns is ns sig
 #'
 #' @return data
 #' @export
@@ -32,7 +33,8 @@
 #' New_df %>% add_t_sig(est=3, se=4, col=4, unite=F)%>%Round(3) %>%Unite(2,4)
 #'
 #' }
-add_t_sig <- function(data, est, se, col = ncol(data) + 1, unite = FALSE, digits = 3) {
+add_t_sig <- function(data, est, se, col = ncol(data) + 1,
+                      unite = FALSE, digits = 3, ns = " ns") {
 
   # Check if est and se are numeric
   if (is.numeric(est) && is.numeric(se)) {
@@ -42,14 +44,16 @@ add_t_sig <- function(data, est, se, col = ncol(data) + 1, unite = FALSE, digits
 
   # Calculate t and sig columns
   res <- data %>% mutate(
-    t = !!sym(est) / !!sym(se),
-    sig = ifelse(t > 3.29, "***",
-                 ifelse(t > 2.58, "**",
-                        ifelse(t > 1.96, "*", "ns")))
+    t = ifelse(!!sym(se) == 0, 0, !!sym(est) / !!sym(se)),
+    sig = ifelse(t == "", ns,
+                 ifelse(t > 3.29, "***",
+                        ifelse(t > 2.58, "**",
+                               ifelse(t > 1.96, "*", ns))))
   )
 
   # Round t column
-  res <- res %>% mutate(t = round(t, digits))
+  res <- res %>% mutate(t = ifelse(t == 0, "",
+                                   format(round(t, digits),justify="left")  ))
 
   # If unite is TRUE, combine t and sig columns
   if (unite) {

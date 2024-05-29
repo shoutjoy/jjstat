@@ -28,7 +28,7 @@
 #'  dff%>%Round(1, exclude ="B")
 #'
 #' }
-Round <- function(data, digits=2, type= "tibble", exclude = NULL){
+Round <- function(data, digits=3, type= "tibble", exclude = NULL){
 
 
   if(is.data.frame(data)){

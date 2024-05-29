@@ -33,7 +33,7 @@
 #'   "E" = c(20, 67)
 #' );New
 #' New%>%col2row()
-#'
+#' New%>%col2row(col="B")
 #' #mtcars
 #' data_mtcars=mtcars%>%tibble::rownames_to_column()
 #' data_mtcars%>%col2row()
@@ -45,15 +45,36 @@
 #'
 col2row <- function(data, col=1) {
   data = as.data.frame(data)
-  # 첫 번째 열을 행 이름으로 지정
-  rownames(data) <- data[[col]]
 
-  # 첫 번째 열 제거
-  data <- data[, -col]
+  # col이 숫자일 경우 열 번호로 사용, 문자일 경우 열 이름으로 사용
+  if (is.numeric(col)) {
+    column_name <- names(data)[col]
+  } else if (is.character(col)) {
+    column_name <- col
+  } else {
+    stop("col must be either a column number or column name")
+  }
+
+  # 행 이름으로 지정
+  rownames(data) <- data[[column_name]]
+
+  # 열 제거
+  data <- data[, !(names(data) %in% column_name)]
 
   # 결과 반환
   return(data)
 }
+# col2row <- function(data, col=1) {
+#   data = as.data.frame(data)
+#   # 첫 번째 열을 행 이름으로 지정
+#   rownames(data) <- data[[col]]
+#
+#   # 첫 번째 열 제거
+#   data <- data[, -col]
+#
+#   # 결과 반환
+#   return(data)
+# }
 
 
 

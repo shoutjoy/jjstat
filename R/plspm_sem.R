@@ -102,13 +102,19 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
                       tol = 1e-06, maxiter = 100, plscomp = NULL,
                       boot.val = TRUE, br = 500, dataset = TRUE, summary = TRUE) {
 
+  cat("\n
+    Wait for it.
+    PLaunch Bootstrap
+    PARTIAL LEAST SQUARES PATH MODELING (PLS-PM)
+    jjstat package By Park Joonghee PhD \n\n\n")
+
   library(progress)
   # 기본 PLSPM 분석 수행
   res <- plspm::plspm(Data = Data, path_matrix = path_matrix,
                       blocks = blocks, modes = modes,
                       scaling = scaling, scheme = scheme, scaled = scaled,
                       tol = tol, maxiter = maxiter, plscomp = plscomp,
-                      boot.val = FALSE, br = br, dataset = dataset)
+                      boot.val = TRUE, br = br, dataset = dataset)
 
   # 부트스트랩 검증 수행
   if (boot.val & !is.null(br) & br > 0) {

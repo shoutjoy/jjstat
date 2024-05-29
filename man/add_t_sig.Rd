@@ -4,7 +4,15 @@
 \alias{add_t_sig}
 \title{add_t_sig}
 \usage{
-add_t_sig(data, est, se, col = ncol(data) + 1, unite = FALSE, digits = 3)
+add_t_sig(
+  data,
+  est,
+  se,
+  col = ncol(data) + 1,
+  unite = FALSE,
+  digits = 3,
+  ns = " ns"
+)
 }
 \arguments{
 \item{data}{data}
@@ -14,6 +22,8 @@ add_t_sig(data, est, se, col = ncol(data) + 1, unite = FALSE, digits = 3)
 \item{unite}{unite sig star +t}
 
 \item{digits}{3}
+
+\item{ns}{ns is ns sig}
 }
 \value{
 data

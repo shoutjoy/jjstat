@@ -44,7 +44,7 @@ New = data.frame(
   "E" = c(20, 67)
 );New
 New\%>\%col2row()
-
+New\%>\%col2row(col="B")
 #mtcars
 data_mtcars=mtcars\%>\%tibble::rownames_to_column()
 data_mtcars\%>\%col2row()

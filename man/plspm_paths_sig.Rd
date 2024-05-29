@@ -4,7 +4,13 @@
 \alias{plspm_paths_sig}
 \title{Showing significance using PLSPM regression}
 \usage{
-plspm_paths_sig(data, unite = FALSE, rhs = "endo", lhs = "exo", digits = 3)
+plspm_paths_sig(
+  data,
+  unite = FALSE,
+  rhs = "endogenous",
+  lhs = "exogenous",
+  digits = 3
+)
 }
 \arguments{
 \item{data}{plspm data}

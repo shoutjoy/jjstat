@@ -4,7 +4,15 @@
 \alias{cut_print}
 \title{Functions that cutoff a given value}
 \usage{
-cut_print(data, cut = 0, digits = 3, rm_row = FALSE, rm_cut = FALSE)
+cut_print(
+  data,
+  cut = 0,
+  digits = 3,
+  rm_row = FALSE,
+  rm_cut = FALSE,
+  star = FALSE,
+  each = NULL
+)
 }
 \arguments{
 \item{data}{data.frame}
@@ -16,6 +24,10 @@ cut_print(data, cut = 0, digits = 3, rm_row = FALSE, rm_cut = FALSE)
 \item{rm_row}{remove row}
 
 \item{rm_cut}{remove cutoff rows}
+
+\item{star}{over cut marked star pasted}
+
+\item{each}{each col using cut}
 }
 \value{
 data
