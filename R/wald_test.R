@@ -50,6 +50,7 @@
 #' }
 #'
 #'
+
 wald_test <- function(b1,
                       se1,
                       b2,
@@ -66,7 +67,7 @@ wald_test <- function(b1,
   t2 = b2/se2
 
   z = (b1 - b2)/ sqrt(se1^2 + se2^2)
-  p = 2*(1-stats::pnorm(abs(z)))
+  p = 2*(1-pnorm(abs(z)))
 
   var1 = paste0(est1,"_est1 = ", b1,", se = ", round(se1, digits),
                 ", t = ", round(t1, digits),"." )
@@ -74,9 +75,7 @@ wald_test <- function(b1,
                 ", t = ", round(t2, digits),"." )
 
   res = data.frame(
-    value = c( round(z, digits),
-               round(p, digits))
-                 )
+    value = c( z, p))
 
   rownames(res) = c("z.value","pvalue")
 
@@ -88,15 +87,29 @@ wald_test <- function(b1,
   res1 = res %>%tibble::tibble()
   res2 = res%>%dplyr::mutate(coef = c(var1, var2)) %>%tibble::tibble()
 
+  msg = cat("\n",paste0("Wald test결과, ",est1,"과",est2,"는" ,
+                        ifelse(res2[2, 2]< 0.05,"통계적으로 유의한 차이가 있다, ",
+                               "통계적으로 유의한 차이가 없다,"),
+                        " W = ", round(res2[1,2],3),
+                        ", p = ", round(res2[2, 2],3), "." ),"\n\n")
+
+  msg2 = paste0(est1,"과",est2, "의 Wald test결과, ",
+                ifelse(res2[2, 2]< 0.05,"통계적으로 유의한 차이가 나타났다, ",
+                       "통계적으로 유의한 차이가 없었다,"),
+                " W = ", round(res2[1,2],3),
+                ", p = ", round(res2[2, 2],3), "." )
+
   options(pillar.sigfig = digits)
+
   switch(type,
          res = res1,
          res1 = res1,
          res2 = res2,
-         all = res2
-         )
-  # list(res, var1, var2)
+         msg = msg,
+         msg2 = msg2
+  )
 }
+
 
 #' wald_test2 input t value
 #'

@@ -33,18 +33,19 @@
 #'
 #' #default
 #' satpls%>%plspm_paths_sig()
-#' satpls$inner_model %>%plspm_paths_sig()
+#' satpls$inner_model %>% plspm_paths_sig()
 #'
 #' satpls %>%plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
 #' satpls$inner_model  %>%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
 #'
 #' satpls %>%plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
-#' satpls$inner_model %>%plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
+#' satpls$inner_model %>% plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
 #'
 #' #'
 #' }
 #'
-plspm_paths_sig <- function(data, unite=FALSE, rhs ="endogenous", lhs ="exogenous",digits=3) {
+plspm_paths_sig <- function(data, unite=FALSE,
+                            rhs ="endogenous", lhs ="exogenous",digits=3) {
   # Check if data inherits from 'plspm'
   if (inherits(data, "plspm")) {
     data <- data[["inner_model"]]
@@ -140,7 +141,9 @@ plspm_paths_sig <- function(data, unite=FALSE, rhs ="endogenous", lhs ="exogenou
 #' #'
 #' }
 #'
-plspm_inner_model_sig <- function(data, unite=FALSE, rhs ="endo", lhs ="exo",digits=3) {
+plspm_inner_model_sig <- function(data, unite=FALSE,
+                                    rhs ="endogenous", lhs ="exogenous",
+                                    digits=3) {
   # Check if data inherits from 'plspm'
   if (inherits(data, "plspm")) {
     data <- data[["inner_model"]]
@@ -189,4 +192,3 @@ plspm_inner_model_sig <- function(data, unite=FALSE, rhs ="endo", lhs ="exo",dig
   }
   return(df)
 }
-

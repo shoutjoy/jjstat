@@ -7,8 +7,8 @@
 plspm_inner_model_sig(
   data,
   unite = FALSE,
-  rhs = "endo",
-  lhs = "exo",
+  rhs = "endogenous",
+  lhs = "exogenous",
   digits = 3
 )
 }

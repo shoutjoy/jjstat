@@ -52,13 +52,13 @@ satpls = plspm(satisfaction, sat_path, sat_blocks, modes = sat_mod,
 
 #default
 satpls\%>\%plspm_paths_sig()
-satpls$inner_model \%>\%plspm_paths_sig()
+satpls$inner_model \%>\% plspm_paths_sig()
 
 satpls \%>\%plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
 satpls$inner_model  \%>\%innermodel_sig(unite=FALSE, lhs="row", rhs="col")
 
 satpls \%>\%plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
-satpls$inner_model \%>\%plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
+satpls$inner_model \%>\% plspm_paths_sig(unite=FALSE, lhs="row", rhs="col")
 
 #'
 }
