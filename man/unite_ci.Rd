@@ -18,9 +18,9 @@ unite_ci(
 \arguments{
 \item{data}{data}
 
-\item{col1}{lower}
+\item{col1}{lower col}
 
-\item{col2}{upper}
+\item{col2}{upper col}
 
 \item{left}{left Parentheses}
 
@@ -41,6 +41,7 @@ Organizing and displaying confidence intervals
 \examples{
 
 \dontrun{
+
 #'
 # Sample data to simulate the scenario
 data <- data.frame(

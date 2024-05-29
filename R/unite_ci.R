@@ -1,8 +1,8 @@
 #' Organizing and displaying confidence intervals
 #'
 #' @param data data
-#' @param col1 lower
-#' @param col2 upper
+#' @param col1 lower col
+#' @param col2 upper col
 #' @param left left Parentheses
 #' @param right right Parentheses
 #' @param digits round
@@ -10,11 +10,13 @@
 #' @param remove True to remove existing columns, False to keep existing columns
 #'
 #' @return data
+#'
 #' @export
 #'
 #' @examples
 #'
 #' \dontrun{
+#'
 #' #'
 #' # Sample data to simulate the scenario
 #' data <- data.frame(
@@ -36,9 +38,11 @@
 #'
 #' }
 #'
-unite_ci <- function(data, col1 = ncol(data) - 1,
+unite_ci <- function(data,
+                     col1 = ncol(data) - 1,
                      col2 = ncol(data),
-                     left="[", right="]",
+                     left="[",
+                     right="]",
                      digits=3,
                      colname="95%CI",
                      remove=TRUE) {
