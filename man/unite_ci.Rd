@@ -16,9 +16,9 @@ unite_ci(
 )
 }
 \arguments{
-\item{data}{data}
+\item{data}{data.frame}
 
-\item{col1}{lower col}
+\item{col1}{lower col number or}
 
 \item{col2}{upper col}
 
@@ -33,7 +33,7 @@ unite_ci(
 \item{remove}{True to remove existing columns, False to keep existing columns}
 }
 \value{
-data
+data result
 }
 \description{
 Organizing and displaying confidence intervals

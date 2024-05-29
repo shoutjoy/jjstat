@@ -96,17 +96,26 @@
 #' outerplot(satpls, what = "loadings")
 #'
 #' }
-
 plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
                       scaling = NULL, scheme = "centroid", scaled = TRUE,
                       tol = 1e-06, maxiter = 100, plscomp = NULL,
-                      boot.val = TRUE, br = 500, dataset = TRUE, summary = TRUE) {
+                      boot.val = TRUE, br = 500, seed=NULL,
+                      dataset = TRUE, summary = TRUE) {
 
   cat("\n
     Wait for it.
     PLaunch Bootstrap
     PARTIAL LEAST SQUARES PATH MODELING (PLS-PM)
     jjstat package By Park Joonghee PhD \n\n\n")
+
+
+  # setseed as.integer(Sys.Date()
+  if (is.null(seed)) {
+    seed = as.integer(Sys.Date())
+    cat("Seed value:", seed, " \n")
+  }
+  set.seed(seed)
+
 
   library(progress)
   # 기본 PLSPM 분석 수행
@@ -115,6 +124,20 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
                       scaling = scaling, scheme = scheme, scaled = scaled,
                       tol = tol, maxiter = maxiter, plscomp = plscomp,
                       boot.val = TRUE, br = br, dataset = dataset)
+
+  # summary
+  res_boot = lapply(res$boot,
+                    function(x){ x%>%
+                        row2col("relationships")%>%
+                        Round(3)%>%
+                        add_t_sig(3,4,5,T,ns="")%>%
+                        unite_ci() %>%
+                        rename(경로계수=Original,
+                               평균계수=Mean.Boot, 표준오차=Std.Error,
+                               관계 = relationships )
+                      #  dplyr::select(-Original)
+                    })
+
 
   # 부트스트랩 검증 수행
   if (boot.val & !is.null(br) & br > 0) {
@@ -133,20 +156,138 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
                                scaling = scaling, scheme = scheme, scaled = scaled,
                                tol = tol, maxiter = maxiter, plscomp = plscomp,
                                boot.val = FALSE, br = NULL, dataset = FALSE)
-      boot_results[[i]] <- boot_res$path_coefs
+      boot_results[[i]] <- boot_res$path_coefs%>%
+        long_df("to","from","coefs")%>%
+        filter(coefs !=0)%>%
+        Unite("from","to","paths", sep="->")%>%
+        pull(coefs)
     }
-
+    res_colnames <- boot_res$path_coefs%>%
+      long_df("to","from","coefs")%>%
+      filter(coefs !=0)%>%
+      Unite("from","to","paths", sep="->")%>%
+      pull(paths)
     # 부트스트랩 통계 계산
-    boot_coefs <- do.call(cbind, boot_results)
-    boot_means <- apply(boot_coefs, 1, mean)
-    boot_sds <- apply(boot_coefs, 1, sd)
+    boot_coefs <- do.call(rbind, boot_results)
+    colnames(boot_coefs) = res_colnames
+    boot_means <- apply(boot_coefs, 2, mean)
+    boot_se <- apply(boot_coefs, 2, sd)
 
-    res$bootstrap <- list(means = boot_means, sds = boot_sds)
+    # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
+    bootstrap <- cbind.data.frame(means.boot2 = boot_means, se.boot2 = boot_se)%>%
+      row2col("coefs")%>%add_t_sig(2,3, unite=TRUE)
   }
+
+
 
   if (summary) {
-    print(summary(res))
-  }
+    # print(summary(res))
+    cat("\n")
+    print(res_boot)
+    cat("\n Additional TEST(CFA) (Park Joonghee PhD). \n\n")
 
-  return(res)
+    cat("\n (1) Indicator Validity  \n")
+    print( dall(res_boot$loadings %>%rename(신뢰구간=`95%CI`)))
+
+    cat("\n (2) Internal Consistency: Composite Reliability, Convergent Validity\n")
+    print(plspm_CRAVE(res) )
+
+    cat("\n (3) Fornell & Locker(1981) \n")
+    print(plspm_fl(res) )
+
+    cat("\n (4) HTMT(heterotrait-monotrait ratio of the correlations)\n")
+    print(plspm_htmt(res$data, plspm_extract_blocks(res$model)) )
+
+    cat("\n (5) Total effect: direct, indirect \n")
+    print(res$effect %>%cut_print())
+
+    cat("\n (6) effect size  \n")
+    print(plspm_f2(res))
+
+    cat("\n (6) additional boot Coeff \n")
+    print(bootstrap)
+    x11()
+    cat("\n (7) Paths coeff sig by inner_model regression \n")
+    plspm_path_coefs_plot(res)
+    return(res)
+  }
 }
+
+
+#' #'
+#' plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
+#'                       scaling = NULL, scheme = "centroid", scaled = TRUE,
+#'                       tol = 1e-06, maxiter = 100, plscomp = NULL,
+#'                       boot.val = TRUE, br = 500, dataset = TRUE, summary = TRUE) {
+#'
+#'   cat("\n
+#'     Wait for it.
+#'     PLaunch Bootstrap
+#'     PARTIAL LEAST SQUARES PATH MODELING (PLS-PM)
+#'     jjstat package By Park Joonghee PhD \n\n\n")
+#'
+#'   library(progress)
+#'   # 기본 PLSPM 분석 수행
+#'   res <- plspm::plspm(Data = Data, path_matrix = path_matrix,
+#'                       blocks = blocks, modes = modes,
+#'                       scaling = scaling, scheme = scheme, scaled = scaled,
+#'                       tol = tol, maxiter = maxiter, plscomp = plscomp,
+#'                       boot.val = TRUE, br = br, dataset = dataset)
+#'
+#'   # summary
+#'   res_boot = lapply(res$boot,
+#'          function(x){ x%>%
+#'              row2col("relationships")%>%
+#'              Round(3)%>%
+#'              add_t_sig(3,4,5,T,ns="")%>%
+#'              unite_ci() %>%
+#'              dplyr::select(-Original)%>%dall()
+#'          })
+#'
+#'
+#'   # 부트스트랩 검증 수행
+#'   if (boot.val & !is.null(br) & br > 0) {
+#'     pb <- progress::progress_bar$new(
+#'       format = "Bootstrapping [:bar] :percent :eta",
+#'       total = br, clear = FALSE, width = 60
+#'     )
+#'
+#'     boot_results <- list()
+#'
+#'     for (i in 1:br) {
+#'       pb$tick()
+#'       boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
+#'       boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
+#'                                blocks = blocks, modes = modes,
+#'                                scaling = scaling, scheme = scheme, scaled = scaled,
+#'                                tol = tol, maxiter = maxiter, plscomp = plscomp,
+#'                                boot.val = FALSE, br = NULL, dataset = FALSE)
+#'       boot_results[[i]] <- boot_res$path_coefs%>%
+#'         long_df("to","from","coefs")%>%
+#'         filter(coefs !=0)%>%
+#'         Unite("from","to","paths", sep="->")%>%
+#'         pull(coefs)
+#'     }
+#'     res_colnames <- boot_res$path_coefs%>%
+#'       long_df("to","from","coefs")%>%
+#'       filter(coefs !=0)%>%
+#'       Unite("from","to","paths", sep="->")%>%
+#'       pull(paths)
+#'     # 부트스트랩 통계 계산
+#'     boot_coefs <- do.call(rbind, boot_results)
+#'     colnames(boot_coefs) = res_colnames
+#'     boot_means <- apply(boot_coefs, 2, mean)
+#'     boot_se <- apply(boot_coefs, 2, sd)
+#'
+#'     # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
+#'   }
+#'
+#'
+#'
+#'   if (summary) {
+#'     # print(summary(res))
+#'     print(summary(res_boot))
+#'   }
+#'
+#'   return(res)
+#' }

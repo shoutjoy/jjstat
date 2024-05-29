@@ -34,64 +34,53 @@
 #'  }
 #'
 #'
-ztest_df <- function(data, row1=2, row2=3,
-                     rname1="", rname2="",
-                     sel="row"){
-
-  # library(broom)
-  # library(tidyverse)
-  utils::globalVariables(c("term"))
+ztest_df <- function(data, row1=2, row2=3, rname1="", rname2="", sel="row"){
 
   data <- broom::tidy(data)
 
   if(sel=="row"){
     b1 = data[row1, 2] %>% unlist()
     b2 = data[row2, 2] %>% unlist()
-    se1 = data[row1, 3]%>% unlist()
-    se2 = data[row2, 3]%>% unlist()
+    se1 = data[row1, 3] %>% unlist()
+    se2 = data[row2, 3] %>% unlist()
     se1_square = se1^2
     se2_square = se2^2
-    diff= b1 - b2
+    diff = b1 - b2
 
-    z = (b1 - b2)/ sqrt(se1_square + se2_square)
-    p = 2*(1- pnorm(abs(z)))
-    statistics = tibble::tibble(b1,b2,se1,se2,diff, z, p)
-    #colnames
-    colnames(statistics)=c(
-      paste0(data[row1, 1] %>% unlist(),"_est"),
-      paste0(data[row2, 1] %>% unlist(),"_est"),
-      paste0(data[row1, 1] %>% unlist(),"_se"),
-      paste0(data[row2, 1] %>% unlist(),"_se"),
-      "diff","z","p.value")
+    z = (b1 - b2) / sqrt(se1_square + se2_square)
+    p = 2 * (1 - pnorm(abs(z)))
+    statistics = tibble::tibble(b1, b2, se1, se2, diff, z, p)
 
-    #selcting by variable name
-  }else if(sel=="term"){
-    b1  = data %>% dplyr::filter(term==rname1) %>%
-      dplyr::select(2) %>% unlist()
-    b2  = data %>% dplyr::filter(term==rname2) %>%
-      dplyr::select(2) %>% unlist()
-    se1 = data %>% dplyr::filter(term==rname1) %>%
-      dplyr::select(3) %>% unlist()
-    se2 = data %>% dplyr::filter(term==rname2) %>%
-      dplyr::select(3)%>% unlist()
+    colnames(statistics) = c(
+      paste0(data[row1, 1] %>% unlist(), "_est"),
+      paste0(data[row2, 1] %>% unlist(), "_est"),
+      paste0(data[row1, 1] %>% unlist(), "_se"),
+      paste0(data[row2, 1] %>% unlist(), "_se"),
+      "diff", "z", "p.value"
+    )
+
+  } else if(sel=="term"){
+    b1  = data %>% dplyr::filter(term == rname1) %>% dplyr::select(2) %>% unlist()
+    b2  = data %>% dplyr::filter(term == rname2) %>% dplyr::select(2) %>% unlist()
+    se1 = data %>% dplyr::filter(term == rname1) %>% dplyr::select(3) %>% unlist()
+    se2 = data %>% dplyr::filter(term == rname2) %>% dplyr::select(3) %>% unlist()
 
     se1_square = se1^2
     se2_square = se2^2
+    diff = b1 - b2
 
-    diff= b1 - b2
+    z = (b1 - b2) / sqrt(se1_square + se2_square)
+    p = 2 * (1 - pnorm(abs(z)))
+    statistics = tibble::tibble(b1, b2, se1, se2, diff, z, p)
 
-    z = (b1 - b2)/ sqrt(se1_square + se2_square)
-
-    p = 2*(1-pnorm(abs(z)))
-
-    statistics = tibble::tibble(b1,b2,se1,se2, diff, z, p)
-
-    colnames(statistics)=c(
-      paste0(rname1,"_est"),
-      paste0(rname2,"_est"),
-      paste0(rname1,"_se"),
-      paste0(rname2,"_se"),
-      "diff","z","p.value")
+    colnames(statistics) = c(
+      paste0(rname1, "_est"),
+      paste0(rname2, "_est"),
+      paste0(rname1, "_se"),
+      paste0(rname2, "_se"),
+      "diff", "z", "p.value"
+    )
   }
+
   statistics
 }

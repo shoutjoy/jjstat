@@ -60,10 +60,10 @@
 #' satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1, scaled = FALSE,
 #'                         boot.val =TRUE, br=100)
 #'
-#' plspm_edge_values(satpls)
-#' plspm_edge_values(satpls, unite=F) #no star
-#' plspm_edge_values(satpls$inner_model)
-#' plspm_edge_values(satpls$inner_model, unite=FALSE) #No star
+#' plspm_edges_values(satpls)
+#' plspm_edges_values(satpls, unite=F) #no star
+#' plspm_edges_values(satpls$inner_model)
+#' plspm_edges_values(satpls$inner_model, unite=FALSE) #No star
 #' #' #'
 #'
 #' lay_p = matrix(c('IMA', NA, NA, NA, NA, NA, NA, NA,
@@ -81,7 +81,7 @@
 #'        layout = lay_p,
 #'        posCol = "black",
 #'        fade = FALSE,
-#'        edge.labels = plspm_edge_values(satpls),
+#'        edge.labels = plspm_edges_values(satpls),
 #'        edge.label.cex = 1,
 #'        edge.label.position = 0.4,
 #'        groups = NULL,
@@ -92,7 +92,7 @@
 #'        layout = "spring",
 #'        posCol = "black",
 #'        fade = FALSE,
-#'        edge.labels = plspm_edge_values(satpls),
+#'        edge.labels = plspm_edges_values(satpls),
 #'        edge.label.cex = 1,
 #'        edge.label.position = 0.4,
 #'        groups = NULL,
@@ -111,7 +111,7 @@
 #'        edge.label.position=0.4,
 #'        groups = NULL, palette='pastel' )
 #'
-#'  plspm_edge_values(satpls)
+#'  plspm_edges_values(satpls)
 #' satpls %>% plspm_path_coefs_plot()
 #' satpls %>% plspm_path_coefs_plot(node =TRUE)
 #'
@@ -145,6 +145,50 @@ plspm_edges_values = function(plsdata, digits=3, unite=TRUE, type="df"){
          df=new_edge_labels2)
 
 }
+
+
+#' Functions to include significance data for structural models in PLSPM
+#'
+#' @param plsdata plsdata
+#' @param digits round 3
+#' @param unite data combine unite TRUE -> estimat + sig
+#' @param type vec, df
+#' @return estimates vectors
+#' @export
+#'
+plspm_edge_values <- function(plsdata, digits = 3, unite = TRUE, type = "vec") {
+
+  if (length(plsdata) == 13) {
+    plsdf <- plsdata$inner_model
+  } else {
+    plsdf <- plsdata
+  }
+
+  # Apply round only to numeric columns
+  # plsdf <- plsdf %>%round2(digits)
+  #  dplyr::mutate(across(where(is.numeric), ~ round(.x, digits)))
+
+  # Paths coefficients
+  new_edge_labels <- plsdf %>%
+    plspm_paths_sig(unite = unite) %>%
+    dplyr::select(Est) %>%
+    unlist() %>%
+    as.character()
+
+  new_edge_labels2 <- plsdf %>%
+    plspm_paths_sig(unite = unite) %>%
+    dplyr::select(Path, Est) %>%
+    rename(relationships = Path,
+           coeff = Est)
+
+  switch(type,
+         vec = new_edge_labels,
+         vector = new_edge_labels,
+         data.frame = new_edge_labels2,
+         df = new_edge_labels2)
+
+}
+
 
 
 
@@ -210,10 +254,10 @@ plspm_edges_values = function(plsdata, digits=3, unite=TRUE, type="df"){
 #' satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1, scaled = FALSE,
 #'                         boot.val =TRUE, br=100)
 #'
-#' plspm_edge_values(satpls)
-#' plspm_edge_values(satpls, unite=F) #no star
-#' plspm_edge_values(satpls$inner_model)
-#' plspm_edge_values(satpls$inner_model, unite=FALSE) #No star
+#' plspm_edges_values(satpls)
+#' plspm_edges_values(satpls, unite=F) #no star
+#' plspm_edges_values(satpls$inner_model)
+#' plspm_edges_values(satpls$inner_model, unite=FALSE) #No star
 #' #' #'
 #'
 #' lay_p = matrix(c('IMA', NA, NA, NA, NA, NA, NA, NA,
@@ -231,7 +275,7 @@ plspm_edges_values = function(plsdata, digits=3, unite=TRUE, type="df"){
 #'        layout = lay_p,
 #'        posCol = "black",
 #'        fade = FALSE,
-#'        edge.labels = plspm_edge_values(satpls),
+#'        edge.labels = plspm_edges_values(satpls),
 #'        edge.label.cex = 1,
 #'        edge.label.position = 0.4,
 #'        groups = NULL,
@@ -242,7 +286,7 @@ plspm_edges_values = function(plsdata, digits=3, unite=TRUE, type="df"){
 #'        layout = "spring",
 #'        posCol = "black",
 #'        fade = FALSE,
-#'        edge.labels = plspm_edge_values(satpls),
+#'        edge.labels = plspm_edges_values(satpls),
 #'        edge.label.cex = 1,
 #'        edge.label.position = 0.4,
 #'        groups = NULL,
@@ -261,7 +305,7 @@ plspm_edges_values = function(plsdata, digits=3, unite=TRUE, type="df"){
 #'        edge.label.position=0.4,
 #'        groups = NULL, palette='pastel' )
 #'
-#'  plspm_edge_values(satpls)
+#'  plspm_edges_values(satpls)
 #' satpls %>% plspm_path_coefs_plot()
 #' satpls %>% plspm_path_coefs_plot(node =TRUE)
 #'

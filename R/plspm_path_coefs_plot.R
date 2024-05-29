@@ -136,7 +136,7 @@
 #' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=FALSE)
 #' satpls %>% plspm_path_coefs_plot(node = FALSE,grp=FALSE)
 #' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=TRUE)
-#' #'
+#' #'plspm_edge_values
 #' }
 plspm_path_coefs_plot <- function(plsdata,
                                   grp = TRUE,
@@ -178,7 +178,8 @@ plspm_path_coefs_plot <- function(plsdata,
       edge_data <- plsdata$inner_model
 
 
-      #significant values
+      #significant values ,
+      #Not plspm_edges_values  !!edges
 
       edge_labels = plspm_edge_values(edge_data)
       # Converting to a data conversion factor value
@@ -226,7 +227,8 @@ plspm_path_coefs_plot <- function(plsdata,
                  edge.label.cex = edge.label.cex,
                  edge.label.position = edge.label.position,
                  groups = groups,
-                 palette = pastel)
+                 palette = pastel)%>%
+    suppressWarnings()
 
 }
 

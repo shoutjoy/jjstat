@@ -186,6 +186,6 @@ satpls \%>\% plspm_path_coefs_plot(node = FALSE,grp=TRUE)
 satpls \%>\% plspm_path_coefs_plot(node = TRUE,grp=FALSE)
 satpls \%>\% plspm_path_coefs_plot(node = FALSE,grp=FALSE)
 satpls \%>\% plspm_path_coefs_plot(node = TRUE,grp=TRUE)
-#'
+#'plspm_edge_values
 }
 }

@@ -1,7 +1,7 @@
 #' Organizing and displaying confidence intervals
 #'
-#' @param data data
-#' @param col1 lower col
+#' @param data data.frame
+#' @param col1 lower col number or
 #' @param col2 upper col
 #' @param left left Parentheses
 #' @param right right Parentheses
@@ -9,7 +9,7 @@
 #' @param colname "95%CI"
 #' @param remove True to remove existing columns, False to keep existing columns
 #'
-#' @return data
+#' @return data result
 #'
 #' @export
 #'
