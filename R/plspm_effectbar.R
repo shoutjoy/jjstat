@@ -49,9 +49,8 @@ plspm_effectbar <- function(x_pls,
     plsdf = x_pls
   }
 
-  # Filter effects with total > 0
 
-  path_effs <- x_pls$effects %>% filter(total > 0)
+  path_effs <- x_pls$effects
   path_effs1 <- as.matrix(path_effs[, 2:3])
   # Add rownames to path_effs1
   rownames(path_effs1) = path_effs[, 1]
