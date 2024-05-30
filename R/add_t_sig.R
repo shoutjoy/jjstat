@@ -45,10 +45,10 @@ add_t_sig <- function(data, est, se, col = ncol(data) + 1,
   # Calculate t and sig columns
   res <- data %>% mutate(
     t = ifelse(!!sym(se) == 0, 0, !!sym(est) / !!sym(se)),
-    sig = ifelse(t == "", ns,
-                 ifelse(t > 3.29, "***",
-                        ifelse(t > 2.58, "**",
-                               ifelse(t > 1.96, "*", ns))))
+    sig = ifelse(abs(t) == "", ns,
+                 ifelse(abs(t) > 3.29, "***",
+                        ifelse(abs(t) > 2.58, "**",
+                               ifelse(abs(t) > 1.96, "*", ns))))
   )
 
   # Round t column

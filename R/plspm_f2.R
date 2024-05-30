@@ -73,9 +73,9 @@ plspm_f2 = function(plsres, type="res"){
            exR2 = 1-R2,
            f2 = diff/exR2)%>%
     mutate(effectsize = case_when(
-      f2 >= 0.35 ~ "large",
-      f2 >= 0.15 ~ "medium",
-      f2 >= 0.02 ~ "small",
+      f2 >= 0.35 ~ "large(>.35)",
+      f2 >= 0.15 ~ "medium(>.15)",
+      f2 >= 0.02 ~ "small(>.02)",
       f2 < 0.2  ~ "ns"
     ))%>%
     dplyr::select(from, to, coefs, R2, f2, effectsize)
@@ -87,8 +87,7 @@ plspm_f2 = function(plsres, type="res"){
          f2 = f2,
          r2 =inner_summary_data[,c(1,2)],
          R2 = inner_summary_data[, c(1, 2)],
-         inner =inner_summary_data,
-  )
+         inner =inner_summary_data)
 }
 #
 # plspm_f2 <- function(plsres, type="res") {
