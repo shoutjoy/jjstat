@@ -176,9 +176,7 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
 
     # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
     bootstrap <- cbind.data.frame(means.boot2 = boot_means,
-                                  se.boot2 = boot_se)%>%
-      # tibble::rownames_to_column("paths")%>%
-                           add_t_sig(1,2, unite=TRUE)
+                                  se.boot2 = boot_se)
   }
 
 

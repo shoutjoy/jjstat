@@ -83,10 +83,8 @@ plspm_f2 = function(plsres, type="res"){
 
   f2 = res%>%dplyr::select(from,to, f2)%>%Unite(1,2,"paths","->")#%>%col2row()
 
-  switch(type,
-         res = res,
+  switch(type, res = res,
          f2 = f2,
-         coefs =plsres[["path_coefs"]],
          r2 =inner_summary_data[,c(1,2)],
          R2 = inner_summary_data[, c(1, 2)],
          inner =inner_summary_data,
