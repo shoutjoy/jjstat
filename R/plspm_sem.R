@@ -181,6 +181,9 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
 
 
 
+
+switch(type, res = res, all= all, summary=res_summary)
+
   if (summary) {
     # print(summary(res))
     cat("\n")
@@ -205,8 +208,9 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
     cat("\n (6) effect size  \n")
     print(plspm_f2(res))
 
-    # cat("\n (7) additional boot Coeff \n")
-    # print(bootstrap)
+    cat("\n (7) additional boot Coeff \n")
+    print(bootstrap)
+
     x11()
     cat("\n (8) Paths coeff sig \n")
     plspm_path_coefs_plot(res)

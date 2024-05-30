@@ -4,10 +4,12 @@
 \alias{plspm_loadings_plot}
 \title{plspm_loadings_plot}
 \usage{
-plspm_loadings_plot(plsres)
+plspm_loadings_plot(plsres, show = FALSE)
 }
 \arguments{
 \item{plsres}{plspm data}
+
+\item{show}{show data}
 }
 \value{
 plot

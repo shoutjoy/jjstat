@@ -17,3 +17,14 @@ data table
 \description{
 plspm loadings output
 }
+\examples{
+\dontrun{
+
+plsres \%>\% plspm_loadings()
+plsres$boot \%>\% plspm_loadings()
+plsres$boot$paths \%>\% plspm_loadings()
+
+
+}
+
+}

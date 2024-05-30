@@ -4,7 +4,18 @@
 #' @param digits round =3
 #'
 #' @return data table
+#'
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#'
+#' plsres %>% plspm_loadings()
+#' plsres$boot %>% plspm_loadings()
+#' plsres$boot$paths %>% plspm_loadings()
+#'
+#'
+#' }
 #'
 plspm_loadings = function(plsres, digits=3){
 

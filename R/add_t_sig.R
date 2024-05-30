@@ -43,7 +43,7 @@ add_t_sig <- function(data, est, se, col = ncol(data) + 1,
   }
 
   # Calculate t and sig columns
-  res <- data %>% mutate(
+  res <- data %>% dplyr::mutate(
     t = ifelse(!!sym(se) == 0, 0, !!sym(est) / !!sym(se)),
     sig = ifelse(abs(t) == "", ns,
                  ifelse(abs(t) > 3.29, "***",
@@ -52,7 +52,7 @@ add_t_sig <- function(data, est, se, col = ncol(data) + 1,
   )
 
   # Round t column
-  res <- res %>% mutate(t = ifelse(t == 0, "",
+  res <- res %>% dplyr::mutate(t = ifelse(t == 0, "",
                                    format(round(t, digits),justify="left")  ))
 
   # If unite is TRUE, combine t and sig columns

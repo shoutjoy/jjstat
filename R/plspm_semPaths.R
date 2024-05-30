@@ -230,7 +230,7 @@ plspm_semPaths = function(plsres_boot,
         edgeLabels = edgeLabels,
         # nodeLabels = nodeLabels,
         structural = structural,
-
+        label.cex = label.cex,
         style =  style,  mar=mar)
     }else if(!is.null(nodeLabels)){
       dia = lav_obj %>% semPlot::semPaths(
@@ -258,7 +258,7 @@ plspm_semPaths = function(plsres_boot,
         # edgeLabels = edgeLabels,
         nodeLabels = nodeLabels,
         structural = structural,
-
+        label.cex = label.cex,
         style =  style,  mar=mar)
     }else if(!is.null(edgeLabels) & !is.null(nodeLabels)){
       dia = lav_obj %>% semPlot::semPaths(

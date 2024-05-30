@@ -1,7 +1,7 @@
 #' plspm_loadings_plot
 #'
 #' @param plsres plspm data
-#'
+#' @param show  show data
 #' @return plot
 #' @export
 #'
@@ -66,14 +66,18 @@
 #'  }
 #'
 #'
-plspm_loadings_plot = function(plsres){
+plspm_loadings_plot = function(plsres, show=FALSE){
 
   if(length(plsres)==13){
     plsdf = plsres[["outer_model"]]
   }else{
     plsdf = plsres
   }
+
+  if(show){
+
   print(plsdf)
+  }
 
   ggplot(plsdf,
          aes(x = name, y = loading, fill = block)) +

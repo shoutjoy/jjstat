@@ -43,6 +43,12 @@ plspm_effectbar <- function(x_pls,
   # Load necessary library
   library(dplyr)
 
+  if(length((x_pls))==13 |length((x_pls))== 11 ){
+    plsdf = x_pls$effects
+  }else{
+    plsdf = x_pls
+  }
+
   # Filter effects with total > 0
   a1 <- x_pls$effects %>% filter(total > 0)
 
