@@ -156,27 +156,27 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
                                scaling = scaling, scheme = scheme, scaled = scaled,
                                tol = tol, maxiter = maxiter, plscomp = plscomp,
                                boot.val = FALSE, br = NULL, dataset = FALSE)
-      boot_results[[i]] <- boot_res$path_coefs%>%
-        long_df("to","from","coefs")%>%
-        filter(coefs !=0)%>%
-        Unite("from","to","paths", sep="->")%>%
-        pull(coefs)
+      boot_results[[i]] <- boot_res$path_coefs#%>%
+        # long_df("to","from","coefs")%>%
+        # filter(coefs !=0)%>%
+        # Unite("from","to","paths", sep="->")%>%
+        # pull(coefs)
     }
-    res_colnames <- boot_res$path_coefs%>%
-      long_df("to","from","coefs")%>%
-      filter(coefs !=0)%>%
-      Unite("from","to","paths", sep="->")%>%
-      pull(paths)
+    # res_colnames <- boot_res$path_coefs%>%
+    #   long_df("to","from","coefs")%>%
+    #   filter(coefs !=0)%>%
+    #   Unite("from","to","paths", sep="->")%>%
+    #   pull(paths)
 
-    # 부트스트랩 통계 계산
-    boot_coefs <- do.call(rbind, boot_results)
-    colnames(boot_coefs) = res_colnames
-    boot_means <- apply(boot_coefs, 2, mean)
-    boot_se <- apply(boot_coefs, 2, sd)
-
-    # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
-    bootstrap <- cbind.data.frame(means.boot2 = boot_means,
-                                  se.boot2 = boot_se)
+    # # 부트스트랩 통계 계산
+    # boot_coefs <- do.call(rbind, boot_results)
+    # colnames(boot_coefs) = res_colnames
+    # boot_means <- apply(boot_coefs, 2, mean)
+    # boot_se <- apply(boot_coefs, 2, sd)
+    #
+    # # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
+    # bootstrap <- cbind.data.frame(means.boot2 = boot_means,
+    #                               se.boot2 = boot_se)
   }
 
 
@@ -202,11 +202,11 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
     cat("\n (5) Total effect: direct, indirect \n")
     print(res$effect %>%cut_print())
 
-    cat("\n (6) effect size  \n")
+    # cat("\n (6) effect size  \n")
     # print(plspm_f2(res))
 
-    cat("\n (7) additional boot Coeff \n")
-    print(bootstrap)
+    # cat("\n (7) additional boot Coeff \n")
+    # print(bootstrap)
     x11()
     cat("\n (8) Paths coeff sig \n")
     plspm_path_coefs_plot(res)
