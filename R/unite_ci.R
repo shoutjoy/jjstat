@@ -34,10 +34,8 @@
 #'
 #' # Apply the function to the dataframe with remove = FALSE
 #' unite_ci(data, col1 = 'perc.025', col2 = 'perc.975', remove = FALSE)
-
 #'
 #' }
-#'
 unite_ci <- function(data,
                      col1 = ncol(data) - 1,
                      col2 = ncol(data),

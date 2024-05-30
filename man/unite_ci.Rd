@@ -61,5 +61,4 @@ unite_ci(data, col1 = 6, col2 = 7, remove = TRUE)
 unite_ci(data, col1 = 'perc.025', col2 = 'perc.975', remove = FALSE)
 
 }
-
 }

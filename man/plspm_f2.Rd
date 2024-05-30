@@ -46,4 +46,6 @@ satpls_boot\%>\%plspm_f2("r2")
 satpls_boot\%>\%plspm_f2("inner")
 }
 
+
+
 }
