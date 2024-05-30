@@ -167,6 +167,7 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
       filter(coefs !=0)%>%
       Unite("from","to","paths", sep="->")%>%
       pull(paths)
+
     # 부트스트랩 통계 계산
     boot_coefs <- do.call(rbind, boot_results)
     colnames(boot_coefs) = res_colnames
@@ -204,7 +205,7 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
     print(res$effect %>%cut_print())
 
     cat("\n (6) effect size  \n")
-    print(plspm_f2(res))
+    # print(plspm_f2(res))
 
     cat("\n (7) additional boot Coeff \n")
     print(bootstrap)

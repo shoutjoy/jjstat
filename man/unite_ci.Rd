@@ -16,7 +16,7 @@ unite_ci(
 )
 }
 \arguments{
-\item{data}{data}
+\item{data}{A data frame containing the data}
 
 \item{col1}{lower}
 
@@ -28,7 +28,7 @@ unite_ci(
 
 \item{digits}{round3}
 
-\item{colname}{95CI}
+\item{colname}{"95CI"}
 
 \item{remove}{orinal column}
 }

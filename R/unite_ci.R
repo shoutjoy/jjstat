@@ -1,12 +1,12 @@
 #' unite_ci if you add ci
 #'
-#' @param data data
+#' @param data A data frame containing the data
 #' @param col1 lower
 #' @param col2 upper
 #' @param left lefe (
 #' @param right right )
 #' @param digits round3
-#' @param colname 95CI
+#' @param colname "95CI"
 #' @param remove orinal column
 #'
 #' @return data
