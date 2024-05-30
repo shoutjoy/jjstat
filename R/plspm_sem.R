@@ -74,8 +74,22 @@
 #' innerplot(sat_path)
 #' # blocks of outer model
 #' # sat_blocks = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
+#' #' #####################
+#' library(jjstat)
+#' data(satisfaction)
+#' sat_path = plspm_paths(
+#'   row_names = c("IMAG","EXPE","QUAL","VAL","SAT","LOY"),
+#'   relationship = list(
+#'     path(from="IMAG", to=c("EXPE","SAT","LOY")),
+#'     path("EXPE", c("QUAL","VAL","SAT")),
+#'     path("QUAL", c("VAL","SAT")),
+#'     path("VAL",c("SAT")),
+#'     path("SAT","LOY"))
+#' )
+#' sat_path
 #'
-#' sat_blocks <- plspm_blocks(
+#' # blokcs
+#' sat_blocks1 <- plspm_blocks(
 #'   IMAG = item(paste0("imag",1:5)),
 #'   EXPE = item(paste0("expe", 1:5)),
 #'   QUAL = item( paste0("qual", 1:5)),
@@ -84,16 +98,10 @@
 #'   LOY = item(paste0("loy", 1:4))
 #' )
 #'
+#' sat_blocks1
 #'
-#' # vector of modes (reflective indicators)
-#' sat_mod = rep("A", 6)
-#' # apply plspm
-#' satpls = plspm_sem(satisfaction, sat_path, sat_blocks, modes = sat_mod,
-#'                scaled = FALSE)
-#' # plot diagram of the inner model
-#' innerplot(satpls)
-#' # plot loadings
-#' outerplot(satpls, what = "loadings")
+#' satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1, scaled = FALSE,
+#'                         boot.val =TRUE, br=100)
 #'
 #' }
 plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
@@ -133,8 +141,8 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
                         add_t_sig(3,4,5,T,ns="")%>%
                         unite_ci() %>%
                         rename(경로계수=Original,
-                               평균계수=Mean.Boot, 표준오차=Std.Error,
-                               관계 = relationships )
+                               평균계수=Mean.Boot, 표준오차=Std.Error
+                                )
                       #  dplyr::select(-Original)
                     })
 
@@ -156,33 +164,29 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
                                scaling = scaling, scheme = scheme, scaled = scaled,
                                tol = tol, maxiter = maxiter, plscomp = plscomp,
                                boot.val = FALSE, br = NULL, dataset = FALSE)
-      boot_results[[i]] <- boot_res$path_coefs%>%
-        long_df("to","from","coefs")%>%
-        filter(coefs !=0)%>%
-        Unite("from","to","paths", sep="->")%>%
-        pull(coefs)
+      boot_results[[i]] <- boot_res$path_coefs#%>%
+        # long_df("to","from","coef")%>%
+        # dplyr::filter(coefs !=0)%>%
+        # Unite("from","to","paths", sep="->")%>%
+        # dplyr::pull(coefs)
     }
-    res_colnames <- boot_res$path_coefs%>%
-      long_df("to","from","coefs")%>%
-      filter(coefs !=0)%>%
-      Unite("from","to","paths", sep="->")%>%
-      pull(paths)
-
-    # # 부트스트랩 통계 계산
-    boot_coefs <- do.call(rbind, boot_results)
-    colnames(boot_coefs) = res_colnames
-    boot_means <- apply(boot_coefs, 2, mean)
-    boot_se <- apply(boot_coefs, 2, sd)
+    # res_colnames <- boot_res$path_coefs%>%
+    #   long_df("to","from","coef")%>%
+    #   dplyr::filter(coefs !=0)%>%
+    #   Unite("from","to","paths", sep="->")%>%
+    #   dplyr::pull(paths)
     #
-    res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
-    bootstrap <- cbind.data.frame(means.boot2 = boot_means,
-                                  se.boot2 = boot_se)
+    # # # 부트스트랩 통계 계산
+    # boot_coefs <- do.call(rbind, boot_results)
+    # colnames(boot_coefs) = res_colnames
+    # boot_means <- apply(boot_coefs, 2, mean)
+    # boot_se <- apply(boot_coefs, 2, sd)
+    # #
+    # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
+    # bootstrap <- cbind.data.frame(means.boot2 = boot_means,
+    #                               se.boot2 = boot_se)
   }
 
-
-
-
-switch(type, res = res, all= all, summary=res_summary)
 
   if (summary) {
     # print(summary(res))
@@ -203,16 +207,20 @@ switch(type, res = res, all= all, summary=res_summary)
     print(plspm_htmt(res$data, plspm_extract_blocks(res$model)) )
 
     cat("\n (5) Total effect: direct, indirect \n")
-    print(res$effect %>%cut_print())
+    print(res$effect %>% full_join(
+                  res_boot$total.efs%>%dplyr::select(1,5,6),
+                  by="relationships"
+                  )%>%
+            cut_print())
 
     cat("\n (6) effect size  \n")
     print(plspm_f2(res))
 
-    cat("\n (7) additional boot Coeff \n")
-    print(bootstrap)
+    # cat("\n (7) additional boot Coeff \n")
+    # print(boot_coefs)
 
     x11()
-    cat("\n (8) Paths coeff sig \n")
+    cat("\n (7) Paths coeff sig \n")
     plspm_path_coefs_plot(res)
     return(res)
   }

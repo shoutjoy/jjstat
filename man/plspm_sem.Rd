@@ -113,8 +113,22 @@ sat_path = plspm_paths(
 innerplot(sat_path)
 # blocks of outer model
 # sat_blocks = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
+#' #####################
+library(jjstat)
+data(satisfaction)
+sat_path = plspm_paths(
+  row_names = c("IMAG","EXPE","QUAL","VAL","SAT","LOY"),
+  relationship = list(
+    path(from="IMAG", to=c("EXPE","SAT","LOY")),
+    path("EXPE", c("QUAL","VAL","SAT")),
+    path("QUAL", c("VAL","SAT")),
+    path("VAL",c("SAT")),
+    path("SAT","LOY"))
+)
+sat_path
 
-sat_blocks <- plspm_blocks(
+# blokcs
+sat_blocks1 <- plspm_blocks(
   IMAG = item(paste0("imag",1:5)),
   EXPE = item(paste0("expe", 1:5)),
   QUAL = item( paste0("qual", 1:5)),
@@ -123,16 +137,10 @@ sat_blocks <- plspm_blocks(
   LOY = item(paste0("loy", 1:4))
 )
 
+sat_blocks1
 
-# vector of modes (reflective indicators)
-sat_mod = rep("A", 6)
-# apply plspm
-satpls = plspm_sem(satisfaction, sat_path, sat_blocks, modes = sat_mod,
-               scaled = FALSE)
-# plot diagram of the inner model
-innerplot(satpls)
-# plot loadings
-outerplot(satpls, what = "loadings")
+satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1, scaled = FALSE,
+                        boot.val =TRUE, br=100)
 
 }
 }

@@ -54,25 +54,34 @@
 #'
 plspm_f2 = function(plsres, type="res"){
 
-  path_coefs_data = plsres[["path_coefs"]]
-  inner_summary_data = plsres[["inner_summary"]]
+  #
+  if(length(plsres)==13){
+    path_coefs_data = plsres$path_coefs
+    inner_summary_data = plsres$inner_summary
+  }else{
+    pass
+  }
+
+  #
+  # path_coefs_data = plsres[["path_coefs"]]
+  # inner_summary_data = plsres[["inner_summary"]]
 
   coeff1 =  path_coefs_data %>%
     t()%>%   #행렬을 전환
     long_df("from","to","coefs")%>% #rownames_to_column and  pivot_longer
-    filter(coefs !=0)
+    dplyr::filter(coefs != 0)
 
   r2_part = inner_summary_data %>%
     row2col("to")%>%#rownames_to_column
     dplyr::select(to, R2)%>%
-    filter(R2 !=0)
+    dplyr::filter(R2 !=0)
 
   res = full_join(coeff1,  r2_part, by="to")%>%
-    mutate(Rred = R2-(R2*coefs),
+    dplyr::mutate(Rred = R2-(R2*coefs),
            diff = R2-Rred,
            exR2 = 1-R2,
            f2 = diff/exR2)%>%
-    mutate(effectsize = case_when(
+    dplyr::mutate(effectsize = case_when(
       f2 >= 0.35 ~ "large(>.35)",
       f2 >= 0.15 ~ "medium(>.15)",
       f2 >= 0.02 ~ "small(>.02)",
@@ -81,7 +90,8 @@ plspm_f2 = function(plsres, type="res"){
     dplyr::select(from, to, coefs, R2, f2, effectsize)
 
 
-  f2 = res%>%dplyr::select(from,to, f2)%>%Unite(1,2,"paths","->")#%>%col2row()
+  f2 = res%>%dplyr::select(from,to, f2)%>%
+           Unite(1,2,"paths","->")#%>%col2row()
 
   switch(type, res = res,
          f2 = f2,
