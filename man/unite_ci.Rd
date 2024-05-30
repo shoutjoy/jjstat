@@ -2,7 +2,7 @@
 % Please edit documentation in R/unite_ci.R
 \name{unite_ci}
 \alias{unite_ci}
-\title{Organizing and displaying confidence intervals}
+\title{unite_ci}
 \usage{
 unite_ci(
   data,
@@ -16,27 +16,27 @@ unite_ci(
 )
 }
 \arguments{
-\item{data}{data.frame}
+\item{data}{data}
 
-\item{col1}{lower col number or}
+\item{col1}{lower}
 
-\item{col2}{upper col}
+\item{col2}{upper}
 
-\item{left}{left Parentheses}
+\item{left}{lefe (}
 
-\item{right}{right Parentheses}
+\item{right}{right )}
 
-\item{digits}{round}
+\item{digits}{round3}
 
-\item{colname}{"95%CI"}
+\item{colname}{95%CI}
 
-\item{remove}{True to remove existing columns, False to keep existing columns}
+\item{remove}{oriinal column}
 }
 \value{
-data result
+data
 }
 \description{
-Organizing and displaying confidence intervals
+unite_ci
 }
 \examples{
 
@@ -61,4 +61,5 @@ unite_ci(data, col1 = 6, col2 = 7, remove = TRUE)
 unite_ci(data, col1 = 'perc.025', col2 = 'perc.975', remove = FALSE)
 
 }
+
 }

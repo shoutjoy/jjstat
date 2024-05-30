@@ -15,3 +15,11 @@ lsit
 \description{
 olsom boot result model
 }
+\examples{
+
+\dontrun{
+# using htmt
+}
+
+
+}

@@ -1,16 +1,15 @@
-#' Organizing and displaying confidence intervals
+#' unite_ci
 #'
-#' @param data data.frame
-#' @param col1 lower col number or
-#' @param col2 upper col
-#' @param left left Parentheses
-#' @param right right Parentheses
-#' @param digits round
-#' @param colname "95%CI"
-#' @param remove True to remove existing columns, False to keep existing columns
+#' @param data data
+#' @param col1 lower
+#' @param col2 upper
+#' @param left lefe (
+#' @param right right )
+#' @param digits round3
+#' @param colname 95%CI
+#' @param remove oriinal column
 #'
-#' @return data result
-#'
+#' @return data
 #' @export
 #'
 #' @examples
@@ -36,6 +35,7 @@
 #' unite_ci(data, col1 = 'perc.025', col2 = 'perc.975', remove = FALSE)
 #'
 #' }
+#'
 unite_ci <- function(data,
                      col1 = ncol(data) - 1,
                      col2 = ncol(data),
