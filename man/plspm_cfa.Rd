@@ -66,7 +66,7 @@ satpls_boot\%>\%plspm_cfa(type="model")
 satpls_boot\%>\%plspm_cfa(type="inner_model") \%>\%plspm_inner_model_sig()
 satpls_boot\%>\%plspm_cfa(type="outer_model")
 satpls_boot\%>\%plspm_cfa(type="effectbar")
-
+total
 }
 
 

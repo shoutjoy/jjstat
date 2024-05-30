@@ -31,13 +31,13 @@
 #' dftest%>%plspm_effectbar(axis_x=2)
 #' jutpls %>%plspm_effectbar(axis_x=1.2, border=1)
 #' jutpls %>%plspm_effectbar(axis_x=1.2, col=c("gray30","gray70"))
-#' #'
+#' #' total
 #' }
 #'
 plspm_effectbar <- function(x_pls,
-                            axis_x = 1.3,
+                            axis_x = 1,
                             axis_y = 1.1,
-                            mar = c(axis_x*9, 3, 1, 0.5), # Adjusted to remove cex.names
+                            mar = c(axis_x*7, 3, 1, 0.5), # Adjusted to remove cex.names
                             border = 1,
                             col = c("#9E9AC8", "#DADAEB")) {
   # Load necessary library
@@ -50,7 +50,6 @@ plspm_effectbar <- function(x_pls,
   }
 
   # Filter effects with total > 0
-  a1 <- x_pls$effects %>% filter(total > 0)
 
   path_effs <- x_pls$effects %>% filter(total > 0)
   path_effs1 <- as.matrix(path_effs[, 2:3])
@@ -73,7 +72,6 @@ plspm_effectbar <- function(x_pls,
   # Resetting default margins
   par(op)
 
-  # return(t(path_effs1))
-   # return(a1)
-  return(a1%>% Round(3)%>% cut_print())
+
+  return(path_effs%>% Round(3)%>% cut_print())
 }

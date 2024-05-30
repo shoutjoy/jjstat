@@ -54,7 +54,7 @@
 #' satpls_boot%>%plspm_cfa(type="inner_model") %>%plspm_inner_model_sig()
 #' satpls_boot%>%plspm_cfa(type="outer_model")
 #' satpls_boot%>%plspm_cfa(type="effectbar")
-#'
+#' total
 #' }
 #'
 #'
@@ -93,13 +93,17 @@ plspm_cfa = function(plsres_boot, type="all", axis_x=1.2){
     nice_table()%>%dall()
 
   fl = plspm_fl(plsres_boot)
+  #
   htmt = plspm_htmt(plsres_boot$data, plspm_extract_blocks(plsres_boot$model))
+  #
   total_effect = plsres_boot$effect %>%cut_print_all()
+  #
   effectssize = plspm_f2(plsres_boot)
-
+  #
   #effect join
   total_effect_sig = full_join(total_effect,
-                               res_boot$total.efs%>%dplyr::select(-경로계수, -평균계수, -표준오차)%>%
+                               res_boot$total.efs%>%
+                                 dplyr::select(-경로계수, -평균계수, -표준오차)%>%
                                  rename(relationships=관계),
                                by="relationships")
 
@@ -110,13 +114,15 @@ plspm_cfa = function(plsres_boot, type="all", axis_x=1.2){
   loadings_plot = plspm_loadings_plot(plsres_boot)%>%
     suppressWarnings()
   corssloadings_plot = plspm_crossloadings_plot(plsres_boot, T)
-
+  #
   paths_plot = plspm_path_coefs_plot(plsres_boot)%>%
     suppressWarnings()
+
+
   effect_bar = plspm_effectbar(plsres_boot, axis_x=axis_x, col=c("gray30","gray70"))
 
 
-  # list(item,CR_AVE, fl, htmt,total_effect,effectssize ,loadings_plot)
+
   all = list(
     item = item,
     CR_AVE = CR_AVE,
@@ -168,5 +174,5 @@ plspm_cfa = function(plsres_boot, type="all", axis_x=1.2){
          scores = plsres_boot$scores,
          manifests = plsres_boot$manifests,
   )
-  # res_boot
+  #
 }

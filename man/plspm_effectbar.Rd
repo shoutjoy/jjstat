@@ -6,9 +6,9 @@
 \usage{
 plspm_effectbar(
   x_pls,
-  axis_x = 1.3,
+  axis_x = 1,
   axis_y = 1.1,
-  mar = c(axis_x * 9, 3, 1, 0.5),
+  mar = c(axis_x * 7, 3, 1, 0.5),
   border = 1,
   col = c("#9E9AC8", "#DADAEB")
 )
@@ -53,7 +53,7 @@ dftest\%>\%plspm_effectbar(axis_x=1.2)
 dftest\%>\%plspm_effectbar(axis_x=2)
 jutpls \%>\%plspm_effectbar(axis_x=1.2, border=1)
 jutpls \%>\%plspm_effectbar(axis_x=1.2, col=c("gray30","gray70"))
-#'
+#' total
 }
 
 }
