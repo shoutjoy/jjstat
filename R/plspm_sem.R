@@ -177,7 +177,7 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
     # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
     bootstrap <- cbind.data.frame(means.boot2 = boot_means,
                                   se.boot2 = boot_se)%>%
-      tibble::rownames_to_column("paths")%>%
+      # tibble::rownames_to_column("paths")%>%
                            add_t_sig(1,2, unite=TRUE)
   }
 
@@ -210,7 +210,7 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
     cat("\n (7) additional boot Coeff \n")
     print(bootstrap)
     x11()
-    cat("\n (8) Paths coeff sig by inner_model regression \n")
+    cat("\n (8) Paths coeff sig \n")
     plspm_path_coefs_plot(res)
     return(res)
   }
