@@ -170,13 +170,13 @@ plspm_edge_values <- function(plsdata, digits = 3, unite = TRUE, type = "vec") {
 
   # Paths coefficients
   new_edge_labels <- plsdf %>%
-    plspm_paths_sig(unite = unite) %>%
+    plspm_inner_model_sig(unite = unite) %>%
     dplyr::select(Est) %>%
     unlist() %>%
     as.character()
 
   new_edge_labels2 <- plsdf %>%
-    plspm_paths_sig(unite = unite) %>%
+    plspm_inner_model_sig(unite = unite) %>%
     dplyr::select(Path, Est) %>%
     rename(relationships = Path,
            coeff = Est)

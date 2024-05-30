@@ -6,6 +6,7 @@
 \usage{
 plspm_path_coefs_plot(
   plsdata,
+  boot = TRUE,
   grp = TRUE,
   groups = NULL,
   digits = 3,
@@ -28,6 +29,8 @@ plspm_path_coefs_plot(
 )
 }
 \arguments{
+\item{boot}{FALSE inner_model TRUE boot}
+
 \item{grp}{groups on T}
 
 \item{groups}{NULL}
@@ -174,11 +177,12 @@ satpls \%>\% plspm_path_coefs_plot(layout=lay_p, edge.label.position = 0.6,
 satpls \%>\% plspm_path_coefs_plot(layout=lay_p, edge.label.position = 0.6,
                                  border.color="gray99", groups=1:6, node=TRUE)
 
-satpls \%>\% plspm_path_coefs_plot(shape="square", layout=lay_p,
+satpls \%>\% plspm_path_coefs_plot(Dshape="square", layout=lay_p,
                                  edge.label.position = 0.6)
-
-
-
+#'
+satpls_boot\%>\%plspm_path_coefs_plot()
+satpls_boot\%>\%plspm_path_coefs_plot(boot=F)
+#'
 satpls \%>\% plspm_path_coefs_plot()
 satpls \%>\% plspm_path_coefs_plot(node =TRUE)
 satpls \%>\% plspm_path_coefs_plot(grp=FALSE)
@@ -187,5 +191,7 @@ satpls \%>\% plspm_path_coefs_plot(node = TRUE,grp=FALSE)
 satpls \%>\% plspm_path_coefs_plot(node = FALSE,grp=FALSE)
 satpls \%>\% plspm_path_coefs_plot(node = TRUE,grp=TRUE)
 #'plspm_edge_values
+
+
 }
 }
