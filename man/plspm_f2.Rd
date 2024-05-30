@@ -21,23 +21,37 @@ Effect Size Black
 
 \dontrun{
 #'
-#'
-# Example data for plsres
-plsres <- list(
-  path_coefs = data.frame(
-    자기효능감 = c(0, 0.884, 0.681, 0.373),
-    진로동기 = c(0, 0, 0, 0.353),
-    진로태도 = c(0, 0, 0, 0.188),
-    진로준비 = c(0, 0, 0, 0),
-    row.names = c("자기효능감", "진로동기", "진로태도", "진로준비")
-  ),
-  inner_summary = data.frame(
-    R2 = c(0.0000000, 0.7817016, 0.4631848, 0.7195506),
-    row.names = c("자기효능감", "진로동기", "진로태도", "진로준비")
-  )
+#' #'
+sat_path = plspm_paths(
+  row_names = c("IMAG","EXPE","QUAL","VAL","SAT","LOY"),
+  relationship = list(
+    path(from="IMAG", to=c("EXPE","SAT","LOY")),
+    path("EXPE", c("QUAL","VAL","SAT")),
+    path("QUAL", c("VAL","SAT")),
+    path("VAL",c("SAT")),
+    path("SAT","LOY"))
 )
-plspm_f2(plsres, type="res")
-plspm_f2(plsres, type="f2")
+sat_path
+
+# blokcs
+sat_blocks1 <- plspm_blocks(
+  IMAG = item(paste0("imag",1:5)),
+  EXPE = item(paste0("expe", 1:5)),
+  QUAL = item( paste0("qual", 1:5)),
+  VAL = item(paste0("val", 1:4)),
+  SAT = item(paste0("sat", 1:4)),
+  LOY = item(paste0("loy", 1:4))
+)
+
+sat_blocks1
+
+satpls = plspm(satisfaction,
+               path_matrix = sat_path,
+               blocks = sat_blocks1,
+               scaled = FALSE)
+
+satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1, scaled = FALSE,
+                        boot.val =TRUE, br=100)
 # etc
 satpls_boot\%>\%plspm_f2()
 satpls_boot\%>\%plspm_f2("f2")
