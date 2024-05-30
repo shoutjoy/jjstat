@@ -1,4 +1,4 @@
-#' unite_ci
+#' unite_ci if you add ci
 #'
 #' @param data data
 #' @param col1 lower
@@ -6,8 +6,8 @@
 #' @param left lefe (
 #' @param right right )
 #' @param digits round3
-#' @param colname 95%CI
-#' @param remove oriinal column
+#' @param colname 95CI
+#' @param remove orinal column
 #'
 #' @return data
 #' @export
@@ -16,7 +16,7 @@
 #'
 #' \dontrun{
 #'
-#' #'
+#'
 #' # Sample data to simulate the scenario
 #' data <- data.frame(
 #'   paths = c('자기효능감-C_S1', '자기효능감-C_S2', '자기효능감-C_S3'),

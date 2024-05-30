@@ -2,7 +2,7 @@
 % Please edit documentation in R/unite_ci.R
 \name{unite_ci}
 \alias{unite_ci}
-\title{unite_ci}
+\title{unite_ci if you add ci}
 \usage{
 unite_ci(
   data,
@@ -28,21 +28,21 @@ unite_ci(
 
 \item{digits}{round3}
 
-\item{colname}{95%CI}
+\item{colname}{95CI}
 
-\item{remove}{oriinal column}
+\item{remove}{orinal column}
 }
 \value{
 data
 }
 \description{
-unite_ci
+unite_ci if you add ci
 }
 \examples{
 
 \dontrun{
 
-#'
+
 # Sample data to simulate the scenario
 data <- data.frame(
   paths = c('자기효능감-C_S1', '자기효능감-C_S2', '자기효능감-C_S3'),
