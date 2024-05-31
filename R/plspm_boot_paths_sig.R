@@ -23,6 +23,8 @@ plspm_boot_paths_sig <- function(plsres, type= "df") {
     round2(3) %>%
     unite_ci(col1 = 'perc.025', col2 = 'perc.975')
 
+
+
   vec =  plsdf %>%
     row2col("paths") %>%
     add_t_sig(3,4, unite=FALSE,col=5, ns="")%>%

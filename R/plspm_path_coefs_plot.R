@@ -138,7 +138,7 @@
 #' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=FALSE)
 #' satpls %>% plspm_path_coefs_plot(node = FALSE,grp=FALSE)
 #' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=TRUE)
-#' #'plspm_edge_values
+#' #
 #'
 #'
 #' }
@@ -172,7 +172,7 @@ plspm_path_coefs_plot <- function(plsdata,
   #     pathdata = plsdata
   #   }else if(length(plsres)==5 & is.list(plsres)){
   #     plsdata = plsdata$paths
-  #   }
+  #   }  nfl_pls_boot
   # Check if data inherits from 'plspm'
   if(length(plsdata) == 13){
     pathdata =  plsdata$path_coefs
@@ -180,6 +180,8 @@ plspm_path_coefs_plot <- function(plsdata,
     #Cannot get the innermodel value in this case.
     pathdata = plsdata
   }
+
+  edge_data <- plsdata$inner_model
   # Generate edge labels
   if(edge_labels_sig){
     if(length(plsdata) != 13){
@@ -187,7 +189,13 @@ plspm_path_coefs_plot <- function(plsdata,
       # If you entered path_coefs
       if(boot){
 
-        edge_labels = plspm_boot_paths_sig(edge_data,"vec") #boot data
+        edge_labels =full_join(
+          plspm_edge_values(plsdata,type="df"),
+          plspm_boot_paths_sig(plsdata,"df")%>%
+            select(1:4) %>%add_t_sig(3,4,3, ns="")%>%
+            Unite(2,3) %>%dplyr::select(1:2)%>%
+            rename(relationships=paths),
+          by="relationships")%>%pull(Original)
 
       }else{
         edge_labels = plspm_edge_values(pathdata) #inner_model data
@@ -196,20 +204,20 @@ plspm_path_coefs_plot <- function(plsdata,
       cat("\n\nTo indicate the significance of a path, enter the full PLSPM data \n\n")
     }else{
       # This value should get the inner_model value from the full value.
-      edge_data <- plsdata$inner_model
 
       if(boot){
-        #  edge_labels = plspm_boot_paths_sig(plsdata,"vec") #boot data
-
+         # edge_labels = plspm_boot_paths_sig(plsdata,"vec") #boot data
+#
         edge_labels =full_join(
-          plspm_edge_values(nfl_pls_boot,type="df"),
-          plspm_boot_paths_sig(nfl_pls_boot,"df")%>%
+          plspm_edge_values(plsdata,type="df"),
+          plspm_boot_paths_sig(plsdata,"df")%>%
             select(1:4) %>%add_t_sig(3,4,3, ns="")%>%
             Unite(2,3) %>%dplyr::select(1:2)%>%
             rename(relationships=paths),
           by="relationships")%>%pull(Original)
 
       }else{
+
         edge_labels = plspm_edge_values(edge_data) #inner_model data
       }# Converting to a data conversion factor value
 
