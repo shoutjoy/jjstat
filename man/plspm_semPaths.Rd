@@ -21,7 +21,7 @@ plspm_semPaths(
   style = "lisrel",
   sig = FALSE,
   exoVar = FALSE,
-  exoCov = TRUE,
+  exoCov = FALSE,
   curve = 1.5,
   asize = 2,
   mar = c(2, 4, 2, 4),
