@@ -5,7 +5,7 @@
 \title{Drawing Structural Equation Models Using the lavaan Syntax (park JH PhD)}
 \usage{
 plspm_plot(
-  plsres_boot,
+  model,
   residuals = FALSE,
   whatLabels = "model",
   rotation = 2,
@@ -45,8 +45,6 @@ plspm_plot(
 )
 }
 \arguments{
-\item{plsres_boot}{plsres_boot to model syntax}
-
 \item{residuals}{residauls TRUE}
 
 \item{whatLabels}{"model}
@@ -118,6 +116,8 @@ plspm_plot(
 \item{label.cex}{label.cex}
 
 \item{type}{type ="plot, and res is lavaan simdata result}
+
+\item{plsres_boot}{plsres_boot to model syntax}
 }
 \value{
 plot jutpls_boot

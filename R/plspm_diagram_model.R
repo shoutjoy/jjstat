@@ -380,7 +380,7 @@ plspm_diagram_model = function(model,
 #' @return plot jutpls_boot
 #' @export
 #'
-plspm_plot = function(plsres_boot,
+plspm_plot = function(model,
                            residuals= FALSE,
                            whatLabels = "model",
                            rotation = 2,
