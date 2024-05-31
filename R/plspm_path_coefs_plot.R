@@ -163,6 +163,16 @@ plspm_path_coefs_plot <- function(plsdata,
                                   shape = "circle",
                                   pastel = 'pastel',
                                   trans = TRUE) {
+
+
+  #  if(length(plsres)==13){
+  #     # plsdf = plsres$boot$paths
+  #    pathdata =  plsdata$path_coefs
+  #   }else if(length(plsres)==5 & is.data.frame(plsres)){
+  #     pathdata = plsdata
+  #   }else if(length(plsres)==5 & is.list(plsres)){
+  #     plsdata = plsdata$paths
+  #   }
   # Check if data inherits from 'plspm'
   if(length(plsdata) == 13){
     pathdata =  plsdata$path_coefs
@@ -172,30 +182,15 @@ plspm_path_coefs_plot <- function(plsdata,
   }
   # Generate edge labels
   if(edge_labels_sig){
-
     if(length(plsdata) != 13){
+      #  edge_data <- plsdata$inner_model
       # If you entered path_coefs
-      # edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(pathdata)),
-      #                       nrow = nrow(t(pathdata)),
-      #                       ncol = ncol(t(pathdata)))
-      edge_data <- plsdata$inner_model
-
       if(boot){
 
-        edge_labels =full_join(
-                   plspm_edge_values(nfl_pls_boot,type="df"),
-
-                     plspm_boot_paths_sig(nfl_pls_boot,"df")%>%
-                     dplyr::select(1:4) %>%
-                     add_t_sig(3,4,3, ns="")%>%
-                      tidyr::Unite(2,3) %>%
-                     dplyr::select(1:2)%>%
-                     dplyr::rename(relationships=paths),
-                      by="relationships")%>%
-                     pull(Original)
+        edge_labels = plspm_boot_paths_sig(edge_data,"vec") #boot data
 
       }else{
-        edge_labels = plspm_edge_values(edge_data) #inner_model data
+        edge_labels = plspm_edge_values(pathdata) #inner_model data
       }# Converting to a data conversion factor value
 
       cat("\n\nTo indicate the significance of a path, enter the full PLSPM data \n\n")
@@ -203,16 +198,25 @@ plspm_path_coefs_plot <- function(plsdata,
       # This value should get the inner_model value from the full value.
       edge_data <- plsdata$inner_model
 
-         if(boot){
-                 edge_labels = plspm_boot_paths_sig_vec(plsdata) #boot data
-               }else{
-                 edge_labels = plspm_edge_values(edge_data) #inner_model data
-                     }# Converting to a data conversion factor value
+      if(boot){
+        #  edge_labels = plspm_boot_paths_sig(plsdata,"vec") #boot data
 
-                }
+        edge_labels =full_join(
+          plspm_edge_values(nfl_pls_boot,type="df"),
+          plspm_boot_paths_sig(nfl_pls_boot,"df")%>%
+            select(1:4) %>%add_t_sig(3,4,3, ns="")%>%
+            Unite(2,3) %>%dplyr::select(1:2)%>%
+            rename(relationships=paths),
+          by="relationships")%>%pull(Original)
 
-    }else{
-         edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(pathdata)),
+      }else{
+        edge_labels = plspm_edge_values(edge_data) #inner_model data
+      }# Converting to a data conversion factor value
+
+    }
+
+  }else{
+    edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(pathdata)),
                           nrow = nrow(t(pathdata)),
                           ncol = ncol(t(pathdata)))
   }
