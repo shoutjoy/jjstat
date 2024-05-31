@@ -24,7 +24,7 @@ plspm_semPaths2(
   exoCov = TRUE,
   curve = 1.5,
   asize = 2,
-  mar = c(3, 8, 3, 8),
+  mar = c(2, 4, 2, 4),
   nDigits = 3,
   shapeLat = "circle",
   shapeMan = "rectangle",
@@ -120,7 +120,7 @@ plspm_semPaths2(
 \item{type}{type ="plot, and res is lavaan simdata result}
 }
 \value{
-plot
+plot jutpls_boot
 }
 \description{
 Drawing Structural Equation Models Using the lavaan Syntax (park JH PhD)

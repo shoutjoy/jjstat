@@ -60,7 +60,7 @@ plspm_semPaths = function(plsres_boot,
                           exoCov = TRUE,
                           curve = 1.5,
                           asize=2,
-                          mar = c(3,8,3,8),
+                          mar = c(2,4,2,4),
                           nDigits = 3,
                           shapeLat="circle",
                           shapeMan="rectangle",
@@ -301,8 +301,8 @@ plspm_semPaths = function(plsres_boot,
   }
 
   cat("\n Node names in order of appearance \n\n")
-  print(c(jutpls_boot$model$gens$mvs_names,
-          jutpls_boot$model$gens$lvs_names))
+  print(c(plsres_boot$model$gens$mvs_names,
+          plsres_boot$model$gens$lvs_names))
   cat("\n\n")
   switch(type, plot = dia, res = lav_obj)
 

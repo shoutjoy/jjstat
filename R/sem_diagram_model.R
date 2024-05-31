@@ -121,16 +121,16 @@ diagram_model = function(model,
                          edge.label.cex= 1,
                          edge.label.position =0.5,
                          edge.color = "black",
-                         sizeMan = 8,
-                         sizeMan2 = 4,
-                         sizeLat = 10,
-                         sizeLat2 = 6,
+                         sizeMan = 6,
+                         sizeMan2 = 3,
+                         sizeLat = 8,
+                         sizeLat2 = 4,
                          style="lisrel",
                          sig = FALSE,
                          exoVar = FALSE,
                          exoCov = TRUE,
                          curve = 1.5, asize=2,
-                         mar = c(3,8,3,10),
+                         mar = c(3,3,3,3),
                          nDigits = 3,
                          shapeLat="circle",
                          shapeMan="rectangle",
@@ -172,10 +172,12 @@ diagram_model = function(model,
   #generate sample data simulated
   testdata =  lavaan::simulateData( model = model,
                                     sample.nobs = sample.nobs,
-                                    model.type = model.type  )
+                                    model.type = model.type  )%>%
+    suppressWarnings()  # remove error message
 
   # test calculated
-  lav_obj = lavaan::sem(model, data= testdata)
+  lav_obj = lavaan::sem(model, data= testdata)%>%
+    suppressWarnings()
 
   # diagram2(lavobj, "model", sig=F)
   if(Groups){

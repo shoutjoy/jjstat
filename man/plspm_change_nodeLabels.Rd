@@ -32,6 +32,12 @@ plspm_semPaths2(jutpls_boot,   curve=1, layout="tree2",rotation=1,
                           "B14", "성향"
   )
 
+
+
+
+
+
+
 }
 
 

@@ -1,8 +1,9 @@
 #'  Matching plspm blocks names
 #'
 #' @param data  data
-#' @param paths plspm paths
 #' @param blocks plspm blocks
+#' @param paths plspm paths
+#' @param paths_name  path colnames
 #'
 #' @return block data
 #' @export

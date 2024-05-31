@@ -12,6 +12,8 @@ plspm_blocks_match(data, blocks, paths = NULL, paths_name = NULL)
 \item{blocks}{plspm blocks}
 
 \item{paths}{plspm paths}
+
+\item{paths_name}{path colnames}
 }
 \value{
 block data
