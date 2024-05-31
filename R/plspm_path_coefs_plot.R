@@ -172,30 +172,47 @@ plspm_path_coefs_plot <- function(plsdata,
   }
   # Generate edge labels
   if(edge_labels_sig){
+
     if(length(plsdata) != 13){
       # If you entered path_coefs
-      edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(pathdata)),
-                            nrow = nrow(t(pathdata)),
-                            ncol = ncol(t(pathdata)))
+      # edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(pathdata)),
+      #                       nrow = nrow(t(pathdata)),
+      #                       ncol = ncol(t(pathdata)))
+      edge_data <- plsdata$inner_model
+
+      if(boot){
+
+        edge_labels =full_join(
+                   plspm_edge_values(nfl_pls_boot,type="df"),
+
+                     plspm_boot_paths_sig(nfl_pls_boot,"df")%>%
+                     dplyr::select(1:4) %>%
+                     add_t_sig(3,4,3, ns="")%>%
+                      tidyr::Unite(2,3) %>%
+                     dplyr::select(1:2)%>%
+                     dplyr::rename(relationships=paths),
+                      by="relationships")%>%
+                     pull(Original)
+
+      }else{
+        edge_labels = plspm_edge_values(edge_data) #inner_model data
+      }# Converting to a data conversion factor value
+
       cat("\n\nTo indicate the significance of a path, enter the full PLSPM data \n\n")
     }else{
       # This value should get the inner_model value from the full value.
       edge_data <- plsdata$inner_model
 
+         if(boot){
+                 edge_labels = plspm_boot_paths_sig_vec(plsdata) #boot data
+               }else{
+                 edge_labels = plspm_edge_values(edge_data) #inner_model data
+                     }# Converting to a data conversion factor value
 
-      #significant values ,
-      #Not plspm_edges_values  !!edges
- if(boot){
-      edge_labels = plspm_boot_paths_sig_vec(plsdata) #boot data
- }else{
-      edge_labels = plspm_edge_values(edge_data) #inner_model data
- }
-      # Converting to a data conversion factor value
+                }
 
-    }
-
-  }else{
-    edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(pathdata)),
+    }else{
+         edge_labels <- matrix(sprintf(paste0("%.", digits, "f"), t(pathdata)),
                           nrow = nrow(t(pathdata)),
                           ncol = ncol(t(pathdata)))
   }
@@ -228,7 +245,7 @@ plspm_path_coefs_plot <- function(plsdata,
                  border.width = border.width,
                  border.color = border.color,
                  shape = shape,
-                 edge.labels = edge_labels,
+                 edge.labels = edge_labels,###edge
                  asize = asize,
                  vsize = vsize,
                  esize = esize,

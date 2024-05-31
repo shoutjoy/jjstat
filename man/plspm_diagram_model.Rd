@@ -14,6 +14,7 @@ plspm_diagram_model(
   edge.label.cex = 1,
   edge.label.position = 0.5,
   edge.color = "black",
+  edge.width = 1.5,
   sizeMan = 8,
   sizeMan2 = 3,
   sizeLat = 10,
@@ -31,7 +32,6 @@ plspm_diagram_model(
   shapeInt = "triangle",
   sample.nobs = 100,
   border.width = 2,
-  edge.width = 1.5,
   Groups = FALSE,
   group_match = "lat",
   growth = FALSE,
@@ -60,6 +60,8 @@ plspm_diagram_model(
 \item{edge.label.position}{0.5}
 
 \item{edge.color}{edge.color= black}
+
+\item{edge.width}{edge.width=1.5}
 
 \item{sizeMan}{8}
 
@@ -94,8 +96,6 @@ plspm_diagram_model(
 \item{sample.nobs}{sample.nobs = 100}
 
 \item{border.width}{border.width=1}
-
-\item{edge.width}{edge.width=1.5}
 
 \item{Groups}{FALSE}
 

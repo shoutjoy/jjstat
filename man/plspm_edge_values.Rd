@@ -4,16 +4,16 @@
 \alias{plspm_edge_values}
 \title{Functions to include significance data for structural models in PLSPM}
 \usage{
-plspm_edge_values(plsdata, digits = 3, unite = TRUE, type = "vec")
+plspm_edge_values(plsdata, type = "vec", digits = 3, unite = TRUE)
 }
 \arguments{
 \item{plsdata}{plsdata}
 
+\item{type}{vec, df}
+
 \item{digits}{round 3}
 
 \item{unite}{data combine unite TRUE -> estimat + sig}
-
-\item{type}{vec, df}
 }
 \value{
 estimates vectors

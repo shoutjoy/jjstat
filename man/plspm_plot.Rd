@@ -11,27 +11,28 @@ plspm_plot(
   rotation = 2,
   residScale = 12,
   layout = "tree2",
-  edge.label.cex = 0.7,
+  edge.label.cex = 1.2,
   edge.label.position = 0.55,
   edge.color = "black",
+  edge.width = 1.5,
   sizeMan = 12,
   sizeMan2 = 6,
   sizeLat = 10,
   sizeLat2 = 5,
+  label.cex = 1,
+  border.width = 2,
+  color = list(lat = "gray70", man = "skyblue"),
+  mar = c(4, 4, 4, 4),
   style = "lisrel",
-  sig = FALSE,
-  exoVar = FALSE,
-  exoCov = FLASE,
-  curve = 1.5,
-  asize = 2,
-  mar = c(2, 4, 2, 4),
-  nDigits = 3,
   shapeLat = "ellipse",
   shapeMan = "circle",
   shapeInt = "triangle",
+  exoVar = FALSE,
+  exoCov = FALSE,
+  curve = 1.5,
+  asize = 2,
+  nDigits = 3,
   sample.nobs = 100,
-  border.width = 2,
-  edge.width = 1.5,
   Groups = FALSE,
   group_match = "lat",
   growth = FALSE,
@@ -39,8 +40,7 @@ plspm_plot(
   edgeLabels = NULL,
   nodeLabels = NULL,
   fixedStyle = 1,
-  color = list(lat = "skyblue", man = "skyblue"),
-  label.cex = 1,
+  sig = FALSE,
   type = "plot"
 )
 }
@@ -61,6 +61,8 @@ plspm_plot(
 
 \item{edge.color}{edge.color= black}
 
+\item{edge.width}{edge.width=1.5}
+
 \item{sizeMan}{8}
 
 \item{sizeMan2}{4}
@@ -69,9 +71,21 @@ plspm_plot(
 
 \item{sizeLat2}{6}
 
+\item{label.cex}{label.cex}
+
+\item{border.width}{border.width=1}
+
+\item{color}{list(lat="skyblue", man="yellow")}
+
+\item{mar}{c(2,8,3,10)}
+
 \item{style}{lisrel}
 
-\item{sig}{FALSE}
+\item{shapeLat}{"circle, ellipse}
+
+\item{shapeMan}{retangle}
+
+\item{shapeInt}{triangle ,}
 
 \item{exoVar}{FALSE}
 
@@ -81,21 +95,9 @@ plspm_plot(
 
 \item{asize}{1.5}
 
-\item{mar}{c(2,8,3,10)}
-
 \item{nDigits}{2}
 
-\item{shapeLat}{"circle, ellipse}
-
-\item{shapeMan}{retangle}
-
-\item{shapeInt}{triangle ,}
-
 \item{sample.nobs}{sample.nobs = 100}
-
-\item{border.width}{border.width=1}
-
-\item{edge.width}{edge.width=1.5}
 
 \item{Groups}{FALSE}
 
@@ -111,9 +113,7 @@ plspm_plot(
 
 \item{fixedStyle}{fixedStyle=1 default rbase linetype}
 
-\item{color}{list(lat="skyblue", man="yellow")}
-
-\item{label.cex}{label.cex}
+\item{sig}{FALSE}
 
 \item{type}{type ="plot, and res is lavaan simdata result}
 

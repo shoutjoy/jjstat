@@ -156,7 +156,7 @@ plspm_edges_values = function(plsdata, digits=3, unite=TRUE, type="df"){
 #' @return estimates vectors
 #' @export
 #'
-plspm_edge_values <- function(plsdata, digits = 3, unite = TRUE, type = "vec") {
+plspm_edge_values <- function(plsdata, type = "vec", digits = 3, unite = TRUE) {
 
   if (length(plsdata) == 13) {
     plsdf <- plsdata$inner_model
