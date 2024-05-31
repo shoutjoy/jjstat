@@ -23,6 +23,12 @@
 #' @param palette pastel
 #' @param curve 0.2
 #' @param width 1
+#' @param mar  c(3,3,3,3)
+#' @param edge_size edge.width size control
+#' @param hypo paste H
+#' @param angle rotation angle
+#' @param digits  3#'
+#'
 #'
 #' @return graph
 #' @export
@@ -72,7 +78,11 @@
 #'
 #' #color
 #' sat_path %>%plspm_innerplot(groups=1:6)
+#' sat_path %>%plspm_innerplot(groups=1:6, hypo= FALSE ) #putput 1
 #'
+#'
+#' sat_path %>%
+#'  plspm_innerplot(groups=1:6, rotation = 3 )
 #'
 #'
 #' lay_p = matrix(c('IMA', NA, NA, NA, NA, NA, NA, NA,
@@ -91,33 +101,73 @@
 #'
 #'
 plspm_innerplot <- function(path_mat,
-                       layout = "spring", posCol = "black", rotation=1,
-                       negCol = "red",     fade = FALSE,
-                       edge.labels = FALSE,     edge.label.cex = 1.2,
-                       edge.label.position = 0.5,    edge.width=2,
-                       vsize = 8,     asize = 4,     borders = TRUE,
-                       border.width = 2, border.color = "gray40",
-                       labels = NULL,  label.cex = 1.2,
-                       label.color = "gray30", groups = NULL,
-                       palette = "pastel", curve = 0.2,  width = 1
+                            edge.label.cex = 2,
+                            edge.label.position = 0.5,
+                            edge.labels = TRUE,
+                            edge.width = 3,
+                            label.cex = 1.1,
+                            rotation = 0,  # 회전 각도(도)
+                            angle=90,
+                            sizeLat = 14,
+                            groups = NULL,
+                            layout = "circle",
+                            negCol = "red",
+                            fade = FALSE,
+                            asize = 5,
+                            borders = TRUE,
+                            border.width = 4,
+                            border.color = "gray10",
+                            labels = NULL,
+                            label.color = "darkblue",
+                            posCol = "gray10",
+                            palette = "pastel",
+                            curve = 0.2,
+                            width = 2,
+                            mar = c(3, 3, 3, 3),
+                            edge_size = 0.7,
+                            hypo = TRUE,  # Added options
+                            digits = 3  # Added arguments
 ) {
-
   library(qgraph)
 
-  # labels <- colnames(path_mat)
-  labels <- rownames(path_mat)
+  if(length(path_mat) == 13){
+    path_mat <- path_mat$path_coef
+  }
 
-  qgraph(
+  path_mat <- round(path_mat, digits = digits)
+
+  if (is.null(labels)) {
+    labels <- rownames(path_mat)
+
+
+  }
+
+  edge_labels <- NULL
+  if (hypo && all(path_mat %in% c(0, 1))) {
+    edge_labels <- matrix("", nrow = nrow(path_mat), ncol = ncol(path_mat))
+    count <- 1
+    for (i in 1:nrow(path_mat)) {
+      for (j in 1:ncol(path_mat)) {
+        if (path_mat[i, j] == 1) {
+          edge_labels[i, j] <- paste0("H", count)
+          count <- count + 1
+        }
+      }
+    }
+  }
+
+  # qgraph를 사용하여 네트워크 생성
+  net <- qgraph(
     t(path_mat),  # Transpose the matrix to match the expected format
     layout = layout,
     posCol = posCol,
     negCol = negCol,
     fade = fade,
-    edge.labels = edge.labels,
+    edge.labels = if (is.null(edge_labels)) edge.labels else edge_labels,
     edge.label.cex = edge.label.cex,
     edge.label.position = edge.label.position,
-    edge.width= edge.width,
-    vsize = vsize,
+    edge.width = edge.width * edge_size,
+    vsize = sizeLat,
     asize = asize,
     borders = borders,
     border.width = border.width,
@@ -128,6 +178,40 @@ plspm_innerplot <- function(path_mat,
     groups = groups,
     palette = palette,
     curve = curve,
-    width = width
+    width = width,
+    mar = mar,
+    DoNotPlot = TRUE  # 레이아웃 좌표를 가져오기 위해 그래프를 그리지 않음
+  )
+
+  coords <- net$layout
+  angle <- rotation * angle * pi / 180  # 회전 각도를 라디안으로 변환
+
+  rotation_matrix <- matrix(c(cos(angle), -sin(angle), sin(angle), cos(angle)), ncol = 2)
+  rotated_coords <- coords %*% rotation_matrix  # 회전 적용
+
+  # 회전된 레이아웃으로 다시 그리기
+  qgraph(
+    t(path_mat),
+    layout = rotated_coords,
+    posCol = posCol,
+    negCol = negCol,
+    fade = fade,
+    edge.labels = if (is.null(edge_labels)) edge.labels else edge_labels,
+    edge.label.cex = edge.label.cex,
+    edge.label.position = edge.label.position,
+    edge.width = edge.width * edge_size,
+    vsize = sizeLat,
+    asize = asize,
+    borders = borders,
+    border.width = border.width,
+    border.color = border.color,
+    labels = labels,
+    label.cex = label.cex,
+    label.color = label.color,
+    groups = groups,
+    palette = palette,
+    curve = curve,
+    width = width,
+    mar = mar
   )
 }

@@ -6,51 +6,58 @@
 \usage{
 plspm_innerplot(
   path_mat,
-  layout = "spring",
-  posCol = "black",
-  rotation = 1,
+  edge.label.cex = 2,
+  edge.label.position = 0.5,
+  edge.labels = TRUE,
+  edge.width = 3,
+  label.cex = 1.1,
+  rotation = 0,
+  angle = 90,
+  sizeLat = 14,
+  groups = NULL,
+  layout = "circle",
   negCol = "red",
   fade = FALSE,
-  edge.labels = FALSE,
-  edge.label.cex = 1.2,
-  edge.label.position = 0.5,
-  edge.width = 2,
-  vsize = 8,
-  asize = 4,
+  asize = 5,
   borders = TRUE,
-  border.width = 2,
-  border.color = "gray40",
+  border.width = 4,
+  border.color = "gray10",
   labels = NULL,
-  label.cex = 1.2,
-  label.color = "gray30",
-  groups = NULL,
+  label.color = "darkblue",
+  posCol = "gray10",
   palette = "pastel",
   curve = 0.2,
-  width = 1
+  width = 2,
+  mar = c(3, 3, 3, 3),
+  edge_size = 0.7,
+  hypo = TRUE,
+  digits = 3
 )
 }
 \arguments{
 \item{path_mat}{mati}
 
-\item{layout}{spring or layout}
-
-\item{posCol}{black}
-
-\item{rotation}{1}
-
-\item{negCol}{red}
-
-\item{fade}{false}
-
-\item{edge.labels}{FALSE}
-
 \item{edge.label.cex}{1.2}
 
 \item{edge.label.position}{0.5}
 
+\item{edge.labels}{FALSE}
+
 \item{edge.width}{2}
 
-\item{vsize}{8}
+\item{label.cex}{1.2}
+
+\item{rotation}{1}
+
+\item{angle}{rotation angle}
+
+\item{groups}{NULL}
+
+\item{layout}{spring or layout}
+
+\item{negCol}{red}
+
+\item{fade}{false}
 
 \item{asize}{4}
 
@@ -62,17 +69,25 @@ plspm_innerplot(
 
 \item{labels}{NULL}
 
-\item{label.cex}{1.2}
-
 \item{label.color}{gray30}
 
-\item{groups}{NULL}
+\item{posCol}{black}
 
 \item{palette}{pastel}
 
 \item{curve}{0.2}
 
 \item{width}{1}
+
+\item{mar}{c(3,3,3,3)}
+
+\item{edge_size}{edge.width size control}
+
+\item{hypo}{paste H}
+
+\item{digits}{3#'}
+
+\item{vsize}{8}
 }
 \value{
 graph
@@ -125,7 +140,11 @@ lavpath\%>\%plspm_innerplot()
 
 #color
 sat_path \%>\%plspm_innerplot(groups=1:6)
+sat_path \%>\%plspm_innerplot(groups=1:6, hypo= FALSE ) #putput 1
 
+
+sat_path \%>\%
+ plspm_innerplot(groups=1:6, rotation = 3 )
 
 
 lay_p = matrix(c('IMA', NA, NA, NA, NA, NA, NA, NA,
