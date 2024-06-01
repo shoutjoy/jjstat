@@ -4,12 +4,14 @@
 \alias{layout_mat}
 \title{layout_mat}
 \usage{
-layout_mat(semplot, text = TRUE, variable = TRUE)
+layout_mat(semplot, text = TRUE, byrow = TRUE, variable = TRUE)
 }
 \arguments{
 \item{semplot}{semPaths2 data}
 
 \item{text}{text True output text matrix}
+
+\item{byrow}{byrow TRUE}
 
 \item{variable}{variable is rownames adapt}
 }

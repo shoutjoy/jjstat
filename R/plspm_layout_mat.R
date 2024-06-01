@@ -3,6 +3,7 @@
 #' @param semplot semPaths2 data
 #' @param text text True output text matrix
 #' @param variable variable is rownames adapt
+#' @param byrow byrow TRUE
 #'
 #' @return  data
 #' @export
@@ -54,7 +55,7 @@
 #'   mat_text_arrange()
 #' }
 #'
-plspm_layout_mat <- function(semplot, text= TRUE,
+plspm_layout_mat <- function(semplot, text= TRUE, byrow =TRUE,
                        variable = TRUE) {
 
   data= semplot
@@ -101,7 +102,7 @@ plspm_layout_mat <- function(semplot, text= TRUE,
   }
 
   if(text){
-    return(mat%>% mat_text_arrange())
+    return(mat%>% mat_text_arrange(byrow = byrow))
   }else{
     return(mat)
   }
@@ -116,6 +117,7 @@ plspm_layout_mat <- function(semplot, text= TRUE,
 #' @param semplot semPaths2 data
 #' @param text text True output text matrix
 #' @param variable variable is rownames adapt
+#' @param byrow byrow TRUE
 #'
 #' @return  data
 #' @export
@@ -167,7 +169,7 @@ plspm_layout_mat <- function(semplot, text= TRUE,
 #'   mat_text_arrange()
 #' }
 #'
-layout_mat <- function(semplot, text= TRUE,
+layout_mat <- function(semplot, text= TRUE, byrow =TRUE,
                        variable = TRUE) {
 
   data= semplot
@@ -214,7 +216,7 @@ layout_mat <- function(semplot, text= TRUE,
   }
 
   if(text){
-    return(mat%>% mat_text_arrange())
+    return(mat%>% mat_text_arrange(byrow = byrow))
   }else{
     return(mat)
   }
