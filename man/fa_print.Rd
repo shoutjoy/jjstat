@@ -8,6 +8,7 @@ fa_print(
   data,
   cut = 0.4,
   sort = TRUE,
+  abs = TRUE,
   desc = TRUE,
   star = FALSE,
   justify = "right"
@@ -19,6 +20,8 @@ fa_print(
 \item{cut}{cut off 0.4}
 
 \item{sort}{TRUE FALSE}
+
+\item{abs}{TRUE cut}
 
 \item{desc}{decreasing=TRUE}
 
