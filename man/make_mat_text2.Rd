@@ -2,34 +2,96 @@
 % Please edit documentation in R/make_mat_text.R
 \name{make_mat_text2}
 \alias{make_mat_text2}
-\title{첫번째 열이 존재하는 경우에 사용하는 make_mat_text2}
+\title{Functions that let you input data in matrix form}
 \usage{
-make_mat_text2(data, text = TRUE, firstcol = 1)
+make_mat_text2(data, text = TRUE, byrow = FALSE)
 }
 \arguments{
-\item{data}{data.frame}
+\item{data}{input dat a}
 
-\item{text}{text TRUE}
+\item{text}{text = TRUE is text FALSE numeric}
 
-\item{firstcol}{ncol setting}
+\item{byrow}{byrow=FALSE  or TRUE}
 }
 \value{
-text
+make test
 }
 \description{
-첫번째 열이 존재하는 경우에 사용하는 make_mat_text2
+Functions that let you input data in matrix form
 }
 \examples{
 
 \dontrun{
+lay
+V1      V2 V3        V4        V5       V6        V7        V8 V9
+[1,] "ceo_8" NA "satis_5" "satis_4" ""       "satis_3" "satis_1" NA ""
+[2,] ""      NA ""        ""        ""       ""        ""        NA ""
+[3,] "ceo_7" NA ""        ""        ""       ""        ""        NA ""
+[4,] ""      NA ""        ""        "SATISF" ""        ""        NA ""
+[5,] "ceo_6" NA ""        ""        ""       ""        ""        NA "stay_2"
+[6,] ""      NA ""        ""        ""       ""        ""        NA ""
+[7,] "ceo_4" NA "CEOCOM"  ""        ""       ""        "STAYON"  NA ""
+[8,] ""      NA ""        ""        ""       ""        ""        NA ""
+[9,] "ceo_3" NA ""        ""        ""       ""        ""        NA "stay_1"
+[10,] ""      NA ""        ""        ""       ""        ""        NA ""
+[11,] "ceo_2" NA ""        ""        ""       ""        ""        NA ""
+[12,] ""      NA ""        ""        ""       ""        ""        NA ""
+[13,] "ceo_1" NA ""        ""        ""       ""        ""        NA ""
+
+lay \%>\% make_mat_text2()
+
+
+NewMat = matrix(c('ceo_8', NA, 'ceo_7', NA, 'ceo_6',
+NA, 'ceo_4', NA, 'ceo_3', NA, 'ceo_2', NA, 'ceo_1',
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+'satis_5', NA, NA, NA, NA, NA, 'CEOCOM', NA, NA, NA,
+NA, NA, NA, 'satis_4', NA, NA, NA, NA, NA, NA, NA,
+ NA, NA, NA, NA, NA, NA, NA, NA, 'SATISF', NA, NA,
+  NA, NA, NA, NA, NA, NA, NA, 'satis_3', NA, NA,
+  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 'satis_1',
+  NA, NA, NA, NA, NA, 'STAYON', NA, NA, NA, NA, NA,
+  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+   NA, NA, NA, NA, NA, NA, 'stay_2', NA, NA, NA,
+   'stay_1', NA, NA, NA, NA), nrow = 13, ncol = 9)
+
+
+colnames(NewMat) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9")
+
+#as.numeric
+# NewMat <- apply(NewMat, 2, function(x) as.numeric(gsub("'", "", x)))
+
+V1      V2 V3        V4        V5       V6        V7        V8 V9
+[1,] "ceo_8" NA "satis_5" "satis_4" NA       "satis_3" "satis_1" NA NA
+[2,] NA      NA NA        NA        NA       NA        NA        NA NA
+[3,] "ceo_7" NA NA        NA        NA       NA        NA        NA NA
+[4,] NA      NA NA        NA        "SATISF" NA        NA        NA NA
+[5,] "ceo_6" NA NA        NA        NA       NA        NA        NA "stay_2"
+[6,] NA      NA NA        NA        NA       NA        NA        NA NA
+[7,] "ceo_4" NA "CEOCOM"  NA        NA       NA        "STAYON"  NA NA
+[8,] NA      NA NA        NA        NA       NA        NA        NA NA
+[9,] "ceo_3" NA NA        NA        NA       NA        NA        NA "stay_1"
+[10,] NA      NA NA        NA        NA       NA        NA        NA NA
+[11,] "ceo_2" NA NA        NA        NA       NA        NA        NA NA
+[12,] NA      NA NA        NA        NA       NA        NA        NA NA
+[13,] "ceo_1" NA NA        NA        NA       NA        NA        NA NA
+#' #'
+ lay_str1 \%>\%make_mat_text3(byrow=T)
+
+
+ NewMat = matrix(c(NA, NA, 'PEOU', NA, NA, NA, NA,
+ NA, NA, NA, NA, NA, NA, NA, 'CUX', NA, NA, NA,
+  NA, NA, NA, NA, NA, NA, NA, 'AT', NA, 'USE',
+  'SUX', NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+  NA, NA, NA, NA, NA, 'PU', NA, NA, NA, NA),
+  nrow = 7, ncol = 7, byrow = TRUE )
+
+ rownames(NewMat) <- c("row1", "row2", "row3", "row4", "row5", "row6", "row7")
+colnames(NewMat) <- c("col1", "col2", "col3", "col4", "col5", "col6", "col7")
+
+NewMat \%>\%make_mat_text2(byrow=FALSE)
+NewMat \%>\%make_mat_text2(byrow=TRUE)
 #'
-data_text = "Tobacco_Dependence (0,5] (5,10] (10,15] (15,20] (20,98]
-No_Nicotine_Dependence 130 210 43 114 20
-Nicotine_Dependence 119 267 91 254 67"
-nt=data_text\%>\% text2df(header=T)\%>\%tibble::column_to_rownames("Tobacco_Dependence")
-nt \%>\%tibble()
-nt=Char2num(nt,1:5)
-nt
+#'
 }
 
 

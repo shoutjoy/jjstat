@@ -1,7 +1,110 @@
 
+#' mat_text_arrange
+#'
+#' @param mat matrix data
+#' @param text TRUE '' FALSE number
+#' @param byrow FALSE, byrow =TRUE fill in row
+#'
+#' @return  text
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' # Example usage
+#' mmm <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30), nrow = 5, ncol = 6)
+#'
+#' make_mat_text(mmm, text = TRUE, byrow = TRUE)
+#'
+#' make_mat_text(mmm, text = TRUE, byrow = FALSE)
+#'
+#' data(offense)
+#' offense %>%str()
+#'
+#' nfl_path = matrix(
+#'   c(0, 0, 0, 0, 0,
+#'     0, 0, 0, 0, 0,
+#'     0, 0, 0, 0, 0,
+#'     0, 1, 1, 0, 0,
+#'     1, 0, 0, 1, 0),
+#'   nrow = 5, ncol = 5, byrow = TRUE )
+#'
+#' rownames(nfl_path) <- c("Speical", "Rushing", "Passing", "Offense", "Scoring")
+#' colnames(nfl_path) <- c("Speical", "Rushing", "Passing", "Offense", "Scoring")
+#' nfl_path
+#'
+#' nfl_blocks = list(7:8, 1:3, 4:6,1:6, 9:11)
+#'
+#' plspm_blocks_match(data=offense, blocks=nfl_blocks,
+#'                    paths=nfl_path)
+#'
+#' nfl_mode =c("B","A","A","A","A")
+#'
+#' nfl_pls = plspm(Data=offense, nfl_path, nfl_blocks, modes = nfl_mode)
+#' nfl_pls%>%summary()
+#'
+#' #########
+#' nfl_pls_boot = plspm_sem(Data=offense, nfl_path, nfl_blocks, modes = nfl_mode)
+#'
+#' #Layouts extracted from mockups
+#' plspm_semPaths2(nfl_pls_boot,sizeLat = 6)%>%
+#'   plspm_factor_layout()
+#'
+#' #Make it input material
+#' plspm_semPaths2(nfl_pls_boot,sizeLat =6)%>%
+#'   plspm_factor_layout() %>%layout_mat(text=T)
+#'
+#' #Organizing materials for input
+#' plspm_semPaths2(nfl_pls_boot,sizeLat =6)%>%
+#'   plspm_factor_layout() %>%layout_mat()%>%
+#'   make_mat_text2()
+#' }
+#'
+
+make_mat_text <- function(mat, text = TRUE, byrow = FALSE) {
+  # Convert the matrix to a vector based on byrow parameter
+  if (byrow) {
+    mat_vector <- as.vector(t(mat))
+  } else {
+    mat_vector <- as.vector(mat)
+  }
+
+  # Create a formatted string
+  if (text) {
+    formatted_string <- paste0("  ",
+        paste(sapply(mat_vector,function(x) if (is.na(x)) "NA" else paste0("'", x, "'")),
+                                     collapse = ", "))
+  } else {
+    formatted_string <- paste0("  ",
+                               paste(sapply(mat_vector,
+                                            function(x) if (is.na(x)) 0 else x),
+                                     collapse = ", "))
+  }
+
+  # Add line breaks after every ncol elements
+  ncol <- ncol(mat)
+  lines <- strsplit(formatted_string, ", ")[[1]]
+
+  formatted_lines <- sapply(seq(1, length(lines), by = ncol),
+                            function(i) paste(lines[i:(i + ncol - 1)],
+                                              collapse = ", "))
+
+  # Combine the lines into a final string
+  final_string <- paste0("layout_New = matrix(\n  c(",
+                         paste(formatted_lines, collapse = ",\n    "),
+                         "),\n    nrow = ", nrow(mat),
+                         ", ncol = ", ncol(mat),
+                         ", byrow = ", ifelse(byrow, "TRUE", "FALSE"), ")\n")
+
+  return(cat(final_string))
+}
+
+
+
 #' Functions that let you input data in matrix form
 #'
 #' @param data input dat a
+#' @param text text = TRUE is text FALSE numeric
 #' @param byrow byrow=FALSE  or TRUE
 #'
 #' @return make test
@@ -26,7 +129,7 @@
 #' [12,] ""      NA ""        ""        ""       ""        ""        NA ""
 #' [13,] "ceo_1" NA ""        ""        ""       ""        ""        NA ""
 #'
-#' lay %>% make_mat_text()
+#' lay %>% make_mat_text2()
 #'
 #'
 #' NewMat = matrix(c('ceo_8', NA, 'ceo_7', NA, 'ceo_6',
@@ -76,14 +179,14 @@
 #'  rownames(NewMat) <- c("row1", "row2", "row3", "row4", "row5", "row6", "row7")
 #' colnames(NewMat) <- c("col1", "col2", "col3", "col4", "col5", "col6", "col7")
 #'
-#' NewMat %>%make_mat_text(byrow=FALSE)
-#' NewMat %>%make_mat_text(byrow=TRUE)
+#' NewMat %>%make_mat_text2(byrow=FALSE)
+#' NewMat %>%make_mat_text2(byrow=TRUE)
 #' #'
 #' #'
 #' }
 #'
 #'
-make_mat_text <- function(data, text = TRUE, byrow = FALSE) {  # byrow 옵션 추가
+make_mat_text2 <- function(data, text = TRUE, byrow = FALSE) {  # byrow 옵션 추가
   if (!is.matrix(data)) {
     cat("Input data is not a matrix.\n")
     return()
@@ -159,6 +262,9 @@ make_mat_text <- function(data, text = TRUE, byrow = FALSE) {  # byrow 옵션 �
   replace_df(pattern='NA',imp=NA, NewMat)
 }
 
+
+
+
 #' 첫번째 열이 존재하는 경우에 사용하는 make_mat_text2
 #'
 #' @param data data.frame
@@ -182,7 +288,7 @@ make_mat_text <- function(data, text = TRUE, byrow = FALSE) {  # byrow 옵션 �
 #' }
 #'
 #'
-make_mat_text2 <- function(data, text = TRUE, firstcol=1) {
+make_mat_text_col <- function(data, text = TRUE, firstcol=1) {
   if (!is.matrix(data)) {
     cat("Input data is not a matrix.\n")
     return()
@@ -288,3 +394,6 @@ make_mat_text2 <- function(data, text = TRUE, firstcol=1) {
   replace_df(pattern='NA',imp=NA, NewMat)
 
 }
+
+
+

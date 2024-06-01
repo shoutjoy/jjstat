@@ -301,7 +301,7 @@ plspm_semPaths = function(plsres_boot,
   }
 
   cat("\n Node names in order of appearance \n\n")
-  print(c(plsres_boot$model$gens$mvs_names,
+  print(c(unique(plsres_boot$model$gens$mvs_names),
           plsres_boot$model$gens$lvs_names))
   cat("\n\n")
   switch(type, plot = dia, res = lav_obj)

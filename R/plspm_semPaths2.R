@@ -51,9 +51,9 @@ plspm_semPaths2 = function(plsres_boot,
                            edge.label.position = 0.55,
                            edge.color = "black",
                            sizeMan = 6,
-                           sizeMan2 = 4,
-                           sizeLat = 9,
-                           sizeLat2 = 6,
+                           sizeMan2 = 3,
+                           sizeLat = 7,
+                           sizeLat2 = 4,
                            style="lisrel",
                            sig = FALSE,
                            exoVar = FALSE,
@@ -307,7 +307,7 @@ plspm_semPaths2 = function(plsres_boot,
   }
 
   cat("\n Node names in order of appearance \n\n")
-  print(c(plsres_boot$model$gens$mvs_names,
+  print(c(unique(plsres_boot$model$gens$mvs_names),
           plsres_boot$model$gens$lvs_names))
   cat("\n\n")
   switch(type, plot = dia, res = lav_obj)
