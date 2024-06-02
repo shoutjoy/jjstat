@@ -2,6 +2,7 @@
 #'
 #' @param data plspm_semPaths
 #' @param ... change node from name , to name
+#' @param plot TRUE
 #'
 #' @return plot
 #' @export
@@ -42,7 +43,7 @@
 #' }
 #'
 #'
-plspm_change_nodeLabels <- function(data, ...) {
+plspm_change_nodeLabels <- function(data, ..., plot=TRUE) {
   # Convert an input of ... to a list
   args <- list(...)
 
@@ -55,7 +56,10 @@ plspm_change_nodeLabels <- function(data, ...) {
   res <- semptools::change_node_label(data, namechange)
 
   # Plot the results
+  if(plot){
+
   plot(res)
+  }
 
   # Returning changed data to keep pipelines connected
   return(res)

@@ -23,7 +23,7 @@ move_mat matrix element coord position
 }
 \examples{
 
-\fontrun{
+\dontrun{
 #'
 # example
 data1 <- matrix(c(NA, NA, NA, NA, NA, NA, NA, NA, NA, "D_P3",

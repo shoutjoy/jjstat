@@ -73,6 +73,86 @@ plspm_indicator_factor <- function(model_syntax) {
 }
 
 
+
+
+#' plspm_indicator_order
+#'
+#' @param model_syntax  lavaan
+#'
+#' @return text
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' #'
+#' mod <-
+#'   'f1 =~ x01 + x02 + x03 + x06
+#'     f3 =~ x08 + x09 + x10 + x03
+#'     f2 =~ x04 + x05 + x06 + x07
+#'     f4 =~ x11 + x12 + x13 + x14
+#'     f3 ~ f1 + f2
+#'     f4 ~ f3
+#'    '
+#' plspm_indicator_order(mod)
+#'
+#' plspm_indicator_factor(mod)
+#' }
+#'
+plspm_ind_order <- function(model_syntax) {
+  ptable <- lavaan::lavParseModelString(model_syntax,
+                                        as.data.frame. = TRUE)
+  ptable2 <- ptable[ptable$op == "=~", ]
+  ptable2 <- ptable2[!duplicated(ptable2$rhs), ]
+  if (nrow(ptable2) == 0) {
+    stop("No factor loadings found.")
+  }
+  out <- ptable2$rhs
+  names(out) <- ptable2$lhs
+  out
+}
+
+#' plspm_indicator_factor
+#'
+#' @param model_syntax lavaan
+#'
+#' @return text
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' #'
+#' mod <-
+#'   'f1 =~ x01 + x02 + x03 + x06
+#'     f3 =~ x08 + x09 + x10 + x03
+#'     f2 =~ x04 + x05 + x06 + x07
+#'     f4 =~ x11 + x12 + x13 + x14
+#'     f3 ~ f1 + f2
+#'     f4 ~ f3
+#'    '
+#' plspm_indicator_order(mod)
+#'
+#' plspm_indicator_factor(mod)
+#' }
+#'
+plspm_ind_factor <- function(model_syntax) {
+  ptable <- lavaan::lavParseModelString(model_syntax,
+                                        as.data.frame. = TRUE)
+  ptable2 <- ptable[ptable$op == "=~", ]
+  ptable2 <- ptable2[!duplicated(ptable2$rhs), ]
+  if (nrow(ptable2) == 0) {
+    stop("No factor loadings found.")
+  }
+  out <- ptable2$rhs
+  names(out) <- ptable2$lhs
+  res= names(out)
+  res
+}
+
+
+
+
+
 #' plspm_ind_order2
 #'
 #' @param model_syntax lavaan

@@ -2,6 +2,7 @@
 #'
 #' @param plotdata plotdata
 #' @param resid_list resid list
+#' @param plot TRUE
 #'
 #' @return plot data
 #' @export
@@ -38,10 +39,14 @@
 #' }
 #'
 #'
-plspm_rotate_resid = function(plotdata, resid_list=NULL){
+plspm_rotate_resid = function(plotdata, resid_list=NULL, plot=TRUE){
   if(!is.null(resid_list)){
     plotdata <- semptools::rotate_resid(plotdata, rotate_resid_list = resid_list)
+
+    if(plot){
+
     plot(plotdata)
+    }
     return(plotdata)
   } else {
     stop("Input resid list ")

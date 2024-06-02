@@ -4,12 +4,14 @@
 \alias{plspm_edge_position}
 \title{plspm_edge_position}
 \usage{
-plspm_edge_position(semPaths_plot, ...)
+plspm_edge_position(semPaths_plot, ..., plot = TRUE)
 }
 \arguments{
 \item{semPaths_plot}{plot data}
 
 \item{...}{edge v1 v2 position}
+
+\item{plot}{TRUE}
 }
 \value{
 graph

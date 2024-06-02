@@ -4,12 +4,14 @@
 \alias{plspm_rotate_resid}
 \title{plspm_rotate_resid}
 \usage{
-plspm_rotate_resid(plotdata, resid_list = NULL)
+plspm_rotate_resid(plotdata, resid_list = NULL, plot = TRUE)
 }
 \arguments{
 \item{plotdata}{plotdata}
 
 \item{resid_list}{resid list}
+
+\item{plot}{TRUE}
 }
 \value{
 plot data

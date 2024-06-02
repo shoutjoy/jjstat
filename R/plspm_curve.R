@@ -2,6 +2,7 @@
 #'
 #' @param plotdata plot data
 #' @param curve_list curve list
+#' @param plot TRUE
 #'
 #' @return plot data
 #' @export
@@ -38,10 +39,14 @@
 #'   plspm_rotate_resid(c(진로동기= 160, 진로태도= 30))
 #' }
 #'
-plspm_curve = function(plotdata, curve_list=NULL){
+plspm_curve = function(plotdata, curve_list=NULL,plot=TRUE){
   if(!is.null(curve_list)){
     plotdata <- semptools::set_curve(plotdata, curve_list = curve_list)
+    if(plot){
     plot(plotdata)
+    }
+
+
     return(plotdata)
   } else {
     stop("Input curve_list ")

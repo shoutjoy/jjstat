@@ -4,7 +4,7 @@
 \alias{plspm_paths2lav}
 \title{plspm_paths2lav}
 \usage{
-plspm_paths2lav(path_matrix, name = FALSE)
+plspm_paths2lav(path_matrix, name = FALSE, hypo = FALSE)
 }
 \arguments{
 \item{path_matrix}{matrix paths}
@@ -33,7 +33,9 @@ rownames(path_matrix) <- c("IMAG", "EXPE", "QUAL", "VAL", "SAT", "LOY")
 colnames(path_matrix) <- c("IMAG", "EXPE", "QUAL", "VAL", "SAT", "LOY")
 
 cat(plspm_paths2lav(path_matrix))
+
+#Add hypothesis markers
+cat(plspm_paths2lav(path_matrix, hypo=TRUE))
 #'
 }
-
 }

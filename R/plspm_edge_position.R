@@ -2,6 +2,8 @@
 #'
 #' @param semPaths_plot plot data
 #' @param ...  edge v1 v2 position
+#' @param plot  TRUE
+#'
 #'
 #' @return graph
 #' @export
@@ -34,7 +36,7 @@
 #' }
 #'
 #'
-plspm_edge_position <- function(semPaths_plot, ...){
+plspm_edge_position <- function(semPaths_plot, ..., plot=TRUE){
 
   # Convert ... to a list of arguments
   args <- list(...)
@@ -51,6 +53,10 @@ plspm_edge_position <- function(semPaths_plot, ...){
 
   # Apply the new edge positions
   res <- semptools::set_edge_label_position(semPaths_plot, newPosition)
+
+  if(plot){
+
   plot(res)
+  }
   return(res)
 }

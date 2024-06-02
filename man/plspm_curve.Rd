@@ -4,12 +4,14 @@
 \alias{plspm_curve}
 \title{plspm_curve}
 \usage{
-plspm_curve(plotdata, curve_list = NULL)
+plspm_curve(plotdata, curve_list = NULL, plot = TRUE)
 }
 \arguments{
 \item{plotdata}{plot data}
 
 \item{curve_list}{curve list}
+
+\item{plot}{TRUE}
 }
 \value{
 plot data

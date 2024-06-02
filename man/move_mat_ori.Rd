@@ -4,12 +4,14 @@
 \alias{move_mat_ori}
 \title{move_mat_ori}
 \usage{
-move_mat_ori(mat, sort = TRUE)
+move_mat_ori(mat, sort = TRUE, type = c("res", "coord"))
 }
 \arguments{
 \item{mat}{mat}
 
 \item{sort}{sort =TRUE}
+
+\item{type}{res, coord}
 }
 \value{
 coordnate
@@ -34,6 +36,31 @@ layout_jut <- matrix(
     NA, NA, NA, NA, NA, NA, '진로동기', NA, NA, 'A_M1'),
   nrow = 10, ncol = 10, byrow = TRUE)
 move_mat_ori(layout_jut)
+
+#coord
+
+move_mat_ori(layout_jut)\%>\%
+mutate(Mat = paste0(element," = c(", row_col,")" ))\%>\%
+pull(Mat)\%>\%
+  paste(collapse=", ")\%>\%
+  cat("\n")
+
+##treatment
+ move_mat_ori(layout_jut, type="coord")
+#'
+plspm_make_layout_mat(
+  A_M1 = c(10, 10), A_M2 = c(9, 10),
+  A_M3 = c(8, 10), B02 = c(7, 10),
+  B04 = c(6, 10), B10 = c(5, 10),
+   B14 = c(4, 10), C_S1 = c(8, 1),
+   C_S2 = c(7, 1), C_S3 = c(6, 1),
+   C_S4 = c(5, 1), C_S5 = c(4, 1),
+   D_P1 = c(3, 10), D_P2 = c(2, 10),
+    D_P3 = c(1, 10), 자기효능감 = c(6, 3),
+    진로동기 = c(10, 7), 진로준비 = c(6, 7),
+     진로태도 = c(2, 7)
+)
+
 }
 
 

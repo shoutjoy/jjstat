@@ -4,12 +4,14 @@
 \alias{plspm_change_nodeLabels}
 \title{plspm_change_nodeLabels}
 \usage{
-plspm_change_nodeLabels(data, ...)
+plspm_change_nodeLabels(data, ..., plot = TRUE)
 }
 \arguments{
 \item{data}{plspm_semPaths}
 
 \item{...}{change node from name , to name}
+
+\item{plot}{TRUE}
 }
 \value{
 plot
