@@ -4,7 +4,7 @@
 \alias{make_mat_text}
 \title{mat_text_arrange}
 \usage{
-make_mat_text(mat, text = TRUE, byrow = FALSE)
+make_mat_text(mat, text = TRUE, byrow = TRUE)
 }
 \arguments{
 \item{mat}{matrix data}

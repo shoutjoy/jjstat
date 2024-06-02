@@ -38,5 +38,6 @@ make_c_text <- function(data) {
   formatted_elements <- sapply(text_New, format_element)
 
   # Print the result in the desired format
-  cat("text_New =", paste("c(", paste(formatted_elements, collapse = ", "), ")\n", sep=""))
+  cat("text_New =", paste("c(",
+                          paste(formatted_elements, collapse = ", "), ")\n", sep=""))
 }

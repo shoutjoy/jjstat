@@ -34,6 +34,7 @@
 #' @param growth growth= FALSE, TRUE  model.type ="grouwth"
 #' @param structural structural = FALSE
 #' @param fixedStyle fixedStyle=1 default rbase linetype
+#' @param color  lat= skyblue, man yellow
 #' @param type type ="plot, and res is lavaan simdata result
 #'
 #' @return plot
@@ -145,6 +146,7 @@ plspm_diagram_model = function(model,
                          edgeLabels=NULL,
                          nodeLabels=NULL,
                          fixedStyle = 1,
+                         color = list(lat="skyblue", man="yellow"),
                          type="plot"){
 
   #first step : Determining the model type
@@ -205,6 +207,7 @@ plspm_diagram_model = function(model,
       curve = curve,
       nDigits = nDigits,
       asize= asize,
+      color=color,
       fixedStyle = fixedStyle,
       # edgeLabels = edgeLabels,
       # nodeLabels = nodeLabels,
@@ -235,6 +238,7 @@ plspm_diagram_model = function(model,
         curve=curve,
         nDigits = nDigits,
         asize= asize,
+        color=color,
         fixedStyle = fixedStyle,
         # edgeLabels = edgeLabels,
         # nodeLabels = nodeLabels,
@@ -264,6 +268,7 @@ plspm_diagram_model = function(model,
         curve=curve,
         nDigits = nDigits,
         asize= asize,
+        color=color,
         fixedStyle = fixedStyle,
         edgeLabels = edgeLabels,
         # nodeLabels = nodeLabels,
@@ -292,6 +297,7 @@ plspm_diagram_model = function(model,
         curve=curve,
         nDigits = nDigits,
         asize= asize,
+        color=color,
         # edgeLabels = edgeLabels,
         nodeLabels = nodeLabels,
         structural = structural,
@@ -319,6 +325,7 @@ plspm_diagram_model = function(model,
         curve=curve,
         nDigits = nDigits,
         asize= asize,
+        color=color,
         fixedStyle = fixedStyle,
         edgeLabels = edgeLabels,
         nodeLabels = nodeLabels,
@@ -380,7 +387,7 @@ plspm_diagram_model = function(model,
 #' @return plot jutpls_boot
 #' @export
 #'
-plspm_plot = function(model,
+plspm_model_plot = function(model,
                            residuals= FALSE,
                            whatLabels = "model",
                            rotation = 2,

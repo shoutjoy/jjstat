@@ -4,19 +4,32 @@
 \alias{plspm_indicator_factor}
 \title{plspm_indicator_factor}
 \usage{
-plspm_indicator_factor(plsres_boot)
+plspm_indicator_factor(model_syntax)
 }
 \arguments{
-\item{plsres_boot}{plsres_boot}
+\item{model_syntax}{lavaan}
 }
 \value{
-plsres_boot
+text
 }
 \description{
 plspm_indicator_factor
 }
 \examples{
+
 \dontrun{
-plspm_indicator_factor(nfl_pls_boot)
+#'
+mod <-
+  'f1 =~ x01 + x02 + x03 + x06
+    f3 =~ x08 + x09 + x10 + x03
+    f2 =~ x04 + x05 + x06 + x07
+    f4 =~ x11 + x12 + x13 + x14
+    f3 ~ f1 + f2
+    f4 ~ f3
+   '
+plspm_indicator_order(mod)
+
+plspm_indicator_factor(mod)
 }
+
 }

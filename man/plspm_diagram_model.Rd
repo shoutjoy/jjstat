@@ -39,6 +39,7 @@ plspm_diagram_model(
   edgeLabels = NULL,
   nodeLabels = NULL,
   fixedStyle = 1,
+  color = list(lat = "skyblue", man = "yellow"),
   type = "plot"
 )
 }
@@ -110,6 +111,8 @@ plspm_diagram_model(
 \item{nodeLabels}{nodeLabels=NULL}
 
 \item{fixedStyle}{fixedStyle=1 default rbase linetype}
+
+\item{color}{lat= skyblue, man yellow}
 
 \item{type}{type ="plot, and res is lavaan simdata result}
 }

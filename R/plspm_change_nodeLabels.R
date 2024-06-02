@@ -10,6 +10,18 @@
 #'
 #' \dontrun{
 #'
+#' pathmodel = "
+#' 자기효능감 =~ C_S1 +  C_S2 + C_S3 + C_S4 + C_S5
+#' 진로태도 =~ B02 + B04 + B10 + B14
+#' 진로동기 =~ A_M1 + A_M2 + A_M3
+#' 진로준비 =~ D_P1 + D_P2 + D_P3
+#'
+#' 진로동기 ~ H1*자기효능감
+#' 진로태도 ~  H2*자기효능감
+#' 진로준비 ~ H5 *진로태도
+#' 진로준비 ~  H4 * 진로동기
+#' 진로준비 ~  H3*자기효능감
+#' "
 #'
 #' plspm_semPaths2(jutpls_boot,   curve=1, layout="tree2",rotation=1,
 #'                 edge.label.cex=0.7, mar=c(2,1,2,1),
@@ -31,16 +43,20 @@
 #'
 #'
 plspm_change_nodeLabels <- function(data, ...) {
-  # 입력받은 ...을 리스트로 변환
+  # Convert an input of ... to a list
   args <- list(...)
 
-  # 리스트를 짝지어 노드 변경 리스트 생성
+  # Create a list of node changes by pairing lists
   namechange <- lapply(seq(1, length(args), by = 2), function(i) {
     list(node = args[[i]], to = args[[i + 1]])
   })
 
-  # 이름 변경 적용 및 플롯 생성
-  data %>%
-    semptools::change_node_label(namechange) %>%
-    plot()
+  # apply rename
+  res <- semptools::change_node_label(data, namechange)
+
+  # Plot the results
+  plot(res)
+
+  # Returning changed data to keep pipelines connected
+  return(res)
 }

@@ -61,7 +61,7 @@
 #' }
 #'
 
-make_mat_text <- function(mat, text = TRUE, byrow = FALSE) {
+make_mat_text <- function(mat, text = TRUE, byrow = TRUE) {
   # Convert the matrix to a vector based on byrow parameter
   if (byrow) {
     mat_vector <- as.vector(t(mat))
