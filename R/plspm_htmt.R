@@ -14,6 +14,16 @@
 #' @examples
 #' \dontrun{
 #' #'
+#' sat_path = plspm_paths(
+#' row_names = c("IMAG","EXPE","QUAL","VAL","SAT","LOY"),
+#' relationship = list(
+#'   path(from="IMAG", to=c("EXPE","SAT","LOY")),
+#'   path("EXPE", c("QUAL","VAL","SAT")),
+#'   path("QUAL", c("VAL","SAT")),
+#'   path("VAL",c("SAT")),
+#'   path("SAT","LOY"))
+#' )
+#'
 #' sat_blocks1 <- plspm_blocks(
 #'   IMAG = item(paste0("imag",1:5)),
 #'   EXPE = item(paste0("expe", 1:5)),
@@ -40,14 +50,27 @@
 #' semTools::htmt(plspm_blocks2lav(sat_blocks1),
 #'                satisfaction,
 #'                htmt2 = T)
+#'
+#'  satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1,
+#'   scaled = FALSE, boot.val =TRUE, br=100)
+#'  #If you've bootstrapped
+#'  plspm_htmt(satpls_boot)
 #' #'
 #'
 #' }
 #'
 #'
 #'
-plspm_htmt <- function(data, blocks, htmt2 = TRUE,
+plspm_htmt <- function(plsres = NULL, data=NULL, blocks=NULL,  htmt2 = TRUE,
                        sig = TRUE, cut = 0.9, digits=3) {
+
+  if(!is.null(plsres)){
+   data = plsres$data
+   blocks = plspm_extract_blocks(plsres$model)
+
+  }
+
+
   htmt_matrix <- matrix(0, nrow = length(blocks), ncol = length(blocks))
   rownames(htmt_matrix) <- colnames(htmt_matrix) <- names(blocks)
 

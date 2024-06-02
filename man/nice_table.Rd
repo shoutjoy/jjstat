@@ -4,10 +4,12 @@
 \alias{nice_table}
 \title{같은 것이 반복되면 ""처리}
 \usage{
-nice_table(data)
+nice_table(data, exclude = NULL)
 }
 \arguments{
 \item{data}{data}
+
+\item{exclude}{not adapt col}
 }
 \value{
 data ressult

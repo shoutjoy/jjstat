@@ -1,6 +1,7 @@
 #' 같은 것이 반복되면 ""처리
 #'
 #' @param data data
+#' @param exclude not adapt col
 #'
 #' @return data ressult
 #' @export
@@ -46,9 +47,34 @@
 #' }
 #'
 #'
-nice_table <- function(data) {
+nice_table <- function(data, exclude=NULL) {
+  # Convert exclude to a character vector of column names if not already
+  if (!is.null(exclude)) {
+    if (is.numeric(exclude)) {
+      exclude <- names(data)[exclude]
+    } else if (is.character(exclude)) {
+      if (any(grepl(":", exclude))) {
+        exclude <- unlist(lapply(exclude, function(col) {
+          if (grepl(":", col)) {
+            col_range <- unlist(strsplit(col, ":"))
+            start_col <- which(names(data) == col_range[1])
+            end_col <- which(names(data) == col_range[2])
+            return(names(data)[start_col:end_col])
+          } else {
+            return(col)
+          }
+        }))
+      }
+    }
+  } else {
+    exclude <- character(0)
+  }
+
   # Loop through each column in the data frame
   for (col in names(data)) {
+    # Skip the columns that are in the exclude list
+    if (col %in% exclude) next
+
     # Initialize the previous value variable
     prev_value <- ""
 
