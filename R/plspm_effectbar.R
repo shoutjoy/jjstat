@@ -37,7 +37,7 @@
 plspm_effectbar <- function(x_pls,
                             axis_x = 1,
                             axis_y = 1.1,
-                            mar = c(axis_x*7, 3, 1, 0.5), # Adjusted to remove cex.names
+                            mar = c(axis_x*10, 3, 1, 0.5), # Adjusted to remove cex.names
                             border = 1,
                             col = c("#9E9AC8", "#DADAEB")) {
   # Load necessary library

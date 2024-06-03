@@ -5,6 +5,7 @@
 #' @param font_size default 14
 #' @param file file name default "output.html
 #' @param out TRUE browser
+#' @param tibble show data
 #'
 #' @return web output
 #' @export
@@ -16,7 +17,7 @@
 #'
 #' }
 #'
-web <- function(data, out=TRUE, digits = 3, font_size = 14, file = "output.html") {
+web <- function(data, out=TRUE, tibble=TRUE,  digits = 3, font_size = 14, file = "output.html") {
   # library(htmlTable)
   # library(htmltools)
 
@@ -60,7 +61,13 @@ web <- function(data, out=TRUE, digits = 3, font_size = 14, file = "output.html"
     # Open an HTML file with a web browser
     browseURL(html_file)
   }else{
+    if(tibble){
+    tibble::tibble(data)
+
+    }else{
     data.frame(data)
+
+    }
   }
 
 }

@@ -15,9 +15,9 @@ plspm_semPaths(
   edge.label.position = 0.55,
   edge.color = "black",
   sizeMan = 6,
-  sizeMan2 = 4,
-  sizeLat = 9,
-  sizeLat2 = 6,
+  sizeMan2 = 3,
+  sizeLat = 7,
+  sizeLat2 = 4,
   style = "lisrel",
   sig = FALSE,
   exoVar = FALSE,
@@ -39,6 +39,7 @@ plspm_semPaths(
   edgeLabels = NULL,
   nodeLabels = NULL,
   fixedStyle = 1,
+  color = list(lat = "white", man = "white"),
   label.cex = 1,
   type = "plot"
 )
@@ -112,12 +113,14 @@ plspm_semPaths(
 
 \item{fixedStyle}{fixedStyle=1 default rbase linetype}
 
+\item{color}{list(lat="skyblue", man="yellow")}
+
 \item{label.cex}{label.cex}
 
 \item{type}{type ="plot, and res is lavaan simdata result}
 }
 \value{
-plot
+plot jutpls_boot
 }
 \description{
 Drawing Structural Equation Models Using the lavaan Syntax (park JH PhD)

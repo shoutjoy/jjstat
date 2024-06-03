@@ -34,49 +34,50 @@
 #' @param growth growth= FALSE, TRUE  model.type ="grouwth"
 #' @param structural structural = FALSE
 #' @param fixedStyle fixedStyle=1 default rbase linetype
+#' @param color list(lat="skyblue", man="yellow")
 #' @param label.cex label.cex
 #' @param type type ="plot, and res is lavaan simdata result
 #'
-#' @return plot
-#'
+#' @return plot jutpls_boot
 #' @export
 #'
 plspm_semPaths = function(plsres_boot,
-                          residuals= FALSE,
-                          whatLabels = "model",
-                          rotation = 2,
-                          residScale = 12,
-                          layout = "tree2",
-                          edge.label.cex= 0.7,
-                          edge.label.position = 0.55,
-                          edge.color = "black",
-                          sizeMan = 6,
-                          sizeMan2 = 4,
-                          sizeLat = 9,
-                          sizeLat2 = 6,
-                          style="lisrel",
-                          sig = FALSE,
-                          exoVar = FALSE,
-                          exoCov = FALSE,
-                          curve = 1.5,
-                          asize=2,
-                          mar = c(2,4,2,4),
-                          nDigits = 3,
-                          shapeLat="circle",
-                          shapeMan="rectangle",
-                          shapeInt = "triangle",
-                          sample.nobs = 100,
-                          border.width = 2,
-                          edge.width = 1.5,
-                          Groups = FALSE,
-                          group_match = "lat",
-                          growth = FALSE,
-                          structural = FALSE,
-                          edgeLabels=NULL,
-                          nodeLabels=NULL,
-                          fixedStyle = 1,
-                          label.cex = 1,
-                          type="plot"){
+                           residuals= FALSE,
+                           whatLabels = "model",
+                           rotation = 2,
+                           residScale = 12,
+                           layout = "tree2",
+                           edge.label.cex= 0.7,
+                           edge.label.position = 0.55,
+                           edge.color = "black",
+                           sizeMan = 6,
+                           sizeMan2 = 3,
+                           sizeLat = 7,
+                           sizeLat2 = 4,
+                           style="lisrel",
+                           sig = FALSE,
+                           exoVar = FALSE,
+                           exoCov = FALSE,
+                           curve = 1.5,
+                           asize=2,
+                           mar = c(2,4,2,4),
+                           nDigits = 3,
+                           shapeLat="circle",
+                           shapeMan="rectangle",
+                           shapeInt = "triangle",
+                           sample.nobs = 100,
+                           border.width = 2,
+                           edge.width = 1.5,
+                           Groups = FALSE,
+                           group_match = "lat",
+                           growth = FALSE,
+                           structural = FALSE,
+                           edgeLabels=NULL,
+                           nodeLabels=NULL,
+                           fixedStyle = 1,
+                           color = list(lat="white", man="white"),
+                           label.cex = 1,
+                           type="plot"){
 
   #first step : Determining the model type
   mms1 = summary(plsres_boot)$outer_model%>%
@@ -133,11 +134,11 @@ plspm_semPaths = function(plsres_boot,
   testdata =  lavaan::simulateData( model = model,
                                     sample.nobs = sample.nobs,
                                     model.type = model.type)%>%
-                                      suppressWarnings()
+    suppressWarnings()
 
   # test calculated
   lav_obj = lavaan::sem(model, data= testdata)%>%
-                        suppressWarnings()
+    suppressWarnings()
 
   # diagram2(lavobj, "model", sig=F)
   if(Groups){
@@ -169,6 +170,7 @@ plspm_semPaths = function(plsres_boot,
       # edgeLabels = edgeLabels,
       # nodeLabels = nodeLabels,
       structural = structural,
+      color=color,
       label.cex = label.cex,
       style =  style,  mar=mar)
   }else{
@@ -200,6 +202,7 @@ plspm_semPaths = function(plsres_boot,
         # edgeLabels = edgeLabels,
         # nodeLabels = nodeLabels,
         structural = structural,
+        color=color,
         label.cex = label.cex,
         style =  style,  mar=mar)
 
@@ -230,6 +233,7 @@ plspm_semPaths = function(plsres_boot,
         edgeLabels = edgeLabels,
         # nodeLabels = nodeLabels,
         structural = structural,
+        color = color,
         label.cex = label.cex,
         style =  style,  mar=mar)
     }else if(!is.null(nodeLabels)){
@@ -258,7 +262,8 @@ plspm_semPaths = function(plsres_boot,
         # edgeLabels = edgeLabels,
         nodeLabels = nodeLabels,
         structural = structural,
-        label.cex = label.cex,
+        color=color,
+        label.cex= label.cex,
         style =  style,  mar=mar)
     }else if(!is.null(edgeLabels) & !is.null(nodeLabels)){
       dia = lav_obj %>% semPlot::semPaths(
@@ -287,7 +292,8 @@ plspm_semPaths = function(plsres_boot,
         edgeLabels = edgeLabels,
         nodeLabels = nodeLabels,
         structural = structural,
-        label.cex = label.cex,
+        color=color,
+        label.cex= label.cex,
         style =  style,  mar=mar)
     }
   }

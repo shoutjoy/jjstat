@@ -4,7 +4,7 @@
 \alias{move_mat_ori}
 \title{move_mat_ori}
 \usage{
-move_mat_ori(mat, sort = TRUE, type = c("res", "coord"))
+move_mat_ori(mat, sort = TRUE, type = "res")
 }
 \arguments{
 \item{mat}{mat}

@@ -52,7 +52,7 @@
 #' }
 #'
 #'
-move_mat_ori <- function(mat, sort = TRUE, type=c("res", "coord")) {
+move_mat_ori <- function(mat, sort = TRUE, type= "res") {
   # 결과를 저장할 데이터 프레임 생성
   result <- data.frame(element = character(), row_col = character(), stringsAsFactors = FALSE)
 
@@ -66,13 +66,20 @@ move_mat_ori <- function(mat, sort = TRUE, type=c("res", "coord")) {
     }
   }
 
-  result_pull = result%>% mutate(Mat = paste0(element," = c(", row_col,")" ))%>%
+  result_pull = result%>%
+    mutate(Mat = paste0(element," = c(", row_col,")" ))%>%
     pull(Mat)%>%paste(collapse=", ")
+
+  result1 = result%>%
+    mutate(Mat = paste0(element," = c(", row_col,")" ))
+
+
   # sort by element if sort=TRUE
   if (sort) {
     result <- result[order(result$element), ]
   }
 
+
   # 결과 출력
-  switch(type, res = ressult, coord = result_pull)
+  switch(type, res = result, res2 =result1,  coord = result_pull)
 }

@@ -4,12 +4,21 @@
 \alias{web}
 \title{Functions that output to a web browser}
 \usage{
-web(data, out = TRUE, digits = 3, font_size = 14, file = "output.html")
+web(
+  data,
+  out = TRUE,
+  tibble = TRUE,
+  digits = 3,
+  font_size = 14,
+  file = "output.html"
+)
 }
 \arguments{
 \item{data}{data}
 
 \item{out}{TRUE browser}
+
+\item{tibble}{show data}
 
 \item{digits}{default 3}
 

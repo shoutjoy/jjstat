@@ -6,8 +6,8 @@
 \usage{
 plspm_htmt(
   plsres = NULL,
-  data = NULL,
-  blocks = NULL,
+  data,
+  blocks,
   htmt2 = TRUE,
   sig = TRUE,
   cut = 0.9,

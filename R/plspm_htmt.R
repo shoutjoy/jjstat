@@ -61,13 +61,18 @@
 #'
 #'
 #'
-plspm_htmt <- function(plsres = NULL, data=NULL, blocks=NULL,  htmt2 = TRUE,
+plspm_htmt <- function(plsres = NULL, data, blocks,  htmt2 = TRUE,
                        sig = TRUE, cut = 0.9, digits=3) {
+
 
   if(!is.null(plsres)){
    data = plsres$data
    blocks = plspm_extract_blocks(plsres$model)
 
+  }else{
+
+    data = data
+    blocks = blocks
   }
 
 
@@ -101,7 +106,8 @@ plspm_htmt <- function(plsres = NULL, data=NULL, blocks=NULL,  htmt2 = TRUE,
         htmt_value <- mean_hetero_corrs / sqrt(mean_mono_corrs_i * mean_mono_corrs_j)
 
         if (sig && htmt_value < cut) {
-          htmt_matrix[i, j] <- paste0(format(round(htmt_value, digits),nsmall=digits), "*")
+          htmt_matrix[i, j] <- paste0(format(round(htmt_value, digits),
+                                             nsmall=digits), "*")
         } else {
           htmt_matrix[i, j] <- round(htmt_value, digits)
         }
@@ -169,6 +175,8 @@ plspm_htmt <- function(plsres = NULL, data=NULL, blocks=NULL,  htmt2 = TRUE,
 #'
 plspm_htmt2 <- function(data, blocks, htmt2 = TRUE,
                         sig = TRUE, cut = 0.9, digits = 3,imp="") {
+
+
   htmt_matrix <- matrix(0, nrow = length(blocks), ncol = length(blocks))
   rownames(htmt_matrix) <- colnames(htmt_matrix) <- names(blocks)
 
