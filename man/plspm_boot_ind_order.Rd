@@ -17,7 +17,7 @@ plspm_indicator_order
 }
 \examples{
 \dontrun{
-plspm_indicator_order(nfl_pls_boot)
+#'
 }
 
 }
