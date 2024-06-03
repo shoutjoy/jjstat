@@ -204,7 +204,7 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
     print(plspm_fl(res) )
 
     cat("\n (4) HTMT(heterotrait-monotrait ratio of the correlations)\n")
-    print(plspm_htmt(res$data, plspm_extract_blocks(res$model)) )
+    print(plspm_htmt(data = res$data, blocks= plspm_extract_blocks(res$model)) )
 
     cat("\n (5) Total effect: direct, indirect \n")
     print(res$effect %>% full_join(

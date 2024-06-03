@@ -61,20 +61,26 @@
 #'
 #'
 #'
-plspm_htmt <- function(plsres = NULL, data, blocks,  htmt2 = TRUE,
-                       sig = TRUE, cut = 0.9, digits=3) {
+plspm_htmt <- function(plsres = NULL, data = NULL, blocks = NULL, htmt2 = TRUE,
+                       sig = TRUE, cut = 0.9, digits = 3, imp = "") {
 
-
-  if(!is.null(plsres)){
-   data = plsres$data
-   blocks = plspm_extract_blocks(plsres$model)
-
-  }else{
-
-    data = data
-    blocks = blocks
+  # 첫 번째 인자와 두 번째 인자의 클래스를 확인하여 자동으로 인식
+  if (!is.null(plsres) && class(plsres) == "plspm") {
+    data <- plsres$data
+    blocks <- plspm_extract_blocks(plsres$model)
+  } else if (!is.null(data) && class(data) == "data.frame" && !is.null(blocks) && class(blocks) == "list") {
+    data <- data
+    blocks <- blocks
+  } else if (is.null(plsres) && !is.null(data) && class(data) == "data.frame" && !is.null(blocks) && class(blocks) == "list") {
+    data <- data
+    blocks <- blocks
+  } else if (!is.null(plsres) && class(plsres) == "data.frame" && !is.null(data) && class(data) == "list") {
+    blocks <- data
+    data <- plsres
+    plsres <- NULL
+  } else {
+    stop("Either 'plsres' of class 'plspm' or both 'data' of class 'data.frame' and 'blocks' of class 'list' must be provided.")
   }
-
 
   htmt_matrix <- matrix(0, nrow = length(blocks), ncol = length(blocks))
   rownames(htmt_matrix) <- colnames(htmt_matrix) <- names(blocks)
@@ -85,14 +91,11 @@ plspm_htmt <- function(plsres = NULL, data, blocks,  htmt2 = TRUE,
         indicators_i <- blocks[[i]]
         indicators_j <- blocks[[j]]
 
-        # 이질 특성-단일 방법 상관 계수
         hetero_corrs <- cor(data[, indicators_i], data[, indicators_j])
 
-        # 단일 특성-단일 방법 상관 계수
         mono_corrs_i <- cor(data[, indicators_i])
         mono_corrs_j <- cor(data[, indicators_j])
 
-        # 상관 계수의 평균 계산
         if (htmt2) {
           mean_hetero_corrs <- exp(mean(log(abs(hetero_corrs[hetero_corrs != 0]))))
           mean_mono_corrs_i <- exp(mean(log(abs(mono_corrs_i[upper.tri(mono_corrs_i) & mono_corrs_i != 0]))))
@@ -106,23 +109,21 @@ plspm_htmt <- function(plsres = NULL, data, blocks,  htmt2 = TRUE,
         htmt_value <- mean_hetero_corrs / sqrt(mean_mono_corrs_i * mean_mono_corrs_j)
 
         if (sig && htmt_value < cut) {
-          htmt_matrix[i, j] <- paste0(format(round(htmt_value, digits),
-                                             nsmall=digits), "*")
+          htmt_matrix[i, j] <- paste0(format(round(htmt_value, digits), nsmall = digits), "*")
         } else {
-          htmt_matrix[i, j] <- round(htmt_value, digits)
+          htmt_matrix[i, j] <- format(round(htmt_value, digits), nsmall = digits)
         }
+      } else {
+        htmt_matrix[i, j] <- imp
       }
     }
   }
 
-  #result
-  return(as.data.frame(format(round2(htmt_matrix,digits),
-                              nsmall=digits))%>%
-           lowerMat("","")
-  )
+  htmt_lower <- htmt_matrix
+  htmt_lower[upper.tri(htmt_lower)] <- imp
 
+  return(as.data.frame(htmt_lower))
 }
-
 
 
 

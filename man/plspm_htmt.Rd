@@ -6,12 +6,13 @@
 \usage{
 plspm_htmt(
   plsres = NULL,
-  data,
-  blocks,
+  data = NULL,
+  blocks = NULL,
   htmt2 = TRUE,
   sig = TRUE,
   cut = 0.9,
-  digits = 3
+  digits = 3,
+  imp = ""
 )
 }
 \arguments{
