@@ -156,12 +156,19 @@ plspm_semptools= function(semPaths_plot,
                           loading_position = 0.5){
 
   pplot = semptools::set_sem_layout(semPaths_plot = semPaths_plot,
-                                    indicator_order = plspm_boot_ind_order(pls_boot),
-                                    indicator_factor = plspm_boot_ind_factor(pls_boot),
-                                    factor_layout = plspm_boot_factor_layout(pls_boot, position= position, nrow=nrow, ncol=ncol),
-                                    factor_point_to = plspm_boot_factor_point_to(pls_boot, point= point, nrow=nrow, ncol=ncol),
-                                    indicator_push = plspm_ind_push(pls_boot, set=push_set),
-                                    indicator_spread = plspm_ind_spread(pls_boot, set= spread_set),
+          indicator_order = plspm_boot_ind_order(pls_boot),
+            indicator_factor = plspm_boot_ind_factor(pls_boot),
+            factor_layout = plspm_boot_factor_layout(pls_boot,
+                                                     position= position,
+                                                     nrow=nrow,
+                                                     ncol=ncol),
+             factor_point_to = plspm_boot_factor_point_to(pls_boot,
+                                                          point= point,
+                                                          nrow=nrow,
+                                                          ncol=ncol),
+    indicator_push = plspm_ind_push(pls_boot, set= set_push),
+      indicator_spread = plspm_ind_spread(pls_boot,
+                                          set= set_spread),
                                     loading_position = loading_position)
 
   plot(pplot)
