@@ -2,6 +2,10 @@
 #'
 #' @param data plspm_semPaths
 #' @param ... change node from name , to name
+#' @param label.cex label.cex
+#' @param label.scale label.scale
+#' @param label.prop label.prop
+#' @param label.norm label.norm
 #' @param plot TRUE
 #'
 #' @return plot
@@ -10,6 +14,7 @@
 #' @examples
 #'
 #' \dontrun{
+#'
 #'
 #' pathmodel = "
 #' 자기효능감 =~ C_S1 +  C_S2 + C_S3 + C_S4 + C_S5
@@ -43,7 +48,13 @@
 #' }
 #'
 #'
-plspm_change_nodeLabels <- function(data, ..., plot=TRUE) {
+
+plspm_change_nodeLabels <- function(data, ...,
+                                    label.cex,
+                                    label.scale,
+                                    label.prop,
+                                    label.norm,
+                                    plot=TRUE ) {
   # Convert an input of ... to a list
   args <- list(...)
 
@@ -53,14 +64,19 @@ plspm_change_nodeLabels <- function(data, ..., plot=TRUE) {
   })
 
   # apply rename
-  res <- semptools::change_node_label(data, namechange)
+  res <- semptools::change_node_label(data, namechange,
+                                      label.cex= label.cex,
+                                      label.scale = label.scale,
+                                      label.prop = label.prop,
+                                      label.norm = label.norm)
 
   # Plot the results
   if(plot){
 
-  plot(res)
+    plot(res)
   }
 
   # Returning changed data to keep pipelines connected
   return(res)
 }
+

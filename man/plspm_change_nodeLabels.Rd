@@ -4,12 +4,28 @@
 \alias{plspm_change_nodeLabels}
 \title{plspm_change_nodeLabels}
 \usage{
-plspm_change_nodeLabels(data, ..., plot = TRUE)
+plspm_change_nodeLabels(
+  data,
+  ...,
+  label.cex,
+  label.scale,
+  label.prop,
+  label.norm,
+  plot = TRUE
+)
 }
 \arguments{
 \item{data}{plspm_semPaths}
 
 \item{...}{change node from name , to name}
+
+\item{label.cex}{label.cex}
+
+\item{label.scale}{label.scale}
+
+\item{label.prop}{label.prop}
+
+\item{label.norm}{label.norm}
 
 \item{plot}{TRUE}
 }
@@ -22,6 +38,7 @@ plspm_change_nodeLabels
 \examples{
 
 \dontrun{
+
 
 pathmodel = "
 자기효능감 =~ C_S1 +  C_S2 + C_S3 + C_S4 + C_S5

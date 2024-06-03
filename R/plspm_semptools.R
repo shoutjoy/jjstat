@@ -5,8 +5,8 @@
 #' @param pls_boot boot data
 #' @param position layout  position
 #' @param point point position
-#' @param push_set each push
-#' @param spread_set each spread
+#' @param set_push each push
+#' @param set_spread each spread
 #' @param nrow default 3
 #' @param ncol default 3
 #' @param loading_position 0.5
@@ -150,7 +150,8 @@ plspm_semptools= function(semPaths_plot,
                           pls_boot,
                           position= NULL,
                           point= NULL,
-                          push_set =2, spread_set=2,
+                          set_push =2,
+                          set_spread=2,
                           nrow= 3,  ncol= 3,
                           loading_position = 0.5){
 

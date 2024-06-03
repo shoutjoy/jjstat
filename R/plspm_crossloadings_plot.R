@@ -121,3 +121,25 @@ plspm_crossloadings_plot = function(plsres, wide = F){
 
   }
 }
+
+
+#' plspm_crossloadings
+#'
+#' @param plsres boot result
+#' @param digits reound 3
+#'
+#' @return data
+#' @export
+#'
+
+plspm_crossloadings = function(plsres,  digits=3){
+
+  if(length(plsres)==13){
+    plsdf = plsres$crossloadings
+
+  }else{
+    plsdf = data.frame(plsres)
+  }
+  return(Round(plsdf, digits))
+}
+

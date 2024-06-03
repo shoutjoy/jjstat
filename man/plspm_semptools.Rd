@@ -9,8 +9,8 @@ plspm_semptools(
   pls_boot,
   position = NULL,
   point = NULL,
-  push_set = 2,
-  spread_set = 2,
+  set_push = 2,
+  set_spread = 2,
   nrow = 3,
   ncol = 3,
   loading_position = 0.5
@@ -25,9 +25,9 @@ plspm_semptools(
 
 \item{point}{point position}
 
-\item{push_set}{each push}
+\item{set_push}{each push}
 
-\item{spread_set}{each spread}
+\item{set_spread}{each spread}
 
 \item{nrow}{default 3}
 

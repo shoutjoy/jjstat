@@ -10,6 +10,7 @@ plspm_effectbar(
   axis_y = 1.1,
   mar = c(axis_x * 10, 3, 1, 0.5),
   border = 1,
+  ylim = c(0, 1),
   col = c("#9E9AC8", "#DADAEB")
 )
 }
@@ -24,7 +25,9 @@ plspm_effectbar(
 
 \item{border}{1}
 
-\item{col}{NA bar color 1:black, 2 red}
+\item{ylim}{default c(0,1)}
+
+\item{col}{NA bar color 1:black, 2 redc("#9E9AC8", "#DADAEB")}
 }
 \value{
 data

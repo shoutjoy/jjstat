@@ -5,7 +5,8 @@
 #' @param axis_y y axis size
 #' @param mar mar = c(cex.names*11, 3, 1, 0.5)
 #' @param border 1
-#' @param col NA bar color 1:black, 2 red
+#' @param ylim default c(0,1)
+#' @param col NA bar color 1:black, 2 redc("#9E9AC8", "#DADAEB")
 #'
 #' @return data
 #' @export
@@ -38,7 +39,7 @@ plspm_effectbar <- function(x_pls,
                             axis_x = 1,
                             axis_y = 1.1,
                             mar = c(axis_x*10, 3, 1, 0.5), # Adjusted to remove cex.names
-                            border = 1,
+                            border = 1,ylim = c(0, 1),
                             col = c("#9E9AC8", "#DADAEB")) {
   # Load necessary library
   library(dplyr)
@@ -61,7 +62,7 @@ plspm_effectbar <- function(x_pls,
   barplot(t(path_effs1), border = border,
           col = col,
           las = 2,
-          ylim = c(0, 1),
+          ylim = ylim,
           cex.names = axis_x,
           cex.axis = axis_y,
           legend = c("Direct", "Indirect"),
