@@ -4,12 +4,14 @@
 \alias{plspm_loadings}
 \title{plspm loadings output}
 \usage{
-plspm_loadings(plsres, digits = 3)
+plspm_loadings(plsres, digits = 3, unite = TRUE)
 }
 \arguments{
 \item{plsres}{plspm result}
 
 \item{digits}{round =3}
+
+\item{unite}{unite t+star}
 }
 \value{
 data table

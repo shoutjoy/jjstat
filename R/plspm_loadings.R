@@ -2,6 +2,7 @@
 #'
 #' @param plsres plspm result
 #' @param digits round =3
+#' @param unite unite t+star
 #'
 #' @return data table
 #'
@@ -17,7 +18,7 @@
 #'
 #' }
 #'
-plspm_loadings = function(plsres, digits=3){
+plspm_loadings = function(plsres, digits=3, unite= TRUE){
 
   if(length(plsres)==13){
     plsdf = plsres$boot$paths
@@ -30,7 +31,7 @@ plspm_loadings = function(plsres, digits=3){
   res = plsres$boot$loadings%>%
     row2col("paths")%>%
     Round(digits)%>%
-    add_t_sig("Mean.Boot", "Std.Error", 5, unite=TRUE, ns="")%>%
+    add_t_sig("Mean.Boot", "Std.Error", 5, unite = unite, ns="")%>%
     unite_ci()%>%
     dplyr::rename(측정항목 = paths,
                   비표준화계수=Original,

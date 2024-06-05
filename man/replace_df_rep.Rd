@@ -4,7 +4,7 @@
 \alias{replace_df_rep}
 \title{replace_df_repeated adation}
 \usage{
-replace_df_rep(data, ..., detect = FALSE)
+replace_df_rep(data, ..., detect = TRUE, chr = TRUE)
 }
 \arguments{
 \item{data}{data}
@@ -12,6 +12,8 @@ replace_df_rep(data, ..., detect = FALSE)
 \item{...}{pattern and imputation}
 
 \item{detect}{detect TRUE in data, FALSE data}
+
+\item{chr}{transformation fac  to chr}
 }
 \value{
 data

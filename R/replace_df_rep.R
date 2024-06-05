@@ -3,6 +3,7 @@
 #' @param data data
 #' @param ... pattern and imputation
 #' @param detect detect TRUE in data, FALSE data
+#' @param chr transformation fac  to chr
 #'
 #' @return data
 #' @export
@@ -48,7 +49,13 @@
 #'
 #'
 #'
-replace_df_rep <- function(data, ..., detect = FALSE) {
+replace_df_rep <- function(data, ..., detect = TRUE, chr = TRUE) {
+  # Convert a variable of type factor in the dataframe to type character if chr is TRUE
+  if (chr) {
+    data <- data %>%
+      dplyr::mutate(across(where(is.factor), as.character))
+  }
+
   args <- list(...)
 
   if (length(args) == 1 && is.vector(args[[1]])) {
@@ -62,10 +69,10 @@ replace_df_rep <- function(data, ..., detect = FALSE) {
   }
 
   if (detect) {
-    # detect가 TRUE인 경우 데이터프레임의 모든 셀을 탐색하여 단어 대체
+    # if detect is TRUE, traverse all cells in the dataframe to replace words
     data <- replace_in_dataframe(data, changes)
   } else {
-    # detect가 FALSE인 경우 replace_dataframe을 사용하여 데이터프레임 대체
+    # Replace dataframes with replace_dataframe if detect is FALSE
     for (i in seq(1, length(changes), by = 2)) {
       pattern <- changes[i]
       imp <- changes[i + 1]
