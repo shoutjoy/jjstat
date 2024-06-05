@@ -4,12 +4,14 @@
 \alias{replace_df_rep}
 \title{replace_df_repeated adation}
 \usage{
-replace_df_rep(data, ...)
+replace_df_rep(data, ..., detect = FALSE)
 }
 \arguments{
 \item{data}{data}
 
 \item{...}{pattern and imputation}
+
+\item{detect}{detect TRUE in data, FALSE data}
 }
 \value{
 data
@@ -40,6 +42,19 @@ result2 <- replace_df_rep(data, changes)
 print("After Replacement (vector):")
 print(result2)
 #'
+
+#'
+# 예시 데이터
+data <- data.frame(
+  Question = c("나는 나의 세 가지 가장 큰 약점을 열거할 수 있다.", "나의 행동은 나의 핵심 가치를 반영한다.", "나는 스스로 결정하기 전에 다른 사람들의 의견을 구한다."),
+  factor = c("자기", "자기", "자기"),
+  stringsAsFactors = FALSE
+)
+
+data
+replace_df_rep(data, "약점", "강점","행동","수행","스스로","다른 사람이",  detect = TRUE)
+replace_df_rep(data, "약점", "강점","행동","수행",  detect = FALSE)
+
 
 }
 

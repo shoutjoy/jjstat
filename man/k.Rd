@@ -4,7 +4,7 @@
 \alias{k}
 \title{Kakao translaste}
 \usage{
-k(text = "", slang = "en", elang = "ko", show = " normal")
+k(text = "", slang = "en", elang = "ko", show = "data")
 }
 \arguments{
 \item{text}{input text}

@@ -91,3 +91,38 @@ replace_df2 = function(df, pattern = NA, imp = "", cat=TRUE) {
 }
 
 
+
+#' replace_in_df
+#'
+#' @param data data
+#' @param pattern pattern
+#' @param imp ""
+#'
+#' @return data
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' #'
+#' data <- data.frame(
+#'   Question = c("나는 나의 세 가지 가장 큰 약점을 열거할 수 있다.", "나의 행동은 나의 핵심 가치를 반영한다.", "나는 스스로 결정하기 전에 다른 사람들의 의견을 구한다."),
+#'   factor = c("자기", "자기", "자기"),
+#'   stringsAsFactors = FALSE
+#' )
+#'
+#' data
+#' data %>% replace_in_df("약점", "강점")
+#' }
+replace_in_df <- function(data, pattern, imp) {
+  data <- as.data.frame(lapply(data, function(x) {
+    if (is.character(x)) {
+      gsub(pattern, imp, x)
+    } else {
+      x
+    }
+  }), stringsAsFactors = FALSE)
+  return(data)
+}
+
+
+
