@@ -4,12 +4,14 @@
 \alias{collapse_path}
 \title{Extract only the corresponding paths from the data with the given material and the given paths}
 \usage{
-collapse_path(data, path_string)
+collapse_path(data, path_string, est = "Original")
 }
 \arguments{
 \item{data}{boot}
 
 \item{path_string}{path IMAG -> EXPE -> VAL}
+
+\item{est}{Original, Mean.Boot}
 }
 \value{
 paths

@@ -4,7 +4,7 @@
 \alias{collapse_path2}
 \title{소벡테스트에 입력될 값으로 산정하여 list로 출력}
 \usage{
-collapse_path2(data, path_string, show = FALSE)
+collapse_path2(data, path_string, show = FALSE, est = "Original")
 }
 \arguments{
 \item{data}{boot}
@@ -12,6 +12,8 @@ collapse_path2(data, path_string, show = FALSE)
 \item{path_string}{paths}
 
 \item{show}{message}
+
+\item{est}{Original, Mean.Boot}
 }
 \value{
 data

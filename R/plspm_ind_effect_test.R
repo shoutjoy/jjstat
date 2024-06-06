@@ -3,6 +3,8 @@
 #' @param bootdataboot data
 #' @param ... paths
 #' @param show show paths details
+#' @param est  Original or Mean.Boot
+#' @param sobel aroian, sobel, goodman
 #'
 #' @return data result
 #' @export
@@ -33,9 +35,32 @@
 #'
 #'
 #'
-#'   plspm_ind_effect_test(satpls_boot, "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
-#'   plspm_ind_effect_test(satpls_boot$boot$paths, "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
-#'   plspm_ind_effect_test(satpls_boot, "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
+#'   plspm_ind_effect_test(satpls_boot,
+#'                       "IMAG -> EXPE -> VAL -> SAT -> LOY",
+#'                       "IMAG -> SAT -> LOY")
+#'
+#'   plspm_ind_effect_test(satpls_boot$boot$paths,
+#'                         "IMAG -> EXPE -> VAL -> SAT -> LOY",
+#'                         "IMAG -> SAT -> LOY")
+#'
+#'   plspm_ind_effect_test(satpls_boot,
+#'                       "IMAG -> EXPE -> VAL -> SAT -> LOY",
+#'                       "IMAG -> SAT -> LOY", est = "Mean.Boot")
+#'
+#'   plspm_ind_effect_test(satpls_boot$boot$paths,
+#'                         "IMAG -> EXPE -> VAL -> SAT -> LOY",
+#'                         "IMAG -> SAT -> LOY", est = "Mean.Boot")
+#'   plspm_ind_effect_test(satpls_boot$boot$paths,
+#'                         "IMAG -> EXPE -> VAL -> SAT -> LOY",
+#'                         "IMAG -> SAT -> LOY",
+#'                         est = "Mean.Boot",
+#'                         sobel="sobel)
+#'
+#'   plspm_ind_effect_test(satpls_boot$boot$paths,
+#'                         "IMAG -> EXPE -> VAL -> SAT -> LOY",
+#'                         "IMAG -> SAT -> LOY",
+#'                         est = "Mean.Boot",
+#'                         sobel="goodman)
 #'
 #'
 #'   # For individual path strings
@@ -43,13 +68,16 @@
 #'   plspm_ind_effect_test(satpls_boot, show=TRUE)
 #'   plspm_ind_effect_test(satpls_boot, show=FALSE)
 #'
-#'   plspm_ind_effect_test(satpls_boot, "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
+#'   plspm_ind_effect_test(satpls_boot,
+#'                       "IMAG -> EXPE -> VAL -> SAT -> LOY",
+#'                       "IMAG -> SAT -> LOY")
 #'
 #'   # For a list of paths from find_paths(satpls_boot)$paths
 #'   plspm_ind_effect_test(satpls_boot, find_paths(satpls_boot))
 #'
 #'   plspm_ind_effect_test(satpls_boot, "IMAG -> EXPE -> SAT -> LOY")
-#'   plspm_ind_effect_test(satpls_boot,  "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
+#'   plspm_ind_effect_test(satpls_boot,  "IMAG -> EXPE -> VAL -> SAT -> LOY",
+#'    "IMAG -> SAT -> LOY")
 #'
 #'
 #'   find_paths(satpls_boot, type= "ind")
@@ -73,7 +101,8 @@
 #'
 #' }
 #'
-plspm_ind_effect_test <- function(bootdata, ..., show=FALSE) {
+plspm_ind_effect_test <- function(bootdata, ..., show=FALSE,
+                                  est="Original",sobel="aroian") {
 
   # data <- convert_plspm_to_list(data)
   if (is.list(bootdata) && "boot" %in% names(bootdata)) {
@@ -97,13 +126,20 @@ plspm_ind_effect_test <- function(bootdata, ..., show=FALSE) {
   results_list <- list()
 
   for (path_string in paths_list) {
-    collapsed_data <- collapse_path2(ana_data, path_string)
+    collapsed_data <- collapse_path2(ana_data, path_string, est = est) #select est
     sobel_result <- sobel_test_extend(coefficients = collapsed_data$coefficients,
-                                      se_values = collapsed_data$se_values, show = show)
+                                      se_values = collapsed_data$se_values,
+                                      show = show, sobel=sobel)
     results_list[[path_string]] <- sobel_result
   }
 
-  final_results <- dplyr::bind_rows(results_list, .id = "path")
+  # final_results <- dplyr::bind_rows(results_list, .id = "path")
+  final_results <- dplyr::bind_rows(results_list)%>%
+    dplyr::rename(SE=sobel_se, Z = z_value, p.value=p_value)#%>%
+  # dplyr::select(paths, ind_effect, SE, Z, p.value,sig)
+
+  cat("\n Estimate coefficients : ",est,", \n",
+      "indirect effect significance method:",sobel,"\n")
 
   return(final_results)
 }

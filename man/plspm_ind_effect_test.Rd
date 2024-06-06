@@ -4,12 +4,22 @@
 \alias{plspm_ind_effect_test}
 \title{Test for all indirect effects}
 \usage{
-plspm_ind_effect_test(bootdata, ..., show = FALSE)
+plspm_ind_effect_test(
+  bootdata,
+  ...,
+  show = FALSE,
+  est = "Original",
+  sobel = "aroian"
+)
 }
 \arguments{
 \item{...}{paths}
 
 \item{show}{show paths details}
+
+\item{est}{Original or Mean.Boot}
+
+\item{sobel}{aroian, sobel, goodman}
 
 \item{bootdataboot}{data}
 }
@@ -45,9 +55,32 @@ ple usage:
 
 
 
-  plspm_ind_effect_test(satpls_boot, "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
-  plspm_ind_effect_test(satpls_boot$boot$paths, "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
-  plspm_ind_effect_test(satpls_boot, "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
+  plspm_ind_effect_test(satpls_boot,
+                      "IMAG -> EXPE -> VAL -> SAT -> LOY",
+                      "IMAG -> SAT -> LOY")
+
+  plspm_ind_effect_test(satpls_boot$boot$paths,
+                        "IMAG -> EXPE -> VAL -> SAT -> LOY",
+                        "IMAG -> SAT -> LOY")
+
+  plspm_ind_effect_test(satpls_boot,
+                      "IMAG -> EXPE -> VAL -> SAT -> LOY",
+                      "IMAG -> SAT -> LOY", est = "Mean.Boot")
+
+  plspm_ind_effect_test(satpls_boot$boot$paths,
+                        "IMAG -> EXPE -> VAL -> SAT -> LOY",
+                        "IMAG -> SAT -> LOY", est = "Mean.Boot")
+  plspm_ind_effect_test(satpls_boot$boot$paths,
+                        "IMAG -> EXPE -> VAL -> SAT -> LOY",
+                        "IMAG -> SAT -> LOY",
+                        est = "Mean.Boot",
+                        sobel="sobel)
+
+  plspm_ind_effect_test(satpls_boot$boot$paths,
+                        "IMAG -> EXPE -> VAL -> SAT -> LOY",
+                        "IMAG -> SAT -> LOY",
+                        est = "Mean.Boot",
+                        sobel="goodman)
 
 
   # For individual path strings
@@ -55,13 +88,16 @@ ple usage:
   plspm_ind_effect_test(satpls_boot, show=TRUE)
   plspm_ind_effect_test(satpls_boot, show=FALSE)
 
-  plspm_ind_effect_test(satpls_boot, "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
+  plspm_ind_effect_test(satpls_boot,
+                      "IMAG -> EXPE -> VAL -> SAT -> LOY",
+                      "IMAG -> SAT -> LOY")
 
   # For a list of paths from find_paths(satpls_boot)$paths
   plspm_ind_effect_test(satpls_boot, find_paths(satpls_boot))
 
   plspm_ind_effect_test(satpls_boot, "IMAG -> EXPE -> SAT -> LOY")
-  plspm_ind_effect_test(satpls_boot,  "IMAG -> EXPE -> VAL -> SAT -> LOY", "IMAG -> SAT -> LOY")
+  plspm_ind_effect_test(satpls_boot,  "IMAG -> EXPE -> VAL -> SAT -> LOY",
+   "IMAG -> SAT -> LOY")
 
 
   find_paths(satpls_boot, type= "ind")

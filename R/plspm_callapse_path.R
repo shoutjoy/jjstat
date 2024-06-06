@@ -2,6 +2,7 @@
 #'
 #' @param data boot
 #' @param path_string path IMAG -> EXPE -> VAL
+#' @param est Original, Mean.Boot
 
 #'
 #' @return paths
@@ -52,7 +53,7 @@
 #' #' }
 #'
 
-collapse_path <- function(data, path_string) {
+collapse_path <- function(data, path_string, est= "Original") {
   if(length(data) == 13 && is.list(data)){
     data <- data$boot$paths %>%row2col("paths")
   } else {
@@ -79,15 +80,23 @@ collapse_path <- function(data, path_string) {
   extracted_data <- data %>% filter(paths %in% pairs)
 
   # Create coefficients and se_values vectors
-  coefficients <- setNames(extracted_data$Original, extracted_data$paths)
+  coefficients <- setNames(extracted_data[[est]], extracted_data$paths)
   se_values <- setNames(extracted_data$Std.Error, paste0("se", 1:nrow(extracted_data)))
 
   # Combine into a single data frame
   result_df <- data.frame(
     paths = extracted_data$paths,
-    Original = extracted_data$Original,
+    Original = extracted_data[[est]],
     Std.Error = extracted_data$Std.Error
   )
+
+  # Print the results
+  cat("\n")
+  cat("coefficients = c(\n", paste(paste0("    \"", names(coefficients), "\" = ", coefficients), collapse = ",\n "), ")\n")
+  cat("\n")
+  cat("se_values = c(\n", paste(paste0("    ",names(se_values), " = ", se_values), collapse = ",\n "), ")\n")
+  cat("\n")
+  return(result_df)
 }
 
 
@@ -96,6 +105,7 @@ collapse_path <- function(data, path_string) {
 #' @param data boot
 #' @param path_string paths
 #' @param show message
+#' @param est Original, Mean.Boot
 #'
 #' @return data
 #' @export
@@ -168,7 +178,7 @@ collapse_path <- function(data, path_string) {
 #' }
 #'
 #'
-collapse_path2 <- function(data, path_string, show=FALSE) {
+collapse_path2 <- function(data, path_string, show=FALSE, est="Original") {
 
   if(length(data) == 13 && is.list(data)){
     data <- data$boot$paths %>%tibble::rownames_to_column("paths")
@@ -196,20 +206,20 @@ collapse_path2 <- function(data, path_string, show=FALSE) {
   extracted_data <- data %>% dplyr::filter(paths %in% pairs)
 
   # Create coefficients and se_values vectors
-  coefficients <- setNames(extracted_data$Original, extracted_data$paths)
+  coefficients <- setNames(extracted_data[[est]], extracted_data$paths)
   se_values <- setNames(extracted_data$Std.Error, paste0("se", 1:nrow(extracted_data)))
 
 
   if(show){
 
     # Print the results
-    cat("\n")
+    cat("\n select estimated values:[", est ,"]\n\n")
     cat("coefficients = c(\n", paste(paste0("    \"", names(coefficients), "\" = ", coefficients), collapse = ",\n "), ")\n")
     cat("\n")
     cat("se_values = c(\n", paste(paste0("     ",names(se_values), " = ", se_values), collapse = ",\n "), ")\n\n")
 
   }
 
-  res =  list(coefficients=coefficients,se_values=se_values )
+  res =  list(coefficients=coefficients, se_values=se_values )
   res
 }

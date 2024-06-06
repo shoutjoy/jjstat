@@ -4,7 +4,7 @@
 \alias{Sobel_test}
 \title{sobel test}
 \usage{
-Sobel_test(a, b, sa, sb, type = "Sobel")
+Sobel_test(a, b, sa, sb, type = "all")
 }
 \arguments{
 \item{a}{est1}
@@ -34,11 +34,11 @@ sa <- 0.1 # Standard error of a
 sb <- 0.05 # Standard error of b
 
 Sobel_test(a, b, sa, sb)
-Sobel_test(a, b, sa, sb, "all")$Sobel
+Sobel_test(a, b, sa, sb, "all")
 Sobel_test(a, b, sa, sb, "Sobel")
-Sobel_test(a, b, sa, sb,"all")$Aroian
+
 Sobel_test(a, b, sa, sb,"Aroian")
-Sobel_test(a, b, sa, sb,"all")$Goodman
+
 Sobel_test(a, b, sa, sb,"Goodman")
 }
 }

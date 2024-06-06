@@ -63,7 +63,7 @@ find_paths <- function(data, type= "paths" , path_col = "paths", est="Original",
 
   # 경로 컬럼의 이름을 path_col에 맞게 동적으로 설정
   paths_data <- data[c(path_col)]
-  paths_data1 <- data[, c(path_col, "Original", "Std.Error")]
+  paths_data1 <- data[, c(path_col, est, se)]
 
   # 시작 노드가 선행하지 않는 노드를 찾기
   all_starts <- unique(sapply(paths_data, function(x) strsplit(x, " -> ")[[1]][1]))
@@ -126,6 +126,8 @@ find_paths <- function(data, type= "paths" , path_col = "paths", est="Original",
 #'
 #' @param paste_path_result  find_paths data
 #' @param digits round 3
+#' @param est  Original  or Mean.Boot
+#' @param type all=res, ind,  est
 #'
 #' @return data
 #' @export
@@ -204,10 +206,17 @@ find_paths <- function(data, type= "paths" , path_col = "paths", est="Original",
 #' #' find_paths(satpls_boot)
 #' find_paths_cal(find_paths(satpls_boot,"all") )
 #'
+#' #값을 계산하여 보기
+#' find_paths(jutpls_boot,"all")%>%find_paths_cal()
+#' #Mean.Boot자료 보기
+#' find_paths(jutpls_boot,"all", est="Mean.Boot")%>%find_paths_cal()
+#'
+#'
+#'
 #' }
 #'
 #'
-find_paths_cal <- function(paste_path_result, digits=3) {
+find_paths_cal <- function(paste_path_result, type="all", digits=3, est="Original") {
   if(class(paste_path_result)=="plspm_paths"){
     paste_path_result =paste_path_result
     # de_est와 ind를 추출
@@ -216,23 +225,25 @@ find_paths_cal <- function(paste_path_result, digits=3) {
 
 
   }else if(is.list(paste_path_result)){
-    paste_path_result1 = find_paths(paste_path_result, type="all")
+    paste_path_result1 = find_paths(paste_path_result, type="all", est=est)
     de_est <- paste_path_result1$de_est
     ind_paths <- paste_path_result1$ind
 
     cat("data.frame")
   }else if(class(paste_path_result)=="plspm"){
-    paste_path_result1 = find_paths(paste_path_result, type="all")
+    paste_path_result1 = find_paths(paste_path_result, type="all", est = est )
     de_est <- paste_path_result1$de_est
     ind_paths <- paste_path_result1$ind
   }else{
 
-    paste_path_result1 = find_paths(paste_path_result, type="all")
+    paste_path_result1 = find_paths(paste_path_result, type="all", est = est )
     de_est <- paste_path_result1$de_est
     ind_paths <- paste_path_result1$ind
 
     cat("list")
   }
+
+
   # ind_est 계산
   ind_paths <- ind_paths %>%
     rowwise() %>%
@@ -246,8 +257,12 @@ find_paths_cal <- function(paste_path_result, digits=3) {
           # 부분 경로 생성
           part_path <- paste(path_elements[i], path_elements[i + 1], sep = " -> ")
 
-          # de_est에서 부분 경로에 해당하는 Original 값을 찾아 반환
-          de_est$Original[de_est$paths == part_path]
+
+          # # de_est에서 부분 경로에 해당하는 Original 값을 찾아 반환
+          # de_est$Original[de_est$paths == part_path]
+          # de_est에서 부분 경로에 해당하는 두 번째 열 값을 찾아 반환
+          de_est[de_est$paths == part_path, 2]
+
         })
 
         # 모든 부분 경로의 Original 값을 곱한 값을 ind_est로 반환
@@ -276,5 +291,9 @@ find_paths_cal <- function(paste_path_result, digits=3) {
   paste_path_result$ind <- ind_paths%>%Round(digits) #dplyr::select(paths, cal, ind_est)
   paste_path_result$de_est <- paste_path_result$de_est%>%Round(digits)
   paste_path_result$ind
+
+
+  switch(type, all= paste_path_result, res= paste_path_result,
+         ind= paste_path_result$ind, est =paste_path_result$de_est )
 
 }

@@ -4,12 +4,16 @@
 \alias{find_paths_cal}
 \title{real paths calculation est}
 \usage{
-find_paths_cal(paste_path_result, digits = 3)
+find_paths_cal(paste_path_result, type = "all", digits = 3, est = "Original")
 }
 \arguments{
 \item{paste_path_result}{find_paths data}
 
+\item{type}{all=res, ind,  est}
+
 \item{digits}{round 3}
+
+\item{est}{Original  or Mean.Boot}
 }
 \value{
 data
@@ -77,6 +81,13 @@ satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1, scaled = FALSE,
                         boot.val =TRUE, br=100)
 #' find_paths(satpls_boot)
 find_paths_cal(find_paths(satpls_boot,"all") )
+
+#값을 계산하여 보기
+find_paths(jutpls_boot,"all")\%>\%find_paths_cal()
+#Mean.Boot자료 보기
+find_paths(jutpls_boot,"all", est="Mean.Boot")\%>\%find_paths_cal()
+
+
 
 }
 
