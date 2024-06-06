@@ -28,7 +28,7 @@
 plspm_ind_effect_sig <- function(boot_data, from, through, to, digits = 3) {
   # 1. 부트스트랩 데이터에서 경로 추출 및 열 추가
   path_data <- boot_data$boot$paths %>%
-    rownames_to_column("relationships")
+    tibble::rownames_to_column("relationships")
 
   # 경로 설정
   paths <- c(from, through, to)
@@ -44,7 +44,7 @@ plspm_ind_effect_sig <- function(boot_data, from, through, to, digits = 3) {
     end <- paths[i + 1]
 
     path_info <- path_data %>%
-      filter(relationships == paste(start, "->", end))
+      dplyr::filter(relationships == paste(start, "->", end))
 
     est <- path_info$Original
     se <- path_info$`Std.Error`

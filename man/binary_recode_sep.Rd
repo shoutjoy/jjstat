@@ -21,3 +21,31 @@ data
 \description{
 Multi-recoding binary variables
 }
+\examples{
+
+
+\dontrun{
+
+
+
+
+# 예제 데이터
+data <- data.frame(
+  학력 = factor(c("고졸", "대학졸", "석박사졸", "고졸", "석박사졸")),
+  grade = 1:5
+)
+data
+
+
+# 함수 호출
+binary_recode_sep(  data,
+                    "학력", list(저학년 = 1:2, 고학년 = 3),
+                    "grade", list(저학년 = 1:2, 고학년 = 3:5),
+                    new_names = c("학력_grp", "grade_grp")
+)
+
+
+
+
+}
+}

@@ -22,3 +22,27 @@ row2col <- function(data, colname="rownames") {
   rownames(res)<-NULL
   res
 }
+
+#' rownames to columns
+#'
+#' @param data data.fram
+#' @param colname new column default rownames
+#'
+#' @return data
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' mtcars %>%row2cols("car")
+#' }
+#'
+row2cols <- function(data, colname="rows") {
+  # data <- as.data.frame(data)
+
+  col1 = rownames(data)
+  data <- cbind(paths = col1, data)
+  colnames(data)[1] <- colname
+  rownames(data) <- NULL
+  return(data)
+}
