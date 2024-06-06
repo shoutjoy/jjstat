@@ -44,15 +44,17 @@
 #'
 #'
 #'
-find_paths <- function(data,type= "paths" ,
-                       path_col = "paths",
-                       est="Original", se= "Std.Error"
-                       ) {
+find_paths <- function(data, type= "paths" , path_col = "paths", est="Original", se= "Std.Error") {
+
   if(length(data) == 13){
     data <- data$boot$paths %>% row2col("paths")
   }else if(length(data) == 5){
+
     data = data%>% row2col("paths")
+  }else if(length(data) == 6){
+    data=data
   }else {
+
     data=data
   }
   # 데이터에 col1 추가
@@ -106,11 +108,13 @@ find_paths <- function(data,type= "paths" ,
   result <- data.frame(paths = unique(all_connected_paths), stringsAsFactors = FALSE)
   result <- result %>% filter(str_count(paths, " -> ") > 1)
   res = list(de_est = paths_data1, ind = result)
+  attr(res, "class") <- "plspm_paths"
+
   est = paths_data1
   ind = result
   paths_vector = result$paths
+
   #구분을위한 클래스
-  attr(res, "class") <- "plspm_paths"
 
   switch(type, res = res, all= res, est = est, ind = ind , paths = paths_vector)
 
@@ -209,7 +213,7 @@ find_paths_cal <- function(paste_path_result, digits=3) {
     # de_est와 ind를 추출
     de_est <- paste_path_result$de_est
     ind_paths <- paste_path_result$ind
-    cat("plspm")
+
 
   }else if(is.list(paste_path_result)){
     paste_path_result1 = find_paths(paste_path_result, type="all")
@@ -217,6 +221,10 @@ find_paths_cal <- function(paste_path_result, digits=3) {
     ind_paths <- paste_path_result1$ind
 
     cat("data.frame")
+  }else if(class(paste_path_result)=="plspm"){
+    paste_path_result1 = find_paths(paste_path_result, type="all")
+    de_est <- paste_path_result1$de_est
+    ind_paths <- paste_path_result1$ind
   }else{
 
     paste_path_result1 = find_paths(paste_path_result, type="all")

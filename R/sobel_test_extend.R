@@ -75,7 +75,7 @@ sobel_test_extend <- function(coefficients, se_values, show=TRUE) {
   }
 
   # Remove duplicates in the path
-  # path_names <- names(coefficients)
+  path_names <- names(coefficients)
   unique_path <- unique(unlist(strsplit(path_names, " -> ")))
   effect_path <- paste(unique_path, collapse = " -> ")
 
@@ -97,7 +97,7 @@ sobel_test_extend <- function(coefficients, se_values, show=TRUE) {
     se_b <- se_values[2]
 
     sobel_se <- sqrt(a^2 * se_b^2 + b^2 * se_a^2)
-    ind_effect <- a * b
+    indirect_effect <- a * b
     z_value <- indirect_effect / sobel_se
     p_value <- 2 * (1 - stats::pnorm(abs(z_value)))
 

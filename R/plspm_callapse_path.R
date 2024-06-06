@@ -51,6 +51,7 @@
 #'
 #' #' }
 #'
+
 collapse_path <- function(data, path_string) {
   if(length(data) == 13 && is.list(data)){
     data <- data$boot$paths %>%row2col("paths")
@@ -87,20 +88,7 @@ collapse_path <- function(data, path_string) {
     Original = extracted_data$Original,
     Std.Error = extracted_data$Std.Error
   )
-
-
-  # Print the results
-  cat("\n")
-  cat("coefficients = c(\n",
-      paste(paste0("    \"", names(coefficients), "\" = ", coefficients),
-            collapse = ",\n "), ")\n")
-  cat("\n")
-  cat("se_values = c(\n", paste(paste0("    ",names(se_values), " = ",
-                                       se_values), collapse = ",\n "), ")\n")
-  cat("\n")
-  return(result_df)
 }
-
 
 
 #' 소벡테스트에 입력될 값으로 산정하여 list로 출력

@@ -82,7 +82,7 @@ plspm_ind_effect_sig <- function(boot_data, from, through, to, digits = 3) {
 
 #' plspm_ind_effect
 #'
-#' @param boot_model  boot_model
+#' @param boot_data  boot_data
 #' @param from  from
 #' @param through  through
 #' @param to  to
@@ -98,21 +98,21 @@ plspm_ind_effect_sig <- function(boot_data, from, through, to, digits = 3) {
 #' #'
 #' # Example usage of the function with the provided PLS-PM model
 #' plspm_ind_effec(
-#'   boot_model = jutpls_boot,
+#'   boot_data = jutpls_boot,
 #'   from = "자기효능감",
 #'   through = c("진로동기", "진로태도"),
 #'   to = "진로준비"
 #' )
 #'
 #' plspm_ind_effec(
-#'   boot_model = jutpls_boot,
+#'   boot_data = jutpls_boot,
 #'   from = "자기효능감",
 #'   through = c("진로동기", "진로태도"),
 #'   to = "진로준비", type="all"
 #' )
 #'
 #' plspm_ind_effec(
-#'   boot_model = jutpls_boot,
+#'   boot_data = jutpls_boot,
 #'   from = "자기효능감",
 #'   through = c("진로동기"),
 #'   to = "진로준비", type="res"
@@ -123,9 +123,9 @@ plspm_ind_effect_sig <- function(boot_data, from, through, to, digits = 3) {
 #' }
 #'
 #'
-plspm_ind_effect <- function(boot_model, from, through, to, type="res", digits=3) {
+plspm_ind_effect <- function(boot_data, from, through, to, type="res", digits=3) {
   # Extract the bootstrapped paths
-  boot_paths <- boot_model$boot$paths %>% rownames_to_column("relationships")
+  boot_paths <- boot_data$boot$paths %>% rownames_to_column("relationships")
 
   # Initialize total indirect effect
   total_indirect_effect <- 0
@@ -174,7 +174,7 @@ plspm_ind_effect <- function(boot_model, from, through, to, type="res", digits=3
 
   direct_effect_se <- boot_paths[boot_paths$relationships == direct_path_name, "Std.Error"]
   # Calculate the total effect
-  boot_effect = boot_model$boot$total.efs%>%row2col("relationships")
+  boot_effect = boot_data$boot$total.efs%>%row2col("relationships")
   total_effect <- total_indirect_effect + direct_effect
   total_effect_se <- boot_effect[boot_effect$relationships == direct_path_name, "Std.Error"]
 

@@ -86,7 +86,7 @@ plspm_ind_effect_test <- function(bootdata, ..., show=FALSE) {
   paths_input <- list(...)
   # Check if paths_input is NULL or empty
   if (is.null(paths_input) || length(paths_input) == 0) {
-    paths_input = list(find_paths(satpls_boot) )
+    paths_input = list(find_paths(bootdata) )
   }
 
 

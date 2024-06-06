@@ -4,10 +4,10 @@
 \alias{plspm_ind_effect}
 \title{plspm_ind_effect}
 \usage{
-plspm_ind_effect(boot_model, from, through, to, type = "res", digits = 3)
+plspm_ind_effect(boot_data, from, through, to, type = "res", digits = 3)
 }
 \arguments{
-\item{boot_model}{boot_model}
+\item{boot_data}{boot_data}
 
 \item{from}{from}
 
@@ -31,21 +31,21 @@ plspm_ind_effect
 #'
 # Example usage of the function with the provided PLS-PM model
 plspm_ind_effec(
-  boot_model = jutpls_boot,
+  boot_data = jutpls_boot,
   from = "자기효능감",
   through = c("진로동기", "진로태도"),
   to = "진로준비"
 )
 
 plspm_ind_effec(
-  boot_model = jutpls_boot,
+  boot_data = jutpls_boot,
   from = "자기효능감",
   through = c("진로동기", "진로태도"),
   to = "진로준비", type="all"
 )
 
 plspm_ind_effec(
-  boot_model = jutpls_boot,
+  boot_data = jutpls_boot,
   from = "자기효능감",
   through = c("진로동기"),
   to = "진로준비", type="res"
