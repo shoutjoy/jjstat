@@ -364,6 +364,6 @@ sobel_test_serial <- function(coefficients, se_values, show=TRUE, sobel="aroian"
         round(sobel_se,5), ", p=",
         p_value )
   }
-  cat("\n\n")
+  cat("\n")
   return(result %>% dplyr::as_tibble())
 }
