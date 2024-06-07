@@ -1,6 +1,7 @@
 #' plspm_boot_summary
 #'
 #' @param pls_boot pls boot data
+#' @param type res, all, weight, loadings, paths, rsq, total.efs
 #'
 #' @return data
 #' @export
@@ -15,7 +16,7 @@
 #'}
 #'
 #'
-plspm_boot_summary <- function(pls_boot) {
+plspm_boot_summary <- function(pls_boot, type="res") {
   if (length(pls_boot) == 13) {
     pls_df <- pls_boot$boot
   } else if (length(pls_boot) == 5) {
@@ -37,5 +38,22 @@ plspm_boot_summary <- function(pls_boot) {
       )
   })
 
-  return(res)
+   weights= res$weights
+   loadings = res$loadings
+   paths =  res$paths
+   rsq = res$rsq
+   total.efs = res$total.efs
+
+  # return(res)
+
+   switch(type, res=res, all= res,
+          weights = weights,
+          loadings= loadings,
+          paths =paths,
+          rsq = rsq,
+          total.efs= total.efs
+
+
+          )
+
 }

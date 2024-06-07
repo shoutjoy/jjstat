@@ -625,6 +625,145 @@ plspm_ind_spread <- function(pls_boot, set = 2) {
   return(unlist(result))
 }
 
+
+
+
+#' plspm_ind_push
+#'
+#' @param pls_boot pls_boot
+#' @param set  set=1.5 or c(set= c(2,2,1.5,1.5))
+#'
+#' @return vector
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#'
+#' # 예시 사용법
+#' jutpls_boot <- list(model = list(gens = list(lvs_names = c("자기효능감", "진로동기", "진로태도", "진로준비"))))
+#'
+#' # 기본값 사용하는 경우
+#' result_default <- plspm_ind_push(jutpls_boot)
+#' print(result_default)
+#'
+#' # 이름과 값이 있는 경우
+#' result_named <- plspm_ind_push(jutpls_boot, set = c(진로동기=2, 자기효능감=3, 진로준비=1.5, 진로태도=2.5))
+#' print(result_named)
+#'
+#' # 값만 있는 경우
+#' result_unnamed <- plspm_ind_push(jutpls_boot, set = c(2, 2, 1.5, 1.5))
+#' print(result_unnamed)
+#'
+#' # 부분적으로 값이 있는 경우
+#' result_partial <- plspm_ind_push(jutpls_boot, set = c(진로동기=2, 자기효능감=3))
+#' print(result_partial)
+#'
+#' }
+#'
+#'
+#'
+plspm_boot_ind_push <- function(pls_boot, set = 2) {
+  # 이름 추출
+  lvs_names <- pls_boot$model$gens$lvs_names
+
+  # 기본값 설정
+  values <- rep(1.5, length(lvs_names))
+  names(values) <- lvs_names
+
+  if (is.null(names(set))) {
+    # set이 이름 없는 벡터일 경우
+    if (length(set) == 1) {
+      values <- rep(set, length(lvs_names))
+    } else if (length(set) != length(lvs_names)) {
+      stop("Length of 'set' must match the length of 'lvs_names'")
+    } else {
+      values <- set
+    }
+  } else {
+    # set이 이름 있는 벡터일 경우
+    for (name in names(set)) {
+      if (name %in% lvs_names) {
+        values[name] <- set[name]
+      }
+    }
+  }
+
+  # 결과 데이터프레임 생성
+  result <- setNames(as.data.frame(t(values)), lvs_names)
+
+  return(unlist(result))
+}
+
+
+
+#' plspm_ind_push
+#'
+#' @param pls_boot pls_boot
+#' @param set  set=1.5 or c(set= c(2,2,1.5,1.5))
+#'
+#' @return vector
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' #'
+#' # 예시 사용법
+#' jutpls_boot <- list(model = list(gens = list(lvs_names = c("자기효능감", "진로동기", "진로태도", "진로준비"))))
+#'
+#' # 기본값 사용하는 경우
+#' result_default <- plspm_ind_spread(jutpls_boot)
+#' print(result_default)
+#'
+#' # 이름과 값이 있는 경우
+#' result_named <- plspm_ind_spread(jutpls_boot, set = c(진로동기=2, 자기효능감=3, 진로준비=1.5, 진로태도=2.5))
+#' print(result_named)
+#'
+#' # 값만 있는 경우
+#' result_unnamed <- plspm_ind_spread(jutpls_boot, set = c(2, 2, 1.5, 1.5))
+#' print(result_unnamed)
+#'
+#' # 부분적으로 값이 있는 경우
+#' result_partial <- plspm_ind_spread(jutpls_boot, set = c(진로동기=2, 자기효능감=3))
+#' print(result_partial)
+#'
+#' }
+#'
+#'
+#'
+plspm_boot_ind_spread <- function(pls_boot, set = 2) {
+  # 이름 추출
+  lvs_names <- pls_boot$model$gens$lvs_names
+
+  # 기본값 설정
+  values <- rep(1.5, length(lvs_names))
+  names(values) <- lvs_names
+
+  if (is.null(names(set))) {
+    # set이 이름 없는 벡터일 경우
+    if (length(set) == 1) {
+      values <- rep(set, length(lvs_names))
+    } else if (length(set) != length(lvs_names)) {
+      stop("Length of 'set' must match the length of 'lvs_names'")
+    } else {
+      values <- set
+    }
+  } else {
+    # set이 이름 있는 벡터일 경우
+    for (name in names(set)) {
+      if (name %in% lvs_names) {
+        values[name] <- set[name]
+      }
+    }
+  }
+
+  # 결과 데이터프레임 생성
+  result <- setNames(as.data.frame(t(values)), lvs_names)
+
+  return(unlist(result))
+}
+
 #' plspm_boot_factor_layout
 #'
 #' @param plsres_boot  plsres_boot

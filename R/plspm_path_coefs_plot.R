@@ -138,16 +138,21 @@
 #' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=FALSE)
 #' satpls %>% plspm_path_coefs_plot(node = FALSE,grp=FALSE)
 #' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=TRUE)
+#'
+#' satpls_boot %>%
+#' plspm_path_coefs_plot(layout =  plspm_boot_factor_layout(satpls_boot)%>%
+#'  move_mat_cut(n=3))
+#'
 #' #
 #'
 #'
 #' }
 plspm_path_coefs_plot <- function(plsdata,
+                                  layout = "spring",
                                   boot= TRUE,
                                   grp = TRUE,
                                   groups = NULL,
                                   digits = 3,
-                                  layout = "spring",
                                   fade = FALSE,
                                   node = FALSE,
                                   border.width = 1.5,

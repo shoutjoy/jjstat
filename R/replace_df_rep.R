@@ -104,3 +104,24 @@ replace_in_dataframe <- function(data, changes) {
   return(data)
 }
 
+
+#' replace_dataframe
+#'
+#' @param data  data
+#' @param pattern patern
+#' @param imp imputation
+#'
+#' @return data
+#' @export
+#'
+
+replace_dataframe <- function(data, pattern, imp) {
+  data <- as.data.frame(lapply(data, function(x) {
+    if (is.character(x)) {
+      gsub(pattern, imp, x)
+    } else {
+      x
+    }
+  }), stringsAsFactors = FALSE)
+  return(data)
+}

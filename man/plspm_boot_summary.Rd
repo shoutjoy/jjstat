@@ -4,10 +4,12 @@
 \alias{plspm_boot_summary}
 \title{plspm_boot_summary}
 \usage{
-plspm_boot_summary(pls_boot)
+plspm_boot_summary(pls_boot, type = "res")
 }
 \arguments{
 \item{pls_boot}{pls boot data}
+
+\item{type}{res, all, weight, loadings, paths, rsq, total.efs}
 }
 \value{
 data

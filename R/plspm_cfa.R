@@ -82,12 +82,17 @@ plspm_cfa = function(plsres_boot, type="all", axis_x=1.2){
   total.efs = res_boot$total.efs
 
   # indicator = plspm_loadings(res_boot$boot$loading)
-  item = res_boot$loadings %>%rename(신뢰구간=`95%CI`)%>%
+  item = res_boot$loadings %>%
+    dplyr::rename(신뢰구간=`95%CI`)%>%
     dplyr::select(-평균계수)%>%
-    separate(관계,c("잠재변수","측정변수"), sep="-")
+    tidyr::separate(관계,c("잠재변수","측정변수"), sep="-")
+
   CR_AVE = plspm_CRAVE(plsres_boot)
+
   CR_AVE_partial = plspm_CRAVE(plsres_boot)%>%
-    dplyr::select(-Cronbach)%>%rename(잠재변수= Latent, CR=`CR(DG.rho)`)
+    dplyr::select(-Cronbach)%>%
+    rename(잠재변수= Latent, CR=`CR(DG.rho)`)
+
   item_combine = full_join(item, CR_AVE_partial, by="잠재변수")%>%
     dplyr::select(-신뢰구간)%>%
     nice_table()%>%dall()

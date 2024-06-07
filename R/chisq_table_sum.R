@@ -80,5 +80,5 @@ chisq_table_sum <- function(data, ..., trans=FALSE, sep="_") {
     dplyr::select(-1) %>%
     tibble::column_to_rownames("row_names")
 
-  return(res)
+  return(as.matrix(res))
 }

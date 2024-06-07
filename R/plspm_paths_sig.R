@@ -90,8 +90,8 @@ plspm_paths_sig <- function(data, unite=FALSE,
       dplyr::mutate(p.value = ifelse(p.value< 0.001, "<.001", round(p.value, digits )))
 
     df = df %>%dplyr::rename(!!rhs := endo, !!lhs := exo) %>%data.frame()
-    # colnames(df)[1] <- endo
-    # colnames(df)[2] <- exo
+
   }
+
   return(df)
 }
