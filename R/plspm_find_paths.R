@@ -63,7 +63,7 @@ find_paths <- function(data, type= "paths" , path_col = "paths", est="Original",
 
   # 경로 컬럼의 이름을 path_col에 맞게 동적으로 설정
   paths_data <- data[c(path_col)]
-  paths_data1 <- data[, c(path_col, est, se)]
+  paths_data1 <- data[, c(path_col,est, se)]
 
   # 시작 노드가 선행하지 않는 노드를 찾기
   all_starts <- unique(sapply(paths_data, function(x) strsplit(x, " -> ")[[1]][1]))
@@ -119,7 +119,6 @@ find_paths <- function(data, type= "paths" , path_col = "paths", est="Original",
   switch(type, res = res, all= res, est = est, ind = ind , paths = paths_vector)
 
 }
-
 
 
 #' real paths calculation est
@@ -216,58 +215,67 @@ find_paths <- function(data, type= "paths" , path_col = "paths", est="Original",
 #' }
 #'
 #'
-find_paths_cal <- function(paste_path_result, type="all", digits=3, est="Original") {
-  if(class(paste_path_result)=="plspm_paths"){
-    paste_path_result =paste_path_result
-    # de_est와 ind를 추출
-    de_est <- paste_path_result$de_est
-    ind_paths <- paste_path_result$ind
-
-
-  }else if(is.list(paste_path_result)){
-    paste_path_result1 = find_paths(paste_path_result, type="all", est=est)
+find_paths_cal <- function(paste_path_result,
+                           type = "all",
+                           digits = 3,
+                           est = "Original") {
+  if (class(paste_path_result) == "plspm_paths") {
+    paste_path_result1 <- paste_path_result
     de_est <- paste_path_result1$de_est
     ind_paths <- paste_path_result1$ind
-
-    cat("data.frame")
-  }else if(class(paste_path_result)=="plspm"){
-    paste_path_result1 = find_paths(paste_path_result, type="all", est = est )
+    cat("plspm_paths\n")
+  } else if (is.list(paste_path_result)) {
+    paste_path_result1 <- find_paths(paste_path_result, type = "all", est = est)
     de_est <- paste_path_result1$de_est
     ind_paths <- paste_path_result1$ind
-  }else{
-
-    paste_path_result1 = find_paths(paste_path_result, type="all", est = est )
+    cat("data.frame\n")
+  } else if (class(paste_path_result) == "plspm" && length(paste_path_result) == 13) {
+    paste_path_result1 <- find_paths(paste_path_result, type = "all", est = est)
     de_est <- paste_path_result1$de_est
     ind_paths <- paste_path_result1$ind
-
-    cat("list")
+  } else {
+    paste_path_result1 <- find_paths(paste_path_result, type = "all", est = est)
+    de_est <- paste_path_result1$de_est
+    ind_paths <- paste_path_result1$ind
+    cat("list\n")
   }
 
-
-  # ind_est 계산
   ind_paths <- ind_paths %>%
     rowwise() %>%
     mutate(
       ind_est = {
-        # 경로를 " -> "로 분할하여 각 요소를 추출
         path_elements <- strsplit(paths, " -> ")[[1]]
-
-        # 각 부분 경로에 대해 Original 값을 찾아서 곱함
         partial_products <- sapply(1:(length(path_elements) - 1), function(i) {
-          # 부분 경로 생성
           part_path <- paste(path_elements[i], path_elements[i + 1], sep = " -> ")
-
-
-          # # de_est에서 부분 경로에 해당하는 Original 값을 찾아 반환
-          # de_est$Original[de_est$paths == part_path]
-          # de_est에서 부분 경로에 해당하는 두 번째 열 값을 찾아 반환
-          de_est[de_est$paths == part_path, 2]
-
+          de_est_val <- de_est[de_est$paths == part_path, 2]
+          if (length(de_est_val) == 0) {
+            return(NA) # 값을 찾지 못할 경우 NA 반환
+          }
+          return(de_est_val)
         })
+        if (any(is.na(partial_products))) {
+          return(NA) # NA가 포함된 경우 NA 반환
+        }
+        prod(partial_products, na.rm = TRUE)
+      }
+    )
 
-        # 모든 부분 경로의 Original 값을 곱한 값을 ind_est로 반환
-        prod(partial_products)
-      }#,
+  # 숫자형 열에 대해서만 round 적용
+  ind_paths <- ind_paths %>%
+    mutate(across(where(is.numeric), ~ round(.x, digits)))
+
+  paste_path_result1$ind <- ind_paths
+  paste_path_result1$de_est <- paste_path_result1$de_est %>%
+    mutate(across(where(is.numeric), ~ round(.x, digits)))
+
+  result <- switch(type,
+                   all = paste_path_result1,
+                   res = paste_path_result1,
+                   ind = paste_path_result1$ind,
+                   est = paste_path_result1$de_est)
+  return(result)
+}
+
       # cal = {
       #   # 경로를 " -> "로 분할하여 각 요소를 추출
       #   path_elements <- strsplit(paths, " -> ")[[1]]
@@ -286,14 +294,3 @@ find_paths_cal <- function(paste_path_result, type="all", digits=3, est="Origina
       #   # 모든 부분 경로의 Original 값을 문자열로 결합하여 cal로 반환
       #   paste(partial_cal, collapse = " * ")
       # }
-    )
-
-  paste_path_result$ind <- ind_paths%>%Round(digits) #dplyr::select(paths, cal, ind_est)
-  paste_path_result$de_est <- paste_path_result$de_est%>%Round(digits)
-  paste_path_result$ind
-
-
-  switch(type, all= paste_path_result, res= paste_path_result,
-         ind= paste_path_result$ind, est =paste_path_result$de_est )
-
-}

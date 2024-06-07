@@ -7,7 +7,7 @@
 plspm_ind_effect_test(
   bootdata,
   ...,
-  show = FALSE,
+  show = TRUE,
   est = "Original",
   sobel = "aroian"
 )

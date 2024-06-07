@@ -101,8 +101,11 @@
 #'
 #' }
 #'
-plspm_ind_effect_test <- function(bootdata, ..., show=FALSE,
-                                  est="Original",sobel="aroian") {
+
+plspm_ind_effect_test <- function(bootdata, ...,
+                                  show=TRUE,
+                                  est="Original",
+                                  sobel="aroian") {
 
   # data <- convert_plspm_to_list(data)
   if (is.list(bootdata) && "boot" %in% names(bootdata)) {
@@ -113,12 +116,12 @@ plspm_ind_effect_test <- function(bootdata, ..., show=FALSE,
 
   # paths_input is null -> calculation All paths
   paths_input <- list(...)
+
+
   # Check if paths_input is NULL or empty
   if (is.null(paths_input) || length(paths_input) == 0) {
-    paths_input = list(find_paths(bootdata) )
+    paths_input = list(find_paths(bootdata, type ="paths" ) )
   }
-
-
 
   # Flatten the input list to handle both individual path strings and a list of paths
   paths_list <- unlist(paths_input)
@@ -127,6 +130,7 @@ plspm_ind_effect_test <- function(bootdata, ..., show=FALSE,
 
   for (path_string in paths_list) {
     collapsed_data <- collapse_path2(ana_data, path_string, est = est) #select est
+
     sobel_result <- sobel_test_extend(coefficients = collapsed_data$coefficients,
                                       se_values = collapsed_data$se_values,
                                       show = show, sobel=sobel)

@@ -88,14 +88,6 @@ sobel_test_extend <- function(coefficients, se_values, show=TRUE, sobel="aroian"
   unique_path <- unique(unlist(strsplit(path_names, " -> ")))
   effect_path <- paste(unique_path, collapse = " -> ")
 
-  if(show){
-    # Print the indirect effect information
-    cat("\n","Indirect Effect(",sobel,"): ", "\n") # effect_path,
-    for (i in 1:n) {
-      cat("    ", names(coefficients)[i], ", est = ", round(coefficients[i], 3),
-          ", se = ", round(se_values[i], 3), "\n", sep = "")
-    }
-  }
 
   if (n == 2) {
     # 특별한 처리: 값이 두 개일 경우
@@ -170,15 +162,23 @@ sobel_test_extend <- function(coefficients, se_values, show=TRUE, sobel="aroian"
       p_value = p_value
     )%>%p_mark_sig("p_value")
   }
+  sig= result$sig
 
   if(show){
+    # Print the indirect effect information
+    cat("\n","Indirect Effect(",sobel,"): ", "\n") # effect_path,
+    for (i in 1:n) {
+      cat("    ", names(coefficients)[i], ", est = ", round(coefficients[i], 3),
+          ", se = ", round(se_values[i], 3), "\n", sep = "")
+    }
     cat("   ",effect_path,": est=",
         round(indirect_effect,3),", Z=",
         round(z_value,3), ", se=",
         round(sobel_se,5), ", p=",
-        p_value )
+        paste0( ifelse(p_value<0.001," < .001", round(p_value, 5))),
+        "(",sig,")",sep="")
   }
-  cat("\n\n")
+  cat("\n")
   return(result %>% dplyr::as_tibble())
 }
 
@@ -274,14 +274,6 @@ sobel_test_serial <- function(coefficients, se_values, show=TRUE, sobel="aroian"
   unique_path <- unique(unlist(strsplit(path_names, " -> ")))
   effect_path <- paste(unique_path, collapse = " -> ")
 
-  if(show){
-    # Print the indirect effect information
-    cat("\n","Indirect Effect(",sobel,"): ", effect_path, "\n") #
-    for (i in 1:n) {
-      cat("    ", names(coefficients)[i], ", est = ", round(coefficients[i], 3),
-          ", se = ", round(se_values[i], 3), "\n", sep = "")
-    }
-  }
 
   if (n == 2) {
     # 특별한 처리: 값이 두 개일 경우
@@ -356,13 +348,21 @@ sobel_test_serial <- function(coefficients, se_values, show=TRUE, sobel="aroian"
       p_value = p_value
     )%>%p_mark_sig("p_value")
   }
+  sig= result$sig
 
   if(show){
-    cat("   ",effect_path,": est=",
-        round(indirect_effect,3),", Z=",
-        round(z_value,3), ", se=",
-        round(sobel_se,5), ", p=",
-        p_value )
+    # Print the indirect effect information
+    cat("\n","Indirect Effect(",sobel,"): ", "\n") # effect_path,
+    for (i in 1:n) {
+      cat("    ", names(coefficients)[i], ", est = ", round(coefficients[i], 3),
+          ", se = ", round(se_values[i], 3), "\n", sep = "")
+    }
+    cat("   ",effect_path,": est = ",
+        round(indirect_effect,3),", Z = ",
+        round(z_value,3), ", se = ",
+        round(sobel_se,5), ", p ",
+        paste0( ifelse(p_value<0.001," < .001", paste0("= " ,round(p_value, 5)))),
+        "(",sig,")",sep="")
   }
   cat("\n")
   return(result %>% dplyr::as_tibble())
