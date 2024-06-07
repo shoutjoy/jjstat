@@ -1,8 +1,9 @@
 #' chisq_gof_posthoc
 #'
-#' @param Xs data
+#' @param vector data
 #' @param type all, res, p, chisq
 #' @param method p.adust
+#' @param names TRUE using names
 #'
 #' @return data
 #' @export
@@ -42,14 +43,17 @@
 #'
 #'
 #'
-chisq_gof_posthoc <- function(Xs, type = "res", method = "fdr") {
+
+chisq_gof_posthoc <- function(vector, type = "res", method = "fdr",
+                              names=FALSE) {
   library(dplyr)
   library(tidyr)
   library(broom)  # For tidy()
   library(purrr)  # For bind_rows()
 
   # Convert input to numeric
-  Xs <- as.numeric(Xs)
+  vector = vector
+  Xs <- as.numeric(vector)
 
   # Overall chi-squared test
   overall <- chisq.test(Xs) %>% tidy()
@@ -57,6 +61,8 @@ chisq_gof_posthoc <- function(Xs, type = "res", method = "fdr") {
 
   # Data combination
   Names <- combn(length(Xs), 2, FUN = function(x) paste0(Xs[x[1]], "_", Xs[x[2]]))
+
+
 
   # Repeat chisq.test for each pair
   results <- lapply(Names, function(pair) {
@@ -108,8 +114,25 @@ chisq_gof_posthoc <- function(Xs, type = "res", method = "fdr") {
                                  ifelse(p.value < 0.01, "**",
                                         ifelse(p.value < 0.05, "*", "ns"))))
 
-  # Main result
-  res <- full_join(unique_combined_results, unique_adj.p, by = "pairwise")
+
+
+
+  # Data combination
+  if (names) {
+    if (is.null(names(vector))) {
+      stop("When names = TRUE, input data must have names.")
+    }
+    Names_chr <- combn(names(vector), 2, FUN = function(x) paste0(x[1], "_", x[2]))
+    res <- full_join(unique_combined_results, unique_adj.p, by = "pairwise")
+
+    res = bind_cols(variable=Names_chr, res) %>%
+      tidyr::unite(pairwise, variable, pairwise, sep=": ")
+  }else{
+    # Main result
+    res <- full_join(unique_combined_results, unique_adj.p, by = "pairwise")
+  }
+
+
 
   # All data
   Res <- list(
@@ -117,116 +140,11 @@ chisq_gof_posthoc <- function(Xs, type = "res", method = "fdr") {
     apa = overall_msg,
     adj.p = adj.p,
     chisq = combined_results %>% dplyr::mutate(p_sig = ifelse(p.value < 0.05, "*", "")),
-    Counts = Xs,
     posthoc = res
   )
 
   # Select result
   return(switch(type, all = Res, res = res, p = adj.p, chisq = combined_results))
 
-  # list(unique_adj.p,unique_combined_results )
-}
 
-#'
-#'
-#' #' chisq_gof_posthoc
-#' #'
-#' #' @param Xs data
-#' #' @param type all, res, p, chisq
-#' #' @param method p.adust
-#' #'
-#' #' @return data
-#' #' @export
-#' #'
-#' #' @examples
-#' #'
-#' #' \dontrun{
-#' #' #'
-#' #' #'
-#' #' X <- c(49, 30, 63, 59)
-#' #'
-#' #' chisq_each(X, "res")
-#' #' chisq_each(X,"all")$gof_test
-#' #' chisq_each(X,"all")$p
-#' #' chisq_each(X,"all")$chisq
-#' #' chisq_each(X, typ="all")
-#' #' chisq_each(X, typ="res")
-#' #' chisq_each(X, type="p")
-#' #' chisq_each(X, type="chisq")
-#' #'
-#' #' chisq_each(X, method="bonferroni")
-#' #'
-#' #' X1 <- c(4, 3, 6, 19)
-#' #' chisq_each(X1)
-#' #' chisq_each(X1, typ="all")
-#' #' chisq_each(X1, type="p")
-#' #' chisq_each(X1, type="chisq")
-#' #' chisq_each(X1, method="bonferroni")
-#' #'
-#' #'
-#' #' chisq_each(X, method="bonferroni")
-#' #'
-#' #' chisq_each(c(49, 30, 63, 59, 40, 60))
-#' #'
-#' #' #'
-#' #' }
-#' #'
-#' #'
-#' #'
-#' chisq_each <- function(Xs, type="all", method="fdr") {
-#'
-#'   # 입력 데이터가 데이터 프레임인 경우 각 열을 벡터로 변환
-#'   Xs = as.numeric(Xs)
-#'
-#'   overall =  chisq.test(Xs) %>%tidy()
-#'   #data combination
-#'   Names <- combn(length(Xs), 2,
-#'                  FUN = function(x) paste0(Xs[x[1]], "_", Xs[x[2]]))
-#'
-#'
-#'   #repeat chisq.test
-#'   results <- lapply(Names, function(pair) {
-#'     chisq.test(as.numeric(unlist(strsplit(pair, "_"))))
-#'   })%>% suppressWarnings()
-#'   # arrange the results data
-#'   combined_results <- bind_rows(lapply(results, tidy))
-#'   combined_results$pairwise <- Names
-#'
-#'   combined_results= combined_results %>%
-#'     dplyr::select(pairwise, chisq=statistic,df=parameter, p.value)
-#'
-#'
-#'   #p.adjust------------
-#'   ##pairwise
-#'   fun.p <- function(i,j) {
-#'     xi <- Xs[i]
-#'     xj <- Xs[j]
-#'     suppressWarnings(chisq.test(c(xi, xj)))$p.value  }
-#'   # calulate the p
-#'   tab.p <- pairwise.table(fun.p, as.character(Xs),
-#'                           p.adjust.method= method)
-#'   # adjust the p value
-#'   adj.p = tab.p%>%
-#'     long_df("cell_1","cell_2","adj.p") %>%
-#'     drop_na () %>%#arrange(cell_2) %>%
-#'     mutate(cell_2 = substring(cell_2,2,3) ) %>%
-#'     dplyr::select(cell_2, cell_1, adj.p)%>%
-#'     tidyr::unite(pairwise, cell_2, cell_1)
-#'
-#'   if(type=="res"){
-#'     cat("\n p adjust method =",method,"\n")
-#'   }
-#'
-#'
-#'   res = full_join(combined_results,
-#'                   adj.p, by="pairwise")%>%
-#'     p_mark_sig("adj.p")
-#'
-#'   Res= list(gof_test = overall,
-#'             p = adj.p, chisq = combined_results,
-#'             posthoc = res)
-#'
-#'   # Res
-#'   switch(type, all= Res,res=res, p=adj.p, chisq =combined_results )
-#'
-#' }
+}

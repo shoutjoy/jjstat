@@ -33,6 +33,7 @@
 #'
 #'
 chisq_test_cell <- function(data,type="res", trans = FALSE, plot=TRUE,  digits=3) {
+  data = data
   # Calculate chi-squared test
   if(is.table(data)){
     data= data %>%as.data.frame()%>%to_table()
@@ -69,7 +70,7 @@ chisq_test_cell <- function(data,type="res", trans = FALSE, plot=TRUE,  digits=3
 
   if(plot){
     if(trans){
-      x11()
+      # x11()
       # oesig_add = OE_sig%>%long_df("row","col","sig", cols=1:ncol(OE_sig)+1)
       graph = bind_cols(oeplot, sig=oesig_add$sig)%>%
         ggplot(aes(x=row, y=values))+
@@ -80,9 +81,7 @@ chisq_test_cell <- function(data,type="res", trans = FALSE, plot=TRUE,  digits=3
         scale_fill_grey()
 
     }else{
-      x11()
-
-
+      # x11()
       graph = bind_cols(oeplot, sig=oesig_add$sig)%>%
         ggplot(aes(x=col, y=values))+
         geom_bar(stat="identity", aes(fill=col), show.legend = FALSE)+

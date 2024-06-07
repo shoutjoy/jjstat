@@ -4,12 +4,12 @@
 \alias{table_sum}
 \title{Functions to sum parts of a table}
 \usage{
-table_sum(data, con = NULL, trans = FALSE, sep = "/")
+table_sum(data, ..., trans = FALSE, sep = "_")
 }
 \arguments{
 \item{data}{table,data.frame}
 
-\item{con}{contrast excon= c(1, 1, -1, -1)}
+\item{...}{contrast excon= c(1, 1, -1, -1)}
 
 \item{trans}{data transpose, con must be entered to match the row in the data}
 
@@ -48,13 +48,18 @@ New = data.frame(
   "D" = c(114, 254),
   "E" = c(20, 67)
 );New
+
+t(New)\%>\%table_sum(c(1,1,3,2,2))
+
 New \%>\%table_sum(c(1,1))
 t(New)
 t(New)\%>\%table_sum(c(1,1,1,2,2))
 
 New\%>\%table_sum(c(1,1,3,2,2), trans=TRUE)
+New\%>\%table_sum(1,1,3,2,2, trans=TRUE)
 New\%>\%table_sum(c(1,1), trans=FALSE)
 
 }
+
 
 }

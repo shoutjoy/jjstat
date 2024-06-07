@@ -115,7 +115,7 @@ chisq_test_kge = function(dataset,
     data =  dataset%>% long_df(v1,v2) %>% unCount() %>% table()
 
 
-  }else if(is.data.fram){
+  }else if(is.data.frame){
      # Using data.frame
     data =  dataset %>%
       dplyr::select(all_of(v1), all_of(v2)) %>%
