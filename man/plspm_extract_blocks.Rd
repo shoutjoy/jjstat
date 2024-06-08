@@ -4,10 +4,10 @@
 \alias{plspm_extract_blocks}
 \title{olsom boot result model}
 \usage{
-plspm_extract_blocks(model)
+plspm_extract_blocks(plsres)
 }
 \arguments{
-\item{model}{result model}
+\item{plsres}{result model}
 }
 \value{
 lsit

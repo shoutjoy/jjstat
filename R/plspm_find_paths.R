@@ -44,7 +44,9 @@
 #'
 #'
 #'
-find_paths <- function(data, type= "paths" , path_col = "paths", est="Original", se= "Std.Error") {
+find_paths <- function(data, type= "paths" ,
+                       path_col = "paths",
+                       est="Original", se= "Std.Error") {
 
   if(length(data) == 13){
     data <- data$boot$paths %>% row2col("paths")
@@ -215,10 +217,7 @@ find_paths <- function(data, type= "paths" , path_col = "paths", est="Original",
 #' }
 #'
 #'
-find_paths_cal <- function(paste_path_result,
-                           type = "all",
-                           digits = 3,
-                           est = "Original") {
+find_paths_cal <- function(paste_path_result, type = "all", digits = 3, est = "Original") {
   if (class(paste_path_result) == "plspm_paths") {
     paste_path_result1 <- paste_path_result
     de_est <- paste_path_result1$de_est

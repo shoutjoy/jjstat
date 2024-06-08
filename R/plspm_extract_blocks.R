@@ -1,6 +1,6 @@
 #' olsom boot result model
 #'
-#' @param model result model
+#' @param plsres result model
 #'
 #' @return lsit
 #' @export
@@ -12,7 +12,12 @@
 #'}
 #'
 #'
-plspm_extract_blocks <- function(model) {
+plspm_extract_blocks <- function(plsres) {
+  if(length(plsres)==13){
+    model = plsres$model
+  }else{
+    model = plsres
+  }
   # Extract the blocks and mvs_names from the model
   blocks <- model$blocks
   mvs_names <- model$gens$mvs_names

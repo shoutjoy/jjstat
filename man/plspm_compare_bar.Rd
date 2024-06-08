@@ -9,7 +9,7 @@ plspm_compare_bar(
   x = NULL,
   y = NULL,
   fill = NULL,
-  size = 5,
+  size = 3,
   size_x = 12,
   angle = 90,
   position = "dodge",
