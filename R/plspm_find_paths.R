@@ -44,28 +44,26 @@
 #'
 #'
 #'
-find_paths <- function(data, type= "paths" ,
-                       path_col = "paths",
-                       est="Original", se= "Std.Error") {
+find_paths <- function(data, type = "paths",
+                        path_col = "paths", est = "Original", se = "Std.Error") {
 
-  if(length(data) == 13){
+  if (length(data) == 13) {
     data <- data$boot$paths %>% row2col("paths")
-  }else if(length(data) == 5){
-
-    data = data%>% row2col("paths")
-  }else if(length(data) == 6){
-    data=data
-  }else {
-
-    data=data
+  } else if (length(data) == 5) {
+    data <- data %>% row2col("paths")
+  } else if (length(data) == 6) {
+    data <- data
+  } else {
+    data <- data
   }
+
   # 데이터에 col1 추가
   data <- data %>%
     mutate(col1 = row_number())
 
   # 경로 컬럼의 이름을 path_col에 맞게 동적으로 설정
-  paths_data <- data[c(path_col)]
-  paths_data1 <- data[, c(path_col,est, se)]
+  paths_data <- data[[path_col]]
+  paths_data1 <- data[, c(path_col, est, se)]
 
   # 시작 노드가 선행하지 않는 노드를 찾기
   all_starts <- unique(sapply(paths_data, function(x) strsplit(x, " -> ")[[1]][1]))
@@ -79,7 +77,7 @@ find_paths <- function(data, type= "paths" ,
 
     # 현재 경로의 마지막 노드가 시작 노드인 모든 경로 찾기
     next_paths <- paths %>%
-      filter(grepl(paste0("^", last_node, " -> "), paths))
+      filter(grepl(paste0("^", last_node, " -> "), .[[path_col]]))
 
     # 더 이상 연결할 경로가 없으면 현재 경로 반환
     if (nrow(next_paths) == 0) {
@@ -102,7 +100,7 @@ find_paths <- function(data, type= "paths" ,
   for (start in start_nodes) {
     start_paths <- data %>% filter(grepl(paste0("^", start, " -> "), .[[path_col]]))
     for (i in 1:nrow(start_paths)) {
-      connected_paths <- connect_paths(data, start_paths[i, path_col])
+      connected_paths <- connect_paths(data, start_paths[[i, path_col]])
       all_connected_paths <- c(all_connected_paths, connected_paths)
     }
   }
@@ -110,41 +108,93 @@ find_paths <- function(data, type= "paths" ,
   # 결과를 데이터 프레임으로 변환
   result <- data.frame(paths = unique(all_connected_paths), stringsAsFactors = FALSE)
   result <- result %>% filter(str_count(paths, " -> ") > 1)
-  res = list(de_est = paths_data1, ind = result)
+  res <- list(de_est = paths_data1, ind = result)
   attr(res, "class") <- "plspm_paths"
 
-  est = paths_data1
-  ind = result
-  paths_vector = result$paths
+  est <- paths_data1
+  ind <- result
+  paths_vector <- result$paths
 
-  #구분을위한 클래스
-
-  switch(type, res = res, all= res, est = est, ind = ind , paths = paths_vector)
-
+  # 구분을 위한 클래스
+  switch(type, res = res, all = res, est = est, ind = ind, paths = paths_vector)
 }
-
-
-#' Define a custom print function
-#'
-#' @param x ril
-#' @param ...  imput
-#'
-#' @return print
-#' @export
-#'
-print.plspm_paths <- function(x, ...) {
-  # 클래스 속성을 임시로 NULL로 설정
-  oldClass <- attr(x, "class")
-  attr(x, "class") <- NULL
-
-  # 기본 print 함수 호출
-  print.default(x, ...)
-
-  # 클래스 속성 복원
-  attr(x, "class") <- oldClass
-}
-
-
+# find_paths <- function(data, type= "paths" ,
+#                        path_col = "paths", est="Original", se= "Std.Error") {
+#
+#   if(length(data) == 13){
+#     data <- data$boot$paths %>% row2col("paths")
+#   }else if(length(data) == 5){
+#
+#     data = data%>% row2col("paths")
+#   }else if(length(data) == 6){
+#     data=data
+#   }else {
+#
+#     data=data
+#   }
+#   # 데이터에 col1 추가
+#   data <- data %>%
+#     mutate(col1 = row_number())
+#
+#   # 경로 컬럼의 이름을 path_col에 맞게 동적으로 설정
+#   paths_data <- data[c(path_col)]
+#   paths_data1 <- data[, c(path_col,est, se)]
+#
+#   # 시작 노드가 선행하지 않는 노드를 찾기
+#   all_starts <- unique(sapply(paths_data, function(x) strsplit(x, " -> ")[[1]][1]))
+#   all_ends <- unique(sapply(paths_data, function(x) strsplit(x, " -> ")[[1]][2]))
+#   start_nodes <- setdiff(all_starts, all_ends)
+#
+#   # 경로 연결을 위한 재귀 함수 정의
+#   connect_paths <- function(paths, current_path) {
+#     # 현재 경로의 마지막 노드 추출
+#     last_node <- tail(strsplit(current_path, " -> ")[[1]], 1)
+#
+#     # 현재 경로의 마지막 노드가 시작 노드인 모든 경로 찾기
+#     next_paths <- paths %>%
+#       filter(grepl(paste0("^", last_node, " -> "), paths))
+#
+#     # 더 이상 연결할 경로가 없으면 현재 경로 반환
+#     if (nrow(next_paths) == 0) {
+#       return(current_path)
+#     }
+#
+#     # 다음 경로를 재귀적으로 연결
+#     result <- c()
+#     for (i in 1:nrow(next_paths)) {
+#       new_path <- paste0(current_path, " -> ",
+#                          strsplit(next_paths[i, path_col], " -> ")[[1]][2])
+#       result <- c(result, connect_paths(paths, new_path))
+#     }
+#
+#     return(result)
+#   }
+#
+#   # 선행하지 않는 시작 노드들에 대해 연결 작업 수행
+#   all_connected_paths <- c()
+#   for (start in start_nodes) {
+#     start_paths <- data %>% filter(grepl(paste0("^", start, " -> "), .[[path_col]]))
+#     for (i in 1:nrow(start_paths)) {
+#       connected_paths <- connect_paths(data, start_paths[i, path_col])
+#       all_connected_paths <- c(all_connected_paths, connected_paths)
+#     }
+#   }
+#
+#   # 결과를 데이터 프레임으로 변환
+#   result <- data.frame(paths = unique(all_connected_paths), stringsAsFactors = FALSE)
+#   result <- result %>% filter(str_count(paths, " -> ") > 1)
+#   res = list(de_est = paths_data1, ind = result)
+#   attr(res, "class") <- "plspm_paths"
+#
+#   est = paths_data1
+#   ind = result
+#   paths_vector = result$paths
+#
+#   #구분을위한 클래스
+#
+#   switch(type, res = res, all= res, est = est, ind = ind , paths = paths_vector)
+#
+# }
 
 
 #' real paths calculation est

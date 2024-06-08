@@ -11,7 +11,8 @@ plspm_ind_effect_boot(
   path_matrix = NULL,
   blocks = NULL,
   modes = NULL,
-  B = 100
+  B = 100,
+  n_cores = 4
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ plspm_ind_effect_boot(
 \item{modes}{models}
 
 \item{B}{b= 100}
+
+\item{n_cores}{n_cores =4, CPU core}
 }
 \value{
 resutl paths
@@ -90,9 +93,35 @@ result \%>\% unite_ci()
 
 resultall <- plspm_get_boot(satpls_boot, find_paths(satpls_boot), B = 100)
 resultall
+#'
+plspm_ind_effect_boot(
+  plsres = satpls_boot,
+  "IMAG -> SAT -> LOY",
+  "IMAG -> EXPE -> SAT -> LOY",
+  "IMAG -> EXPE -> VAL -> SAT -> LOY",
+  "IMAG -> EXPE -> QUAL -> SAT -> LOY",
+  "IMAG -> EXPE -> QUAL -> VAL -> SAT -> LOY",
+  B = 1000,
+  n_cores = 4
+)\%>\%system.time()
+#'
+#'
+plspm_ind_effect_boot(
+  plsres = satpls_boot,
+  "IMAG -> SAT -> LOY",
+  "IMAG -> EXPE -> SAT -> LOY",
+  "IMAG -> EXPE -> VAL -> SAT -> LOY",
+  "IMAG -> EXPE -> QUAL -> SAT -> LOY",
+  "IMAG -> EXPE -> QUAL -> VAL -> SAT -> LOY",
+  B = 1000,
+  n_cores = 4
+)
+#'
 
 
 }
+
+
 
 
 }
