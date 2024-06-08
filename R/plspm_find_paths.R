@@ -100,7 +100,8 @@ find_paths <- function(data, type = "paths",
   for (start in start_nodes) {
     start_paths <- data %>% filter(grepl(paste0("^", start, " -> "), .[[path_col]]))
     for (i in 1:nrow(start_paths)) {
-      connected_paths <- connect_paths(data, start_paths[[i, path_col]])
+      # connected_paths <- connect_paths(data, start_paths[[i, path_col]])
+      connected_paths <- connect_paths(data, start_paths[i, path_col])
       all_connected_paths <- c(all_connected_paths, connected_paths)
     }
   }
