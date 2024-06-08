@@ -9,13 +9,14 @@ compare_bar(
   x = NULL,
   y = NULL,
   fill = NULL,
-  size = 5,
+  size = 3,
   size_x = 12,
   angle = 90,
   position = "dodge",
   xlab = "",
   ylab = "Values",
-  text = TRUE
+  text = TRUE,
+  digits = 3
 )
 }
 \arguments{
@@ -69,5 +70,9 @@ REs <- tibble::tribble(
 # # 함수 호출 예시
 REs \%>\% compare_bar()
 REs \%>\% compare_bar(text=FALSE)
+
+
+
+
 }
 }

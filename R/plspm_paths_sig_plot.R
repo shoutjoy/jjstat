@@ -97,7 +97,7 @@
 #'                         boot.val =TRUE, br=100)
 #'
 #' #default
-#' satpls %>% plspm_path_coefs_plot()
+#' satpls %>% plspm_paths_sig_plot()
 #'
 #'
 #'
@@ -112,42 +112,42 @@
 #'  NA, NA, NA, NA, 'LOY', NA, NA, NA, NA, NA, NA, NA, NA),
 #'  nrow = 10, ncol = 10, byrow = FALSE)
 #'
-#' satpls %>% plspm_path_coefs_plot(layout=lay_p, edge.label.position = 0.6,
+#' satpls %>% plspm_paths_sig_plot(layout=lay_p, edge.label.position = 0.6,
 #'                             border.color="gray99", groups=1:6)
 #'
 #'
 #' # various type
-#' satpls %>% plspm_path_coefs_plot()
-#' satpls %>% plspm_path_coefs_plot(node =TRUE)
+#' satpls %>% plspm_paths_sig_plot()
+#' satpls %>% plspm_paths_sig_plot(node =TRUE)
 #'
-#' satpls %>% plspm_path_coefs_plot(layout=lay_p, edge.label.position = 0.6,
+#' satpls %>% plspm_paths_sig_plot(layout=lay_p, edge.label.position = 0.6,
 #'                                  border.color="gray99", groups=1:6)
-#' satpls %>% plspm_path_coefs_plot(layout=lay_p, edge.label.position = 0.6,
+#' satpls %>% plspm_paths_sig_plot(layout=lay_p, edge.label.position = 0.6,
 #'                                  border.color="gray99", groups=1:6, node=TRUE)
 #'
-#' satpls %>% plspm_path_coefs_plot(Dshape="square", layout=lay_p,
+#' satpls %>% plspm_paths_sig_plot(Dshape="square", layout=lay_p,
 #'                                  edge.label.position = 0.6)
 #' #'
-#' satpls_boot%>%plspm_path_coefs_plot()
-#' satpls_boot%>%plspm_path_coefs_plot(boot=F)
+#' satpls_boot%>%plspm_paths_sig_plot()
+#' satpls_boot%>%plspm_paths_sig_plot(boot=F)
 #' #'
-#' satpls %>% plspm_path_coefs_plot()
-#' satpls %>% plspm_path_coefs_plot(node =TRUE)
-#' satpls %>% plspm_path_coefs_plot(grp=FALSE)
-#' satpls %>% plspm_path_coefs_plot(node = FALSE,grp=TRUE)
-#' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=FALSE)
-#' satpls %>% plspm_path_coefs_plot(node = FALSE,grp=FALSE)
-#' satpls %>% plspm_path_coefs_plot(node = TRUE,grp=TRUE)
+#' satpls %>% plspm_paths_sig_plot()
+#' satpls %>% plspm_paths_sig_plot(node =TRUE)
+#' satpls %>% plspm_paths_sig_plot(grp=FALSE)
+#' satpls %>% plspm_paths_sig_plot(node = FALSE,grp=TRUE)
+#' satpls %>% plspm_paths_sig_plot(node = TRUE,grp=FALSE)
+#' satpls %>% plspm_paths_sig_plot(node = FALSE,grp=FALSE)
+#' satpls %>% plspm_paths_sig_plot(node = TRUE,grp=TRUE)
 #'
 #' satpls_boot %>%
-#' plspm_path_coefs_plot(layout =  plspm_boot_factor_layout(satpls_boot)%>%
+#' plspm_paths_sig_plot(layout =  plspm_boot_factor_layout(satpls_boot)%>%
 #'  move_mat_cut(n=3))
 #'
 #' #
 #'
 #'
 #' }
-plspm_path_coefs_plot <- function(plsdata,
+plspm_paths_sig_plot <- function(plsdata,
                                   layout = "spring",
                                   boot= TRUE,
                                   grp = TRUE,
@@ -211,8 +211,8 @@ plspm_path_coefs_plot <- function(plsdata,
       # This value should get the inner_model value from the full value.
 
       if(boot){
-         # edge_labels = plspm_boot_paths_sig(plsdata,"vec") #boot data
-#
+        # edge_labels = plspm_boot_paths_sig(plsdata,"vec") #boot data
+        #
         edge_labels =full_join(
           plspm_edge_values(plsdata,type="df"),
           plspm_boot_paths_sig(plsdata,"df")%>%

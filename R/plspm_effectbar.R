@@ -75,3 +75,7 @@ plspm_effectbar <- function(x_pls,
 
   return(path_effs%>% Round(3)%>% cut_print())
 }
+
+
+
+

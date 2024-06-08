@@ -38,37 +38,49 @@
 #' REs %>% plspm_effect_bar(text=FALSE)
 #' }
 #'
-plspm_effect_bar <- function(data, x=NULL, y=NULL, fill=NULL,size=5,
-                        size_x= 12, angle= 90, position="dodge", text=TRUE) {
-  Data <- data
-
-  if (is.null(x) && is.null(y) && is.null(fill)) {
-    x <- Data %>% select(1) %>% pull()
-    y <- Data %>% select(3) %>% pull()
-    fill <- Data %>% select(2) %>% pull()
-    gg <- Data %>% ggplot(aes(x = x, y = y, fill = fill))
-  } else {
-    gg <- Data %>% ggplot(aes(x = {{x}}, y = {{y}}, fill = {{fill}}))
+plspm_effect_bar <- function(data, x = NULL, y = NULL, fill = NULL, size = 3,
+                             size_x = 12, angle = 90, position = "dodge",
+                             xlab = "", ylab = "Values", text = TRUE, digits = 3) {
+  if(length(data)==13){
+  Data <- data$effects %>%
+    to_long("effect","est")%>%
+    filter(est !=0 & effect !="total")
+  }else if(length(data)==4){
+    Data <- data%>%
+      to_long("effect","est")%>%
+      filter(est !=0 & effect !="total")
+  }else{
+    Data=data
   }
 
-  gg <- gg +
-    geom_bar(stat="identity", position=position) +
+
+  if (is.null(x) && is.null(y) && is.null(fill)) {
+    x <- sym(names(Data)[1])
+    y <- sym(names(Data)[3])
+    fill <- sym(names(Data)[2])
+  } else {
+    x <- enquo(x)
+    y <- enquo(y)
+    fill <- enquo(fill)
+  }
+
+  gg <- Data %>% ggplot(aes(x = !!x, y = !!y, fill = !!fill)) +
+    geom_bar(stat = "identity", position = position) +
     theme_bw() +
-    scale_fill_grey(start=0.3, end=0.7) +
-    theme(axis.text = element_text(size = size_x, angle=angle, face="bold"))+
-    labs(x= "")
+    scale_fill_grey(start = 0.3, end = 0.7) +
+    theme(axis.text = element_text(size = size_x, angle = angle, face = "bold")) +
+    labs(x = xlab, y = ylab)
 
   if (text) {
     gg <- gg +
-      geom_text(aes(label = values),
-                vjust = ifelse(Data$values > 0, -0.5, 1.5),
-                position = position_dodge(0.9), size = size)+
-      labs(x= "")
+      geom_text(aes(label = format(round(!!y, digits), digits = digits)),
+                vjust = ifelse(Data[[quo_name(y)]] > 0, -0.5, 1.5),
+                position = position_dodge(0.9),
+                size = size)
   }
 
   return(gg)
 }
-
 
 
 
@@ -133,7 +145,7 @@ pdata = function(widedata, rownames_to_column=FALSE){
 #' REs %>% compare_bar()
 #' REs %>% compare_bar(text=FALSE)
 #' }
-plspm_compare_bar <- function(data, x=NULL, y=NULL, fill=NULL,size=3,
+plspm_grp_compare_bar <- function(data, x=NULL, y=NULL, fill=NULL,size=3,
                         size_x= 12, angle= 90,
                         position="dodge", xlab="", ylab="Values",
                         text=TRUE) {
