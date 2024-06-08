@@ -73,7 +73,7 @@ find_paths <- function(data, type = "paths",
   # 경로 연결을 위한 재귀 함수 정의
   connect_paths <- function(paths, current_path) {
     # 현재 경로의 마지막 노드 추출
-    last_node <- tail(strsplit(current_path, " -> ")[[1]], 1)
+    last_node <- tail(strsplit(as.character(current_path), " -> ")[[1]], 1)
 
     # 현재 경로의 마지막 노드가 시작 노드인 모든 경로 찾기
     next_paths <- paths %>%
@@ -88,7 +88,7 @@ find_paths <- function(data, type = "paths",
     result <- c()
     for (i in 1:nrow(next_paths)) {
       new_path <- paste0(current_path, " -> ",
-                         strsplit(next_paths[[i, path_col]], " -> ")[[1]][2])
+                         strsplit(as.character(next_paths[[i, path_col]]), " -> ")[[1]][2])
       result <- c(result, connect_paths(paths, new_path))
     }
 
@@ -101,7 +101,7 @@ find_paths <- function(data, type = "paths",
     start_paths <- data %>% filter(grepl(paste0("^", start, " -> "), .[[path_col]]))
     start_paths <- as.data.frame(start_paths) # 명확히 데이터프레임으로 변환
     for (i in 1:nrow(start_paths)) {
-      connected_paths <- connect_paths(data, start_paths[[i, path_col]])
+      connected_paths <- connect_paths(data, as.character(start_paths[[i, path_col]]))
       all_connected_paths <- c(all_connected_paths, connected_paths)
     }
   }
