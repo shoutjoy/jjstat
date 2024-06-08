@@ -45,7 +45,7 @@
 #'
 #'
 find_paths <- function(data, type = "paths",
-                        path_col = "paths", est = "Original", se = "Std.Error") {
+                       path_col = "paths", est = "Original", se = "Std.Error") {
 
   if (length(data) == 13) {
     data <- data$boot$paths %>% row2col("paths")
@@ -88,7 +88,7 @@ find_paths <- function(data, type = "paths",
     result <- c()
     for (i in 1:nrow(next_paths)) {
       new_path <- paste0(current_path, " -> ",
-                         strsplit(next_paths[i, path_col], " -> ")[[1]][2])
+                         strsplit(next_paths[[i, path_col]], " -> ")[[1]][2])
       result <- c(result, connect_paths(paths, new_path))
     }
 
@@ -99,9 +99,9 @@ find_paths <- function(data, type = "paths",
   all_connected_paths <- c()
   for (start in start_nodes) {
     start_paths <- data %>% filter(grepl(paste0("^", start, " -> "), .[[path_col]]))
+    start_paths <- as.data.frame(start_paths) # 명확히 데이터프레임으로 변환
     for (i in 1:nrow(start_paths)) {
-      # connected_paths <- connect_paths(data, start_paths[[i, path_col]])
-      connected_paths <- connect_paths(data, start_paths[i, path_col])
+      connected_paths <- connect_paths(data, start_paths[[i, path_col]])
       all_connected_paths <- c(all_connected_paths, connected_paths)
     }
   }
