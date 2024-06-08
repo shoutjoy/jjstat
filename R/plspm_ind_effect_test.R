@@ -101,7 +101,6 @@
 #'
 #' }
 #'
-
 plspm_ind_effect_test <- function(bootdata, ...,
                                   show=TRUE,
                                   est="Original",

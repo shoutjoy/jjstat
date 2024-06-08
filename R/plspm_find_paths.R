@@ -89,7 +89,8 @@ find_paths <- function(data, type= "paths" ,
     # 다음 경로를 재귀적으로 연결
     result <- c()
     for (i in 1:nrow(next_paths)) {
-      new_path <- paste0(current_path, " -> ", strsplit(next_paths[i, path_col], " -> ")[[1]][2])
+      new_path <- paste0(current_path, " -> ",
+                         strsplit(next_paths[i, path_col], " -> ")[[1]][2])
       result <- c(result, connect_paths(paths, new_path))
     }
 
@@ -121,6 +122,29 @@ find_paths <- function(data, type= "paths" ,
   switch(type, res = res, all= res, est = est, ind = ind , paths = paths_vector)
 
 }
+
+
+#' Define a custom print function
+#'
+#' @param x ril
+#' @param ...  imput
+#'
+#' @return print
+#' @export
+#'
+print.plspm_paths <- function(x, ...) {
+  # 클래스 속성을 임시로 NULL로 설정
+  oldClass <- attr(x, "class")
+  attr(x, "class") <- NULL
+
+  # 기본 print 함수 호출
+  print.default(x, ...)
+
+  # 클래스 속성 복원
+  attr(x, "class") <- oldClass
+}
+
+
 
 
 #' real paths calculation est
