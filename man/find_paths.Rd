@@ -13,6 +13,9 @@ find_paths(data, type = "paths", est = "Original")
 
 \item{est}{Original}
 }
+\value{
+result text
+}
 \description{
 Resolver knows the path
 }

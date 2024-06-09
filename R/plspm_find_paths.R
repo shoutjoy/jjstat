@@ -3,7 +3,7 @@
 #' @param data boot data
 #' @param est Original
 #' @param type es, all, est, ind, paths(default)
-#' @return
+#' @return result text
 #' @export
 #'
 #' @examples
@@ -26,6 +26,14 @@
 #' }
 #'
 find_paths <- function(data, type = "paths", est = "Original") {
+
+
+  if (length(data) == 13) {
+    data <- data$boot$paths
+  } else {
+    data <- data
+  }
+
   # 경로를 추출하는 내부 함수
   extract_paths <- function(data) {
     # 행 이름을 'paths' 열로 변환
