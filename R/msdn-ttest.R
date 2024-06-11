@@ -8,6 +8,8 @@
 #' @param sd2 sd2
 #' @param var.equal TRUE Student FALSE, whech
 #' @param digits 3
+#' @param var1 var1 name
+#' @param var2 var2 name
 #'
 #' @return ttest result
 #' @export
@@ -30,9 +32,17 @@
 #' msdn_ttest(n1 = 18, m1 = 16.617, sd1 = 3.8607,
 #'            n2 = 14, m2 = 24.557, sd2 = 5.3790, var.equal=TRUE)
 #' t.test(mpg ~ vs, data = mtcars, var.equal=T)%>%tidy()
+#'
+#' #'
+#' msdn_ttest(n1 = 18, m1 = 16.617, sd1 = 3.8607, var1 = "vs0",
+#'            n2 = 14, m2 = 24.557, sd2 = 5.3790, var2 = "vs1", var.equal = FALSE)
+#' msdn_ttest(n1 = 18, m1 = 16.617, sd1 = 3.8607, var1 = "vs1",
+#'            n2 = 14, m2 = 24.557, sd2 = 5.3790, var2 = "vs2", var.equal = FALSE)
+#'
+#'
 #' }
 #'
-msdn_ttest <- function(n1, m1, sd1, n2, m2, sd2, var.equal=FALSE, digits =2) {
+msdn_ttest <- function(n1, m1, sd1, n2, m2, sd2, var1=NULL, var2=NULL, var.equal=FALSE, digits = 2) {
 
   if (var.equal) {
     # Calculate the pooled standard deviation
@@ -48,9 +58,7 @@ msdn_ttest <- function(n1, m1, sd1, n2, m2, sd2, var.equal=FALSE, digits =2) {
     ci_low <- (m1 - m2) - qt(1 - 0.05/2, df) * sp * sqrt(1/n1 + 1/n2)
     ci_high <- (m1 - m2) + qt(1 - 0.05/2, df) * sp * sqrt(1/n1 + 1/n2)
 
-    method <- "Student Two Sample t-test"
-    # cat("Two Sample t-test")
-
+    method <- "Two Sample t-test"
   } else {
     # Calculate Welch's t-statistic
     t_stat <- (m1 - m2) / sqrt((sd1^2 / n1) + (sd2^2 / n2))
@@ -64,7 +72,6 @@ msdn_ttest <- function(n1, m1, sd1, n2, m2, sd2, var.equal=FALSE, digits =2) {
     ci_high <- (m1 - m2) + qt(1 - 0.05/2, df) * sqrt((sd1^2 / n1) + (sd2^2 / n2))
 
     method <- "Welch Two Sample t-test"
-    # cat("Welch Two Sample t-test")
   }
 
   # Calculate the p-value
@@ -72,22 +79,29 @@ msdn_ttest <- function(n1, m1, sd1, n2, m2, sd2, var.equal=FALSE, digits =2) {
 
   # Create a list to mimic t.test output
   result <- list(
-    # estimate = c(m1, m2),
-    est =m1-m2,
+    est = m1 - m2,
     mean_1 = m1,
     mean_2 = m2,
     t = t_stat,
     df = df,
     p.value = p_value,
-    # conf.int = c(ci_low, ci_high),
     ci_low = round(ci_low, digits),
     ci_high = round(ci_high, digits),
     method = method,
-    # stderr = if (var.equal) sp * sqrt(1/n1 + 1/n2) else sqrt((sd1^2 / n1) + (sd2^2 / n2))
-    # null.value = 0,
     alternative = "two.sided"
-    # data.name = "Summary statistics"
   )
-  bind_cols(result)%>%Unite2("ci_low", "ci_high", "CI", sep=", ", left="[",right="]")
 
+  # Rename the columns based on var1 and var2
+  if (!is.null(var1)) {
+    names(result)[names(result) == "mean_1"] <- var1
+  }
+  if (!is.null(var2)) {
+    names(result)[names(result) == "mean_2"] <- var2
+  }
+
+  # Bind columns and unite CI
+  result_df <- bind_cols(result) %>%
+    Unite2("ci_low", "ci_high", "CI", sep = ", ", left = "[", right = "]")
+
+  return(result_df)
 }

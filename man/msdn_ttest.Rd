@@ -4,7 +4,18 @@
 \alias{msdn_ttest}
 \title{Using ttest with mean, sd, and n}
 \usage{
-msdn_ttest(n1, m1, sd1, n2, m2, sd2, var.equal = FALSE, digits = 2)
+msdn_ttest(
+  n1,
+  m1,
+  sd1,
+  n2,
+  m2,
+  sd2,
+  var1 = NULL,
+  var2 = NULL,
+  var.equal = FALSE,
+  digits = 2
+)
 }
 \arguments{
 \item{n1}{sample1}
@@ -18,6 +29,10 @@ msdn_ttest(n1, m1, sd1, n2, m2, sd2, var.equal = FALSE, digits = 2)
 \item{m2}{m2}
 
 \item{sd2}{sd2}
+
+\item{var1}{var1 name}
+
+\item{var2}{var2 name}
 
 \item{var.equal}{TRUE Student FALSE, whech}
 
@@ -47,6 +62,14 @@ t.test(mpg ~ vs, data = mtcars, var.equal=F)\%>\%tidy()\%>\%dall
 msdn_ttest(n1 = 18, m1 = 16.617, sd1 = 3.8607,
            n2 = 14, m2 = 24.557, sd2 = 5.3790, var.equal=TRUE)
 t.test(mpg ~ vs, data = mtcars, var.equal=T)\%>\%tidy()
+
+#'
+msdn_ttest(n1 = 18, m1 = 16.617, sd1 = 3.8607, var1 = "vs0",
+           n2 = 14, m2 = 24.557, sd2 = 5.3790, var2 = "vs1", var.equal = FALSE)
+msdn_ttest(n1 = 18, m1 = 16.617, sd1 = 3.8607, var1 = "vs1",
+           n2 = 14, m2 = 24.557, sd2 = 5.3790, var2 = "vs2", var.equal = FALSE)
+
+
 }
 
 }
