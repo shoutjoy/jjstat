@@ -12,7 +12,7 @@ plspm_ind_effect_boot(
   blocks = NULL,
   modes = NULL,
   B = 100,
-  n_cores = 4
+  n_cores = 12
 )
 }
 \arguments{

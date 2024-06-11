@@ -105,7 +105,7 @@ plspm_ind_effect_boot <- function(plsres = NULL,
                                   blocks = NULL,
                                   modes = NULL,
                                   B = 100,
-                                  n_cores = 4) {
+                                  n_cores = 12) {
 
   library(plspm)
   library(foreach)
@@ -145,7 +145,7 @@ plspm_ind_effect_boot <- function(plsres = NULL,
   )
 
   # 병렬 처리 설정
-  cl <- parallel::makeCluster(n_cores)
+  cl <- parallel::makeCluster(n_cores) #클러스터 코어설정
   doParallel::registerDoParallel(cl)
 
   for (path_idx in 1:length(paths_list)) {
@@ -155,11 +155,13 @@ plspm_ind_effect_boot <- function(plsres = NULL,
     if (num_paths < 1) stop("간접 경로는 최소 2개의 경로를 포함해야 합니다.")
 
     # 병렬로 부트스트랩 반복 수행
-    indirect_effects <- foreach::foreach(i = 1:B, .combine = c, .packages = 'plspm') %dopar% {
+    indirect_effects <- foreach::foreach(i = 1:B,
+                                         .combine = c, .packages = 'plspm') %dopar% {
       boot_sample <- data[sample(1:nrow(data), replace = TRUE), ]
       plspm_result <- plspm::plspm(boot_sample, path_matrix, blocks, modes)
 
       indirect_effect <- 1
+
       for (j in 1:num_paths) {
         start <- trimws(paths[j])
         end <- trimws(paths[j + 1])
