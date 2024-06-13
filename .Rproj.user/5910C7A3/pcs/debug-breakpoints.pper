@@ -1,5 +1,21 @@
 {
     "debugBreakpointsState": {
-        "breakpoints": []
+        "breakpoints": [
+            {
+                "id": 0,
+                "path": "F:/Rwork/SEM212/jjstat/R/plspm_semPaths2.R",
+                "line_number": 83,
+                "function_steps": "2",
+                "function_name": "plspm_semPaths2",
+                "state": 1,
+                "editor_state": 1,
+                "editor_line_number": 83,
+                "is_pending_debug_completion": false,
+                "needs_updated_steps": false,
+                "type": 0,
+                "is_package_breakpoint": true,
+                "package_name": "jjstat"
+            }
+        ]
     }
 }

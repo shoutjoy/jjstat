@@ -35,6 +35,8 @@
 #' @param br number bootstrap resamples. Used only when boot.val=TRUE. When boot.val=TRUE, the default number of re-samples is 100.
 #' @param dataset whether the data matrix used in the computations should be retrieved (TRUE by default).
 #' @param summary  TRUE
+#' @param interactionTerm  interaction effect list
+#' @param inter_modes  interaction modes
 #'
 #' @return plspm result
 #' @export
@@ -103,204 +105,286 @@
 #' satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1, scaled = FALSE,
 #'                         boot.val =TRUE, br=100)
 #'
+#'
+#' #'
+#' # interction effect two stage method
+#' resinter_sem = plspm_sem(Data=satisfaction,
+#'                          sat_path2, blocks = sat_blocks1, modes= sat_mod,
+#'                          interactionTerm = list(
+#'                            list(from = "IMAG*EXPE", to = "LOY"),
+#'                            list(from = "IMAG*QUAL", to = "LOY")))
+#' resinter_sem
+#' summary(resinter_sem)
+#' plspm_path_coefs_plot(resinter_sem)
+#' #'
+#' #'
+#'
 #' }
+#'
 plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
-                      scaling = NULL, scheme = "centroid", scaled = TRUE,
-                      tol = 1e-06, maxiter = 100, plscomp = NULL,
-                      boot.val = TRUE, br = 500, seed=NULL,
-                      dataset = TRUE, summary = TRUE) {
+interactionTerm = NULL, inter_modes=NULL,
+scaling = NULL, scheme = "centroid", scaled = TRUE,
+tol = 1e-06, maxiter = 100, plscomp = NULL,
+boot.val = TRUE, br = 500, seed=NULL,
+dataset = TRUE, summary = TRUE) {
 
-  cat("\n
+
+  if(is.null(interactionTerm)){
+
+
+    cat("\n
     Wait for it.
     PLaunch Bootstrap
     PARTIAL LEAST SQUARES PATH MODELING (PLS-PM)
     jjstat package By Park Joonghee PhD \n\n\n")
 
 
-  # setseed as.integer(Sys.Date()
-  if (is.null(seed)) {
-    seed = as.integer(Sys.Date())
-    cat("Seed value:", seed, " \n")
-  }
-  set.seed(seed)
+    # setseed as.integer(Sys.Date()
+    if (is.null(seed)) {
+      seed = as.integer(Sys.Date())
+      cat("Seed value:", seed, " \n")
+    }
+    set.seed(seed)
 
 
-  library(progress)
-  # 기본 PLSPM 분석 수행
-  res <- plspm::plspm(Data = Data, path_matrix = path_matrix,
-                      blocks = blocks, modes = modes,
-                      scaling = scaling, scheme = scheme, scaled = scaled,
-                      tol = tol, maxiter = maxiter, plscomp = plscomp,
-                      boot.val = TRUE, br = br, dataset = dataset)
+    library(progress)
+    # 기본 PLSPM 분석 수행
+    res <- plspm::plspm(Data = Data, path_matrix = path_matrix,
+                        blocks = blocks, modes = modes,
+                        scaling = scaling, scheme = scheme, scaled = scaled,
+                        tol = tol, maxiter = maxiter, plscomp = plscomp,
+                        boot.val = TRUE, br = br, dataset = dataset)
 
-  # summary
-  res_boot = lapply(res$boot,
-                    function(x){ x%>%
-                        row2col("relationships")%>%
-                        Round(3)%>%
-                        add_t_sig(3,4,5,T,ns="")%>%
-                        unite_ci() %>%
-                        rename(경로계수=Original,
-                               평균계수=Mean.Boot, 표준오차=Std.Error
-                                )
-                      #  dplyr::select(-Original)
-                    })
+    # summary
+    res_boot = lapply(res$boot,
+                      function(x){ x%>%
+                          row2col("relationships")%>%
+                          Round(3)%>%
+                          add_t_sig(3,4,5,T,ns="")%>%
+                          unite_ci() %>%
+                          rename(경로계수=Original,
+                                 평균계수=Mean.Boot, 표준오차=Std.Error
+                          )
+                        #  dplyr::select(-Original)
+                      })
 
 
-  # 부트스트랩 검증 수행
-  if (boot.val & !is.null(br) & br > 0) {
-    pb <- progress::progress_bar$new(
-      format = "Bootstrapping [:bar] :percent :eta",
-      total = br, clear = FALSE, width = 60
-    )
+    # 부트스트랩 검증 수행
+    if (boot.val & !is.null(br) & br > 0) {
+      pb <- progress::progress_bar$new(
+        format = "Bootstrapping [:bar] :percent :eta",
+        total = br, clear = FALSE, width = 60
+      )
 
-    boot_results <- list()
+      boot_results <- list()
 
-    for (i in 1:br) {
-      pb$tick()
-      boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
-      boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
+      for (i in 1:br) {
+        pb$tick()
+        boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
+        boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
+                                 blocks = blocks, modes = modes,
+                                 scaling = scaling, scheme = scheme, scaled = scaled,
+                                 tol = tol, maxiter = maxiter, plscomp = plscomp,
+                                 boot.val = FALSE, br = NULL, dataset = FALSE)
+        boot_results[[i]] <- boot_res$path_coefs
+      }
+
+    }
+
+
+    if (summary) {
+      # print(summary(res))
+      cat("\n")
+      print(res_boot)
+      cat("\n Additional TEST(CFA) (Park Joonghee PhD). \n\n")
+
+      cat("\n (1) Indicator Validity  \n")
+      print( dall(res_boot$loadings %>%rename(신뢰구간=`95%CI`)))
+
+      cat("\n (2) Internal Consistency: Composite Reliability, Convergent Validity\n")
+      print(plspm_CRAVE(res) )
+
+      cat("\n (3) Fornell & Locker(1981) \n")
+      print(plspm_fl(res) )
+
+      cat("\n (4) HTMT(heterotrait-monotrait ratio of the correlations)\n")
+      print(plspm_htmt(data = res$data, blocks= plspm_extract_blocks(res$model)) )
+
+      cat("\n (5) Total effect: direct, indirect \n")
+      print(res$effect %>% full_join(
+        res_boot$total.efs%>%dplyr::select(1,5,6),
+        by="relationships"
+      )%>%
+        cut_print())
+
+      cat("\n (6) effect size  \n")
+      print(plspm_f2(res))
+
+      x11()
+      cat("\n (7) Paths coeff sig \n")
+      plspm_path_coefs_plot(res)
+      return(res)
+    }
+
+
+
+
+  }else{
+
+    # Tow stage interaction
+
+    intresult  <- plspm::plspm(Data = Data, path_matrix = path_matrix,
                                blocks = blocks, modes = modes,
                                scaling = scaling, scheme = scheme, scaled = scaled,
                                tol = tol, maxiter = maxiter, plscomp = plscomp,
-                               boot.val = FALSE, br = NULL, dataset = FALSE)
-      boot_results[[i]] <- boot_res$path_coefs#%>%
-        # long_df("to","from","coef")%>%
-        # dplyr::filter(coefs !=0)%>%
-        # Unite("from","to","paths", sep="->")%>%
-        # dplyr::pull(coefs)
+                               boot.val = FALSE, br = br, dataset = dataset)
+
+
+    # Paths
+    int_Path_Matrix = plspm_add_inter_paths(intresult$model$IDM, interactionTerm)%>%
+      as.matrix()
+
+    int_Blocks = plspm_auto_blocks(int_Path_Matrix)
+
+    if(is.null(inter_modes)){
+      int_Modes = rep("A", ncol(int_Path_Matrix))
+    }else{
+      int_Modes = inter_modes
     }
-    # res_colnames <- boot_res$path_coefs%>%
-    #   long_df("to","from","coef")%>%
-    #   dplyr::filter(coefs !=0)%>%
-    #   Unite("from","to","paths", sep="->")%>%
-    #   dplyr::pull(paths)
-    #
-    # # # 부트스트랩 통계 계산
-    # boot_coefs <- do.call(rbind, boot_results)
-    # colnames(boot_coefs) = res_colnames
-    # boot_means <- apply(boot_coefs, 2, mean)
-    # boot_se <- apply(boot_coefs, 2, sd)
-    # #
-    # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
-    # bootstrap <- cbind.data.frame(means.boot2 = boot_means,
-    #                               se.boot2 = boot_se)
-  }
+
+    int_Data = plspm_auto_genData(intresult$scores ,interactionTerm )
 
 
-  if (summary) {
-    # print(summary(res))
-    cat("\n")
-    print(res_boot)
-    cat("\n Additional TEST(CFA) (Park Joonghee PhD). \n\n")
+    res_boot <- plspm::plspm(Data = int_Data, path_matrix = int_Path_Matrix,
+                             blocks = int_Blocks, modes = int_Modes,
+                             scaling = scaling, scheme = scheme, scaled = scaled,
+                             tol = tol, maxiter = maxiter, plscomp = plscomp,
+                             boot.val = TRUE, br = br, dataset = dataset)
 
-    cat("\n (1) Indicator Validity  \n")
-    print( dall(res_boot$loadings %>%rename(신뢰구간=`95%CI`)))
 
-    cat("\n (2) Internal Consistency: Composite Reliability, Convergent Validity\n")
-    print(plspm_CRAVE(res) )
-
-    cat("\n (3) Fornell & Locker(1981) \n")
-    print(plspm_fl(res) )
-
-    cat("\n (4) HTMT(heterotrait-monotrait ratio of the correlations)\n")
-    print(plspm_htmt(data = res$data, blocks= plspm_extract_blocks(res$model)) )
-
-    cat("\n (5) Total effect: direct, indirect \n")
-    print(res$effect %>% full_join(
-                  res_boot$total.efs%>%dplyr::select(1,5,6),
-                  by="relationships"
-                  )%>%
-            cut_print())
-
-    cat("\n (6) effect size  \n")
-    print(plspm_f2(res))
-
-    # cat("\n (7) additional boot Coeff \n")
-    # print(boot_coefs)
-
-    x11()
-    cat("\n (7) Paths coeff sig \n")
-    plspm_path_coefs_plot(res)
-    return(res)
+    cat("\n Interaction effects (Park Joonghee PhD). \n\n")
+    return(res_boot)
   }
 }
+# plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
+#                       scaling = NULL, scheme = "centroid", scaled = TRUE,
+#                       tol = 1e-06, maxiter = 100, plscomp = NULL,
+#                       boot.val = TRUE, br = 500, seed=NULL,
+#                       dataset = TRUE, summary = TRUE) {
+#
+#   cat("\n
+#     Wait for it.
+#     PLaunch Bootstrap
+#     PARTIAL LEAST SQUARES PATH MODELING (PLS-PM)
+#     jjstat package By Park Joonghee PhD \n\n\n")
+#
+#
+#   # setseed as.integer(Sys.Date()
+#   if (is.null(seed)) {
+#     seed = as.integer(Sys.Date())
+#     cat("Seed value:", seed, " \n")
+#   }
+#   set.seed(seed)
+#
+#
+#   library(progress)
+#   # 기본 PLSPM 분석 수행
+#   res <- plspm::plspm(Data = Data, path_matrix = path_matrix,
+#                       blocks = blocks, modes = modes,
+#                       scaling = scaling, scheme = scheme, scaled = scaled,
+#                       tol = tol, maxiter = maxiter, plscomp = plscomp,
+#                       boot.val = TRUE, br = br, dataset = dataset)
+#
+#   # summary
+#   res_boot = lapply(res$boot,
+#                     function(x){ x%>%
+#                         row2col("relationships")%>%
+#                         Round(3)%>%
+#                         add_t_sig(3,4,5,T,ns="")%>%
+#                         unite_ci() %>%
+#                         rename(경로계수=Original,
+#                                평균계수=Mean.Boot, 표준오차=Std.Error
+#                                 )
+#                       #  dplyr::select(-Original)
+#                     })
+#
+#
+#   # 부트스트랩 검증 수행
+#   if (boot.val & !is.null(br) & br > 0) {
+#     pb <- progress::progress_bar$new(
+#       format = "Bootstrapping [:bar] :percent :eta",
+#       total = br, clear = FALSE, width = 60
+#     )
+#
+#     boot_results <- list()
+#
+#     for (i in 1:br) {
+#       pb$tick()
+#       boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
+#       boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
+#                                blocks = blocks, modes = modes,
+#                                scaling = scaling, scheme = scheme, scaled = scaled,
+#                                tol = tol, maxiter = maxiter, plscomp = plscomp,
+#                                boot.val = FALSE, br = NULL, dataset = FALSE)
+#       boot_results[[i]] <- boot_res$path_coefs#%>%
+#         # long_df("to","from","coef")%>%
+#         # dplyr::filter(coefs !=0)%>%
+#         # Unite("from","to","paths", sep="->")%>%
+#         # dplyr::pull(coefs)
+#     }
+#     # res_colnames <- boot_res$path_coefs%>%
+#     #   long_df("to","from","coef")%>%
+#     #   dplyr::filter(coefs !=0)%>%
+#     #   Unite("from","to","paths", sep="->")%>%
+#     #   dplyr::pull(paths)
+#     #
+#     # # # 부트스트랩 통계 계산
+#     # boot_coefs <- do.call(rbind, boot_results)
+#     # colnames(boot_coefs) = res_colnames
+#     # boot_means <- apply(boot_coefs, 2, mean)
+#     # boot_se <- apply(boot_coefs, 2, sd)
+#     # #
+#     # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
+#     # bootstrap <- cbind.data.frame(means.boot2 = boot_means,
+#     #                               se.boot2 = boot_se)
+#   }
+#
+#
+#   if (summary) {
+#     # print(summary(res))
+#     cat("\n")
+#     print(res_boot)
+#     cat("\n Additional TEST(CFA) (Park Joonghee PhD). \n\n")
+#
+#     cat("\n (1) Indicator Validity  \n")
+#     print( dall(res_boot$loadings %>%rename(신뢰구간=`95%CI`)))
+#
+#     cat("\n (2) Internal Consistency: Composite Reliability, Convergent Validity\n")
+#     print(plspm_CRAVE(res) )
+#
+#     cat("\n (3) Fornell & Locker(1981) \n")
+#     print(plspm_fl(res) )
+#
+#     cat("\n (4) HTMT(heterotrait-monotrait ratio of the correlations)\n")
+#     print(plspm_htmt(data = res$data, blocks= plspm_extract_blocks(res$model)) )
+#
+#     cat("\n (5) Total effect: direct, indirect \n")
+#     print(res$effect %>% full_join(
+#                   res_boot$total.efs%>%dplyr::select(1,5,6),
+#                   by="relationships"
+#                   )%>%
+#             cut_print())
+#
+#     cat("\n (6) effect size  \n")
+#     print(plspm_f2(res))
+#
+#     # cat("\n (7) additional boot Coeff \n")
+#     # print(boot_coefs)
+#
+#     x11()
+#     cat("\n (7) Paths coeff sig \n")
+#     plspm_path_coefs_plot(res)
+#     return(res)
+#   }
+# }
 
-
-#' #'
-#' plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
-#'                       scaling = NULL, scheme = "centroid", scaled = TRUE,
-#'                       tol = 1e-06, maxiter = 100, plscomp = NULL,
-#'                       boot.val = TRUE, br = 500, dataset = TRUE, summary = TRUE) {
-#'
-#'   cat("\n
-#'     Wait for it.
-#'     PLaunch Bootstrap
-#'     PARTIAL LEAST SQUARES PATH MODELING (PLS-PM)
-#'     jjstat package By Park Joonghee PhD \n\n\n")
-#'
-#'   library(progress)
-#'   # 기본 PLSPM 분석 수행
-#'   res <- plspm::plspm(Data = Data, path_matrix = path_matrix,
-#'                       blocks = blocks, modes = modes,
-#'                       scaling = scaling, scheme = scheme, scaled = scaled,
-#'                       tol = tol, maxiter = maxiter, plscomp = plscomp,
-#'                       boot.val = TRUE, br = br, dataset = dataset)
-#'
-#'   # summary
-#'   res_boot = lapply(res$boot,
-#'          function(x){ x%>%
-#'              row2col("relationships")%>%
-#'              Round(3)%>%
-#'              add_t_sig(3,4,5,T,ns="")%>%
-#'              unite_ci() %>%
-#'              dplyr::select(-Original)%>%dall()
-#'          })
-#'
-#'
-#'   # 부트스트랩 검증 수행
-#'   if (boot.val & !is.null(br) & br > 0) {
-#'     pb <- progress::progress_bar$new(
-#'       format = "Bootstrapping [:bar] :percent :eta",
-#'       total = br, clear = FALSE, width = 60
-#'     )
-#'
-#'     boot_results <- list()
-#'
-#'     for (i in 1:br) {
-#'       pb$tick()
-#'       boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
-#'       boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
-#'                                blocks = blocks, modes = modes,
-#'                                scaling = scaling, scheme = scheme, scaled = scaled,
-#'                                tol = tol, maxiter = maxiter, plscomp = plscomp,
-#'                                boot.val = FALSE, br = NULL, dataset = FALSE)
-#'       boot_results[[i]] <- boot_res$path_coefs%>%
-#'         long_df("to","from","coefs")%>%
-#'         filter(coefs !=0)%>%
-#'         Unite("from","to","paths", sep="->")%>%
-#'         pull(coefs)
-#'     }
-#'     res_colnames <- boot_res$path_coefs%>%
-#'       long_df("to","from","coefs")%>%
-#'       filter(coefs !=0)%>%
-#'       Unite("from","to","paths", sep="->")%>%
-#'       pull(paths)
-#'     # 부트스트랩 통계 계산
-#'     boot_coefs <- do.call(rbind, boot_results)
-#'     colnames(boot_coefs) = res_colnames
-#'     boot_means <- apply(boot_coefs, 2, mean)
-#'     boot_se <- apply(boot_coefs, 2, sd)
-#'
-#'     # res$bootstrap <- list(means.boot2 = boot_means, se.boot2 = boot_se)
-#'   }
-#'
-#'
-#'
-#'   if (summary) {
-#'     # print(summary(res))
-#'     print(summary(res_boot))
-#'   }
-#'
-#'   return(res)
-#' }

@@ -2,7 +2,7 @@
 #'
 #' @param vector data
 #' @param type all, res, p, chisq
-#' @param method p.adust
+#' @param method p.adust fdr, bonferroni, ...
 #' @param names TRUE using names
 #'
 #' @return data
@@ -44,7 +44,7 @@
 #'
 #'
 
-chisq_gof_posthoc <- function(vector, type = "res", method = "fdr",
+chisq_gof_posthoc <- function(vector, type = "res", method = "bonferroni",
                               names=FALSE) {
   library(dplyr)
   library(tidyr)
@@ -116,22 +116,16 @@ chisq_gof_posthoc <- function(vector, type = "res", method = "fdr",
 
 
 
-
   # Data combination
   if (names) {
-    if (is.null(names(vector))) {
-      stop("When names = TRUE, input data must have names.")
-    }
-    Names_chr <- combn(names(vector), 2, FUN = function(x) paste0(x[1], "_", x[2]))
+    Names_chr <- combn(vector_names, 2, FUN = function(x) paste0(x[1], "_", x[2]))
     res <- full_join(unique_combined_results, unique_adj.p, by = "pairwise")
 
-    res = bind_cols(variable=Names_chr, res) %>%
-      tidyr::unite(pairwise, variable, pairwise, sep=": ")
-  }else{
-    # Main result
+    res <- bind_cols(variable = Names_chr, res) %>%
+      tidyr::unite(pairwise, variable, pairwise, sep = ": ")
+  } else {
     res <- full_join(unique_combined_results, unique_adj.p, by = "pairwise")
   }
-
 
 
   # All data

@@ -4,14 +4,14 @@
 \alias{chisq_gof_posthoc}
 \title{chisq_gof_posthoc}
 \usage{
-chisq_gof_posthoc(vector, type = "res", method = "fdr", names = FALSE)
+chisq_gof_posthoc(vector, type = "res", method = "bonferroni", names = FALSE)
 }
 \arguments{
 \item{vector}{data}
 
 \item{type}{all, res, p, chisq}
 
-\item{method}{p.adust}
+\item{method}{p.adust fdr, bonferroni, ...}
 
 \item{names}{TRUE using names}
 }
