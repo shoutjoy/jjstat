@@ -696,97 +696,40 @@ plspm_boot_ind_push <- function(pls_boot, set = 2) {
 }
 
 
-
-#' plspm_ind_push
-#'
-#' @param pls_boot pls_boot
-#' @param set  set=1.5 or c(set= c(2,2,1.5,1.5))
-#'
-#' @return vector
-#' @export
-#'
-#' @examples
-#'
-#' \dontrun{
-#' #'
-#' # 예시 사용법
-#' jutpls_boot <- list(model = list(gens = list(lvs_names = c("자기효능감", "진로동기", "진로태도", "진로준비"))))
-#'
-#' # 기본값 사용하는 경우
-#' result_default <- plspm_ind_spread(jutpls_boot)
-#' print(result_default)
-#'
-#' # 이름과 값이 있는 경우
-#' result_named <- plspm_ind_spread(jutpls_boot, set = c(진로동기=2, 자기효능감=3, 진로준비=1.5, 진로태도=2.5))
-#' print(result_named)
-#'
-#' # 값만 있는 경우
-#' result_unnamed <- plspm_ind_spread(jutpls_boot, set = c(2, 2, 1.5, 1.5))
-#' print(result_unnamed)
-#'
-#' # 부분적으로 값이 있는 경우
-#' result_partial <- plspm_ind_spread(jutpls_boot, set = c(진로동기=2, 자기효능감=3))
-#' print(result_partial)
-#'
-#' }
-#'
-#'
-#'
-plspm_boot_ind_spread <- function(pls_boot, set = 2) {
-  # 이름 추출
-  lvs_names <- pls_boot$model$gens$lvs_names
-
-  # 기본값 설정
-  values <- rep(1.5, length(lvs_names))
-  names(values) <- lvs_names
-
-  if (is.null(names(set))) {
-    # set이 이름 없는 벡터일 경우
-    if (length(set) == 1) {
-      values <- rep(set, length(lvs_names))
-    } else if (length(set) != length(lvs_names)) {
-      stop("Length of 'set' must match the length of 'lvs_names'")
-    } else {
-      values <- set
-    }
-  } else {
-    # set이 이름 있는 벡터일 경우
-    for (name in names(set)) {
-      if (name %in% lvs_names) {
-        values[name] <- set[name]
-      }
-    }
-  }
-
-  # 결과 데이터프레임 생성
-  result <- setNames(as.data.frame(t(values)), lvs_names)
-
-  return(unlist(result))
-}
-
 #' plspm_boot_factor_layout
 #'
-#' @param plsres_boot  plsres_boot
-#' @param positions  positions coord
-#' @param nrow 3
-#' @param ncol 3 number of lantent 4 is ncol = 3
+#' @param plsres_boot bootresult
+#' @param positions position change
+#' @param nrow 4,
+#' @param ncol 5
+#' @param ... add c()
 #'
-#' @return data
+#' @return matrix
 #' @export
 #'
 #' @examples
 #'
 #' \dontrun{
 #' #'
-#' plspm_boot_factor_layout(jutpls_boot)
-#' plspm_boot_factor_layout(jutpls_boot, list(진로동기 = c(2, 1), 자기효능감 = c(1, 2)))
-#' plspm_boot_factor_layout(satpls_boot)
-#' plspm_boot_factor_layout(satpls_boot, list( VAL=c(2, 3), SAT= c(1, 4), LOY=c(3, 4)))
+#' # 예시 호출
+#' plsres_boot <- list(model = list(gens = list(lvs_names = c("LV1", "LV2", "LV3", "LV4"))))
+#' result <- plspm_boot_factor_layout(plsres_boot)
+#' print(result)
+#'
+#' # 예시 호출
+#' plsres_boot <- list(model = list(gens = list(lvs_names = c("LV1", "LV2", "LV3", "LV4", "LV5"))))
+#' plspm_boot_factor_layout(plsres_boot)
+#'
+#' # 예시 호출
+#' plsres_boot <- list(model = list(gens = list(lvs_names = c("LV1", "LV2", "LV3", "LV4", "LV5", "LV6", "LV7","LV8"))))
+#' plspm_boot_factor_layout(plsres_boot )
 
+#'
 #' }
 #'
 #'
-plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 3, ncol = 4) {
+plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 4, ncol = 5,
+                                     ...) {
   # Extract the latent variable names
   lvs_names <- plsres_boot$model$gens$lvs_names
 
@@ -797,10 +740,14 @@ plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 3, nc
   mat <- matrix(NA, nrow = nrow, ncol = ncol)
 
   # Default positions
-  default_positions <- list(
-    c(2, 1), c(1, 2), c(3, 2), c(2, 3),
-    c(1, 4), c(3, 4)
-  )
+  default_positions <- list(c(2, 1), c(1, 2), c(3, 2), c(2, 3),
+                            c(1, 4), c(3, 4), c(2, 5), c(4, 5))
+
+  # Add additional positions from ...
+  additional_positions <- list(...)
+  if (length(additional_positions) > 0) {
+    default_positions <- c(default_positions, additional_positions)
+  }
 
   # Use provided positions or fall back to default
   if (!is.null(positions)) {
@@ -809,12 +756,12 @@ plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 3, nc
       mat[pos[1], pos[2]] <- name
     }
   }
+
   # Assign remaining positions using defaults
   index <- 1
   for (i in seq_len(n_lvs)) {
     if (is.null(positions) || !(lvs_names[i] %in% names(positions))) {
-      while (index <= length(default_positions) && !is.na(mat[default_positions[[index]][1],
-                                                              default_positions[[index]][2]])) {
+      while (index <= length(default_positions) && !is.na(mat[default_positions[[index]][1], default_positions[[index]][2]])) {
         index <- index + 1
       }
       if (index <= length(default_positions)) {
@@ -824,6 +771,11 @@ plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 3, nc
       }
     }
   }
+
+  # Remove columns that contain only NA values
+  mat <- mat[, colSums(is.na(mat)) < nrow(mat)]
+  # Remove rows that contain only NA values
+  mat <- mat[rowSums(is.na(mat)) < ncol(mat), ]
   return(mat)
 }
 
@@ -853,7 +805,8 @@ plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 3, nc
 #'
 #'
 #'
-plspm_boot_factor_point_to <- function(plsres_boot, point = NULL, positions = NULL, nrow = 3, ncol = 3) {
+plspm_boot_factor_point_to <- function(plsres_boot, point = NULL,
+                                       positions = NULL, nrow = 3, ncol = 3) {
   # Extract the latent variable names
   lvs_names <- plsres_boot$model$gens$lvs_names
 
@@ -917,3 +870,98 @@ plspm_boot_factor_point_to <- function(plsres_boot, point = NULL, positions = NU
 }
 
 
+
+#' plspm_boot_ind_spread <- function(pls_boot, set = 2) {
+#'   # 이름 추출
+#'   lvs_names <- pls_boot$model$gens$lvs_names
+#'
+#'   # 기본값 설정
+#'   values <- rep(1.5, length(lvs_names))
+#'   names(values) <- lvs_names
+#'
+#'   if (is.null(names(set))) {
+#'     # set이 이름 없는 벡터일 경우
+#'     if (length(set) == 1) {
+#'       values <- rep(set, length(lvs_names))
+#'     } else if (length(set) != length(lvs_names)) {
+#'       stop("Length of 'set' must match the length of 'lvs_names'")
+#'     } else {
+#'       values <- set
+#'     }
+#'   } else {
+#'     # set이 이름 있는 벡터일 경우
+#'     for (name in names(set)) {
+#'       if (name %in% lvs_names) {
+#'         values[name] <- set[name]
+#'       }
+#'     }
+#'   }
+#'
+#'   # 결과 데이터프레임 생성
+#'   result <- setNames(as.data.frame(t(values)), lvs_names)
+#'
+#'   return(unlist(result))
+#' }
+#'
+#' #' plspm_boot_factor_layout
+#' #'
+#' #' @param plsres_boot  plsres_boot
+#' #' @param positions  positions coord
+#' #' @param nrow 3
+#' #' @param ncol 3 number of lantent 4 is ncol = 3
+#' #'
+#' #' @return data
+#' #' @export
+#' #'
+#' #' @examples
+#' #'
+#' #' \dontrun{
+#' #' #'
+#' #' plspm_boot_factor_layout(jutpls_boot)
+#' #' plspm_boot_factor_layout(jutpls_boot, list(진로동기 = c(2, 1), 자기효능감 = c(1, 2)))
+#' #' plspm_boot_factor_layout(satpls_boot)
+#' #' plspm_boot_factor_layout(satpls_boot, list( VAL=c(2, 3), SAT= c(1, 4), LOY=c(3, 4)))
+#'
+#' #' }
+#' #'
+#' #'
+#' plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 3, ncol = 4) {
+#'   # Extract the latent variable names
+#'   lvs_names <- plsres_boot$model$gens$lvs_names
+#'
+#'   # Number of latent variables
+#'   n_lvs <- length(lvs_names)
+#'
+#'   # Initialize a matrix with NA values
+#'   mat <- matrix(NA, nrow = nrow, ncol = ncol)
+#'
+#'   # Default positions
+#'   default_positions <- list(
+#'     c(2, 1), c(1, 2), c(3, 2), c(2, 3),
+#'     c(1, 4), c(3, 4)
+#'   )
+#'
+#'   # Use provided positions or fall back to default
+#'   if (!is.null(positions)) {
+#'     for (name in names(positions)) {
+#'       pos <- positions[[name]]
+#'       mat[pos[1], pos[2]] <- name
+#'     }
+#'   }
+#'   # Assign remaining positions using defaults
+#'   index <- 1
+#'   for (i in seq_len(n_lvs)) {
+#'     if (is.null(positions) || !(lvs_names[i] %in% names(positions))) {
+#'       while (index <= length(default_positions) && !is.na(mat[default_positions[[index]][1],
+#'                                                               default_positions[[index]][2]])) {
+#'         index <- index + 1
+#'       }
+#'       if (index <= length(default_positions)) {
+#'         pos <- default_positions[[index]]
+#'         mat[pos[1], pos[2]] <- lvs_names[i]
+#'         index <- index + 1
+#'       }
+#'     }
+#'   }
+#'   return(mat)
+#' }

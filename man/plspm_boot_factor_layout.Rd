@@ -4,19 +4,27 @@
 \alias{plspm_boot_factor_layout}
 \title{plspm_boot_factor_layout}
 \usage{
-plspm_boot_factor_layout(plsres_boot, positions = NULL, nrow = 3, ncol = 4)
+plspm_boot_factor_layout(
+  plsres_boot,
+  positions = NULL,
+  nrow = 4,
+  ncol = 5,
+  ...
+)
 }
 \arguments{
-\item{plsres_boot}{plsres_boot}
+\item{plsres_boot}{bootresult}
 
-\item{positions}{positions coord}
+\item{positions}{position change}
 
-\item{nrow}{3}
+\item{nrow}{4,}
 
-\item{ncol}{3 number of lantent 4 is ncol = 3}
+\item{ncol}{5}
+
+\item{...}{add c()}
 }
 \value{
-data
+matrix
 }
 \description{
 plspm_boot_factor_layout
@@ -25,10 +33,19 @@ plspm_boot_factor_layout
 
 \dontrun{
 #'
-plspm_boot_factor_layout(jutpls_boot)
-plspm_boot_factor_layout(jutpls_boot, list(진로동기 = c(2, 1), 자기효능감 = c(1, 2)))
-plspm_boot_factor_layout(satpls_boot)
-plspm_boot_factor_layout(satpls_boot, list( VAL=c(2, 3), SAT= c(1, 4), LOY=c(3, 4)))
+# 예시 호출
+plsres_boot <- list(model = list(gens = list(lvs_names = c("LV1", "LV2", "LV3", "LV4"))))
+result <- plspm_boot_factor_layout(plsres_boot)
+print(result)
+
+# 예시 호출
+plsres_boot <- list(model = list(gens = list(lvs_names = c("LV1", "LV2", "LV3", "LV4", "LV5"))))
+plspm_boot_factor_layout(plsres_boot)
+
+# 예시 호출
+plsres_boot <- list(model = list(gens = list(lvs_names = c("LV1", "LV2", "LV3", "LV4", "LV5", "LV6", "LV7","LV8"))))
+plspm_boot_factor_layout(plsres_boot )
+
 }
 
 

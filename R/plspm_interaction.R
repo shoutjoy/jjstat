@@ -551,10 +551,10 @@ plspm_make_prod <- function(data, blocks, indicator, intname="int", n_name = 2) 
 #' plspm_add_blocks, indicator blocks
 #'
 #' @param newData plspm_make_prod data
-#' @param blocks
-#' @param interactionTerm
+#' @param blocks clocks
+#' @param interactionTerm interaction Term list data
 #'
-#' @return
+#' @return list
 #' @export
 #'
 #' @examples
@@ -579,11 +579,13 @@ plspm_add_blocks <- function(newData, blocks, interactionTerm) {
   interaction_names <- lapply(interactionTerm, function(interaction) {
     from_term <- interaction$from
     terms <- unlist(strsplit(from_term, "\\*"))
-    interaction_name <- paste0("int_", substr(terms[1], 1, 2), substr(terms[2], 1, 2))
+    interaction_name <- paste0("int_", substr(terms[1], 1, 2),
+                               substr(terms[2], 1, 2))
     return(interaction_name)
   })
 
-  names(interaction_names) <- sapply(interactionTerm, function(interaction) interaction$from)
+  names(interaction_names) <- sapply(interactionTerm,
+                                     function(interaction) interaction$from)
 
   # Iterate through each interaction term and add to blocks
   for (from_term in names(interaction_names)) {

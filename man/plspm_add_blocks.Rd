@@ -9,7 +9,12 @@ plspm_add_blocks(newData, blocks, interactionTerm)
 \arguments{
 \item{newData}{plspm_make_prod data}
 
-\item{interactionTerm}{}
+\item{blocks}{clocks}
+
+\item{interactionTerm}{interaction Term list data}
+}
+\value{
+list
 }
 \description{
 plspm_add_blocks, indicator blocks
