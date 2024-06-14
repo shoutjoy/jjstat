@@ -8,9 +8,10 @@ plspm_sem(
   Data,
   path_matrix,
   blocks,
-  modes = rep("A", ncol(path_matrix)),
   interactionTerm = NULL,
+  indicator_prod = NULL,
   inter_modes = NULL,
+  modes = rep("A", ncol(path_matrix)),
   scaling = NULL,
   scheme = "centroid",
   scaled = TRUE,
@@ -35,6 +36,12 @@ or column names from Data indicating the sets of
 manifest variables forming each block (i.e.
 which manifest variables correspond to each block).}
 
+\item{interactionTerm}{interaction effect list}
+
+\item{indicator_prod}{generate indicator product data}
+
+\item{inter_modes}{interaction modes}
+
 \item{modes}{optional argument for runing the non-metric approach;
 it is a list of string vectors indicating the type of measurement
 scale for each manifest variable specified in blocks. scaling must be
@@ -43,10 +50,6 @@ specified when working with non-metric variables. Possible values:
 "raw" (no transformation), "nom" (non-monotonic transformation,
 suitable for nominal variables), and "ord" (monotonic transformation,
 suitable for ordinal variables).}
-
-\item{interactionTerm}{interaction effect list}
-
-\item{inter_modes}{interaction modes}
 
 \item{scaling}{character vector indicating the type of measurement f
 or each block. Possible values are: "A", "B", "newA", "PLScore",
@@ -161,6 +164,24 @@ summary(resinter_sem)
 plspm_path_coefs_plot(resinter_sem)
 #'
 #'
+
+
+
+#'
+#'
+## Two stage approach
+pls_ts2 = plspm_sem(satisfaction, sat_path2, sat_blocks1,
+                    interactionTerm = list(list(from = "IMAG*EXPE", to = "LOY")) )
+pls_ts2 \%>\%summary()
+pls_ts2 \%>\% plspm_path_coefs_plot()
+
+## indicator arpproach
+pls_int2 = plspm_sem(satisfaction, sat_path2, sat_blocks1,
+                     interactionTerm = list(list(from = "IMAG*EXPE", to = "LOY")) ,
+                     indicator_prod = list(intIE = interlist("IMAG",1,2, "EXPE",3,4)))
+pls_int2 \%>\%summary()
+pls_int2 \%>\% plspm_path_coefs_plot()
+pls_int2 \%>\% plspm_semPaths2()
 
 }
 

@@ -4,7 +4,7 @@
 \alias{plspm_boot_factor_layout}
 \title{plspm_boot_factor_layout}
 \usage{
-plspm_boot_factor_layout(plsres_boot, positions = NULL, nrow = 3, ncol = 3)
+plspm_boot_factor_layout(plsres_boot, positions = NULL, nrow = 3, ncol = 4)
 }
 \arguments{
 \item{plsres_boot}{plsres_boot}

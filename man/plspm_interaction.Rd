@@ -8,9 +8,11 @@ plspm_interaction(
   Data,
   path_matrix,
   blocks,
-  modes = rep("A", ncol(path_matrix)),
   interactionTerm = NULL,
+  indicator_prod = NULL,
   inter_modes = NULL,
+  method = "two_stage",
+  modes = rep("A", ncol(path_matrix)),
   scaling = NULL,
   scheme = "centroid",
   scaled = TRUE,
@@ -32,7 +34,15 @@ representing the inner model (i.e. the path relationships between latent variabl
 \item{blocks}{list of vectors with column indices
 or column names from Data indicating the sets of
 manifest variables forming each block (i.e.
-which manifest variables correspond to each block).}
+which manifest variables correspond to each block).#'}
+
+\item{interactionTerm}{interaction terms}
+
+\item{indicator_prod}{indicator producst}
+
+\item{inter_modes}{new modes auto or direct input}
+
+\item{method}{Two_stage, indicator}
 
 \item{modes}{optional argument for runing the non-metric approach;
 it is a list of string vectors indicating the type of measurement
@@ -112,9 +122,9 @@ sat_blocks1
 sat_mod = rep("A", 6)
 
 resinter = plspm_interaction(Data=satisfaction,
-                             sat_path2, blocks = sat_blocks1, modes= sat_mod,
-                             interactionTerm = list(list(from = "IMAG*EXPE", to = "LOY"),
-                                                    list(from = "IMAG*QUAL", to = "LOY")))
+                     sat_path2, blocks = sat_blocks1, modes= sat_mod,
+                     interactionTerm = list(list(from = "IMAG*EXPE", to = "LOY"),
+                     list(from = "IMAG*QUAL", to = "LOY")))
 resinter\%>\%summary()
 x11()
 plot(resinter)
@@ -127,6 +137,36 @@ plspm_paths_sig_plot(resinter)
 plspm_path_coefs_plot(resinter)
 
 plspm_semPaths2(resinter, structural = T)
+
+
+#'
+## Two stage approach
+pls_ts = plspm_interaction(satisfaction, sat_path2, sat_blocks1,
+               interactionTerm = list(list(from = "IMAG*EXPE", to = "LOY")) ,
+               indicator_prod = list(intIE = interlist("IMAG",1,2, "EXPE",1,2)),
+               method="two_stage")
+pls_ts \%>\%summary()
+
+
+plspm_path_coefs_plot(pls_ts,"circle")
+plspm_semPaths2(pls_ts)
+
+# plspm_boot_factor_layout(pls_ts)
+
+## indicator arpproach
+pls_int = plspm_interaction(satisfaction, sat_path2, sat_blocks1,
+                  interactionTerm = list(list(from = "IMAG*EXPE", to = "LOY")) ,
+                indicator_prod = list(intIE = interlist("IMAG", "EXPE")),
+                  method="indicator")
+pls_int \%>\%summary()
+
+
+plspm_path_coefs_plot(pls_int, "circle")
+plspm_path_coefs_plot(pls_int)
+plspm_semPaths2(pls_int)
+#'
+#'
+
 
 }
 

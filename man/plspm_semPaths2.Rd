@@ -39,7 +39,7 @@ plspm_semPaths2(
   edgeLabels = NULL,
   nodeLabels = NULL,
   fixedStyle = 1,
-  color = list(lat = "skyblue", man = "yellow"),
+  color = list(lat = "gray10", man = "gray90"),
   label.cex = 1,
   type = "plot"
 )

@@ -786,7 +786,7 @@ plspm_boot_ind_spread <- function(pls_boot, set = 2) {
 #' }
 #'
 #'
-plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 3, ncol = 3) {
+plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 3, ncol = 4) {
   # Extract the latent variable names
   lvs_names <- plsres_boot$model$gens$lvs_names
 
@@ -798,8 +798,6 @@ plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 3, nc
 
   # Default positions
   default_positions <- list(
-    # c(2, 1), c(1, 2), c(3, 2), c(2, 4),
-    # c(2, 3), c(3, 3)
     c(2, 1), c(1, 2), c(3, 2), c(2, 3),
     c(1, 4), c(3, 4)
   )

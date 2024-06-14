@@ -36,6 +36,7 @@
 #' @param dataset whether the data matrix used in the computations should be retrieved (TRUE by default).
 #' @param summary  TRUE
 #' @param interactionTerm  interaction effect list
+#' @param indicator_prod  generate indicator product data
 #' @param inter_modes  interaction modes
 #'
 #' @return plspm result
@@ -119,17 +120,38 @@
 #' #'
 #' #'
 #'
+#'
+#'
+#' #'
+#' #'
+#' ## Two stage approach
+#' pls_ts2 = plspm_sem(satisfaction, sat_path2, sat_blocks1,
+#'                     interactionTerm = list(list(from = "IMAG*EXPE", to = "LOY")) )
+#' pls_ts2 %>%summary()
+#' pls_ts2 %>% plspm_path_coefs_plot()
+#'
+#' ## indicator arpproach
+#' pls_int2 = plspm_sem(satisfaction, sat_path2, sat_blocks1,
+#'                      interactionTerm = list(list(from = "IMAG*EXPE", to = "LOY")) ,
+#'                      indicator_prod = list(intIE = interlist("IMAG",1,2, "EXPE",3,4)))
+#' pls_int2 %>%summary()
+#' pls_int2 %>% plspm_path_coefs_plot()
+#' pls_int2 %>% plspm_semPaths2()
+#'
 #' }
 #'
-plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
-                      interactionTerm = NULL, inter_modes=NULL,
+plspm_sem <- function(Data, path_matrix, blocks,
+                      interactionTerm = NULL,
+                      indicator_prod = NULL,
+                      inter_modes = NULL,
+                      modes = rep("A", ncol(path_matrix)),
                       scaling = NULL, scheme = "centroid", scaled = TRUE,
                       tol = 1e-06, maxiter = 100, plscomp = NULL,
                       boot.val = TRUE, br = 500, seed=NULL,
                       dataset = TRUE, summary = TRUE) {
 
 
-  if(is.null(interactionTerm)){
+  if(is.null(interactionTerm) ){
 
 
     cat("\n
@@ -229,7 +251,7 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
 
 
 
-  }else{
+  }else if(!is.null(interactionTerm) && is.null(indicator_prod)){
 
     # Tow stage interaction
 
@@ -262,8 +284,41 @@ plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matr
                              boot.val = TRUE, br = br, dataset = dataset)
 
 
-    cat("\n Interaction effects (Park Joonghee PhD). \n\n")
+    cat("\n Interaction effects : Two stage approach (Park Joonghee PhD). \n\n")
     return(res_boot)
+
+
+  }else if(!is.null(interactionTerm) && !is.null(indicator_prod)){
+
+
+    #data
+    if(!is.null(indicator_prod)){
+      newData = plspm_make_prod(data = Data,
+                                blocks = blocks,
+                                indicator = indicator_prod )  }
+
+    # #paths
+    path_matrix1 = plspm_add_inter_paths(path_matrix, interactionTerm)%>% as.matrix()
+    # #blocks
+    blocks1 = plspm_add_blocks(newData, blocks = blocks,
+                               interactionTerm = interactionTerm)
+    #modes
+    if(is.null(inter_modes)){
+      int_Modes = rep("A", ncol(path_matrix1))
+    }else{
+      int_Modes = inter_modes
+    }
+
+
+    res_boot  <- plspm::plspm(Data = newData, path_matrix = path_matrix1,
+                         blocks = blocks1, modes = int_Modes,
+                         scaling = scaling, scheme = scheme, scaled = scaled,
+                         tol = tol, maxiter = maxiter, plscomp = plscomp,
+                         boot.val = TRUE, br = br, dataset = dataset)
+
+    cat("\n Interaction effects: indicator approach (Park Joonghee PhD). \n\n")
+    return(res_boot)
+
   }
 }
 # plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
