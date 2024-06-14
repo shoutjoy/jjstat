@@ -8,8 +8,8 @@ plspm_boot_factor_point_to(
   plsres_boot,
   point = NULL,
   positions = NULL,
-  nrow = 3,
-  ncol = 3
+  nrow = 4,
+  ncol = 5
 )
 }
 \arguments{

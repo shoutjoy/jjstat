@@ -27,3 +27,28 @@ move_mat_change <- function(mat, pattern, imp) {
   mat[mat == pattern] <- imp
   return(mat)
 }
+
+
+
+#' move_mat_nc
+#'
+#' @param mat mat
+#' @param row row
+#' @param col cp;
+#' @param name change name
+#'
+#' @return mat
+#' @export
+#'
+
+move_mat_nc <- function(mat, row, col, name) {
+  # 현재 위치에 있는 값을 찾아서 제거
+  current_value <- mat[row, col]
+  if (!is.na(current_value)) {
+    mat[row, col] <- NA
+  }
+
+  # 새로운 위치에 값을 할당
+  mat[row, col] <- name
+  return(mat)
+}

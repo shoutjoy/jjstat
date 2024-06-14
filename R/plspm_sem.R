@@ -190,28 +190,60 @@ plspm_sem <- function(Data, path_matrix, blocks,
                         #  dplyr::select(-Original)
                       })
 
-
-    # 부트스트랩 검증 수행
+    library(foreach)
+    library(doParallel)
     if (boot.val & !is.null(br) & br > 0) {
+
       pb <- progress::progress_bar$new(
         format = "Bootstrapping [:bar] :percent :eta",
-        total = br, clear = FALSE, width = 60
-      )
+        total = br, clear = FALSE, width = 60)
 
-      boot_results <- list()
+      cl <- parallel::makeCluster(n_cores)
+      doParallel::registerDoParallel(cl)
 
-      for (i in 1:br) {
-        pb$tick()
+
+      boot_results <- foreach(i = 1:br, .combine = rbind, .packages = 'plspm') %dopar% {
         boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
         boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
                                  blocks = blocks, modes = modes,
                                  scaling = scaling, scheme = scheme, scaled = scaled,
                                  tol = tol, maxiter = maxiter, plscomp = plscomp,
                                  boot.val = FALSE, br = NULL, dataset = FALSE)
-        boot_results[[i]] <- boot_res$path_coefs
+        # boot_res$path_coefs
       }
 
+      stopCluster(cl)
+
+      for (i in 1:br) {
+        pb$tick()
+      }
     }
+
+    # # 부트스트랩 검증 수행
+    # if (boot.val & !is.null(br) & br > 0) {
+    #
+    #   pb <- progress::progress_bar$new(
+    #     format = "Bootstrapping [:bar] :percent :eta",
+    #     total = br, clear = FALSE, width = 60
+    #   )
+    #
+    #
+    #
+    #
+    #   boot_results <- list()
+    #
+    #   for (i in 1:br) {
+    #     pb$tick()
+    #     boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
+    #     boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
+    #                              blocks = blocks, modes = modes,
+    #                              scaling = scaling, scheme = scheme, scaled = scaled,
+    #                              tol = tol, maxiter = maxiter, plscomp = plscomp,
+    #                              boot.val = FALSE, br = NULL, dataset = FALSE)
+    #     boot_results[[i]] <- boot_res$path_coefs
+    #   }
+    #
+    # }
 
 
     if (summary) {

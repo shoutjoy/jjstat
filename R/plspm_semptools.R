@@ -805,8 +805,9 @@ plspm_boot_factor_layout <- function(plsres_boot, positions = NULL, nrow = 4, nc
 #'
 #'
 #'
+
 plspm_boot_factor_point_to <- function(plsres_boot, point = NULL,
-                                       positions = NULL, nrow = 3, ncol = 3) {
+                                       positions = NULL, nrow = 4, ncol = 5) {
   # Extract the latent variable names
   lvs_names <- plsres_boot$model$gens$lvs_names
 
@@ -817,12 +818,8 @@ plspm_boot_factor_point_to <- function(plsres_boot, point = NULL,
   mat <- matrix(NA, nrow = nrow, ncol = ncol)
 
   # Default positions
-  default_positions <- list(
-    c(2, 1), c(1, 2), c(3, 2), c(2, 3),
-    c(1, 4), c(3, 4)
-
-  )
-
+  default_positions <- list(c(2, 1), c(1, 2), c(3, 2), c(2, 3),
+                            c(1, 4), c(3, 4), c(2, 5), c(4, 5))
   # Assign positions based on input or default
   if (!is.null(positions)) {
     for (name in names(positions)) {
@@ -866,9 +863,12 @@ plspm_boot_factor_point_to <- function(plsres_boot, point = NULL,
     }
   }
 
+  # Remove columns that contain only NA values
+  mat <- mat[, colSums(is.na(mat)) < nrow(mat)]
+  # Remove rows that contain only NA values
+  mat <- mat[rowSums(is.na(mat)) < ncol(mat), ]
   return(mat)
 }
-
 
 
 #' plspm_boot_ind_spread <- function(pls_boot, set = 2) {
