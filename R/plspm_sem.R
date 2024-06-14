@@ -122,11 +122,11 @@
 #' }
 #'
 plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
-interactionTerm = NULL, inter_modes=NULL,
-scaling = NULL, scheme = "centroid", scaled = TRUE,
-tol = 1e-06, maxiter = 100, plscomp = NULL,
-boot.val = TRUE, br = 500, seed=NULL,
-dataset = TRUE, summary = TRUE) {
+                      interactionTerm = NULL, inter_modes=NULL,
+                      scaling = NULL, scheme = "centroid", scaled = TRUE,
+                      tol = 1e-06, maxiter = 100, plscomp = NULL,
+                      boot.val = TRUE, br = 500, seed=NULL,
+                      dataset = TRUE, summary = TRUE) {
 
 
   if(is.null(interactionTerm)){

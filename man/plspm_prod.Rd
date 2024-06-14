@@ -4,7 +4,7 @@
 \alias{plspm_prod}
 \title{Create a multiply variable to create a moderator variable}
 \usage{
-plspm_prod(data, blocks, ...)
+plspm_prod(data, blocks, ..., intname = "int", n_name = 2)
 }
 \arguments{
 \item{data}{data}

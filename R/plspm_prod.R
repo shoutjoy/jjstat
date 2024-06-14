@@ -73,13 +73,14 @@
 #'
 #'
 #'
-plspm_prod <- function(data, blocks, ...) {
+plspm_prod <- function(data, blocks, ..., intname="int", n_name = 2) {
   interactions <- list(...)
 
   #prefix names
   for (k in seq_along(interactions)) {
     interaction <- interactions[[k]]
-    interaction_name <- paste0("intTerm", k)
+    # interaction_name <- paste0(intname, k)
+    interaction_name <- intname
 
     # first block
     block1_info <- interaction[[1]]
@@ -111,8 +112,8 @@ plspm_prod <- function(data, blocks, ...) {
     for (i in seq_along(block1_vars)) {
       for (j in seq_along(block2_vars)) {
         new_var_name <- paste0(interaction_name, "_",
-                               substring(block1_name, 1, 1),
-                               substring(block2_name, 1, 1),
+                               substring(block1_name, 1, n_name),
+                               substring(block2_name, 1, n_name),
                                "_",
                                substring(block1_vars[i], 1, 1),
                                substring(block2_vars[j], 1, 1),
