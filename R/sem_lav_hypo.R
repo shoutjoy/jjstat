@@ -55,3 +55,58 @@ sem_lav_hypo <- function(model) {
   cat("\n", paste(hypotheses, collapse = "\n"),"\n\n")
 
 }
+
+
+
+
+#
+#' Function that takes path data as input and outputs an indirect effect hypothesis.
+#'
+#' @param paths indpath
+#'
+#' @return text
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' #'
+#' # 모델 문자열
+#' model1a <- "
+#' EXPE ~ H1*IMAG
+#' QUAL ~ H2*EXPE
+#' VAL ~ H3*QUAL + H4*EXPE
+#' SAT ~ H5*IMAG + H6*EXPE + H7*QUAL + H8*VAL
+#' LOY ~ H9*SAT + H10*IMAG
+#' "
+#'
+#' model1 <- "
+#' EXPE ~ IMAG
+#' QUAL ~ EXPE
+#' VAL ~ QUAL + EXPE
+#' SAT ~ IMAG + EXPE + QUAL + VAL
+#' LOY ~ SAT + IMAG
+#' "
+#' lav_extract_path(model1a)%>%
+#'   lav_generate_ind_paths() %>%
+#'   sem_lav_ind_hypo()
+#'
+#' }
+#'
+sem_lav_ind_hypo <- function(paths) {
+
+  cat("\n",
+      "구조모형에서 나타나는 간접효과 가설은 다음과 같다. \n")
+  # 각 경로에 대해 반복합니다.
+  for (i in seq_along(paths)) {
+    # 경로를 나누어 각 변수로 분리합니다.
+    path_elements <- unlist(strsplit(paths[i], " -> "))
+    # IMAG와 LOY를 제외한 중간 변수를 추출합니다.
+    intermediates <- path_elements[2:(length(path_elements) - 1)]
+    # 간접효과 가설 문구를 생성합니다.
+    hypothesis <- paste("  간접효과[H", i, "]: 간접효과 IMAG -> ", paste(intermediates, collapse = " -> "), " -> LOY 는 통계적으로 유의할 것이다.", sep = "")
+    # 가설을 출력합니다.
+    cat(hypothesis, "\n")
+  }
+  cat("\n")
+}

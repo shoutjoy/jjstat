@@ -4,7 +4,7 @@
 \alias{find_paths}
 \title{Resolver knows the path}
 \usage{
-find_paths(data, type = "paths", est = "Original")
+find_paths(data, type = "paths", est = "Original", allpaths = FALSE)
 }
 \arguments{
 \item{data}{boot data}
@@ -12,6 +12,10 @@ find_paths(data, type = "paths", est = "Original")
 \item{type}{es, all, est, ind, paths(default)}
 
 \item{est}{Original}
+
+\item{allpaths}{allpaths TRUE all, FALSE is ind}
+
+\item{start}{IMAG}
 }
 \value{
 result text
