@@ -4,12 +4,12 @@
 \alias{plspm_add_inter_paths}
 \title{plspm_add_inter_paths}
 \usage{
-plspm_add_inter_paths(data, paths)
+plspm_add_inter_paths(path_mat, paths)
 }
 \arguments{
-\item{data}{path matrix data}
+\item{path_mat}{path matrix data}
 
-\item{paths}{add path}
+\item{paths}{add path, interactionTerm}
 }
 \value{
 mat

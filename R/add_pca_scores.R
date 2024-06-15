@@ -2,6 +2,8 @@
 #'
 #' @param data data
 #' @param ... select variable
+#' @param method niplas, prcomp
+#' @param adjust  Options to change the sign of prcomp c(F, T ...)
 #'
 #' @return  add data
 #' @export
@@ -54,22 +56,85 @@
 #' nfl_pls_boot2 %>%plspm_path_coefs_plot()
 #' nfl_pls_boot2 %>%plspm_semPaths2()
 #'
+#' #'
+#' #'
+#'
+#' # 함수 테스트
+#' offense <- data.frame(
+#'   YardsRushAtt = rnorm(10),
+#'   RushYards = rnorm(10),
+#'   RushFirstDown = rnorm(10),
+#'   YardsPassComp = rnorm(10),
+#'   PassYards = rnorm(10),
+#'   PassFirstDown = rnorm(10)
+#' )
+#'
+#' # 테스트 케이스 1
+#' offense1 <- add_pca_scores(offense,
+#'                            rush1 = c("YardsRushAtt", "RushYards", "RushFirstDown"),
+#'                            pass1 = c("YardsPassComp", "PassYards", "PassFirstDown"))
+#'
+#' str(offense1)
+#'
+#' # 테스트 케이스 2
+#' offense2 <- add_pca_scores(offense, method = "prcomp",
+#'                            rush1 = c("YardsRushAtt", "RushYards", "RushFirstDown"),
+#'                            pass1 = c("YardsPassComp", "PassYards", "PassFirstDown"))
+#'
+#' str(offense2)
+#'
+#' # 테스트 케이스 3 (adjust 옵션 포함)
+#' offense3 <- add_pca_scores(offense, method = "prcomp", adjust = c(F, T),
+#'                            rush1 = c("YardsRushAtt", "RushYards", "RushFirstDown"),
+#'                            pass1 = c("YardsPassComp", "PassYards", "PassFirstDown"))
+#'
+#' str(offense3)
+#' #'
+#' #'
 #'
 #' }
 #'
-add_pca_scores <- function(data, ...) {
+add_pca_scores <- function(data, ..., method = "nipals", adjust = NULL) {
   args <- list(...)
-  for (name in names(args)) {
-    cols <- args[[name]]
-    if (is.character(cols)) {
-      selected_cols <- data[, cols, drop = FALSE]
-    } else if (is.numeric(cols)) {
-      selected_cols <- data[, cols]
-    } else {
-      stop("Columns should be specified as either numeric indices or character names.")
+
+  if (method == "nipals") {
+    for (name in names(args)) {
+      cols <- args[[name]]
+      if (is.character(cols)) {
+        selected_cols <- data[, cols, drop = FALSE]
+      } else if (is.numeric(cols)) {
+        selected_cols <- data[, cols]
+      } else {
+        stop("Columns should be specified as either numeric indices or character names.")
+      }
+
+      pca_result <- plsdepot::nipals(selected_cols)
+      data[[name]] <- pca_result$scores[, 1]
     }
-    pca_result <- plsdepot::nipals(selected_cols)
-    data[[name]] <- pca_result$scores[, 1]
+  } else if (method == "prcomp") {
+    for (i in seq_along(args)) {
+      name <- names(args)[i]
+      cols <- args[[name]]
+      if (is.character(cols)) {
+        selected_cols <- data[, cols, drop = FALSE]
+      } else if (is.numeric(cols)) {
+        selected_cols <- data[, cols]
+      } else {
+        stop("Columns should be specified as either numeric indices or character names.")
+      }
+
+      pca_result <- stats::prcomp(selected_cols, scale. = TRUE)
+      scores <- pca_result$x[, 1]
+
+      if (!is.null(adjust) && length(adjust) == length(args)) {
+        if (adjust[i]) {
+          scores <- -scores
+        }
+      }
+
+      data[[name]] <- scores
+    }
   }
+
   return(data)
 }

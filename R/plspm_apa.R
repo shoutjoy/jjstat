@@ -173,3 +173,62 @@ plspm_apa_grp <- function(data) {
 
   cat("\n",output,"\n")
 }
+
+
+#' bootstrap path effect apa analysis
+#'
+#' @param data plspm_boot_paths_sig
+#'
+#' @return text
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#'
+#' #'
+#'
+#' # 예시 데이터로 함수 호출
+#' nfl_pls_boot2 <- data.frame(
+#'   paths = c("Speical -> Scoring", "Rushing -> Offense", "Passing -> Offense", "Offense -> Scoring"),
+#'   Original = c(0.311, 0.535, 0.789, 0.810),
+#'   Mean.Boot = c(0.098, 0.522, 0.756, 0.762),
+#'   Std.Error = c(0.317, 0.044, 0.252, 0.227),
+#'   t = c("0.310", "11.840***", "2.995**", "3.361***"),
+#'   `95%CI` = I(list(c(-0.484, 0.450), c(0.411, 0.592), c(0.563, 0.948), c(0.587, 0.895)))
+#' )
+#'
+#' result <- plspm_apa_boot_paths(nfl_pls_boot2)
+#' cat(result)
+#' #'
+#' }
+#'
+plspm_apa_boot_paths <- function(data) {
+  # Initialize an empty string to store the interpretation
+  interpretation <- ""
+
+  # Loop through each row of the data
+  for (i in 1:nrow(data)) {
+    # Extract values from the data
+    path <- data$paths[i]
+    original <- data$Original[i]
+    t_value <- as.character(data$t[i])  # Convert t value to character
+    ci <- data$`95%CI`[i]
+
+    # Determine statistical significance
+    significance <- ifelse(grepl("\\*", t_value), "유의하였다", "유의하지 않았다")
+
+    # Create the interpretation for the current hypothesis
+    current_interpretation <- sprintf(
+      "가설[%d]: %s에 미치는 효과는 통계적으로 %s (Est = %.3f, t = %s, 95%%CI %s).\n",
+      i, path, significance, original, t_value, paste(ci, collapse = ", ")
+    )
+
+    # Append the current interpretation to the overall interpretation
+    interpretation <- paste(interpretation, current_interpretation, sep = " ")
+  }
+
+  # Return the overall interpretation
+  cat(interpretation)
+}
+

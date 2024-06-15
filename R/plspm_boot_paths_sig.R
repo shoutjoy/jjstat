@@ -2,12 +2,13 @@
 #'
 #' @param plsres plspm result
 #' @param type df, vec, vector
+#' @param digits digits=3
 #'
 #' @return data, vector
 #' @export
 #'
 
-plspm_boot_paths_sig <- function(plsres, type= "df") {
+plspm_boot_paths_sig <- function(plsres, type= "df", digits=3) {
 
   if(length(plsres)==13){
     plsdf = plsres$boot$paths
@@ -20,7 +21,7 @@ plspm_boot_paths_sig <- function(plsres, type= "df") {
   res =  plsdf %>%
     row2col("paths") %>%
     add_t_sig(3,4, unite=TRUE,col=5, ns="")%>%
-    round2(3) %>%
+    round2(digits) %>%
     unite_ci(col1 = 'perc.025', col2 = 'perc.975')
 
 
@@ -28,7 +29,7 @@ plspm_boot_paths_sig <- function(plsres, type= "df") {
   vec =  plsdf %>%
     row2col("paths") %>%
     add_t_sig(3,4, unite=FALSE,col=5, ns="")%>%
-    round2(3) %>%
+    round2(digits) %>%
     unite_ci(col1 = 'perc.025', col2 = 'perc.975')%>%
     Unite(2,5)%>%
     pull(Original)

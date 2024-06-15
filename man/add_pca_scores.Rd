@@ -4,12 +4,16 @@
 \alias{add_pca_scores}
 \title{add_pca_scores}
 \usage{
-add_pca_scores(data, ...)
+add_pca_scores(data, ..., method = "nipals", adjust = NULL)
 }
 \arguments{
 \item{data}{data}
 
 \item{...}{select variable}
+
+\item{method}{niplas, prcomp}
+
+\item{adjust}{Options to change the sign of prcomp c(F, T ...)}
 }
 \value{
 add data
@@ -65,6 +69,41 @@ x11()
 nfl_pls_boot2 \%>\%plspm_path_coefs_plot()
 nfl_pls_boot2 \%>\%plspm_semPaths2()
 
+#'
+#'
+
+# 함수 테스트
+offense <- data.frame(
+  YardsRushAtt = rnorm(10),
+  RushYards = rnorm(10),
+  RushFirstDown = rnorm(10),
+  YardsPassComp = rnorm(10),
+  PassYards = rnorm(10),
+  PassFirstDown = rnorm(10)
+)
+
+# 테스트 케이스 1
+offense1 <- add_pca_scores(offense,
+                           rush1 = c("YardsRushAtt", "RushYards", "RushFirstDown"),
+                           pass1 = c("YardsPassComp", "PassYards", "PassFirstDown"))
+
+str(offense1)
+
+# 테스트 케이스 2
+offense2 <- add_pca_scores(offense, method = "prcomp",
+                           rush1 = c("YardsRushAtt", "RushYards", "RushFirstDown"),
+                           pass1 = c("YardsPassComp", "PassYards", "PassFirstDown"))
+
+str(offense2)
+
+# 테스트 케이스 3 (adjust 옵션 포함)
+offense3 <- add_pca_scores(offense, method = "prcomp", adjust = c(F, T),
+                           rush1 = c("YardsRushAtt", "RushYards", "RushFirstDown"),
+                           pass1 = c("YardsPassComp", "PassYards", "PassFirstDown"))
+
+str(offense3)
+#'
+#'
 
 }
 

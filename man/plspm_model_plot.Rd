@@ -125,3 +125,76 @@ plot jutpls_boot
 \description{
 Drawing Structural Equation Models Using the lavaan Syntax (park JH PhD)
 }
+\examples{
+\dontrun{
+#'
+model_test <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ y1 + a*y2 + b*y3 + c*y4
+     dem65 =~ y5 + a*y6 + b*y7 + c*y8
+
+  # regressions
+    dem60 ~ ind60
+    dem65 ~ ind60 + dem60
+
+  # residual correlations
+    # y1 ~~ y5
+    # y2 ~~ y4 + y6
+    # y3 ~~ y7
+    # y4 ~~ y8
+    # y6 ~~ y8
+'
+
+HSmodel <- ' visual  =~ x1 + x2 + x3
+             textual =~ x4 + x5 + x6
+             speed   =~ x7 + x8 + x9 '
+
+
+m1a <- "
+y1 =~ x1 + x2 +x5
+y2 =~ x3 + x4 +x6
+y1 ~~ y2"
+
+diagram_model(model= HSmodel, groups=F,  residuals=F)
+
+diagram_model(model= model_test, style="ram", groups=F)
+diagram_model(model= model_test, residuals=T)
+diagram_model(model= m1a, residuals=T)
+
+
+#plspm model
+#model 1
+model1 = "
+EXPE ~ IMAG
+QUAL ~ EXPE
+VAL ~  QUAL+ EXPE
+SAT ~ IMAG + EXPE + QUAL + VAL
+LOY ~ SAT + IMAG
+"
+sat_path = plspm_lav2path(model1,
+                          fct_order=c("IMAG", "EXPE","QUAL", "VAL", "SAT", "LOY" ))
+sat_path
+
+blocks_model ="
+IMAG =~ imag1 + imag2 + imag3 + imag4 + imag5
+EXPE =~ expe1 + expe2 + expe3 + expe4 + expe5
+QUAL =~ qual1 + qual2 + qual3 + qual4 + qual5
+VAL =~ val1 + val2 + val3 + val4
+SAT =~ sat1 + sat2 + sat3 + sat4
+LOY =~ loy1 + loy2 + loy3 + loy4
+"
+blocks_model
+plspm_lav2blocks(blocks_model)
+
+#model 그리기
+paste(model1, blocks_model)\%>\%
+  plspm_model_plot(rotation = 1, sizeLat = 6, sizeMan = 4, sizeMan2=3,
+                mar=c(2,2,2,2))
+
+#'
+#'
+#'
+}
+
+}
