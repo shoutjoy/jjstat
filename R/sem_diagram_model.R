@@ -35,6 +35,7 @@
 #' @param structural structural = FALSE
 #' @param fixedStyle fixedStyle=1 default rbase linetype
 #' @param type type ="plot, and res is lavaan simdata result
+#' @param color color
 #'
 #' @return plot
 #'
@@ -145,6 +146,7 @@ diagram_model = function(model,
                          edgeLabels=NULL,
                          nodeLabels=NULL,
                          fixedStyle = 1,
+                         color = list(lat="white", man="white"),
                          type="plot"){
 
   #first step : Determining the model type
@@ -205,6 +207,7 @@ diagram_model = function(model,
       curve = curve,
       nDigits = nDigits,
       asize= asize,
+      color=color,
       fixedStyle = fixedStyle,
       # edgeLabels = edgeLabels,
       # nodeLabels = nodeLabels,
@@ -235,6 +238,7 @@ diagram_model = function(model,
         curve=curve,
         nDigits = nDigits,
         asize= asize,
+        color=color,
         fixedStyle = fixedStyle,
         # edgeLabels = edgeLabels,
         # nodeLabels = nodeLabels,
@@ -264,6 +268,7 @@ diagram_model = function(model,
         curve=curve,
         nDigits = nDigits,
         asize= asize,
+        color=color,
         fixedStyle = fixedStyle,
         edgeLabels = edgeLabels,
         # nodeLabels = nodeLabels,
@@ -319,6 +324,7 @@ diagram_model = function(model,
         curve=curve,
         nDigits = nDigits,
         asize= asize,
+        color=color,
         fixedStyle = fixedStyle,
         edgeLabels = edgeLabels,
         nodeLabels = nodeLabels,

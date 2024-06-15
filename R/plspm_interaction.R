@@ -249,8 +249,8 @@ plspm_interaction = function(Data, path_matrix, blocks,
 
 #' plspm_add_inter_paths
 #'
-#' @param data path matrix data
-#' @param paths add path
+#' @param path_mat path matrix data
+#' @param paths add path, interactionTerm
 #'
 #' @return mat
 #' @export
@@ -285,9 +285,9 @@ plspm_interaction = function(Data, path_matrix, blocks,
 #' }
 #'
 #'
-plspm_add_inter_paths <- function(data, paths) {
+plspm_add_inter_paths <- function(path_mat, paths) {
   # 데이터 행렬을 복사하여 변경
-  new_data <- data
+  new_data <- path_mat
 
   # 경로 추가 작업
   for (i in seq_along(paths)) {
@@ -323,7 +323,7 @@ plspm_add_inter_paths <- function(data, paths) {
   new_row_order <- c(setdiff(rownames(new_data), rownames(data)), rownames(data))
   new_data <- new_data[new_row_order, ]
 
-  return(new_data)
+  return(new_data%>%as.matrix())
 }
 
 

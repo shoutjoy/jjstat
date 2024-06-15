@@ -39,6 +39,7 @@ diagram_model(
   edgeLabels = NULL,
   nodeLabels = NULL,
   fixedStyle = 1,
+  color = list(lat = "white", man = "white"),
   type = "plot"
 )
 }
@@ -110,6 +111,8 @@ diagram_model(
 \item{nodeLabels}{nodeLabels=NULL}
 
 \item{fixedStyle}{fixedStyle=1 default rbase linetype}
+
+\item{color}{color}
 
 \item{type}{type ="plot, and res is lavaan simdata result}
 }

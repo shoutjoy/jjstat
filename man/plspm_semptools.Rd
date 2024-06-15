@@ -9,8 +9,8 @@ plspm_semptools(
   pls_boot,
   position = NULL,
   point = NULL,
-  set_push = 2,
-  set_spread = 2,
+  set_push = 2.5,
+  set_spread = 2.5,
   nrow = 3,
   ncol = 3,
   loading_position = 0.5
