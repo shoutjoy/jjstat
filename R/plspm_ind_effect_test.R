@@ -54,13 +54,13 @@
 #'                         "IMAG -> EXPE -> VAL -> SAT -> LOY",
 #'                         "IMAG -> SAT -> LOY",
 #'                         est = "Mean.Boot",
-#'                         sobel="sobel)
+#'                         sobel="sobel")
 #'
 #'   plspm_ind_effect_test(satpls_boot$boot$paths,
 #'                         "IMAG -> EXPE -> VAL -> SAT -> LOY",
 #'                         "IMAG -> SAT -> LOY",
 #'                         est = "Mean.Boot",
-#'                         sobel="goodman)
+#'                         sobel="goodman")
 #'
 #'
 #'   # For individual path strings
@@ -103,7 +103,7 @@
 #'
 plspm_ind_effect_test <- function(bootdata, ...,
                                   show=TRUE,
-                                  est="Original",
+                                  est="Mean.Boot",
                                   sobel="aroian") {
 
   # data <- convert_plspm_to_list(data)

@@ -3,6 +3,7 @@
 #' @param data data
 #' @param blocks latent and measurement blocks
 #' @param ... interation terms
+#' @param id discriminat variable
 #'
 #' @return data
 #' @export
@@ -73,14 +74,19 @@
 #'
 #'
 #'
-plspm_prod <- function(data, blocks, ..., intname="int", n_name = 2) {
+plspm_prod <- function(data, blocks, ..., intname="int", n_name = 2, id=FALSE) {
   interactions <- list(...)
 
   #prefix names
   for (k in seq_along(interactions)) {
     interaction <- interactions[[k]]
-    # interaction_name <- paste0(intname, k)
+
+    if(id){
+      interaction_name <- paste0(intname, k)
+    }else{
     interaction_name <- intname
+    }
+
 
     # first block
     block1_info <- interaction[[1]]

@@ -8,7 +8,7 @@ plspm_ind_effect_test(
   bootdata,
   ...,
   show = TRUE,
-  est = "Original",
+  est = "Mean.Boot",
   sobel = "aroian"
 )
 }
@@ -74,13 +74,13 @@ ple usage:
                         "IMAG -> EXPE -> VAL -> SAT -> LOY",
                         "IMAG -> SAT -> LOY",
                         est = "Mean.Boot",
-                        sobel="sobel)
+                        sobel="sobel")
 
   plspm_ind_effect_test(satpls_boot$boot$paths,
                         "IMAG -> EXPE -> VAL -> SAT -> LOY",
                         "IMAG -> SAT -> LOY",
                         est = "Mean.Boot",
-                        sobel="goodman)
+                        sobel="goodman")
 
 
   # For individual path strings

@@ -15,21 +15,21 @@
 #' \dontrun{
 #' #'
 #' # Example usage of the function with the provided PLS-PM model
-#' plspm_ind_effec(
+#' plspm_ind_effect(
 #'   boot_data = jutpls_boot,
 #'   from = "자기효능감",
 #'   through = c("진로동기", "진로태도"),
 #'   to = "진로준비"
 #' )
 #'
-#' plspm_ind_effec(
+#' plspm_ind_effect(
 #'   boot_data = jutpls_boot,
 #'   from = "자기효능감",
 #'   through = c("진로동기", "진로태도"),
 #'   to = "진로준비", type="all"
 #' )
 #'
-#' plspm_ind_effec(
+#' plspm_ind_effect(
 #'   boot_data = jutpls_boot,
 #'   from = "자기효능감",
 #'   through = c("진로동기"),
@@ -97,7 +97,8 @@ plspm_ind_effect <- function(boot_data, from, through, to, type="res", digits=3)
   total_effect_se <- boot_effect[boot_effect$relationships == direct_path_name, "Std.Error"]
 
 
-  de = data.frame(effect = "de", path = direct_path_name, Est = direct_effect, SE= direct_effect_se)%>%
+  de = data.frame(effect = "de", path = direct_path_name,
+                  Est = direct_effect, SE= direct_effect_se)%>%
     mutate(z = Est/SE,
            sig = ifelse(abs(z) == "", ns,
                         ifelse(abs(z) > 3.29, "***",
@@ -105,7 +106,8 @@ plspm_ind_effect <- function(boot_data, from, through, to, type="res", digits=3)
                                       ifelse(abs(z) > 1.96, "*", "ns"))))) %>%
     dplyr::select(effect, path, Est, SE, z, sig)
 
-  te = data.frame(effect = "te", path = direct_path_name, Est = total_effect, SE = total_effect_se)%>%
+  te = data.frame(effect = "te", path = direct_path_name,
+                  Est = total_effect, SE = total_effect_se)%>%
     mutate(z = Est/SE,
            sig = ifelse(abs(z) == "", ns,
                         ifelse(abs(z) > 3.29, "***",

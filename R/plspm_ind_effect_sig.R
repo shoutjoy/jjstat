@@ -5,6 +5,7 @@
 #' @param through  era
 #' @param to  to
 #' @param digits 3
+#' @param est Mean.Boot, Original
 #'
 #' @return data
 #' @export
@@ -25,7 +26,7 @@
 #'
 #'
 #'
-plspm_ind_effect_sig <- function(boot_data, from, through, to, digits = 3) {
+plspm_ind_effect_sig <- function(boot_data, from, through, to, est = "Mean.Boot", digits = 3) {
   # 1. 부트스트랩 데이터에서 경로 추출 및 열 추가
   path_data <- boot_data$boot$paths %>%
     tibble::rownames_to_column("relationships")
@@ -46,10 +47,15 @@ plspm_ind_effect_sig <- function(boot_data, from, through, to, digits = 3) {
     path_info <- path_data %>%
       dplyr::filter(relationships == paste(start, "->", end))
 
-    est <- path_info$Original
+    est_value <- if (est == "Original") {
+      path_info$Original
+    } else {
+      path_info$Mean.Boot
+    }
+
     se <- path_info$`Std.Error`
 
-    est_values <- c(est_values, est)
+    est_values <- c(est_values, est_value)
     se_values <- c(se_values, se)
     result_paths <- c(result_paths, paste(start, "->", end))
   }
@@ -70,9 +76,8 @@ plspm_ind_effect_sig <- function(boot_data, from, through, to, digits = 3) {
     Est = round(total_est, digits),
     SE = round(sobel_se, digits),
     Z = round(t_value, digits),
-    p.value = round(p_value, digits),
-    sig = ifelse(p_value < 0.05, "Yes", "No")
-  )
+    p.value = format(round(p_value, digits), digits, scitific=TRUE)
+  )%>%p_mark_sig()
 
   return(result)
 }

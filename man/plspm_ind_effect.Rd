@@ -30,21 +30,21 @@ plspm_ind_effect
 \dontrun{
 #'
 # Example usage of the function with the provided PLS-PM model
-plspm_ind_effec(
+plspm_ind_effect(
   boot_data = jutpls_boot,
   from = "자기효능감",
   through = c("진로동기", "진로태도"),
   to = "진로준비"
 )
 
-plspm_ind_effec(
+plspm_ind_effect(
   boot_data = jutpls_boot,
   from = "자기효능감",
   through = c("진로동기", "진로태도"),
   to = "진로준비", type="all"
 )
 
-plspm_ind_effec(
+plspm_ind_effect(
   boot_data = jutpls_boot,
   from = "자기효능감",
   through = c("진로동기"),

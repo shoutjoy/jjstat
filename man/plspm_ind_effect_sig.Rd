@@ -4,7 +4,14 @@
 \alias{plspm_ind_effect_sig}
 \title{plspm_ind_effect_sig}
 \usage{
-plspm_ind_effect_sig(boot_data, from, through, to, digits = 3)
+plspm_ind_effect_sig(
+  boot_data,
+  from,
+  through,
+  to,
+  est = "Mean.Boot",
+  digits = 3
+)
 }
 \arguments{
 \item{boot_data}{bootstrap data}
@@ -14,6 +21,8 @@ plspm_ind_effect_sig(boot_data, from, through, to, digits = 3)
 \item{through}{era}
 
 \item{to}{to}
+
+\item{est}{Mean.Boot, Original}
 
 \item{digits}{3}
 }

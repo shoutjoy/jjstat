@@ -4,7 +4,7 @@
 \alias{plspm_prod}
 \title{Create a multiply variable to create a moderator variable}
 \usage{
-plspm_prod(data, blocks, ..., intname = "int", n_name = 2)
+plspm_prod(data, blocks, ..., intname = "int", n_name = 2, id = FALSE)
 }
 \arguments{
 \item{data}{data}
@@ -12,6 +12,8 @@ plspm_prod(data, blocks, ..., intname = "int", n_name = 2)
 \item{blocks}{latent and measurement blocks}
 
 \item{...}{interation terms}
+
+\item{id}{discriminat variable}
 }
 \value{
 data
