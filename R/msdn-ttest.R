@@ -87,8 +87,8 @@ msdn_ttest <- function(n1, m1, sd1, n2, m2, sd2, var1=NULL, var2=NULL, var.equal
     p.value = p_value,
     ci_low = round(ci_low, digits),
     ci_high = round(ci_high, digits),
-    method = method,
-    alternative = "two.sided"
+    method = method#,
+    # alternative = "two.sided"
   )
 
   # Rename the columns based on var1 and var2

@@ -192,7 +192,7 @@ goodman_sobel_test_general <- function(a, SE, digits=5) {
     k <- length(a)
     term1 <- sum(sapply(1:k, function(i) { (prod(a[-i]^2) * SE[i]^2) }))
     term2 <- sum(sapply(1:(k-1), function(i) { sum(sapply((i+1):k,
-                                                          function(j) { (a[i] * a[j])^2 * (SE[i]^2) * (SE[j]^2) })) }))
+                         function(j) { (a[i] * a[j])^2 * (SE[i]^2) * (SE[j]^2) })) }))
     term3 <- prod(SE^2)
     SE_Indirect <- sqrt(term1 + term2 + term3)
   }
