@@ -105,7 +105,7 @@ plspm_ind_effect_boot <- function(plsres = NULL,
                                   blocks = NULL,
                                   modes = NULL,
                                   B = 100,
-                                  n_cores = 12) {
+                                  n_cores = NULL) {
 
   library(plspm)
   library(foreach)
@@ -145,6 +145,15 @@ plspm_ind_effect_boot <- function(plsres = NULL,
   )
 
   # 병렬 처리 설정
+
+  # 병렬 처리 설정
+  if(is.null(n_cores)){
+
+    n_cores <- parallel::detectCores() - 1
+  }else{
+    n_cores = n_cores
+  }
+
   cl <- parallel::makeCluster(n_cores) #클러스터 코어설정
   doParallel::registerDoParallel(cl)
 

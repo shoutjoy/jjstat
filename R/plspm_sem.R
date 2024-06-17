@@ -190,60 +190,28 @@ plspm_sem <- function(Data, path_matrix, blocks,
                         #  dplyr::select(-Original)
                       })
 
-    library(foreach)
-    library(doParallel)
-    if (boot.val & !is.null(br) & br > 0) {
 
+    # 부트스트랩 검증 수행
+    if (boot.val & !is.null(br) & br > 0) {
       pb <- progress::progress_bar$new(
         format = "Bootstrapping [:bar] :percent :eta",
-        total = br, clear = FALSE, width = 60)
+        total = br, clear = FALSE, width = 60
+      )
 
-      cl <- parallel::makeCluster(n_cores)
-      doParallel::registerDoParallel(cl)
+      boot_results <- list()
 
-
-      boot_results <- foreach(i = 1:br, .combine = rbind, .packages = 'plspm') %dopar% {
+      for (i in 1:br) {
+        pb$tick()
         boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
         boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
                                  blocks = blocks, modes = modes,
                                  scaling = scaling, scheme = scheme, scaled = scaled,
                                  tol = tol, maxiter = maxiter, plscomp = plscomp,
                                  boot.val = FALSE, br = NULL, dataset = FALSE)
-        # boot_res$path_coefs
+        boot_results[[i]] <- boot_res$path_coefs
       }
 
-      stopCluster(cl)
-
-      for (i in 1:br) {
-        pb$tick()
-      }
     }
-
-    # # 부트스트랩 검증 수행
-    # if (boot.val & !is.null(br) & br > 0) {
-    #
-    #   pb <- progress::progress_bar$new(
-    #     format = "Bootstrapping [:bar] :percent :eta",
-    #     total = br, clear = FALSE, width = 60
-    #   )
-    #
-    #
-    #
-    #
-    #   boot_results <- list()
-    #
-    #   for (i in 1:br) {
-    #     pb$tick()
-    #     boot_data <- Data[sample(nrow(Data), replace = TRUE), ]
-    #     boot_res <- plspm::plspm(Data = boot_data, path_matrix = path_matrix,
-    #                              blocks = blocks, modes = modes,
-    #                              scaling = scaling, scheme = scheme, scaled = scaled,
-    #                              tol = tol, maxiter = maxiter, plscomp = plscomp,
-    #                              boot.val = FALSE, br = NULL, dataset = FALSE)
-    #     boot_results[[i]] <- boot_res$path_coefs
-    #   }
-    #
-    # }
 
 
     if (summary) {
@@ -343,16 +311,21 @@ plspm_sem <- function(Data, path_matrix, blocks,
 
 
     res_boot  <- plspm::plspm(Data = newData, path_matrix = path_matrix1,
-                         blocks = blocks1, modes = int_Modes,
-                         scaling = scaling, scheme = scheme, scaled = scaled,
-                         tol = tol, maxiter = maxiter, plscomp = plscomp,
-                         boot.val = TRUE, br = br, dataset = dataset)
+                              blocks = blocks1, modes = int_Modes,
+                              scaling = scaling, scheme = scheme, scaled = scaled,
+                              tol = tol, maxiter = maxiter, plscomp = plscomp,
+                              boot.val = TRUE, br = br, dataset = dataset)
 
     cat("\n Interaction effects: indicator approach (Park Joonghee PhD). \n\n")
     return(res_boot)
 
   }
 }
+
+
+
+
+
 # plspm_sem <- function(Data, path_matrix, blocks, modes = rep("A", ncol(path_matrix)),
 #                       scaling = NULL, scheme = "centroid", scaled = TRUE,
 #                       tol = 1e-06, maxiter = 100, plscomp = NULL,
