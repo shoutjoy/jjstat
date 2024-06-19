@@ -23,11 +23,13 @@
 #' select_format(data2, "a")
 #' }
 select_format <- function(data, ..., nsmall = 3, digits = 3) {
+  library(dplyr)
+  library(tidyr)
   selected_data <- data %>%
-    select(...)
+    dplyr::select(...)
 
   formatted_data <- selected_data %>%
-    mutate(across(everything(),
+    dplyr::mutate(across(everything(),
                   ~ as.character(format(., nsmall = nsmall, digits = digits))))
 
   data[names(formatted_data)] <- formatted_data

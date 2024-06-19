@@ -1,3 +1,4 @@
+
 #' Drawing Structural Equation Models Using the lavaan Syntax (park JH PhD)
 #'
 #' @param plsres_boot plsres_boot to model syntax
@@ -26,119 +27,126 @@
 #' @param shapeLat "circle, ellipse
 #' @param shapeMan retangle
 #' @param shapeInt  triangle ,
-#' @param sample.nobs sample.nobs = 100
 #' @param Groups FALSE
 #' @param group_match "FALSE"lat#'
 #' @param border.width border.width=1
 #' @param nodeLabels nodeLabels=NULL
-#' @param growth growth= FALSE, TRUE  model.type ="grouwth"
 #' @param structural structural = FALSE
 #' @param fixedStyle fixedStyle=1 default rbase linetype
-#' @param color list(lat="skyblue", man="yellow")
+#' @param color list(lat="gray10", man="white")
 #' @param label.cex label.cex
 #' @param type type ="plot, and res is lavaan simdata result
-#'
+#' @param rotate_resid c(lv= angle), c(f1 =90, f2=180)
+#' @param se  se=FALSE
 #' @return plot jutpls_boot
 #' @export
 #'
-plspm_semPaths2 = function(plsres_boot,
-                           residuals= FALSE,
-                           whatLabels = "model",
-                           rotation = 2,
-                           residScale = 12,
-                           layout = "tree2",
-                           edge.label.cex= 0.7,
-                           edge.label.position = 0.55,
-                           edge.color = "black",
-                           sizeMan = 6,
-                           sizeMan2 = 3,
-                           sizeLat = 7,
-                           sizeLat2 = 4,
-                           style="lisrel",
-                           sig = FALSE,
-                           exoVar = FALSE,
-                           exoCov = FALSE,
-                           curve = 1.5,
-                           asize=2,
-                           mar = c(2,4,2,4),
-                           nDigits = 3,
-                           shapeLat="circle",
-                           shapeMan="rectangle",
-                           shapeInt = "triangle",
-                           sample.nobs = 100,
-                           border.width = 2,
-                           edge.width = 1.5,
-                           Groups = FALSE,
-                           group_match = "lat",
-                           growth = FALSE,
-                           structural = FALSE,
-                           edgeLabels=NULL,
-                           nodeLabels=NULL,
-                           fixedStyle = 1,
-                           color = list(lat="gray10", man="gray90"),
-                           label.cex = 1,
-                           type="plot"){
+#' @examples
+#' \dontrun{
+#' #'
+#'
+#' #data
+#' data(MarshWenHau) # Marsh, Wen & Hau (2000)
+#' # colnames(MarshWenHau) = c( paste0("x",1:6), paste0("y",1:3))
+#' MarshWenHau %>%str()
+#'
+#'
+#' model1 = "
+#'
+#' f1 =~ x1 + x2 + x3
+#' f2 =~ x4 + x5 + x6
+#' f3 =~ y1 + y2 + y3
+#' "
+#'
+#' mwh_sem1 = sem(model1, MarshWenHau)
+#' mwh_sem1%>%summary(fit=T)
+#'
+#'
+#' re_mwh_data = lavPredict(mwh_sem1)%>%data.frame()
+#' re_mwh_data
+#'
+#'
+#'
+#' # 이방법인 LMS방법임
+#'
+#' Intf1f2  = re_mwh_data[,"f1"] *  re_mwh_data[,"f2"]
+#'
+#' #fitst
+#' MarshWenHau$f1_f2 = Intf1f2
+#' MarshWenHau %>% str()
+#'
+#' model2 = "
+#'
+#' f1 =~ x1 + x2 + x3
+#' f2 =~ x4 + x5 + x6
+#' f3 =~ y1 + y2 + y3
+#'
+#' f1Xf2 =~ f1_f2
+#'
+#' f3 ~ f1 + f2 + f1Xf2
+#'
+#' f1Xf2 ~~ 0*f1
+#' f1Xf2 ~~ 0*f2
+#'
+#' "
+#'
+#' mwh_sem2 = sem(model2, MarshWenHau)
+#' mwh_sem2%>%summary(fit=T)
+#' mwh_sem2%>% sem_effect()
+#' x11()
+#' mwh_sem2%>% lav_semPaths2(exoCov = FALSE, sig=F,
+#'                           rotate_resid = c(f3 = 160))
+#'
+#' mwh_sem2%>% lav_semPaths2(exoCov = FALSE, sig=TRUE, Groups=TRUE,
+#'                           rotate_resid = c(f3 = 160))
+#'
+#' mwh_sem2%>% lav_semPaths2(exoCov = FALSE, sig=TRUE,se=TRUE,
+#'                           rotate_resid = c(f3 = 160))
+#'
+#'
+#' #'
+#'
+#' }
+#'
 
-  #first step : Determining the model type
-  mms1 = summary(plsres_boot)$outer_model%>%
-    dplyr::select(name, block, loading) %>% #Round(3)%>%
-    dplyr::mutate(item = paste0(block," =~ ", name)) %>%
-    dplyr::select(item) %>%
-    unlist()%>%
-    as.character() %>%
-    paste( collapse="; ")
+lav_semPaths2 = function(lav_obj,
+                         whatLabels = "est",
+                         rotation = 2,
+                         residuals= TRUE,
+                         residScale = 12,
+                         layout = "tree2",
+                         edge.label.cex= 0.7,
+                         edge.label.position = 0.55,
+                         edge.color = "black",
+                         sizeMan = 6,
+                         sizeMan2 = 4,
+                         sizeLat = 9,
+                         sizeLat2 = 6,
+                         style="lisrel",
+                         exoVar = FALSE,
+                         exoCov = TRUE,
+                         curve = 1.5,
+                         asize=2,
+                         mar = c(3,8,3,8),
+                         nDigits = 3,
+                         shapeLat="circle",
+                         shapeMan="rectangle",
+                         shapeInt = "triangle",
+                         border.width = 2,
+                         edge.width = 1.5,
+                         Groups = FALSE,
+                         group_match = "lat",
+                         structural = FALSE,
+                         edgeLabels=NULL,
+                         nodeLabels=NULL,
+                         fixedStyle = 1,
+                         color = list(lat="gray10", man="white"),
+                         label.cex = 1,
+                         sig = TRUE,
+                         rotate_resid= NULL, #rotation residuals c(lv = 90)
+                         se=FALSE,
+                         type="plot"){
 
-  sms1 = summary(plsres_boot)$effects %>%
-    dplyr::select(relationships, direct)%>%
-    dplyr::filter(direct != 0)%>%
-    tidyr::separate(relationships, c("lhs","rhs"), sep="->")%>%
-    dplyr::mutate(path = paste0(rhs," ~ ",lhs)) %>%
-    dplyr::select(path) %>%
-    unlist()%>%
-    as.character() %>%
-    paste( collapse="; ")
-
-  model = paste(mms1, sms1, sep="; ")
-
-
-  if(is.null(edgeLabels)){
-    edgeLabels = c(plspm_loadings_values(plsres_boot, type="vec"),
-                   plspm_boot_paths_sig(plsres_boot, type="vec"))
-  }else{
-    edgeLabels = edgeLabels
-  }
-
-  ####
-  model_string = model
-
-  # Remove instances of '~~' and '=~' from the model string
-  modified_model_string <- gsub("~~", "", model_string)
-  modified_model_string <- gsub("=~", "", modified_model_string)
-
-  # Check if the modified model string contains any '~'
-
-  if(growth){
-    model.type ="growth"
-  }else{
-    if (grepl("~", modified_model_string, fixed = TRUE)) {
-      # return("sem")
-      model.type ="sem"
-    } else {
-      # return("cfa")
-      model.type ="cfa"
-    }
-  }
-
-
-  #generate sample data simulated
-  testdata =  lavaan::simulateData( model = model,
-                                    sample.nobs = sample.nobs,
-                                    model.type = model.type)%>%
-    suppressWarnings()
-
-  # test calculated
-  lav_obj = lavaan::sem(model, data= testdata)%>%
-    suppressWarnings()
 
   # diagram2(lavobj, "model", sig=F)
   if(Groups){
@@ -293,24 +301,69 @@ plspm_semPaths2 = function(plsres_boot,
         nodeLabels = nodeLabels,
         structural = structural,
         color=color,
-        label.cex= label.cex,
+        label.cex = label.cex,
         style =  style,  mar=mar)
     }
   }
 
 
   if(sig){
-    dia = dia%>%
-      semptools::mark_sig(lav_obj) %>%plot()
+
+    if(is.null(rotate_resid)){
+      if(se){
+        dia = dia%>%
+          semptools::mark_sig(lav_obj) %>%
+          semptools::mark_se(lav_obj, digits= nDigits, sep="\n") %>%
+          plot()
+
+      }else{
+        dia = dia%>%
+          semptools::mark_sig(lav_obj) %>%
+          plot()
+      }
+
+    }else{
+      if(se){
+        dia = dia%>%
+          lav_rotate_resid(resid_list=rotate_resid)%>%
+          semptools::mark_sig(lav_obj) %>%
+          semptools::mark_se(lav_obj, digits= nDigits, sep="\n") %>%
+          plot()
+
+      }else{
+        dia = dia%>%
+          lav_rotate_resid(resid_list=rotate_resid)%>%
+          semptools::mark_sig(lav_obj) %>%
+          plot()
+      }
+    }
+
   }else{
-    dia = dia
+
+    if(is.null(rotate_resid)){
+      dia = dia
+
+    }else{
+      dia = dia%>%
+        lav_rotate_resid(resid_list=rotate_resid)
+    }
   }
 
-  cat("\n Node names in order of appearance \n\n")
-  print(c(unique(plsres_boot$model$gens$mvs_names),
-          plsres_boot$model$gens$lvs_names))
-  cat("\n\n")
   switch(type, plot = dia, res = lav_obj)
+}
 
 
+#lav_rotate_resid(c(진로동기= 160, 진로태도= 30))
+lav_rotate_resid = function(plotdata, resid_list=NULL, plot=TRUE){
+  if(!is.null(resid_list)){
+    plotdata <- semptools::rotate_resid(plotdata, rotate_resid_list = resid_list)
+
+    if(plot){
+
+      plot(plotdata)
+    }
+    return(plotdata)
+  } else {
+    stop("Input resid list ")
+  }
 }

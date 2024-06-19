@@ -44,6 +44,7 @@ unCount <- function(data,
                     type = "real",
                     sel = ncol(data),
                     fix = NULL) {
+  library(dplyr)
   # value add
   data <- data %>%data.frame()
   # data <- data %>%
