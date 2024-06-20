@@ -12,6 +12,8 @@ sem_effect(model_sem, effect = "~", effect2 = NULL, ci = FALSE)
 \item{effect}{select op}
 
 \item{effect2}{select op 2nd option}
+
+\item{ci}{FALSE}
 }
 \value{
 repot
