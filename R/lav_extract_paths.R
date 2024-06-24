@@ -62,8 +62,10 @@ lav_extract_path <- function(model) {
     # Store each path and corresponding label in the list
     for (path in rhs_paths) {
       dependent <- trimws(lhs_split[1])
-      independent <- ifelse(grepl("\\*", path), trimws(unlist(strsplit(path, "\\*"))[2]), trimws(path))
-      paths <- append(paths, list(c(paste0("H", counter), paste0(independent, "->", dependent))))
+      independent <- ifelse(grepl("\\*", path),
+                            trimws(unlist(strsplit(path, "\\*"))[2]), trimws(path))
+      paths <- append(paths, list(c(paste0("H", counter),
+                                    paste0(independent, "->", dependent))))
       counter <- counter + 1
     }
   }
@@ -77,7 +79,7 @@ lav_extract_path <- function(model) {
 }
 
 
-#' lav_extract_ind_paths
+#' lav_extract_ind_paths, Create an indirect effect hypothesis
 #'
 #' @param paths_data direct path
 #' @param allpaths all and ind(FALSE)
@@ -103,6 +105,19 @@ lav_extract_path <- function(model) {
 #' lav_extract_path(model1a)%>%lav_extract_ind_paths()
 #'
 #' lav_extract_path(model1)%>%lav_extract_ind_paths()
+#' #'
+#' lav_extract_path(model1a) %>%
+#'   lav_extract_ind_paths() %>%
+#'   sem_lav_ind_hypo()
+#'
+## 구조모형에서 나타나는 간접효과 가설은 다음과 같다.
+## 간접효과[H1]: 간접효과 IMAG -> SAT -> LOY 는 통계적으로 유의할 것이다.
+## 간접효과[H2]: 간접효과 IMAG -> EXPE -> SAT -> LOY 는 통계적으로 유의할 것이다.
+## 간접효과[H3]: 간접효과 IMAG -> EXPE -> VAL -> SAT -> LOY 는 통계적으로 유의할 것이다.
+## 간접효과[H4]: 간접효과 IMAG -> EXPE -> QUAL -> SAT -> LOY 는 통계적으로 유의할 것이다.
+## 간접효과[H5]: 간접효과 IMAG -> EXPE -> QUAL -> VAL -> SAT -> LOY 는 통계적으로 유의할 것이다.
+#' #'
+#'
 #' }
 #'
 lav_extract_ind_paths <- function(paths_data, allpaths = FALSE) {
@@ -151,8 +166,10 @@ lav_extract_ind_paths <- function(paths_data, allpaths = FALSE) {
     }
 
     # 직접 효과를 제외하고 all_paths를 데이터 프레임으로 변환
-    all_paths <- all_paths[sapply(all_paths, function(x) length(strsplit(x, " -> ")[[1]]) > 2)]
-    all_paths_df <- data.frame(paths = all_paths, stringsAsFactors = FALSE)
+    all_paths <- all_paths[sapply(all_paths,
+                                  function(x) length(strsplit(x, " -> ")[[1]]) > 2)]
+    all_paths_df <- data.frame(paths = all_paths,
+                               stringsAsFactors = FALSE)
 
     return(all_paths_df)
   }

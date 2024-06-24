@@ -40,7 +40,7 @@ Treat these variables as ordered (ordinal) variables, if they are endogenous
  in the model. Importantly, all other variables will be treated as numeric
   (unless they are declared as ordered in the data.frame.) Since 0.6-4,
   ordered can also be logical. If TRUE, all observed endogenous variables are
-   treated as ordered (ordinal). If FALSE, all observed endogenous variables
+  #'    treated as ordered (ordinal). If FALSE, all observed endogenous variables
    are considered to be numeric (again, unless they are declared as ordered
    in the data.frame.)}
 
@@ -161,7 +161,7 @@ summary(intsem)
 intsem \%>\%lav_semPaths2(color=list(lat="darkred",man="gold"))
 
 
-##2nd
+##2nd---------
 #base model
 lav_extract_mm(model2) \%>\%cat()
 #interaction item list

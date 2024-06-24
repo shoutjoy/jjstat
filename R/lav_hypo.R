@@ -19,12 +19,12 @@
 #' "
 #'
 #' # 함수 실행
-#' sem_lav_hypo(model1a)
+#' lav_de_hypo(model1a)
 #'
 #' #'
 #' }
 #'
-sem_lav_hypo <- function(model) {
+lav_de_hypo <- function(model) {
   lines <- strsplit(model, "\n")[[1]]
   hypotheses <- c()
   count <- 1
@@ -93,7 +93,7 @@ sem_lav_hypo <- function(model) {
 #'
 #' }
 #'
-sem_lav_ind_hypo <- function(paths) {
+lav_ind_hypo <- function(paths) {
 
   cat("\n",
       "구조모형에서 나타나는 간접효과 가설은 다음과 같다. \n")

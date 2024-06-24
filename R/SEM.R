@@ -1,4 +1,3 @@
-
 #' Title
 #'
 #' @param model A description of the user-specified model. Typically, the model is
@@ -14,7 +13,7 @@
 #'  in the model. Importantly, all other variables will be treated as numeric
 #'   (unless they are declared as ordered in the data.frame.) Since 0.6-4,
 #'   ordered can also be logical. If TRUE, all observed endogenous variables are
-#'    treated as ordered (ordinal). If FALSE, all observed endogenous variables
+#'   #'    treated as ordered (ordinal). If FALSE, all observed endogenous variables
 #'    are considered to be numeric (again, unless they are declared as ordered
 #'    in the data.frame.)
 #' @param sampling.weights A variable name in the data frame containing sampling
@@ -120,7 +119,7 @@
 #' intsem %>%lav_semPaths2(color=list(lat="darkred",man="gold"))
 #'
 #'
-#' ##2nd
+#' ##2nd---------
 #' #base model
 #' lav_extract_mm(model2) %>%cat()
 #' #interaction item list
@@ -176,90 +175,8 @@ SEM = function(model = NULL, data = NULL, type="res",
 }
 
 
-
-#' extranct measurement
-#'
-#' @param lav_syn model lavaan syntax
-#' @param text text output
-#'
-#' @return text model
-#' @export
-#'
-#' @examples
-#'
-#' \dontrun{
-#' #'
-#'
-#' # # Example usage:
-#' data(MarshWenHau)
-#' str(MarshWenHau)
-#'
-#' mwh = MarshWenHau
-#'
-#' model2 <- "
-#' f1 =~ x1 + x2 + x3
-#' f1Xf2 =~ f1:f2
-#' f2 =~ x4 + x5 + x6
-#' f3 =~ y1 + y2 + y3
-#'
-#' f3 ~ f1 + f2
-#' f3 ~ f1Xf2
-#'
-#' f1Xf2 ~~ 0*f1
-#' f1Xf2 ~~ 0*f2
-#' "
-#'
-#' # interaction model
-#' intsem =  SEM(model2, data= MarshWenHau)
-#' summary(intsem)
-#' intsem %>%lav_semPaths2(color=list(lat="darkred",man="gold"))
-#'
-#'
-#' ##2nd
-#' #base model
-#' lav_extract_mm(model2) %>%cat()
-#' #interaction item list
-#' lav_extract_imlist(model3)
-#' #data
-#' lav_latentProd(mwh, model3)%>%head()
-#'
-#' #extracted interaction term
-#' lav_extract_int(model2, lav_extract_imlist(model3))
-#'
-#' # or interaction items ; imlist
-#' imlist <- list(
-#'   .f1Xf2 = c("f1", "f2"),
-#'   .i_f1_f4 = c("f1", "f4")
-#' )
-#' # names(imlist)
-#' lav_extract_int(model2, imlist)
-#' #direct
-#' lav_extract_int(model2, imlist= list(.f1Xf2 = c("f1", "f2"),
-#'                                      .i_f1_f4 = c("f1", "f4")))
-#' #estimates model
-#' intsem =  SEM(lav_new_model(model2, lav_extract_imlist(model2)),
-#'               data= lav_latentProd(mwh, model2))
-#'
-#' }
-#'
-lav_extract_mm <- function(lav_syn, text = FALSE) {
-  lines <- unlist(strsplit(lav_syn, "\n"))
-  measurement_models <- c()
-  for (line in lines) {
-    if (!grepl("^#", line) && grepl("=~", line) && !grepl(":", line)) {
-      measurement_models <- c(measurement_models, trimws(line))
-    }
-  }
-  base_model <- paste(measurement_models, collapse = "\n")
-  if (text) {
-    cat('base_model = "', "\n", base_model, "\n", '"', "\n", sep = "")
-  } else {
-    return(paste0("\n", base_model, "\n"))
-  }
-}
-
-
-#' Function to extract interaction terms from the lavaan syntax, excluding commented lines.
+#' Function to extract interaction terms from the lavaan syntax,
+#' excluding commented lines.
 #'
 #' @param lav_syn lavaan syntax
 #' @param prefix . dataname prefix
@@ -623,4 +540,99 @@ lav_new_model <- function(lav_syn, imlist=NULL) {
 }
 
 
+
+
+
+#' lav_new_model: Generate interaction new model
+#'
+#' @param lav_syn original lavaan syntax model
+#' @param imlist interaction data lav_extract_imlist(model)
+#'
+#' @return model text
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' #'
+#'
+#' # # Example usage:
+#' data(MarshWenHau)
+#' str(MarshWenHau)
+#'
+#' mwh = MarshWenHau
+#'
+#' model2 <- "
+#' f1 =~ x1 + x2 + x3
+#' f1Xf2 =~ f1:f2
+#' f2 =~ x4 + x5 + x6
+#' f3 =~ y1 + y2 + y3
+#'
+#' f3 ~ f1 + f2
+#' f3 ~ f1Xf2
+#'
+#' f1Xf2 ~~ 0*f1
+#' f1Xf2 ~~ 0*f2
+#' "
+#'
+#' # interaction model
+#' intsem =  SEM(model2, data= MarshWenHau)
+#' summary(intsem)
+#' intsem %>%lav_semPaths2(color=list(lat="darkred",man="gold"))
+#'
+#'
+#' ##2nd
+#' #base model
+#' lav_extract_mm(model2) %>%cat()
+#' #interaction item list
+#' lav_extract_imlist(model3)
+#' #data
+#' lav_latentProd(mwh, model3)%>%head()
+#'
+#' #extracted interaction term
+#' lav_extract_int(model2, lav_extract_imlist(model3))
+#'
+#' # or interaction items ; imlist
+#' imlist <- list(
+#'   .f1Xf2 = c("f1", "f2"),
+#'   .i_f1_f4 = c("f1", "f4")
+#' )
+#' # names(imlist)
+#' lav_extract_int(model2, imlist)
+#' #direct
+#' lav_extract_int(model2, imlist= list(.f1Xf2 = c("f1", "f2"),
+#'                                      .i_f1_f4 = c("f1", "f4")))
+#' #estimates model
+#' intsem =  sem(lav_interact_model(model2, lav_extract_imlist(model2)),
+#'               data= lav_latentProd(mwh, model2))
+#'
+#'
+#'
+#'
+#' }
+#'
+lav_interact_model <- function(lav_syn, imlist=NULL) {
+  # Split the input into lines
+  lines <- unlist(strsplit(lav_syn, "\n"))
+
+  # Find the indices of the lines that contain the character ":"
+  colon_indices <- grep(":", lines)
+
+  # Get the lines from lav_extract_int
+  extracted_lines <- lav_extract_int(lav_syn, imlist)
+
+  # Initialize a counter for the extracted lines
+  extracted_counter <- 1
+
+  # Replace the lines that contained ":" with the extracted lines
+  for (index in colon_indices) {
+    lines[index] <- extracted_lines[extracted_counter]
+    extracted_counter <- extracted_counter + 1
+  }
+
+  # Combine the lines back into a single string
+  new_model <- paste(lines, collapse = "\n")
+
+  return(new_model)
+}
 
