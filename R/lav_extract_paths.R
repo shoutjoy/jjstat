@@ -45,12 +45,16 @@ lav_extract_path <- function(model) {
   lines <- lines[lines != ""]
   lines <- trimws(lines)
 
+  # Filter lines that contain paths (i.e., contain ~)
+  path_lines <- lines[grep("~", lines)]
+  path_lines <- path_lines[!grepl("=~", path_lines)]
+
   # Initialize a list to store paths and a counter for hypothesis labels
   paths <- list()
   counter <- 1
 
   # Loop through each line and extract paths
-  for (line in lines) {
+  for (line in path_lines) {
     # Remove the variable on the left-hand side
     lhs_split <- unlist(strsplit(line, "~"))
     rhs <- lhs_split[2]
@@ -77,6 +81,7 @@ lav_extract_path <- function(model) {
 
   return(paths_df)
 }
+
 
 
 #' lav_extract_ind_paths, Create an indirect effect hypothesis
@@ -117,10 +122,43 @@ lav_extract_path <- function(model) {
 ## 간접효과[H4]: 간접효과 IMAG -> EXPE -> QUAL -> SAT -> LOY 는 통계적으로 유의할 것이다.
 ## 간접효과[H5]: 간접효과 IMAG -> EXPE -> QUAL -> VAL -> SAT -> LOY 는 통계적으로 유의할 것이다.
 #' #'
+#' #'
+#'
+#' # Example usage with the provided model
+#' model10 <- "
+#' IMAG =~ imag1 + imag2 + imag3 + imag4 + imag5
+#' EXPE =~ expe1 + expe2 + expe3 + expe4 + expe5
+#' QUAL =~ qual1 + qual2 + qual3 + qual4 + qual5
+#' VAL =~ val1 + val2 + val3 + val4
+#' SAT =~ sat1 + sat2 + sat3 + sat4
+#' LOY =~ loy1 + loy2 + loy3 + loy4
+#'
+#' EXPE ~ IMAG
+#' QUAL ~ EXPE
+#' VAL ~  QUAL+ EXPE
+#' SAT ~ IMAG + EXPE + QUAL + VAL
+#' LOY ~ SAT + IMAG
+#' "
+#'
+#'
+#' # Extract paths from the model
+#' lav_extract_path(model10)
+#' lav_extract_path(model10)%>%lav_extract_ind_paths()
+#'
+#' lav_extract_sm(model10)%>%lav_extract_path()%>%lav_extract_ind_paths()
+#' lav_extract_sm(model10)%>%lav_extract_ind_paths()
 #'
 #' }
 #'
 lav_extract_ind_paths <- function(paths_data, allpaths = FALSE) {
+
+  if(is.data.frame(paths_data)){
+    paths_data = paths_data
+  }else{
+    paths_data=  lav_extract_path(paths_data)
+  }
+
+
   # 가능한 모든 경로 조합을 생성하는 내부 함수
   generate_all_paths <- function(paths_df, start_node = NULL) {
     # 각 경로를 구성 요소로 분할

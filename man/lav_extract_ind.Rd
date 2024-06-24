@@ -13,7 +13,8 @@ lav_extract_ind(
   type = "ind",
   de = FALSE,
   auto = TRUE,
-  paths_name = FALSE
+  paths_name = FALSE,
+  n_name = 1
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ lav_extract_ind(
 \item{auto}{TRUE path auto, FLASE all ind path}
 
 \item{paths_name}{TRUE change paths name}
+
+\item{n_name}{Number of letters in the name being extracted, default =1}
 }
 \value{
 text

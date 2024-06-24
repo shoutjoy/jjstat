@@ -8,6 +8,11 @@ SEM(
   model = NULL,
   data = NULL,
   type = "res",
+  ind = TRUE,
+  interact = TRUE,
+  auto = TRUE,
+  n_name = 1,
+  prefix = "a",
   ordered = NULL,
   sampling.weights = NULL,
   sample.cov = NULL,
@@ -34,6 +39,16 @@ If some variables are declared as ordered factors,
 lavaan will treat them as ordinal variables.}
 
 \item{type}{res, fit, New_model, New_data, imlist}
+
+\item{ind}{Automatically Adding Indirect Effects}
+
+\item{interact}{interaction term extract possinle TRUE}
+
+\item{auto}{auto genrate indirect path}
+
+\item{n_name}{indirect name number n_name =1}
+
+\item{prefix}{prefix "a" --"H" change possible}
 
 \item{ordered}{Character vector. Only used if the data is in a data.frame.
 Treat these variables as ordered (ordinal) variables, if they are endogenous

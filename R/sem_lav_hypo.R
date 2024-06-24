@@ -20,6 +20,27 @@
 #'
 #' # 함수 실행
 #' sem_lav_hypo(model1a)
+#' #'
+#'
+#' # Example usage with the provided model
+#' model10 <- "
+#' IMAG =~ imag1 + imag2 + imag3 + imag4 + imag5
+#' EXPE =~ expe1 + expe2 + expe3 + expe4 + expe5
+#' QUAL =~ qual1 + qual2 + qual3 + qual4 + qual5
+#' VAL =~ val1 + val2 + val3 + val4
+#' SAT =~ sat1 + sat2 + sat3 + sat4
+#' LOY =~ loy1 + loy2 + loy3 + loy4
+#'
+#' EXPE ~ IMAG
+#' QUAL ~ EXPE
+#' VAL ~  QUAL+ EXPE
+#' SAT ~ IMAG + EXPE + QUAL + VAL
+#' LOY ~ SAT + IMAG
+#' "
+#' lav_extract_sm(model10)%>%sem_lav_hypo()
+#' lav_extract_sm(model10, prefix="H")%>%sem_lav_hypo()
+#'
+#'
 #'
 #' #'
 #' }

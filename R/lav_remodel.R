@@ -63,15 +63,15 @@
 #'
 #'
 lav_remodel = function(model,  prefix="a", auto=TRUE, start_node=NULL, end_node=NULL,
-                       cat=FALSE, text=FALSE, interact=TRUE, paths_name= TRUE ){
+                       cat=FALSE, text=FALSE, interact=TRUE, paths_name= TRUE, n_name=1 ){
 
   mm_model = lav_extract_mm2(model, interact = interact)
   sm_model = lav_extract_sm(model, prefix = prefix)
   ind_model = lav_extract_ind(lav_extract_sm(model, prefix = prefix),
-                              de=TRUE, auto=auto,
+                              de = TRUE, auto = auto,
                               start_node = start_node,
-                              end_node = end_node,
-                              paths_name=paths_name)
+                              end_node = end_node,n_name = n_name,
+                              paths_name = paths_name)
 
   re_model = paste("##Measurement model",
                    mm_model,"\n",

@@ -9,6 +9,7 @@
 #' @param de when direct paht input
 #' @param auto TRUE path auto, FLASE all ind path
 #' @param paths_name TRUE change paths name
+#' @param n_name Number of letters in the name being extracted, default =1
 #'
 #' @return text
 #' @export
@@ -81,7 +82,7 @@
 lav_extract_ind <- function(model, start_node = NULL, end_node = NULL,
                             prefix="a", cat=FALSE, type="ind",
                             de=FALSE, auto=TRUE,
-                            paths_name=FALSE) {
+                            paths_name=FALSE,n_name=1) {
   # Extract the model paths
   if(de){
     de_paths <- model
@@ -144,7 +145,7 @@ lav_extract_ind <- function(model, start_node = NULL, end_node = NULL,
         path <- paste(current_path, collapse = " -> ")
         paths <<- c(paths, path)
         ind_coefs <<- c(ind_coefs, paste(current_coefs, collapse = "*"))
-        path_name <- paste(substr(unlist(strsplit(path, " -> ")), 1, 1), collapse = "")
+        path_name <- paste(substr(unlist(strsplit(path, " -> ")), 1, n_name), collapse = "")
         IEs <<- c(IEs, paste0("IE_", sprintf("%02d", length(IEs) + 1), if (paths_name) paste0("_", path_name) else ""))
       } else {
         direct_path_included <<- TRUE

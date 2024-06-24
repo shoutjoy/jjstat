@@ -60,6 +60,11 @@
 #' by the data (either the full data.frame or the sample (co)variance matrix).
 #'  If the WLS.V and/or NACOV matrices are provided,
 #'  this argument is currently set to "data".
+#' @param ind Automatically Adding Indirect Effects
+#' @param interact interaction term extract possinle TRUE
+#' @param auto auto genrate indirect path
+#' @param n_name indirect name number n_name =1
+#' @param prefix prefix "a" --"H" change possible
 #' @param ... Many more additional options can be defined, using 'name = value'. See lavOptions for a complete list.
 #'
 #' @return data
@@ -148,15 +153,31 @@
 #' }
 #'
 #'
-SEM = function(model = NULL, data = NULL, type="res",
+SEM = function(model = NULL, data = NULL, type="res", ind=TRUE,
+               interact=TRUE, auto=TRUE,n_name=1, prefix="a",
                ordered = NULL, sampling.weights = NULL,
                sample.cov = NULL, sample.mean = NULL, sample.th = NULL,
                sample.nobs = NULL, group = NULL, cluster = NULL,
                constraints = "", WLS.V = NULL, NACOV = NULL, ov.order = "model",
                ...){
+
+
+
   imlist = lav_extract_imlist(model)
-  New_model = lav_new_model(model, imlist)
   New_data = lav_latentProd(data, model)
+
+  if(ind){
+    New_model = lav_new_model(model, imlist)
+    New_model = lav_remodel(New_model,
+                            interact = interact,
+                            auto = auto,
+                            n_name=n_name,
+                            prefix= prefix)
+
+  }else{
+
+    New_model = lav_new_model(model, imlist)
+  }
 
   #  lav_extract_int(model2, lav_extract_imlist(model3))
 
@@ -352,7 +373,8 @@ lav_latentProd <- function(data, lav_syn, prefix=".") {
     if (all(components %in% latent_var_names)) {
       data[[interaction_name]] <- fs_data[, components[1]] * fs_data[, components[2]]
     } else {
-      stop(paste("Error: Components", components[1], "or", components[2], "not found in fs_data"))
+      stop(paste("Error: Components", components[1], "or",
+                 components[2], "not found in fs_data"))
     }
   }
 

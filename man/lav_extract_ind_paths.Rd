@@ -41,6 +41,31 @@ lav_extract_path(model1a) \%>\%
   sem_lav_ind_hypo()
 
 #'
+#'
+
+# Example usage with the provided model
+model10 <- "
+IMAG =~ imag1 + imag2 + imag3 + imag4 + imag5
+EXPE =~ expe1 + expe2 + expe3 + expe4 + expe5
+QUAL =~ qual1 + qual2 + qual3 + qual4 + qual5
+VAL =~ val1 + val2 + val3 + val4
+SAT =~ sat1 + sat2 + sat3 + sat4
+LOY =~ loy1 + loy2 + loy3 + loy4
+
+EXPE ~ IMAG
+QUAL ~ EXPE
+VAL ~  QUAL+ EXPE
+SAT ~ IMAG + EXPE + QUAL + VAL
+LOY ~ SAT + IMAG
+"
+
+
+# Extract paths from the model
+lav_extract_path(model10)
+lav_extract_path(model10)\%>\%lav_extract_ind_paths()
+
+lav_extract_sm(model10)\%>\%lav_extract_path()\%>\%lav_extract_ind_paths()
+lav_extract_sm(model10)\%>\%lav_extract_ind_paths()
 
 }
 

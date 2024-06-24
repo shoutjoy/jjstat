@@ -13,7 +13,8 @@ lav_remodel(
   cat = FALSE,
   text = FALSE,
   interact = TRUE,
-  paths_name = TRUE
+  paths_name = TRUE,
+  n_name = 1
 )
 }
 \arguments{
