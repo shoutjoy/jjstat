@@ -5,6 +5,7 @@
 #' @param nrow 4
 #' @param ncol 5
 #' @param new_position  list(c(1, 1), c(1, 2), c(3, 1), c(2, 3),c(2, 4))
+#' @param variables 직업입력하는 변수명
 #' @param ... ETC
 #'
 #' @return MAT
@@ -46,9 +47,15 @@
 #' }
 #'
 lav_factor_layout <- function(sem_res, positions = NULL, nrow = 4, ncol = 5,
-                              new_position=NULL,    ...) {
+                              new_position=NULL,variables=NULL,    ...) {
+
+  if(is.null(variables)){
   # Extract the latent variable names
   lvs_names <- rev(unlist(sem_res@Model@dimNames[[1]][1]))
+
+  }else{
+    lvs_names <- variables
+  }
 
   # Number of latent variables
   n_lvs <- length(lvs_names)

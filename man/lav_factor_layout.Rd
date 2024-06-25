@@ -10,6 +10,7 @@ lav_factor_layout(
   nrow = 4,
   ncol = 5,
   new_position = NULL,
+  variables = NULL,
   ...
 )
 }
@@ -23,6 +24,8 @@ lav_factor_layout(
 \item{ncol}{5}
 
 \item{new_position}{list(c(1, 1), c(1, 2), c(3, 1), c(2, 3),c(2, 4))}
+
+\item{variables}{직업입력하는 변수명}
 
 \item{...}{ETC}
 }
