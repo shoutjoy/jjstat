@@ -131,5 +131,6 @@ mplus_est_df <- function(text, digits = 3) {
   res = results%>%replace_df_rep("Variances","Var")%>%
     mutate_col(op = sub(".*_([^_]+)_.*", "\\1", .$var), col=2)
 
-  return(res)
+  return(res%>%replace_df_rep("_ON_"," <- ", "_BY_", " =~ ", "_Var_", " ~~ ",
+                              "_WITH_", " ~~ ") )
 }

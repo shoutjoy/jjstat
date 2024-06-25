@@ -36,6 +36,7 @@ lav_semPaths(
   edgeLabels = NULL,
   nodeLabels = NULL,
   fixedStyle = 1,
+  intercept = FALSE,
   color = list(lat = "gray10", man = "white"),
   label.cex = 1,
   sig = TRUE,

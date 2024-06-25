@@ -68,7 +68,7 @@ lav_remodel = function(model,  prefix="a", auto=TRUE, start_node=NULL, end_node=
   mm_model = lav_extract_mm2(model, interact = interact)
   sm_model = lav_extract_sm(model, prefix = prefix)
   ind_model = lav_extract_ind(lav_extract_sm(model, prefix = prefix),
-                              de = TRUE, auto = auto,
+                              auto = auto,
                               start_node = start_node,
                               end_node = end_node,n_name = n_name,
                               paths_name = paths_name)

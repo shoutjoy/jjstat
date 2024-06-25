@@ -56,6 +56,9 @@
 sem_effect_ie = function(model_sem,
                      effect1 ="IE", effect2="IE", label=FALSE, ci= TRUE ){
 
+  library(dplyr)
+  library(tidyr)
+
   res = parameterEstimates(model_sem, ci=ci, stand=T)%>%
     filter(op==":=" & str_detect(lhs, effect1) |str_detect(lhs, effect2))
 
@@ -142,7 +145,8 @@ sem_effect_ie = function(model_sem,
 #'
 IE_effect = function(model_sem,
                          effect1 ="IE", effect2="IE", label=FALSE, ci=F ){
-
+  library(dplyr)
+  library(tidyr)
   res = parameterEstimates(model_sem, ci=ci, stand=T)%>%
     filter(op==":=" & str_detect(lhs, effect1) |str_detect(lhs, effect2))
 
@@ -229,7 +233,8 @@ IE_effect = function(model_sem,
 #'
 TE_effect = function(model_sem, effect1="TE", effect2="te",
                      label=FALSE, ci=F){
-
+  library(dplyr)
+  library(tidyr)
   res = parameterEstimates(model_sem, ci=ci, stand=T)%>%
     filter(op==":=" & str_detect(lhs, effect1))%>%
     filter(str_detect(lhs, effect2))%>%
@@ -302,7 +307,8 @@ TE_effect = function(model_sem, effect1="TE", effect2="te",
 #'
 sem_effect_te = function(model_sem, effect1="TE", effect2="te",
                      label=FALSE, ci=TRUE){
-
+  library(dplyr)
+  library(tidyr)
   res = parameterEstimates(model_sem, ci=ci, stand=T)%>%
     filter(op==":=" & str_detect(lhs, effect1))%>%
     filter(str_detect(lhs, effect2))%>%
@@ -378,6 +384,8 @@ sem_effect_diff = function(model_sem,
                        effect2 ="diff",
                        label= FALSE,
                        ci= TRUE){
+  library(dplyr)
+  library(tidyr)
   if(ci){
     res = parameterEstimates(model_sem, ci = ci, stand = T)%>%
       filter(op == ":=" & str_detect(lhs, effect1) | str_detect(lhs, effect2))%>%
@@ -467,6 +475,8 @@ Diff_effect = function(model_sem,
                        effect2 ="diff",
                        label= FALSE,
                        ci=FALSE){
+  library(dplyr)
+  library(tidyr)
   if(ci){
     res = parameterEstimates(model_sem, ci = ci, stand = T)%>%
       filter(op == ":=" & str_detect(lhs, effect1) | str_detect(lhs, effect2))%>%

@@ -11,7 +11,6 @@ lav_extract_ind(
   prefix = "a",
   cat = FALSE,
   type = "ind",
-  de = FALSE,
   auto = TRUE,
   paths_name = FALSE,
   n_name = 1
@@ -29,8 +28,6 @@ lav_extract_ind(
 \item{cat}{test show cat TRUR}
 
 \item{type}{type "ind","new_parameters","combine"}
-
-\item{de}{when direct paht input}
 
 \item{auto}{TRUE path auto, FLASE all ind path}
 

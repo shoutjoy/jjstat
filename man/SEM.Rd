@@ -9,10 +9,12 @@ SEM(
   data = NULL,
   type = "res",
   ind = TRUE,
+  cat = FALSE,
   interact = TRUE,
   auto = TRUE,
   n_name = 1,
   prefix = "a",
+  paths_name = TRUE,
   ordered = NULL,
   sampling.weights = NULL,
   sample.cov = NULL,
@@ -42,6 +44,8 @@ lavaan will treat them as ordinal variables.}
 
 \item{ind}{Automatically Adding Indirect Effects}
 
+\item{cat}{output syntax default FALSE}
+
 \item{interact}{interaction term extract possinle TRUE}
 
 \item{auto}{auto genrate indirect path}
@@ -49,6 +53,8 @@ lavaan will treat them as ordinal variables.}
 \item{n_name}{indirect name number n_name =1}
 
 \item{prefix}{prefix "a" --"H" change possible}
+
+\item{paths_name}{inde path name default TRUE}
 
 \item{ordered}{Character vector. Only used if the data is in a data.frame.
 Treat these variables as ordered (ordinal) variables, if they are endogenous

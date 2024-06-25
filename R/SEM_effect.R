@@ -591,3 +591,93 @@ sem_effect_ci = function(model_sem,
   return(res)
 }
 
+
+#' SEM indirect effect
+#'
+#' @param model_sem lavaan objgect
+#' @param effect1 "IE"
+#' @param effect2 "IE"
+#' @param label label
+#' @param ci confidence interval
+#' @param digits digits=3
+#'
+#' @return parameterEstimates()
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+
+#' #library(lavaan) # only needed once per session
+#'
+#' models1 <- '
+#'   # measurement model
+#'     ind60 =~ x1 + x2 + x3
+#'     dem60 =~ y1 + y2 + y3 + y4
+#'     dem65 =~ y5 + y6 + y7 + y8
+#'     # regressions
+#'     dem60 ~ ind60
+#'     dem65 ~ ind60 + dem60
+#'       # residual correlations
+#'     y1 ~~ y5
+#'     y2 ~~ y4 + y6
+#'     y3 ~~ y7
+#'     y4 ~~ y8
+#'     y6 ~~ y8
+#'
+#' fits1 <- sem(models1, data=PoliticalDemocracy)
+#'
+#'
+#' models2 ='
+#'   # measurement model
+#'     ind60 =~ x1 + x2 + x3
+#'     dem60 =~ y1 + y2 + y3 + y4
+#'     dem65 =~ y5 + y6 + y7 + y8
+#'      # regressions
+#'     dem60 ~ a1*ind60
+#'     dem65 ~ a2*ind60 + a3*dem60
+#'  #NEw
+#'    ie := a1*a3
+#'    te := a2 +a1*a3
+#'    diff := a1 - a3
+#'
+#' fits2 <- sem(models2, data=PoliticalDemocracy)
+#'
+#' summary(fits1, standardized=TRUE)
+#' summary(fits2, standardized=TRUE)
+#' fits2 %>% sem_effect_ie()
+#' }
+#'
+sem_effect_ind = function(model_sem,
+                         effect1 ="DE", effect2="IE",
+                         digits=3, label=FALSE, ci= TRUE ){
+  library(dplyr)
+  library(tidyr)
+  res = lavaan::parameterEstimates(model_sem, ci=ci, stand=T)%>%
+    dplyr::filter(op==":=" & str_detect(lhs, effect1) |str_detect(lhs, effect2))
+
+  if(ci){
+    res = res%>%select("Path"=lhs, rhs, est, "std"= std.all,
+                       se, z, pvalue, ci.lower, ci.upper)%>%
+      p_mark_sig("pvalue", digits = digits )%>%select(-se, -pvalue)%>%
+      Round(digits)%>%
+      tidyr::unite(CI_95, ci.lower, ci.upper, sep=", ")%>%
+      tidyr::unite(z, z, sig, sep=" ")%>%
+      dplyr::mutate(CI_95p = paste0("[", CI_95,"]"))%>%select(-CI_95)
+
+
+  }else{
+    res = res%>%
+      dplyr::select("Path"=lhs, rhs, est, "std"= std.all, se, z, pvalue)%>%
+      Round(digits) %>%
+      p_mark_sig("pvalue", digits = digits )
+  }
+
+
+  if(label){
+    res = res
+  }else{
+    res = res%>% dplyr::select(-rhs)
+  }
+  return(res)
+}

@@ -45,9 +45,9 @@
 #' }
 #'
 #'
-lav_extract_sm <- function(model, hypo = TRUE, prefix="a",  all= FALSE) {
+lav_extract_sm <- function(model, hypo = TRUE, prefix = "a", all = FALSE) {
+  mm_model <- lav_extract_mm(model)
 
-  mm_model = lav_extract_mm(model)
   # Split the model string by newline to separate each line
   lines <- strsplit(model, "\n")[[1]]
 
@@ -73,8 +73,11 @@ lav_extract_sm <- function(model, hypo = TRUE, prefix="a",  all= FALSE) {
     }
   }
 
-  # If hypo is TRUE, add identifiers
-  if (hypo) {
+  # Check if hypothesis identifiers are already present
+  has_hypo <- any(grepl("\\*", path_lines_expanded))
+
+  # If hypo is TRUE and no hypothesis identifiers are present, add identifiers
+  if (hypo && !has_hypo) {
     for (i in seq_along(path_lines_expanded)) {
       parts <- strsplit(path_lines_expanded[i], "~")[[1]]
       dependent <- parts[1]
@@ -86,12 +89,11 @@ lav_extract_sm <- function(model, hypo = TRUE, prefix="a",  all= FALSE) {
   }
 
   # Return the lines that contain paths as a single string
-  res= paste0(path_lines_expanded, collapse = "\n")
+  res <- paste0(path_lines_expanded, collapse = "\n")
 
-  if(all){
-
-    all = paste(mm_model, res, sep="\n")
-  }else{
+  if (all) {
+    all <- paste(mm_model, res, sep = "\n")
+  } else {
     res
   }
 }

@@ -6,7 +6,7 @@
 #' @param prefix hypothesis "a" if U want change "H"
 #' @param cat test show cat TRUR
 #' @param type type "ind","new_parameters","combine"
-#' @param de when direct paht input
+# @param de when direct paht input
 #' @param auto TRUE path auto, FLASE all ind path
 #' @param paths_name TRUE change paths name
 #' @param n_name Number of letters in the name being extracted, default =1
@@ -80,14 +80,23 @@
 #' }
 #'
 lav_extract_ind <- function(model, start_node = NULL, end_node = NULL,
-                            prefix="a", cat=FALSE, type="ind",
-                            de=FALSE, auto=TRUE,
-                            paths_name=FALSE,n_name=1) {
-  # Extract the model paths
-  if(de){
-    de_paths <- model
+                            prefix = "a", cat = FALSE, type = "ind",
+                            # de = FALSE,
+                            auto = TRUE,
+                            paths_name = FALSE, n_name = 1) {
+  # # Extract the model paths
+  # if (de) {
+  #   de_paths <- model
+  # } else {
+  #   de_paths <- lav_extract_sm(model, prefix = prefix)
+  # }
+  # Determine if the model string is in raw form or already transformed
+  if (grepl("~", model) && !grepl("\\*", model)) {
+    # If model string contains '~' but not '*', assume it is raw
+    de_paths <- lav_extract_sm(model, prefix = prefix)
   } else {
-    de_paths <- lav_extract_sm(model, prefix=prefix)
+    # Otherwise, assume it is already transformed
+    de_paths <- model
   }
 
   # Split the de_paths string by newline to separate each line
@@ -123,7 +132,7 @@ lav_extract_ind <- function(model, start_node = NULL, end_node = NULL,
 
   # Automatically set start_node if auto is TRUE and start_node is NULL
   if (is.null(start_node) && auto) {
-    start_node <- path_list[[1]][1]
+    start_node <- unique(sapply(path_list, `[[`, 1))
   }
 
   # Determine the end nodes (those that are not independent variables)
@@ -166,10 +175,10 @@ lav_extract_ind <- function(model, start_node = NULL, end_node = NULL,
     start_nodes <- start_node
   }
 
-  for (start_node in start_nodes) {
+  for (start in start_nodes) {
     for (i in seq_along(path_list)) {
-      if (path_list[[i]][1] == start_node) {
-        find_paths(path_list[[i]], coef_list[[i]])
+      if (path_list[[i]][1] == start) {
+        find_paths(c(start, path_list[[i]][2]), coef_list[[i]])
       }
     }
   }
@@ -177,9 +186,9 @@ lav_extract_ind <- function(model, start_node = NULL, end_node = NULL,
   # Create the final data frame
   result <- data.frame(paths = paths, ind_coefs = ind_coefs, IEs = IEs)
 
-  if (direct_path_included) {
-    cat("The direct path is included.\n")
-  }
+  # if (direct_path_included) {
+  #   cat("The direct path is included.\n")
+  # }
 
   result <- result %>%
     mutate(syn = paste0(IEs, " := ", ind_coefs))
@@ -194,7 +203,7 @@ lav_extract_ind <- function(model, start_node = NULL, end_node = NULL,
   combined_output <- paste(original_paths,
                            "\n\n# NEW PARAMETER Indirect effect \n", new_parameters)
 
-  if(cat) {
+  if (cat) {
     cat(paste("\n", combined_output, "\n\n"))
   }
 

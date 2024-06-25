@@ -295,7 +295,13 @@ sem_apa <- function(data, md = FALSE, caption= "Table: ", print=TRUE) {
 #' @return table
 #' @export
 #'
-
+#' @examples
+#'
+#' \dontrun{
+#'
+#' sem_effect_ci(satis_sem1)%>%sem_apa_ie_CI()
+#'
+#' }
 sem_apa_ie_CI <- function(data, caption="매개효과 분석 결과 ",
                           md = FALSE, est=2, std=3, sig = 6, CI=7 ,Z=FALSE,
                           tot_filter="총",
@@ -368,6 +374,8 @@ interpretation_ie_CI <- function(data, caption="매개효과 분석 결과 ",
                           md = FALSE, est=2, std=3, sig = 6, CI=7 ,Z=FALSE,
                           tot_filter="총",
                           ind_filter="IE" ) {
+library(dplyr)
+library(tidyr)
 
   data<- data %>% separate(z, c("Z","sig"), sep=" ")
   data = data %>% replace_df(pattern="ns", imp="") %>%
@@ -433,10 +441,14 @@ interpretation_ie_CI <- function(data, caption="매개효과 분석 결과 ",
 #' example(sem)
 #' IE_effect(fit)
 #' IE_effect(fit) %>% sem_apa_ie()
+#' sem_effect_ci(satis_sem1, ci=FALSE)
+#' sem_effect_ci(satis_sem1, ci=FALSE)%>%sem_apa_ie()
+#'
+#'
 #' }
 sem_apa_ie <- function(data, msg="IE", md = FALSE, est=3, std=4, sig = 7, p=6  ) {
   inter <- c()
-
+library(dplyr)
   if(msg=="IE"){
 
     for(i in 1:nrow(data)) { # 수정된 부분: 1부터 nrow(data)까지 반복
@@ -536,6 +548,7 @@ sem_apa_ie <- function(data, msg="IE", md = FALSE, est=3, std=4, sig = 7, p=6  )
 #' IE_effect(fit) %>% interpretation_ie()
 #' }
 interpretation_ie <- function(data, msg="IE", md = FALSE, est=3, std=4, sig = 7, p=6  ) {
+  library(dplyr)
   inter <- c()
 
   if(msg=="IE"){

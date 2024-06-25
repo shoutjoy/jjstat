@@ -36,6 +36,7 @@ lav_semPaths2(
   edgeLabels = NULL,
   nodeLabels = NULL,
   fixedStyle = 1,
+  intercept = TRUE,
   color = list(lat = "gray10", man = "white"),
   label.cex = 1,
   sig = TRUE,
@@ -104,6 +105,8 @@ lav_semPaths2(
 \item{nodeLabels}{nodeLabels=NULL}
 
 \item{fixedStyle}{fixedStyle=1 default rbase linetype}
+
+\item{intercept}{intercept}
 
 \item{color}{list(lat="gray10", man="white")}
 

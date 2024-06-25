@@ -87,7 +87,9 @@ lav_extract_path <- function(model) {
 #' lav_extract_ind_paths, Create an indirect effect hypothesis
 #'
 #' @param paths_data direct path
+#' @param first_node start node name
 #' @param allpaths all and ind(FALSE)
+#' @param paths_name TRUE hypothesis output
 #'
 #' @return text
 #' @export
@@ -104,9 +106,10 @@ lav_extract_path <- function(model) {
 #' # 함수 실행
 #' lav_extract_ind_paths(paths_data, allpaths = TRUE)
 #' lav_extract_ind_paths(paths_data, allpaths = FALSE)
-#'
-#'
-#'
+#' #'
+#' lav_extract_ind_paths(paths_data, allpaths = FALSE, paths_name = TRUE)
+#' lav_extract_ind_paths(paths_data, allpaths = FALSE, paths_name = FALSE)
+#' #'
 #' lav_extract_path(model1a)%>%lav_extract_ind_paths()
 #'
 #' lav_extract_path(model1)%>%lav_extract_ind_paths()
@@ -147,17 +150,17 @@ lav_extract_path <- function(model) {
 #'
 #' lav_extract_sm(model10)%>%lav_extract_path()%>%lav_extract_ind_paths()
 #' lav_extract_sm(model10)%>%lav_extract_ind_paths()
+#' lav_extract_sm(model10)%>%lav_extract_ind_paths("EXPE")
 #'
 #' }
 #'
-lav_extract_ind_paths <- function(paths_data, allpaths = FALSE) {
-
-  if(is.data.frame(paths_data)){
-    paths_data = paths_data
-  }else{
-    paths_data=  lav_extract_path(paths_data)
+lav_extract_ind_paths <- function(paths_data,
+                                  first_node= NULL,
+                                  paths_name = FALSE,
+                                  allpaths = FALSE) {
+  if (!is.data.frame(paths_data)) {
+    paths_data <- lav_extract_path(paths_data)
   }
-
 
   # 가능한 모든 경로 조합을 생성하는 내부 함수
   generate_all_paths <- function(paths_df, start_node = NULL) {
@@ -166,11 +169,12 @@ lav_extract_ind_paths <- function(paths_data, allpaths = FALSE) {
 
     # 경로에서 인접 목록 생성
     adj_list <- list()
-    for (path in paths_df$paths) {
+    for (i in 1:nrow(paths_df)) {
+      path <- paths_df$paths[i]
       nodes <- strsplit(path, "->")[[1]]
-      for (i in 1:(length(nodes) - 1)) {
-        node <- trimws(nodes[i])
-        next_node <- trimws(nodes[i + 1])
+      for (j in 1:(length(nodes) - 1)) {
+        node <- trimws(nodes[j])
+        next_node <- trimws(nodes[j + 1])
         if (!is.null(adj_list[[node]])) {
           adj_list[[node]] <- unique(c(adj_list[[node]], next_node))
         } else {
@@ -187,39 +191,66 @@ lav_extract_ind_paths <- function(paths_data, allpaths = FALSE) {
     }
 
     # 재귀적으로 모든 경로를 생성하는 함수
-    generate_paths <- function(node, adj_list, path) {
+    generate_paths <- function(node, adj_list, path, path_indices) {
       if (!is.null(adj_list[[node]])) {
         for (next_node in adj_list[[node]]) {
-          generate_paths(next_node, adj_list, c(path, next_node))
+          next_path_idx <- which(paths_df$paths == paste(node, next_node, sep = "->"))
+          generate_paths(next_node, adj_list, c(path, next_node), c(path_indices, next_path_idx))
         }
       } else {
-        all_paths <<- c(all_paths, paste(path, collapse = " -> "))
+        if (length(path) > 2) {
+          all_paths <<- c(all_paths, list(list(path = path, indices = path_indices)))
+        }
       }
     }
 
     # 모든 시작 노드에서 경로를 생성
-    all_paths <- c()
+    all_paths <- list()
     for (start_node in start_nodes) {
-      generate_paths(start_node, adj_list, start_node)
+      generate_paths(start_node, adj_list, start_node, numeric())
     }
 
-    # 직접 효과를 제외하고 all_paths를 데이터 프레임으로 변환
-    all_paths <- all_paths[sapply(all_paths,
-                                  function(x) length(strsplit(x, " -> ")[[1]]) > 2)]
-    all_paths_df <- data.frame(paths = all_paths,
-                               stringsAsFactors = FALSE)
+    # 경로와 가설을 합치는 함수
+    combine_path_hypothesis <- function(path_info) {
+      path <- path_info$path
+      indices <- path_info$indices
+      path_with_hypothesis <- paste(path[1], paste(sapply(2:length(path), function(i) {
+        paste0(paths_df$hypo[indices[i - 1]], "*", path[i])
+      }), collapse = " -> "), sep = " -> ")
+      return(path_with_hypothesis)
+    }
+
+    # 경로 이름을 포함할 경우 처리
+    if (paths_name) {
+      all_paths <- sapply(all_paths, combine_path_hypothesis)
+    } else {
+      all_paths <- sapply(all_paths, function(p) paste(p$path, collapse = " -> "))
+    }
+
+    # 중복된 H 제거
+    if (paths_name) {
+      all_paths <- sapply(all_paths, function(path) {
+        gsub("H\\*(H\\d+\\*)", "\\1", path)
+      })
+    }
+
+    all_paths_df <- data.frame(paths = all_paths, stringsAsFactors = FALSE)
 
     return(all_paths_df)
   }
 
-  # 첫 번째 경로의 시작 노드 추출
-  first_path_start <- trimws(strsplit(paths_data$paths[1], "->")[[1]][1])
+  # #  첫 번째 경로의 모든 시작 노드 추출
+  # if(auto){
+  #   first_path_components <- strsplit(paths_data$paths[1], "->")[[1]]
+  #   first_path_starts <- unique(trimws(first_path_components))
+  # }
+
 
   # 입력 데이터를 사용하여 가능한 모든 경로를 생성
   if (allpaths) {
     all_paths <- generate_all_paths(paths_data)
   } else {
-    all_paths <- generate_all_paths(paths_data, start_node = first_path_start)
+    all_paths <- generate_all_paths(paths_data, start_node = first_node)
   }
 
   # 최종 결과 필터링

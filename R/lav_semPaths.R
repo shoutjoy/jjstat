@@ -38,6 +38,7 @@
 #' @param type type ="plot, and res is lavaan simdata result
 #' @param rotate_resid c(lv= angle), c(f1 =90, f2=180)
 #' @param se  se=FALSE
+#' @param intercept  intercept
 #' @return plot jutpls_boot
 #' @export
 #'
@@ -140,6 +141,7 @@ lav_semPaths2 = function(lav_obj,
                          edgeLabels=NULL,
                          nodeLabels=NULL,
                          fixedStyle = 1,
+                         intercept= TRUE,
                          color = list(lat="gray10", man="white"),
                          label.cex = 1,
                          sig = TRUE,
@@ -175,6 +177,7 @@ lav_semPaths2 = function(lav_obj,
       nDigits = nDigits,
       asize= asize,
       fixedStyle = fixedStyle,
+      intercept= intercept,
       # edgeLabels = edgeLabels,
       # nodeLabels = nodeLabels,
       structural = structural,
@@ -207,6 +210,7 @@ lav_semPaths2 = function(lav_obj,
         nDigits = nDigits,
         asize= asize,
         fixedStyle = fixedStyle,
+        intercept= intercept,
         # edgeLabels = edgeLabels,
         # nodeLabels = nodeLabels,
         structural = structural,
@@ -239,6 +243,7 @@ lav_semPaths2 = function(lav_obj,
         asize= asize,
         fixedStyle = fixedStyle,
         edgeLabels = edgeLabels,
+        intercept= intercept,
         # nodeLabels = nodeLabels,
         structural = structural,
         color = color,
@@ -267,6 +272,7 @@ lav_semPaths2 = function(lav_obj,
         curve=curve,
         nDigits = nDigits,
         asize= asize,
+        intercept= intercept,
         # edgeLabels = edgeLabels,
         nodeLabels = nodeLabels,
         structural = structural,
@@ -300,6 +306,7 @@ lav_semPaths2 = function(lav_obj,
         edgeLabels = edgeLabels,
         nodeLabels = nodeLabels,
         structural = structural,
+        intercept= intercept,
         color=color,
         label.cex = label.cex,
         style =  style,  mar=mar)
@@ -510,6 +517,7 @@ lav_semPaths = function(lav_obj,
                          edgeLabels=NULL,
                          nodeLabels=NULL,
                          fixedStyle = 1,
+                        intercept= FALSE,
                          color = list(lat="gray10", man="white"),
                          label.cex = 1,
                          sig = TRUE,
@@ -545,6 +553,7 @@ lav_semPaths = function(lav_obj,
       nDigits = nDigits,
       asize= asize,
       fixedStyle = fixedStyle,
+      intercept= intercept,
       # edgeLabels = edgeLabels,
       # nodeLabels = nodeLabels,
       structural = structural,
@@ -577,6 +586,7 @@ lav_semPaths = function(lav_obj,
         nDigits = nDigits,
         asize= asize,
         fixedStyle = fixedStyle,
+        intercept= intercept,
         # edgeLabels = edgeLabels,
         # nodeLabels = nodeLabels,
         structural = structural,
@@ -609,6 +619,7 @@ lav_semPaths = function(lav_obj,
         asize= asize,
         fixedStyle = fixedStyle,
         edgeLabels = edgeLabels,
+        intercept= intercept,
         # nodeLabels = nodeLabels,
         structural = structural,
         color = color,
@@ -670,6 +681,7 @@ lav_semPaths = function(lav_obj,
         edgeLabels = edgeLabels,
         nodeLabels = nodeLabels,
         structural = structural,
+        intercept= intercept,
         color=color,
         label.cex = label.cex,
         style =  style,  mar=mar)
@@ -722,19 +734,19 @@ lav_semPaths = function(lav_obj,
   switch(type, plot = dia, res = lav_obj)
 }
 
-
-#lav_rotate_resid(c(진로동기= 160, 진로태도= 30))
-lav_rotate_resid = function(plotdata, resid_list=NULL, plot=TRUE){
-  if(!is.null(resid_list)){
-    plotdata <- semptools::rotate_resid(plotdata, rotate_resid_list = resid_list)
-
-    if(plot){
-
-      plot(plotdata)
-    }
-    return(plotdata)
-  } else {
-    stop("Input resid list ")
-  }
-}
+#
+# #lav_rotate_resid(c(진로동기= 160, 진로태도= 30))
+# lav_rotate_resid = function(plotdata, resid_list=NULL, plot=TRUE){
+#   if(!is.null(resid_list)){
+#     plotdata <- semptools::rotate_resid(plotdata, rotate_resid_list = resid_list)
+#
+#     if(plot){
+#
+#       plot(plotdata)
+#     }
+#     return(plotdata)
+#   } else {
+#     stop("Input resid list ")
+#   }
+# }
 

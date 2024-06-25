@@ -44,3 +44,11 @@ table
 \description{
 sem_apa_ie_CI
 }
+\examples{
+
+\dontrun{
+
+sem_effect_ci(satis_sem1)\%>\%sem_apa_ie_CI()
+
+}
+}

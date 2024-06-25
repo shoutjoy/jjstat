@@ -4,10 +4,19 @@
 \alias{lav_extract_ind_paths}
 \title{lav_extract_ind_paths, Create an indirect effect hypothesis}
 \usage{
-lav_extract_ind_paths(paths_data, allpaths = FALSE)
+lav_extract_ind_paths(
+  paths_data,
+  first_node = NULL,
+  paths_name = FALSE,
+  allpaths = FALSE
+)
 }
 \arguments{
 \item{paths_data}{direct path}
+
+\item{first_node}{start node name}
+
+\item{paths_name}{TRUE hypothesis output}
 
 \item{allpaths}{all and ind(FALSE)}
 }
@@ -29,9 +38,10 @@ paths_data <- data.frame(
 # 함수 실행
 lav_extract_ind_paths(paths_data, allpaths = TRUE)
 lav_extract_ind_paths(paths_data, allpaths = FALSE)
-
-
-
+#'
+lav_extract_ind_paths(paths_data, allpaths = FALSE, paths_name = TRUE)
+lav_extract_ind_paths(paths_data, allpaths = FALSE, paths_name = FALSE)
+#'
 lav_extract_path(model1a)\%>\%lav_extract_ind_paths()
 
 lav_extract_path(model1)\%>\%lav_extract_ind_paths()
@@ -66,6 +76,7 @@ lav_extract_path(model10)\%>\%lav_extract_ind_paths()
 
 lav_extract_sm(model10)\%>\%lav_extract_path()\%>\%lav_extract_ind_paths()
 lav_extract_sm(model10)\%>\%lav_extract_ind_paths()
+lav_extract_sm(model10)\%>\%lav_extract_ind_paths("EXPE")
 
 }
 

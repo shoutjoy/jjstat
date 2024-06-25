@@ -65,6 +65,8 @@
 #' @param auto auto genrate indirect path
 #' @param n_name indirect name number n_name =1
 #' @param prefix prefix "a" --"H" change possible
+#' @param cat output syntax default FALSE
+#' @param paths_name inde path name default TRUE
 #' @param ... Many more additional options can be defined, using 'name = value'. See lavOptions for a complete list.
 #'
 #' @return data
@@ -153,47 +155,52 @@
 #' }
 #'
 #'
-SEM = function(model = NULL, data = NULL, type="res", ind=TRUE,
-               interact=TRUE, auto=TRUE,n_name=1, prefix="a",
-               ordered = NULL, sampling.weights = NULL,
-               sample.cov = NULL, sample.mean = NULL, sample.th = NULL,
-               sample.nobs = NULL, group = NULL, cluster = NULL,
-               constraints = "", WLS.V = NULL, NACOV = NULL, ov.order = "model",
-               ...){
 
+SEM <- function(model = NULL, data = NULL, type = "res", ind = TRUE, cat=FALSE,
+                interact = TRUE, auto = TRUE, n_name = 1, prefix = "a",paths_name=TRUE,
+                ordered = NULL, sampling.weights = NULL,
+                sample.cov = NULL, sample.mean = NULL, sample.th = NULL,
+                sample.nobs = NULL, group = NULL, cluster = NULL,
+                constraints = "", WLS.V = NULL, NACOV = NULL, ov.order = "model",
+                ...) {
 
-
-  imlist = lav_extract_imlist(model)
-  New_data = lav_latentProd(data, model)
-
-  if(ind){
-    New_model = lav_new_model(model, imlist)
-    New_model = lav_remodel(New_model,
-                            interact = interact,
-                            auto = auto,
-                            n_name=n_name,
-                            prefix= prefix)
-
-  }else{
-
-    New_model = lav_new_model(model, imlist)
+  # 조건에 따라 imlist와 New_data를 생성
+  if (grepl(":", model)) {
+    imlist <- lav_extract_imlist(model)
+    New_data <- lav_latentProd(data, model)
+  } else {
+    imlist <- NULL
+    New_data <- data
   }
 
-  #  lav_extract_int(model2, lav_extract_imlist(model3))
+  # 조건에 따라 New_model을 생성
+  if (ind) {
+    New_model <- lav_new_model(model, imlist)
+    New_model <- lav_remodel(New_model,
+                             interact = interact,
+                             auto = auto, cat=cat,
+                             n_name = n_name,
+                             paths_name= paths_name,
+                             prefix = prefix)
+  } else {
+    New_model <- lav_new_model(model, imlist)
+  }
 
+  # SEM 모델 피팅
+  fit <- tryCatch({
+    sem(model = New_model, data = New_data,
+        ordered = ordered, sampling.weights = sampling.weights,
+        sample.cov = sample.cov, sample.mean = sample.mean, sample.th = sample.th,
+        sample.nobs = sample.nobs, group = group, cluster = cluster,
+        constraints = constraints, WLS.V = WLS.V, NACOV = NACOV, ov.order = ov.order,
+        ...)
+  }, error = function(e) {
+    stop("Error in SEM model fitting: ", e)
+  })
 
-  fit =  sem(model = New_model, data = New_data,
-             ordered = ordered, sampling.weights = sampling.weights,
-             sample.cov = sample.cov, sample.mean = sample.mean, sample.th = sample.th,
-             sample.nobs = sample.nobs, group = group, cluster = cluster,
-             constraints = constraints, WLS.V = WLS.V, NACOV = NACOV, ov.order = ov.order,
-             ...
-
-  )
-
-  switch(type, res = fit, fit =fit , data= New_data, model = New_model, imlist=imlist)
-
+  switch(type, res = fit, fit = fit, data = New_data, model = New_model, imlist = imlist)
 }
+
 
 
 #' Function to extract interaction terms from the lavaan syntax,

@@ -33,5 +33,9 @@ sem_apa_ie
 example(sem)
 IE_effect(fit)
 IE_effect(fit) \%>\% sem_apa_ie()
+sem_effect_ci(satis_sem1, ci=FALSE)
+sem_effect_ci(satis_sem1, ci=FALSE)\%>\%sem_apa_ie()
+
+
 }
 }
