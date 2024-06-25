@@ -67,6 +67,7 @@
 #' @param prefix prefix "a" --"H" change possible
 #' @param cat output syntax default FALSE
 #' @param paths_name inde path name default TRUE
+#' @param add_model add model syntax
 #' @param ... Many more additional options can be defined, using 'name = value'. See lavOptions for a complete list.
 #'
 #' @return data
@@ -157,7 +158,8 @@
 #'
 
 SEM <- function(model = NULL, data = NULL, type = "res", ind = TRUE, cat=FALSE,
-                interact = TRUE, auto = TRUE, n_name = 1, prefix = "a",paths_name=TRUE,
+                interact = TRUE, auto = TRUE, n_name = 1, prefix = "a",
+                paths_name=TRUE,add_model=NULL,
                 ordered = NULL, sampling.weights = NULL,
                 sample.cov = NULL, sample.mean = NULL, sample.th = NULL,
                 sample.nobs = NULL, group = NULL, cluster = NULL,
@@ -180,7 +182,8 @@ SEM <- function(model = NULL, data = NULL, type = "res", ind = TRUE, cat=FALSE,
                              interact = interact,
                              auto = auto, cat=cat,
                              n_name = n_name,
-                             paths_name= paths_name,
+                             paths_name = paths_name,
+                             add_model = add_model,
                              prefix = prefix)
   } else {
     New_model <- lav_new_model(model, imlist)

@@ -15,6 +15,7 @@ SEM(
   n_name = 1,
   prefix = "a",
   paths_name = TRUE,
+  add_model = NULL,
   ordered = NULL,
   sampling.weights = NULL,
   sample.cov = NULL,
@@ -55,6 +56,8 @@ lavaan will treat them as ordinal variables.}
 \item{prefix}{prefix "a" --"H" change possible}
 
 \item{paths_name}{inde path name default TRUE}
+
+\item{add_model}{add model syntax}
 
 \item{ordered}{Character vector. Only used if the data is in a data.frame.
 Treat these variables as ordered (ordinal) variables, if they are endogenous

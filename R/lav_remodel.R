@@ -8,6 +8,9 @@
 #' @param cat text puput console
 #' @param text Output text to save and type
 #' @param interact TRUe :(use) using SESM, FALSE (:) using sem()
+#' @param paths_name paths name
+#' @param n_name paste name number
+#' @param add_model add model syntax
 #'
 #' @return text
 #' @export
@@ -63,7 +66,8 @@
 #'
 #'
 lav_remodel = function(model,  prefix="a", auto=TRUE, start_node=NULL, end_node=NULL,
-                       cat=FALSE, text=FALSE, interact=TRUE, paths_name= TRUE, n_name=1 ){
+                       cat=FALSE, text=FALSE, interact=TRUE, paths_name= TRUE, n_name=1,
+                       add_model=NULL){
 
   mm_model = lav_extract_mm2(model, interact = interact)
   sm_model = lav_extract_sm(model, prefix = prefix)
@@ -78,7 +82,8 @@ lav_remodel = function(model,  prefix="a", auto=TRUE, start_node=NULL, end_node=
                    "##structure model(htypothesis) \n",
                    sm_model, "\n\n",
                    "##New_Parameters(indirect effects) \n",
-                   ind_model)
+                   ind_model,"\n",
+                   add_model)
 
   if(cat){
     if(text){

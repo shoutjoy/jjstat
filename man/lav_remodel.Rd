@@ -14,7 +14,8 @@ lav_remodel(
   text = FALSE,
   interact = TRUE,
   paths_name = TRUE,
-  n_name = 1
+  n_name = 1,
+  add_model = NULL
 )
 }
 \arguments{
@@ -33,6 +34,12 @@ lav_remodel(
 \item{text}{Output text to save and type}
 
 \item{interact}{TRUe :(use) using SESM, FALSE (:) using sem()}
+
+\item{paths_name}{paths name}
+
+\item{n_name}{paste name number}
+
+\item{add_model}{add model syntax}
 }
 \value{
 text
