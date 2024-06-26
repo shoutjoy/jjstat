@@ -108,6 +108,8 @@
 #' # structure correlation
 #' cfa2(fit1, dataset = PoliticalDemocracy, model = model,
 #'       res =  "str_cor")
+#'
+#'       op
 #' }
 
 

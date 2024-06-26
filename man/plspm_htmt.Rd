@@ -27,6 +27,8 @@ plspm_htmt(
 \item{cut}{= 0.9, 0.85. 1}
 
 \item{digits}{= 3}
+
+\item{imp}{""}
 }
 \value{
 result

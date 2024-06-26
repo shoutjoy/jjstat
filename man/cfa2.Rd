@@ -7,8 +7,8 @@
 cfa2(
   x,
   format = "markdown",
-  dataset = NA,
-  model = NA,
+  htmt_cut = 0.9,
+  htmt2 = FALSE,
   cut = 0.7,
   angle = 90,
   cex = 11,
@@ -18,7 +18,6 @@ cfa2(
   rename = F,
   var_name = NA,
   digits = 3,
-  htmt_cut = 1,
   type = "all"
 )
 }
@@ -27,9 +26,10 @@ cfa2(
 
 \item{format}{knitr markdown decision}
 
-\item{dataset}{this is import name that dataset column name}
+\item{htmt_cut}{htmt_cut is default =1.
+if you want roburst option htmt_cut =0.9}
 
-\item{model}{lavaan model need indices validation name}
+\item{htmt2}{TRUE using htmt2}
 
 \item{cut}{loading criteran}
 
@@ -49,7 +49,9 @@ cfa2(
 
 \item{digits}{value rounding}
 
-\item{htmt_cut}{htmt_cut is default =1. if you want roburst option htmt_cut =0.9}
+\item{dataset}{this is import name that dataset column name}
+
+\item{model}{lavaan model need indices validation name}
 
 \item{res}{result type}
 }
@@ -143,5 +145,7 @@ cfa2(fit, dataset = PoliticalDemocracy, model = model,
 # structure correlation
 cfa2(fit1, dataset = PoliticalDemocracy, model = model,
       res =  "str_cor")
+
+      op
 }
 }

@@ -45,6 +45,7 @@
 #'
 #'
 lav_return_model <- function(sem_res) {
+  library(dplyr)
   # Extract parameter table
   param_table <- parameterTable(sem_res)
 
@@ -118,6 +119,7 @@ lav_return_model <- function(sem_res) {
 #'
 #'
 lav_return_data <- function(sem_res) {
+  library(dplyr)
   # Check if the input is a lavaan object
   if (!inherits(sem_res, "lavaan")) {
     stop("The input object is not a valid lavaan object.")
@@ -166,6 +168,7 @@ lav_return_data <- function(sem_res) {
 #' }
 #'
 lav_return_blocks =function(sem_res){
+  library(dplyr)
 
 res1  = bind_cols(
         lat = sem_res@ParTable$lhs ,

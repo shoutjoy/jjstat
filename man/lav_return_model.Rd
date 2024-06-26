@@ -44,6 +44,12 @@ lav_return_model(sat_sem0)\%>\%cat("\n")
 #data
 lav_return_data(sat_sem0)
 
+#lav sem reuslt  model to blocks
+lav_return_model(sat_sem0)\%>\%
+  lav_extract_mm()\%>\%
+  plspm_lav2blocks()
+
+
 }
 
 
