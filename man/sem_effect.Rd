@@ -4,7 +4,16 @@
 \alias{sem_effect}
 \title{SEM direct or indirect  effect result}
 \usage{
-sem_effect(model_sem, effect = "~", effect2 = NULL, ci = FALSE)
+sem_effect(
+  model_sem,
+  effect = "~",
+  effect2 = NULL,
+  ci = FALSE,
+  lower = 8,
+  upper = 9,
+  unite = FALSE,
+  unite_col = "z"
+)
 }
 \arguments{
 \item{model_sem}{lavaan object}
@@ -14,6 +23,14 @@ sem_effect(model_sem, effect = "~", effect2 = NULL, ci = FALSE)
 \item{effect2}{select op 2nd option}
 
 \item{ci}{FALSE}
+
+\item{lower}{8th col select}
+
+\item{upper}{9th col select}
+
+\item{unite}{TRUE unite p +sig}
+
+\item{unite_col}{select "z"}
 }
 \value{
 repot

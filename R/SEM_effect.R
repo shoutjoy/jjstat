@@ -150,6 +150,10 @@ library(tidyr)
 #' @param effect  select op
 #' @param effect2  select op 2nd option
 #' @param ci FALSE
+#' @param lower 8th col select
+#' @param upper 9th col select
+#' @param unite TRUE unite p +sig
+#' @param unite_col select "z"
 #'
 #' @return repot
 #' @export
@@ -211,7 +215,8 @@ library(tidyr)
 #' }
 #'
 #'
-sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
+sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE,
+                       lower=8, upper=9, unite= FALSE, unite_col="z"){
   library(dplyr)
   library(tidyr)
 
@@ -235,11 +240,17 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
         res1 = res0 %>%
           dplyr::filter(op == effect) %>%
           tidyr::unite(Path, rhs, lhs, sep = arrow) %>%
-          dplyr::select(Path, "H" = label, est, "std" = std.all, se, z, pvalue,
+          dplyr::select(Path, "H" = label, "est"=est, "std" = std.all, se, z, pvalue,
                         ci.lower, ci.upper) %>%
-          p_mark_sig("pvalue") %>% unite_ci(7,8,"[","]")
+          unite_ci( "ci.lower" , "ci.upper","[","]") %>%
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
+
+        # cat("\nlabel,not effect2, ci, unite\n")
 
         res = res1
+
+
+
 
       }else{
         res1 = res0 %>%
@@ -247,7 +258,9 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
           tidyr::unite(Path, rhs, lhs, sep = arrow) %>%
           dplyr::select(Path, "H" = label, est, "std" = std.all, se, z, pvalue,
                         ci.lower, ci.upper) %>%
-          p_mark_sig("pvalue")%>% unite_ci(7,8,"[","]")
+          unite_ci( "ci.lower" , "ci.upper","[","]")%>%
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
+
 
         res2 = res0 %>%
           dplyr::filter(op == effect2) %>%
@@ -255,8 +268,11 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
           tidyr::unite(Path, rhs, lhs, sep = arrow2) %>%
           dplyr::select(Path, "H" = label, est, "std" = std.all, se, z, pvalue,
                         ci.lower, ci.upper) %>%
-          p_mark_sig("pvalue")%>% unite_ci(7,8,"[","]")
+          unite_ci(lower,upper,"[","]")%>%
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
 
+
+        # cat("\nlabel, ci, unite\n")
         res = bind_rows(res1, res2 )
       }
 
@@ -268,8 +284,12 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
           tidyr::unite(Path, rhs, lhs, sep = arrow) %>%
           dplyr::select(Path,  est, "std" = std.all, se, z, pvalue,
                         ci.lower, ci.upper) %>%
-          p_mark_sig("pvalue")%>% unite_ci(7,8,"[","]")
+          unite_ci(lower,upper,"[","]")%>%
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
 
+
+
+        # cat("\n  not effect2, ci, unite\n")
         res = res1
 
       }else{
@@ -278,15 +298,19 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
           tidyr::unite(Path, rhs, lhs, sep = arrow) %>%
           dplyr::select(Path, est, "std" = std.all, se, z, pvalue,
                         ci.lower, ci.upper) %>%
-          p_mark_sig("pvalue")%>% unite_ci(7,8,"[","]")
+          unite_ci(lower,upper,"[","]")%>%
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
 
         res2 = res0 %>%
           dplyr::filter(op == effect2) %>%
           tidyr::unite(Path, rhs, lhs, sep = arrow2) %>%
           dplyr::select(Path,  est, "std" = std.all, se, z, pvalue,
                         ci.lower, ci.upper) %>%
-          p_mark_sig("pvalue")%>% unite_ci(7,8,"[","]")
+          unite_ci(lower,upper,"[","]")%>%
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
 
+
+        # cat("\n   ci, unite\n")
         res = bind_rows(res1, res2 )
       }
     }
@@ -303,7 +327,7 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
           dplyr::filter(op == effect) %>%
           tidyr::unite(Path, rhs, lhs, sep = arrow) %>%
           dplyr::select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
-          p_mark_sig("pvalue")
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
 
         res = res1
 
@@ -312,14 +336,14 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
           dplyr::filter(op == effect) %>%
           tidyr::unite(Path, rhs, lhs, sep = arrow) %>%
           dplyr::select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
-          p_mark_sig("pvalue")
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
 
         res2 = res0 %>%
           dplyr::filter(op == effect2) %>%
           # filter(op %in% c(effect2) ) %>%
           tidyr::unite(Path, rhs, lhs, sep = arrow2) %>%
           dplyr::select(Path, "H" = label, est, "std" = std.all, se, z, pvalue) %>%
-          p_mark_sig("pvalue")
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
 
         res = bind_rows(res1, res2 )
       }
@@ -331,7 +355,7 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
           dplyr::filter(op == effect) %>%
           tidyr::unite(Path, rhs, lhs, sep = arrow) %>%
           dplyr::select(Path,  est, "std" = std.all, se, z, pvalue) %>%
-          p_mark_sig("pvalue")
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
 
         res = res1
 
@@ -340,13 +364,12 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
           dplyr::filter(op == effect) %>%
           tidyr::unite(Path, rhs, lhs, sep = arrow) %>%
           dplyr::select(Path, est, "std" = std.all, se, z, pvalue) %>%
-          p_mark_sig("pvalue")
-
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
         res2 = res0 %>%
           dplyr::filter(op == effect2) %>%
           tidyr::unite(Path, rhs, lhs, sep = arrow2) %>%
           dplyr::select(Path,  est, "std" = std.all, se, z, pvalue) %>%
-          p_mark_sig("pvalue")
+          p_mark_sig("pvalue",unite=unite, unite_col= unite_col)
 
         res = bind_rows(res1, res2 )
       }
@@ -355,6 +378,7 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
   }  #ci false
   return(res)
 }
+
 # sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
 #   library(dplyr)
 #   library(tidyr)
@@ -507,8 +531,9 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
 #' SEM indirect effect
 #'
 #' @param model_sem lavaan objgect
-#' @param effect1 "IE"
+#' @param effect1 "DE"
 #' @param effect2 "IE"
+#' @param effect3 "TE"
 #' @param label label
 #' @param ci confidence interval
 #'
@@ -560,11 +585,12 @@ sem_effect = function(model_sem, effect = "~", effect2= NULL, ci=FALSE){
 #' }
 #'
 sem_effect_ci = function(model_sem,
-                         effect1 ="DE", effect2="IE", label=FALSE, ci= TRUE ){
+                         effect1 ="DE", effect2="IE", effect3="TE",
+                         label=FALSE, ci= TRUE ){
   library(dplyr)
   library(tidyr)
   res = lavaan::parameterEstimates(model_sem, ci=ci, stand=T)%>%
-    dplyr::filter(op==":=" & str_detect(lhs, effect1) |str_detect(lhs, effect2))
+    dplyr::filter(op==":=" & str_detect(lhs, effect1) | str_detect(lhs, effect2) |  str_detect(lhs, effect3))
 
   if(ci){
     res = res%>%select("Path"=lhs, rhs, est, "std"= std.all,

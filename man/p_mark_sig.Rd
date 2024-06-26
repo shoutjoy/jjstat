@@ -12,7 +12,8 @@ p_mark_sig(
   digits = 3,
   ns = "ns",
   rownames_to_column = FALSE,
-  exclude = NULL
+  exclude = NULL,
+  remove = TRUE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ p_mark_sig(
 \item{rownames_to_column}{drownames_to_column if you need}
 
 \item{exclude}{Round exclude varible}
+
+\item{remove}{remove var TRUE}
 }
 \description{
 p_mark_sig is Function that displays significance in data

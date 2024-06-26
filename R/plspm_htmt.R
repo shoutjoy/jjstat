@@ -7,6 +7,7 @@
 #' @param sig sig= TRUE- > show star
 #' @param cut = 0.9, 0.85. 1
 #' @param digits = 3
+#' @param imp ""
 #'
 #' @return result
 #' @export

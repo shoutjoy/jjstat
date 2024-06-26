@@ -8,6 +8,7 @@ sem_effect_ci(
   model_sem,
   effect1 = "DE",
   effect2 = "IE",
+  effect3 = "TE",
   label = FALSE,
   ci = TRUE
 )
@@ -15,9 +16,11 @@ sem_effect_ci(
 \arguments{
 \item{model_sem}{lavaan objgect}
 
-\item{effect1}{"IE"}
+\item{effect1}{"DE"}
 
 \item{effect2}{"IE"}
+
+\item{effect3}{"TE"}
 
 \item{label}{label}
 

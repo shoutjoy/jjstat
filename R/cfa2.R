@@ -13,7 +13,9 @@
 #' @param var_name new text name default NULL
 #' @param digits value rounding
 #' @param res result type
-#' @param htmt_cut htmt_cut is default =1. if you want roburst option htmt_cut =0.9
+#' @param htmt_cut htmt_cut is default =1.
+#' if you want roburst option htmt_cut =0.9
+#' @param htmt2 TRUE using htmt2
 #' @importFrom magrittr %>%
 
 #' @examples
@@ -111,9 +113,12 @@
 
 #' @export
 #cfa2 CFA lavaan SEM----
-cfa2 <- function(x, format="markdown",
-                 dataset=NA, #dataset input htmt
-                 model=NA, # lavaan Model htmt(<0.9)
+cfa2 <- function(x,
+                 format="markdown",
+                 # dataset=NA, #dataset input htmt
+                 # model=NA, # lavaan Model htmt(<0.9)
+                 htmt_cut = 0.9,
+                 htmt2=FALSE,
                  cut=0.7,
                  angle=90,
                  cex=11, hjust=0.9,
@@ -122,7 +127,6 @@ cfa2 <- function(x, format="markdown",
                  rename=F,
                  var_name=NA,
                  digits=3,
-                 htmt_cut=1,
                  type = "all"){
 
   library(dplyr)
@@ -196,6 +200,8 @@ cfa2 <- function(x, format="markdown",
 
   # TEST[[2]]$test %in% c("satorra.bentler", "yuan.bentler.mplus", "yuan.bentler")
   # if(length(fitMeasures(x)) == 45 ){
+
+
   if(length(fitMeasures(x)) == length(fitMeasures(x)) ){
 
     #generarl reasearch
@@ -215,17 +221,17 @@ cfa2 <- function(x, format="markdown",
 
     criteria_data_00 = c("Chisq",
                          "df",
-                         "p >0.05",
-                         "RMSEA <0.05",
-                         "90%CI.lower",
-                         "90%CI.upper",
-                         "p <= 0.05",
-                         "SRMR <0.08",
-                         "GFI >0.95",
-                         "CFI >0.95",
-                         "TLI >0.90",
-                         "lower ",
-                         "lower "
+                         "p > .05",
+                         "RMSEA < .05",
+                         "90%CI.L",
+                         "90%CI.U",
+                         "p <= .05",
+                         "SRMR < .08",
+                         "GFI > .90",
+                         "CFI > .90",
+                         "TLI > .90",
+                         "AIC lower ",
+                         "BIC lower "
     )
 
     modelfitdata <-cbind.data.frame("criterian" = criteria_data_00,
@@ -263,17 +269,17 @@ cfa2 <- function(x, format="markdown",
 
     criteria_data = c("Chisq",
                       "df",
-                      "p >0.05",
-                      "RMSEA <0.05",
-                      "90%CI.lower",
-                      "90%CI.upper",
-                      "p <= 0.05",
-                      "SRMR <0.08",
-                      "GFI >0.90",
-                      "CFI >0.95",
-                      "TLI >0.90",
-                      "lower ",
-                      "lower ",
+                      "p > .05",
+                      "RMSEA < .05",
+                      "90%CI.L",
+                      "90%CI.U",
+                      "p <= .05",
+                      "SRMR < .08",
+                      "GFI > .90",
+                      "CFI > .90",
+                      "TLI > .90",
+                      "AIC lower ",
+                      "BIC lower ",
                       "chisq.robust", #roburst chisq
                       "df.robust",
                       "p.robust",
@@ -286,17 +292,22 @@ cfa2 <- function(x, format="markdown",
                       "RMASE.p.robust(blank=NA)",
                       "SRMR_bentler",
                       "SRMR_Mplus"
-    )
+         )
 
     modelfitdata <-cbind("criterian"=criteria_data,
                          "Value"=round(fitdata,3))
 
-  }
+       }
 
 
 
 #summary
   fitMeasures_s1 <- modelfitdata %>%
+    row2col("index")%>%
+    unite_rows(5, 6) %>% #unite ci
+    move_row(6,5) %>%
+    replace_df_rep("rmsea.ci.lower","90%CI.L",
+                    "rmsea.ci.upper", "90%CI.U") %>%
     knitr::kable(format=format,
            caption = "01 Model fit information")
 
@@ -462,7 +473,8 @@ cfa2 <- function(x, format="markdown",
 
 
   ## 04 Convergent validity-----
-  alpha_AVE_CR_0 <-   semTools::reliability(x, return.total = FALSE) %>%
+  alpha_AVE_CR_0 <-   semTools::reliability(x,
+                          return.total = FALSE) %>%
     # alpha_AVE_CR <-  reliability(x) %>%
     t() %>%
     as.data.frame() %>%
@@ -583,41 +595,44 @@ cfa2 <- function(x, format="markdown",
   # Assessing Discriminant Validity using Heterotrait–Monotrait Ratio
   # discriminant validity through the heterotrait-monotrait ratio (HTMT) of the correlations (Henseler, Ringlet & Sarstedt, 2015)
 
-  if( is.character(model)==TRUE |
-      is.data.frame(dataset)==TRUE){
-
-    options(knitr.kable.NA = '') # hide NA
-    # generate dataframe
-    htmt0 <- semTools::htmt(model, dataset) %>%
-      as.data.frame()
-
-    htmt0[lower.tri(htmt0)==FALSE]<-0 # diag =0
-    htmt0NA <- htmt0 # NA remove
-    htmt0NA[lower.tri(htmt0)==FALSE]<-NA   # upper to NA
-    htmt1 <- htmt0 %>%   #make sig
-      mutate(Max = apply(htmt0, 1, max, na.rm=T),  # max
-             dis = ifelse(htmt_cut - Max== htmt_cut, 0, htmt_cut - Max),  #discriminant
-             sig = ifelse(htmt_cut- Max >= 0,"*","ns")) #significant
-    htmt2 <-cbind(htmt0NA,
-                  htmt1[,c(ncol(htmt1)-2, #max
-                           ncol(htmt1)-1, #dis
-                           ncol(htmt1))] ) #sig
 
 
+  # if( is.character(model)==TRUE |
+  #     is.data.frame(dataset)==TRUE){
+  #
+  #   options(knitr.kable.NA = '') # hide NA
+  #   # generate dataframe
+  #   htmt0 <- semTools::htmt(model, dataset) %>%
+  #     as.data.frame()
+  #
+  #   htmt0[lower.tri(htmt0)==FALSE]<-0 # diag =0
+  #   htmt0NA <- htmt0 # NA remove
+  #   htmt0NA[lower.tri(htmt0)==FALSE]<-NA   # upper to NA
+  #   htmt1 <- htmt0 %>%   #make sig
+  #     mutate(Max = apply(htmt0, 1, max, na.rm=T),  # max
+  #            dis = ifelse(htmt_cut - Max== htmt_cut, 0, htmt_cut - Max),  #discriminant
+  #            sig = ifelse(htmt_cut- Max >= 0,"*","ns")) #significant
+  #   htmt2 <-cbind(htmt0NA,
+  #                 htmt1[,c(ncol(htmt1)-2, #max
+  #                          ncol(htmt1)-1, #dis
+  #                          ncol(htmt1))] ) #sig
+  #
+  #
+    htmt2 = lav_htmt(x, cut = htmt_cut, htmt2 = htmt2 ,  digits= digits)
     htmt <- htmt2  %>%
       knitr::kable(format=format, digits = digits,
-            caption="The heterotrait-monotrait ratio of correlations (HTMT).
-          All correalation < 0.9 --> discriminant Accept(roburst)
+       caption="The heterotrait-monotrait ratio of correlations (HTMT).
+          All correalation < 0.9 --> discriminant Accept(roburst:0.85)
           general accept: < 1
           (Henseler, Ringlet & Sarstedt, 2015)
 
           ")
-
-
-  }else{
-    htmt <- print("Not calculation HTMT, input syntax is [ model = lavaan model,dataset = data] ")
-
-  }
+  #
+  #
+  # }else{
+  #   htmt <- print("Not calculation HTMT, input syntax is [ model = lavaan model,dataset = data] ")
+  #
+  # }
 
 
   ##06 cor significant----
@@ -646,7 +661,7 @@ cfa2 <- function(x, format="markdown",
                     model_fit = fitMeasures_s1,
                     factorloadings = factorloading,
                     Internal_Consistency = FL,
-                    Convergent = alpha_AVE_CR,
+                    Convergent = alpha_AVE_CR_0,
                     Discriminant = validity,
                     Discriminant_HTMT = htmt,
                     # Latent_Cor=lv.cor,
@@ -660,9 +675,9 @@ cfa2 <- function(x, format="markdown",
              model_fit=modelfitdata,
             factorloading = factorloading_0,
 
-            convergent= alpha_AVE_CR_0,
+            convergent = alpha_AVE_CR_0,
             discriminant = FornellNacker,
-            # htmt = htmt2,
+            htmt = htmt2,
             bar = gg,
             lv.cor.sig = lv.cor.sig0)
   # all.reuslt
