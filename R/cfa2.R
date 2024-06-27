@@ -108,6 +108,18 @@
 #' # structure correlation
 #' cfa2(fit1, dataset = PoliticalDemocracy, model = model,
 #'       res =  "str_cor")
+#' #'
+#' library(jjstat)
+#' example(sem)
+#' fit%>%cfa2()
+#' fit%>%sem_effect()
+#'
+# # Convergent
+# full_join(
+#   cfa2(fit, type="item")%>%select(-Accept,-p),
+#   cfa2(fit, type="Convergent")%>%row2col("Latent")%>%
+#     select(-Cronbach)%>%Round(3),
+#   by= "Latent")%>%nice_table()
 #'
 #'
 #' }
@@ -292,15 +304,30 @@ cfa2 <- function(x,
     mutate(stars=ifelse(pvalue < 0.001, "***",
                         ifelse(pvalue < 0.01, "**",
                                ifelse(pvalue < 0.05, "*", "")))) %>%
-    mutate(label=ifelse(std.all>0.7,"Yes(Good)",
-                        ifelse(std.all>0.5,"Yes(fair)","No"))) %>%
-    dplyr::select("Latent"=lhs, Item=rhs, Est=est,S.E.=se,
-                  cr=z, Sig.=stars, "p"=pvalue,
-                  std=std.all, Accept=label)
+    mutate(label=ifelse(std.all>0.7,"Good",
+                        ifelse(std.all>0.5,"fair","No")),
+           est = round(est,digits),
+           z = round(z,digits),
+           se = round(se,digits),
+           std.all = round(std.all,digits),
+           pvalue = ifelse(pvalue<0.001,"< .001",pvalue)
+    ) %>%
+    all_na_zero(imp="")%>%
+    dplyr::select("Latent"=lhs, Item=rhs,
+                  Est=est,
+                  SE=se,
+                  std=std.all,
+                  Z=z,
+                  Sig.=stars,
+                  "p"= pvalue,
+                  Accept=label)%>%
+    Unite(6,7)
+
+
 
   if(rename == TRUE) {
     factorloading <- factorloading_0 %>% mutate(Indicator= var_name) %>%
-      dplyr::select(Latent, Item, Indicator, Est, S.E., cr, Sig., p, std, Accept) %>%
+      dplyr::select(Latent, Item, Indicator, Est, SE,std, Z, p,  Accept) %>%
       knitr::kable(digits=3, format=format,
                    caption="02 Indicator Validity(1)
           Factor Loadings:
@@ -354,19 +381,18 @@ cfa2 <- function(x,
       theme(axis.text.x = element_text(angle= angle, size = cex, hjust = hjust, face="bold"))
   }
 
+
+
+
+
   alpha.1 <- semTools::reliability(x,return.total = F) %>%
     t() %>%
     as.data.frame() %>%
     dplyr::select("Cronbach"=alpha, "CR" = omega3) %>%
-    mutate(alpha_Check=ifelse(Cronbach>0.7,"Accept(>0.7) *",
-                              ifelse(Cronbach>0.6,"Yes(poor) *", "Reject"))) %>%
-    mutate(CR_Check=ifelse(CR>0.7,"Accept(>0.7) *","Reject")) %>%
+    mutate(alpha_Check=ifelse(Cronbach>0.7,"(>0.7) *",
+                              ifelse(Cronbach>0.6,"(poor) *", "Reject"))) %>%
+    mutate(CR_Check=ifelse(CR>0.7,"(>0.7) *","Reject")) %>%
     dplyr::select(Cronbach,alpha_Check,CR,CR_Check)
-
-  FL.1 <- cbind(alpha.1)
-  FL <- FL.1 %>% knitr::kable(digits=3, format=format,
-                              caption="03-1. Internal consistency
-          (Cronbach's Alpha, 1951) and Composite Relibility")
 
   AVE <- semTools::reliability(x, return.total = F) %>%
     t() %>%
@@ -378,19 +404,34 @@ cfa2 <- function(x,
 
   rho <- lavaan::lavInspect(x,"std")$beta
 
+  ####
+  FL.1 <-cbind(alpha.1)
+  FL.1 =  FL.1   %>%
+    mutate(AVE=  AVE) %>%
+    mutate(AVE_check=ifelse(AVE>0.5,"(>0.5) *","Reject"))
+
+  FL <- FL.1 %>% knitr::kable(digits=3, format=format,
+                              caption="03-1. Internal consistency and Convergent
+          (Cronbach's Alpha, 1951) and Composite Relibility(CR)
+          AVE(Average Variance extracted)")
+
+
   alpha_AVE_CR_0 <- semTools::reliability(x, return.total = FALSE) %>%
     t() %>%
     as.data.frame() %>%
-    dplyr::select("Cronbach"=alpha, "CR" = omega3, "AVE"=avevar) %>%
-    mutate(sqrt.AVE=sqrt(AVE)) %>%
-    mutate(AVE_check=ifelse(AVE>0.5,"Accept(>0.5) *","Reject")) %>%
-    dplyr::select(Cronbach, CR, AVE, AVE_check)
+    dplyr::select("Cronbach"=alpha, "CR" = omega3, "AVE"=avevar) #%>%
+
+  # dplyr::select(Cronbach, CR, AVE, AVE_check)
 
   alpha_AVE_CR <- alpha_AVE_CR_0 %>%
     knitr::kable(digits = 3, format = format,
                  caption = "03 Convergent validity
           Internal consistency(Cronbach's Alpha, 1951)(>0.7)
           AVE(>0.5) & CR(>0.7): Fornell & Lacker(1981)")
+
+
+
+
 
   betaa <- lavaan::lavInspect(x, "std")$beta
 
@@ -444,7 +485,6 @@ cfa2 <- function(x,
   }
 
 
-
   htmt2 <- lav_htmt(x, cut = htmt_cut, htmt2 = htmt2 ,  digits= digits)
   # htmt2=NULL
   htmt <- htmt2  %>%
@@ -470,6 +510,15 @@ cfa2 <- function(x,
                  caption="05 latent correlation Significant Check")
 
 
+  # factorloading_0
+  # Convergent
+  add_table = full_join(
+    factorloading_0%>%dplyr::select(-Accept,-p),
+    alpha_AVE_CR_0%>%row2col("Latent")%>%
+      dplyr::select(-Cronbach)%>%Round(3),
+    by= "Latent")%>%nice_table()
+
+
   #model return
   model= lav_return_model(x)
 
@@ -482,11 +531,12 @@ cfa2 <- function(x,
     model_fit = fitMeasures_s1,
     factorloadings = factorloading,
     Internal_Consistency = FL,
-    Convergent = alpha_AVE_CR_0,
+    Convergent = alpha_AVE_CR,
     Discriminant = validity,
     Discriminant_HTMT = htmt,
     betaMat_sig = lv.cor.sig,
     loadings_Bar = gg,
+    item_CR_AVE = add_table%>%kable(format="markdown", digits=3),
     variable_order = varnames_check
   )
 
@@ -514,6 +564,8 @@ cfa2 <- function(x,
          loadings_bar = gg,
          alpha = FL.1,
          CR_AVE = alpha_AVE_CR_0,
+         item_CR_AVE =add_table,
+         item_CR_AVE_web =add_table%>%web(),
          Convergent = alpha_AVE_CR_0,
          fl_criteria = FornellNacker,
          Discriminant = FornellNacker,
@@ -522,7 +574,6 @@ cfa2 <- function(x,
          str_cor = lv.cor.sig0
   )
 }
-
 
 # cfa2 <- function(x,
 #                  format="markdown",
