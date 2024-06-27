@@ -55,6 +55,7 @@ lav_htmt <- function(sem_res = NULL, data = NULL, blocks = NULL,
                      sig = TRUE, cut = 0.9, digits = 3, imp = "") {
 
   library(dplyr)
+  library(lavaan)
   library(purrr)
   if (is.null(data) && is.null(blocks)) {
     data <- lav_return_data(sem_res)

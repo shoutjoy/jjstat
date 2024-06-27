@@ -32,8 +32,11 @@ lav_extract_ind_paths, Create an indirect effect hypothesis
 #'
 # 예시 데이터
 paths_data <- data.frame(
-  hypo = c("H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10"),
-  paths = c("IMAG->EXPE", "EXPE->QUAL", "QUAL->VAL", "EXPE->VAL", "IMAG->SAT", "EXPE->SAT", "QUAL->SAT", "VAL->SAT", "SAT->LOY", "IMAG->LOY")
+  hypo = c("H1", "H2", "H3", "H4", "H5",
+  "H6", "H7", "H8", "H9", "H10"),
+  paths = c("IMAG->EXPE", "EXPE->QUAL",
+  "QUAL->VAL", "EXPE->VAL", "IMAG->SAT",
+   "EXPE->SAT", "QUAL->SAT", "VAL->SAT", "SAT->LOY", "IMAG->LOY")
 )
 # 함수 실행
 lav_extract_ind_paths(paths_data, allpaths = TRUE)
@@ -49,8 +52,19 @@ lav_extract_path(model1)\%>\%lav_extract_ind_paths()
 lav_extract_path(model1a) \%>\%
   lav_extract_ind_paths() \%>\%
   sem_lav_ind_hypo()
-
 #'
+## 구조모형에서 나타나는 간접효과 가설은 다음과 같다.
+## 간접효과[H1]: 간접효과 IMAG -> SAT ->
+LOY 는 통계적으로 유의할 것이다.
+## 간접효과[H2]: 간접효과 IMAG -> EXPE -
+> SAT -> LOY 는 통계적으로 유의할 것이다.
+## 간접효과[H3]: 간접효과 IMAG -> EXPE -
+> VAL -> SAT -> LOY 는 통계적으로 유의할 것이다.
+## 간접효과[H4]: 간접효과 IMAG -> EXPE
+-> QUAL -> SAT -> LOY 는 통계적으로 유의할 것이다.
+## 간접효과[H5]: 간접효과 IMAG -> EXPE
+-> QUAL -> VAL -> SAT -> LOY 는 통계적으로 유의할 것이다.
+#' #'
 #'
 
 # Example usage with the provided model

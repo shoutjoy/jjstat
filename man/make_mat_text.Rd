@@ -23,7 +23,10 @@ mat_text_arrange
 
 \dontrun{
 # Example usage
-mmm <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30), nrow = 5, ncol = 6)
+mmm <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9,
+10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+21, 22, 23, 24, 25, 26, 27, 28, 29, 30),
+ nrow = 5, ncol = 6)
 
 make_mat_text(mmm, text = TRUE, byrow = TRUE)
 
@@ -40,8 +43,10 @@ nfl_path = matrix(
     1, 0, 0, 1, 0),
   nrow = 5, ncol = 5, byrow = TRUE )
 
-rownames(nfl_path) <- c("Speical", "Rushing", "Passing", "Offense", "Scoring")
-colnames(nfl_path) <- c("Speical", "Rushing", "Passing", "Offense", "Scoring")
+rownames(nfl_path) <- c("Speical", "Rushing",
+"Passing", "Offense", "Scoring")
+colnames(nfl_path) <- c("Speical", "Rushing",
+"Passing", "Offense", "Scoring")
 nfl_path
 
 nfl_blocks = list(7:8, 1:3, 4:6,1:6, 9:11)
@@ -55,7 +60,8 @@ nfl_pls = plspm(Data=offense, nfl_path, nfl_blocks, modes = nfl_mode)
 nfl_pls\%>\%summary()
 
 #########
-nfl_pls_boot = plspm_sem(Data=offense, nfl_path, nfl_blocks, modes = nfl_mode)
+nfl_pls_boot = plspm_sem(Data=offense, nfl_path,
+ nfl_blocks, modes = nfl_mode)
 
 #Layouts extracted from mockups
 plspm_semPaths2(nfl_pls_boot,sizeLat = 6)\%>\%

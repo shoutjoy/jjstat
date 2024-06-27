@@ -718,12 +718,16 @@ plspm_boot_ind_push <- function(pls_boot, set = 2) {
 #' print(result)
 #'
 #' # 예시 호출
-#' plsres_boot <- list(model = list(gens = list(lvs_names = c("LV1", "LV2", "LV3", "LV4", "LV5"))))
+#' plsres_boot <- list(model =
+#' list(gens = list(
+#' lvs_names = c("LV1", "LV2", "LV3", "LV4", "LV5"))))
 #'
 #' plspm_boot_factor_layout(plsres_boot)
 #'
 #' # 예시 호출
-#' plsres_boot <- list(model = list(gens = list(lvs_names = c("LV1", "LV2", "LV3", "LV4", "LV5", "LV6", "LV7","LV8"))))
+#' plsres_boot <- list(model = list(gens =
+#' list(lvs_names = c("LV1", "LV2", "LV3",
+#' "LV4", "LV5", "LV6", "LV7","LV8"))))
 #'
 #'
 #' plspm_boot_factor_layout(plsres_boot )

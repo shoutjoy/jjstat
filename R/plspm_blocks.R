@@ -24,25 +24,37 @@ item <- function(...) {
 #'
 #' #'
 #' 문자열 블록:
-#'   블록의 모든 항목이 문자열이고 output이 "match"일 경우, 블록을 그대로 유지합니다.
+#'   블록의 모든 항목이 문자열이고 output이 "match"일 경우,
+#'    블록을 그대로 유지합니다.
 #'
 #' 숫자 블록:
-#'   블록의 모든 항목이 숫자이고 output이 "match"일 경우, 블록을 숫자로 변환합니다.
+#'   블록의 모든 항목이 숫자이고 output이 "match"일 경우,
+#'   블록을 숫자로 변환합니다.
 #'
 #' "match_colnames" 출력 옵션:
-#'   output이 "match_colnames"일 경우, 블록이 숫자인 경우 해당 인덱스를 데이터셋의 컬럼 이름으로 변환합니다. 변환된 컬럼 이름 중 데이터셋에 존재하는 이름만 유지합니다.
+#'   output이 "match_colnames"일 경우, 블록이 숫자인
+#'   경우 해당 인덱스를 데이터셋의 컬럼 이름으로
+#'   변환합니다. 변환된 컬럼 이름 중 데이터셋에
+#'   존재하는 이름만 유지합니다.
 #'
 #' 기타:
-#' #'   블록의 항목이 혼합되어 있거나 output이 "match_colnames"가 아닌 경우, 블록을 숫자로 변환하고 last_value를 기준으로 연속된 숫자로 변환합니다. 빈 블록의 경우 빈 정수 벡터를 반환합니다.
+#' #'   블록의 항목이 혼합되어 있거나 output이
+#' "match_colnames"가 아닌 경우, 블록을 숫자로
+#' 변환하고 last_value를 기준으로 연속된 숫자로
+#' 변환합니다. 빈 블록의 경우 빈 정수 벡터를
+#' 반환합니다.
 #' bl1 <- c("A", "B", "C")
 #' bl2 <- c(1, 2, 3)
 #' dataset <- data.frame(A = 1:5, B = 1:5, C = 1:5, D = 1:5)
 #' dataset
 #' # 함수 호출
-#' plspm_blocks(block1 = bl1, block2 = bl2, dataset = dataset, output = "match")
+#' plspm_blocks(block1 = bl1, block2 = bl2,
+#' dataset = dataset, output = "match")
 #' plspm_blocks(block1 = bl1, block2 = bl2,output = "match")
-#' plspm_blocks(block1 = bl1, block2 = bl2, dataset = dataset, output = "match_colnames")
-#' plspm_blocks(block1 = bl1, block2 = bl2, output = "match_colnames") #character(0)
+#' plspm_blocks(block1 = bl1, block2 = bl2,
+#' dataset = dataset, output = "match_colnames")
+#' plspm_blocks(block1 = bl1, block2 = bl2,
+#' output = "match_colnames") #character(0)
 #' #'
 #' #'
 #' #'

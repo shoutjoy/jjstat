@@ -30,15 +30,19 @@
 #'
 #' # 적용 예시
 #' motiv_sem %>%
-#'   lav_semPaths2(rotation = 2, se=TRUE, edge.label.position = 0.4,
-#'                 layout = lav_factor_layout(motiv_sem,
-#'                                            new_position = list(c(1, 1), c(1, 2), c(3, 1), c(2, 3),c(2, 4)) ),
-#'                 rotate_resid = c("motiv" =160, "achieve"=160))
+#'   lav_semPaths2(rotation = 2, se=TRUE,
+#'   edge.label.position = 0.4,
+#'                 layout =
+#'                 lav_factor_layout(motiv_sem,
+#'        new_position = list(c(1, 1), c(1, 2),
+#'        c(3, 1), c(2, 3),c(2, 4)) ),
+#'             rotate_resid = c("motiv" =160, "achieve"=160))
 #'
 #'
 #' # 적용 예시
 #' motiv_sem %>%
-#'   lav_semPaths2(rotation = 2, se=TRUE, edge.label.position = 0.4,
+#'   lav_semPaths2(rotation = 2, se=TRUE,
+#'   edge.label.position = 0.4,
 #'                 layout = lav_factor_layout(motiv_sem,
 #'                                            position = list("motiv" =c(1, 3))),
 #'                 rotate_resid = c("motiv" =160, "achieve"=160))

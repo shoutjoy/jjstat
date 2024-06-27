@@ -303,7 +303,7 @@ cfa2 <- function(x,
 
 
 
-#summary
+    #summary
   fitMeasures_s1 <- modelfitdata %>%
     row2col("index")%>%
     unite_rows(5, 6) %>% #unite ci
@@ -599,42 +599,56 @@ cfa2 <- function(x,
 
 
 
-  # if( is.character(model)==TRUE |
-  #     is.data.frame(dataset)==TRUE){
-  #
-  #   options(knitr.kable.NA = '') # hide NA
-  #   # generate dataframe
-  #   htmt0 <- semTools::htmt(model, dataset) %>%
-  #     as.data.frame()
-  #
-  #   htmt0[lower.tri(htmt0)==FALSE]<-0 # diag =0
-  #   htmt0NA <- htmt0 # NA remove
-  #   htmt0NA[lower.tri(htmt0)==FALSE]<-NA   # upper to NA
-  #   htmt1 <- htmt0 %>%   #make sig
-  #     mutate(Max = apply(htmt0, 1, max, na.rm=T),  # max
-  #            dis = ifelse(htmt_cut - Max== htmt_cut, 0, htmt_cut - Max),  #discriminant
-  #            sig = ifelse(htmt_cut- Max >= 0,"*","ns")) #significant
-  #   htmt2 <-cbind(htmt0NA,
-  #                 htmt1[,c(ncol(htmt1)-2, #max
-  #                          ncol(htmt1)-1, #dis
-  #                          ncol(htmt1))] ) #sig
-  #
-  #
-    htmt2 = lav_htmt(x, cut = htmt_cut, htmt2 = htmt2 ,  digits= digits)
-    htmt <- htmt2  %>%
-      knitr::kable(format=format, digits = digits,
-       caption="The heterotrait-monotrait ratio of correlations (HTMT).
-          All correalation < 0.9 --> discriminant Accept(roburst:0.85)
-          general accept: < 1
-          (Henseler, Ringlet & Sarstedt, 2015)
-
-          ")
-  #
+# if( is.character(model)==TRUE |
+#     is.data.frame(dataset)==TRUE){
+#
+#   options(knitr.kable.NA = '') # hide NA
+#   # generate dataframe
+#   htmt0 <- semTools::htmt(model, dataset) %>%
+#     as.data.frame()
+#
+#   htmt0[lower.tri(htmt0)==FALSE]<-0 # diag =0
+#   htmt0NA <- htmt0 # NA remove
+#   htmt0NA[lower.tri(htmt0)==FALSE]<-NA   # upper to NA
+#   htmt1 <- htmt0 %>%   #make sig
+#     mutate(Max = apply(htmt0, 1, max, na.rm=T),  # max
+#            dis = ifelse(htmt_cut - Max== htmt_cut, 0, htmt_cut - Max),  #discriminant
+#            sig = ifelse(htmt_cut- Max >= 0,"*","ns")) #significant
+#   htmt2 <-cbind(htmt0NA,
+#                 htmt1[,c(ncol(htmt1)-2, #max
+#                          ncol(htmt1)-1, #dis
+#                          ncol(htmt1))] ) #sig
+#
+# #
+#
+#     htmt <- htmt2  %>%
+#       knitr::kable(format=format, digits = digits,
+#        caption="The heterotrait-monotrait ratio of correlations (HTMT).
+#           All correalation < 0.9 --> discriminant Accept(roburst:0.85)
+#           general accept: < 1
+#           (Henseler, Ringlet & Sarstedt, 2015)
+#
+#           ")
+#   #
   #
   # }else{
   #   htmt <- print("Not calculation HTMT, input syntax is [ model = lavaan model,dataset = data] ")
   #
   # }
+
+
+    htmt2 = lav_htmt(x, cut = htmt_cut, htmt2 = htmt2 ,  digits= digits)
+    htmt <- htmt2  %>%
+      knitr::kable(format=format, digits = digits,
+                   caption="The heterotrait-monotrait ratio of correlations (HTMT).
+          All correalation < 0.9 --> discriminant Accept(roburst:0.85)
+          general accept: < 1
+          (Henseler, Ringlet & Sarstedt, 2015)
+
+          ")
+
+
+
 
 
   ##06 cor significant----

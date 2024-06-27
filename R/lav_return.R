@@ -46,8 +46,9 @@
 #'
 lav_return_model <- function(sem_res) {
   library(dplyr)
+  library(lavaan)
   # Extract parameter table
-  param_table <- parameterTable(sem_res)
+  param_table <- lavaan::parameterTable(sem_res)
 
   # Create empty lists to hold different parts of the model
   latent_vars <- list()
@@ -120,13 +121,14 @@ lav_return_model <- function(sem_res) {
 #'
 lav_return_data <- function(sem_res) {
   library(dplyr)
+  library(lavaan)
   # Check if the input is a lavaan object
   if (!inherits(sem_res, "lavaan")) {
     stop("The input object is not a valid lavaan object.")
   }
 
   # Extract the data
-  data <- lavInspect(sem_res, "data")
+  data <- lavaan::lavInspect(sem_res, "data")
 
   return(data)
 }
@@ -169,11 +171,13 @@ lav_return_data <- function(sem_res) {
 #'
 lav_return_blocks =function(sem_res){
   library(dplyr)
+  library(lavaan)
 
-res1  = bind_cols(
+res1  = dplyr::bind_cols(
         lat = sem_res@ParTable$lhs ,
-        op = sem_res@ParTable$op,
-        mm =sem_res@ParTable$rhs )%>%filter(op=="=~")
+        OP = sem_res@ParTable$op,
+        mm =sem_res@ParTable$rhs )%>%
+       dplyr::filter(OP=="=~")
 
 # 리스트로 변환
   result_list = res1 %>%
@@ -184,3 +188,4 @@ res1  = bind_cols(
   return(result_list)
 
 }
+
