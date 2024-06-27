@@ -109,16 +109,13 @@
 #' cfa2(fit1, dataset = PoliticalDemocracy, model = model,
 #'       res =  "str_cor")
 #'
-#'       op
+#'
 #' }
-
 
 #' @export
 #cfa2 CFA lavaan SEM----
 cfa2 <- function(x,
                  format="markdown",
-                 # dataset=NA, #dataset input htmt
-                 # model=NA, # lavaan Model htmt(<0.9)
                  htmt_cut = 0.9,
                  htmt2=FALSE,
                  cut=0.7,
@@ -151,8 +148,6 @@ cfa2 <- function(x,
   fitMeasures <- round(fitMeasures(x,fit.indices),3)
   fitMeasures_s <- round(fitMeasures(x,fit.indices),3)
 
-
-  # fitMeasures <- as.data.frame(fitMeasures(x,fit.indices))
   fitMeasures <- as.data.frame(fitMeasures) #check.names = TRUE
   fitMeasures$critera <- c("",
                            "*p.value >= 0.05",
@@ -181,33 +176,13 @@ cfa2 <- function(x,
   fitMeasures$chiq_df <- c("","",
                            round(fitMeasures[1,1]/fitMeasures[3,1],2),
                            "","","","","","","","","")
-  # fitMeasures$fit_chek  <- c("absolute fit","",
-  #                            "absolute fit",
-  #                            "absolute fit ",
-  #                            "absolute fit ",
-  #                            "absolute fit ",
-  #                            "absolute fit ",
-  #                            "incremental fit",
-  #                            "incremental fit",
-  #                            "incremental fit",
-  #                            "parsimonious fit",
-  #                            "parsimonious fit")
+
   fit <- fitMeasures  %>%
     knitr::kable(digits=3, format=format,
-          caption="FitMeasure and criterian
+                 caption="FitMeasure and criterian
           (*)satisfy By kline(2011) Suggestion")
 
-
-
-
-  # TEST[[2]]$test %in% c("satorra.bentler", "yuan.bentler.mplus", "yuan.bentler")
-  # if(length(fitMeasures(x)) == 45 ){
-
-
-  if(length(fitMeasures(x)) == length(fitMeasures(x)) ){
-
-    #generarl reasearch
-    #modelfit
+  if(length(fitMeasures(x)) == length(fitMeasures(x))) {
     fitdata_00 <- fitMeasures(x,c("chisq","df","pvalue",
                                   "rmsea",
                                   "rmsea.ci.lower",
@@ -239,10 +214,7 @@ cfa2 <- function(x,
     modelfitdata <-cbind.data.frame("criterian" = criteria_data_00,
                                     "Value" = round(fitdata_00,3))
 
-  }else{
-
-    #01-2 robust research--------
-    #modelfit
+  } else {
     fitdata <- fitMeasures(x,c("chisq","df","pvalue",
                                "rmsea",
                                "rmsea.ci.lower",
@@ -266,7 +238,6 @@ cfa2 <- function(x,
                                "rmsea.pvalue.robust",
                                "srmr_bentler",
                                "srmr_mplus"
-
     ))
 
     criteria_data = c("Chisq",
@@ -294,29 +265,26 @@ cfa2 <- function(x,
                       "RMASE.p.robust(blank=NA)",
                       "SRMR_bentler",
                       "SRMR_Mplus"
-         )
+    )
 
     modelfitdata <-cbind("criterian"=criteria_data,
                          "Value"=round(fitdata,3))
 
-       }
+  }
 
-
-
-    #summary
   fitMeasures_s1 <- modelfitdata %>%
     row2col("index")%>%
     unite_rows(5, 6) %>% #unite ci
     move_row(6,5) %>%
     replace_df_rep("rmsea.ci.lower","90%CI.L",
-                    "rmsea.ci.upper", "90%CI.U") %>%
+                   "rmsea.ci.upper", "90%CI.U") %>%
     knitr::kable(format=format,
-           caption = "01 Model fit information")
+                 caption = "01 Model fit information")
 
+  # fitMeasures_s1 <- modelfitdata %>%
+  #   knitr::kable(format=format,
+  #          caption = "01 Model fit information")
 
-
-
-  ## 02 factor loading-----
   options(knitr.kable.NA="")
 
   factorloading_0 <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
@@ -330,34 +298,22 @@ cfa2 <- function(x,
                   cr=z, Sig.=stars, "p"=pvalue,
                   std=std.all, Accept=label)
 
-
-
-  ### factpr loadings Input New variable  ------
-  if(rename == TRUE){
-
-    factorloading <- factorloading_0 %>% mutate(Indicator= var_name)%>%
-      dplyr::select(Latent,Item ,Indicator , Est, S.E., cr, Sig., p ,
-                    std, Accept
-      ) %>%
+  if(rename == TRUE) {
+    factorloading <- factorloading_0 %>% mutate(Indicator= var_name) %>%
+      dplyr::select(Latent, Item, Indicator, Est, S.E., cr, Sig., p, std, Accept) %>%
       knitr::kable(digits=3, format=format,
-            caption="02 Indicator Validity(1)
+                   caption="02 Indicator Validity(1)
           Factor Loadings:
           (1) cr(critical ratio = Estimate/S.E) p<0.05,
           (2) std.damda >= 0.5(Bagozzi & Yi(1988)")
-
-  }else{
-
-    factorloading <-factorloading_0 %>%
+  } else {
+    factorloading <- factorloading_0 %>%
       knitr::kable(digits=3, format=format,
-            caption="02 Indicator Validity(1)
+                   caption="02 Indicator Validity(1)
           Factor Loadings:
           (1) cr(critical ratio = Estimate/S.E) p<0.05,
           (2) std.damda >= 0.5(Bagozzi & Yi(1988)")
   }
-
-
-
-
 
   dataplot0 <-  lavaan::parameterEstimates(x, standardized=TRUE) %>%
     dplyr::filter(op=="=~") %>%
@@ -370,288 +326,135 @@ cfa2 <- function(x,
                   cr=z, Sig.=stars, "p"=pvalue,
                   std=std.all, beta_Accept=label)
 
-
-
-
-
-
-  #plotting data
-  dataplot<- dataplot0%>% select(Item,Latent, std)
-
-
+  dataplot <- dataplot0 %>% select(Item,Latent, std)
 
   varnames_check = dataplot0[,"Item"]
-  #02 -2 loadings -ggplot------
 
-  if(rename == TRUE ){
-    #02 -2 loadings -ggplot------
+  if(rename == TRUE) {
     dataplot$Item <- var_name
 
-    gg <-ggplot(dataplot, aes(x=Item, y=std,
-                              fill=Latent))+
-      geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut , color= "darkred", linetype = 2)+ #cut: critera >0.7
-      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
-      ggtitle("Factor loadings")+
-      theme_bw()+
-      geom_text(aes(label=round(std,2)),
-                vjust=-.3, size=val.size)+
-      ylim(0, 1.1)+
-      theme(axis.text.x = element_text(
-        angle=angle,
-        size = cex, hjust = hjust,
-        face="bold")) #angle, cex
-
-  }else if(rename == FALSE){
-
-    gg <-ggplot(dataplot, aes(x=Item, y=std,
-                              fill=Latent))+
-      geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut ,  color= "darkred", linetype=2)+ #cut: critera >0.7
-      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
-      ggtitle("Factor loadings")+
-      theme_bw()+
-      geom_text(aes(label=round(std,2)),
-                vjust=-.3, size=val.size)+
-      ylim(0, 1.1 )+
-      theme(axis.text.x = element_text(
-        angle= angle,
-        size = cex, hjust = hjust,
-        face="bold")) #angle, cex
-  }else{
-    gg <-ggplot(dataplot,aes(x=Item, y=std,
-                             fill=Latent))+
-      geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut,  color= "darkred", linetype=2)+ #cut: critera >0.7
-      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
-      ggtitle("Factor loadings")+
-      theme_bw()+
-      geom_text(aes(label=round(std,2)),
-                vjust=-.3, size=val.size)+
-      ylim(0,1.1)+
-      theme(axis.text.x = element_text(
-        angle=angle,
-        size = cex, hjust = hjust,
-        face="bold")) #angle, cex
+    gg <- ggplot(dataplot, aes(x=Item, y=std, fill=Latent)) +
+      geom_bar(stat="identity", position='dodge') +
+      geom_hline(yintercept = cut , color= "darkred", linetype = 2) +
+      geom_hline(yintercept = cut-0.2, color= "gray40") +
+      ggtitle("Factor loadings") +
+      theme_bw() +
+      geom_text(aes(label=round(std,2)), vjust=-.3, size=val.size) +
+      ylim(0, 1.1) +
+      theme(axis.text.x = element_text(angle=angle, size = cex, hjust = hjust, face="bold"))
+  } else {
+    gg <- ggplot(dataplot, aes(x=Item, y=std, fill=Latent)) +
+      geom_bar(stat="identity", position='dodge') +
+      geom_hline(yintercept = cut , color= "darkred", linetype=2) +
+      geom_hline(yintercept = cut-0.2, color= "gray40") +
+      ggtitle("Factor loadings") +
+      theme_bw() +
+      geom_text(aes(label=round(std,2)), vjust=-.3, size=val.size) +
+      ylim(0, 1.1) +
+      theme(axis.text.x = element_text(angle= angle, size = cex, hjust = hjust, face="bold"))
   }
 
-
-
-  #Cronbach alpha
-  alpha.1 <-  semTools::reliability(x,return.total = F) %>%
-    # alpha.1 <- reliability(x) %>%
+  alpha.1 <- semTools::reliability(x,return.total = F) %>%
     t() %>%
     as.data.frame() %>%
-    dplyr::select("Cronbach"=alpha,"CR" = omega3) %>%
+    dplyr::select("Cronbach"=alpha, "CR" = omega3) %>%
     mutate(alpha_Check=ifelse(Cronbach>0.7,"Accept(>0.7) *",
                               ifelse(Cronbach>0.6,"Yes(poor) *", "Reject"))) %>%
     mutate(CR_Check=ifelse(CR>0.7,"Accept(>0.7) *","Reject")) %>%
-    dplyr::select(Cronbach,alpha_Check,CR,CR_Check )
+    dplyr::select(Cronbach,alpha_Check,CR,CR_Check)
 
-
-  #05 Reprort cronbach, AVE, C.R
   FL.1 <- cbind(alpha.1)
-  FL <- FL.1%>%knitr::kable(digits=3, format=format,
-                    caption="03-1. Internal consistency
+  FL <- FL.1 %>% knitr::kable(digits=3, format=format,
+                              caption="03-1. Internal consistency
           (Cronbach's Alpha, 1951) and Composite Relibility")
 
-
-
-
-  ## 03 CR,AVE-----
-  # ?semTools::reliability
-  AVE <-  semTools::reliability(x, return.total = F) %>%
+  AVE <- semTools::reliability(x, return.total = F) %>%
     t() %>%
     as.data.frame() %>%
-    dplyr::select( "AVE"=avevar)
+    dplyr::select("AVE"=avevar)
 
   sqrt.AVE <- sqrt(AVE)
-  colnames(sqrt.AVE)="sqrt.AVE"
+  colnames(sqrt.AVE) <- "sqrt.AVE"
 
-  #correlations Matrix
   rho <- lavaan::lavInspect(x,"std")$beta
 
-
-
-
-  ## 04 Convergent validity-----
-  alpha_AVE_CR_0 <-   semTools::reliability(x,
-                          return.total = FALSE) %>%
-    # alpha_AVE_CR <-  reliability(x) %>%
+  alpha_AVE_CR_0 <- semTools::reliability(x, return.total = FALSE) %>%
     t() %>%
     as.data.frame() %>%
-    dplyr::select("Cronbach"=alpha,
-                  "CR" = omega3, "AVE"=avevar) %>%
-    mutate(sqrt.AVE=sqrt(AVE))%>%
-    mutate(AVE_check=ifelse(AVE>0.5,"Accept(>0.5) *","Reject"))%>%
-    dplyr::select(Cronbach,CR, AVE,AVE_check, #sqrt.AVE
-    )
-  alpha_AVE_CR <-   alpha_AVE_CR_0 %>%
-    knitr::kable(digits = 3,format = format,
-          caption = "03 Convergent validity
+    dplyr::select("Cronbach"=alpha, "CR" = omega3, "AVE"=avevar) %>%
+    mutate(sqrt.AVE=sqrt(AVE)) %>%
+    mutate(AVE_check=ifelse(AVE>0.5,"Accept(>0.5) *","Reject")) %>%
+    dplyr::select(Cronbach, CR, AVE, AVE_check)
+
+  alpha_AVE_CR <- alpha_AVE_CR_0 %>%
+    knitr::kable(digits = 3, format = format,
+                 caption = "03 Convergent validity
           Internal consistency(Cronbach's Alpha, 1951)(>0.7)
           AVE(>0.5) & CR(>0.7): Fornell & Lacker(1981)")
 
-
-
-
-
-  #05-1 discriminant validity=====
   betaa <- lavaan::lavInspect(x, "std")$beta
 
-  if(is.null(betaa)){
+  if(is.null(betaa)) {
+    psi <- lavaan::lavInspect(x, "std")$psi
+    psi[lower.tri(psi)==FALSE] <- 0
 
-    psi <-lavaan::lavInspect(x, "std")$psi
-    psi[lower.tri(psi)==FALSE]<-0
+    rho1 <- psi %>% as.data.frame()
+    rho1$max <- apply(rho1,1,max)
 
-    rho1<- psi %>% as.data.frame()
-    rho1$max<- apply(rho1,1,max)
-    # diff<- cbind(rho1$max, sqrt.AVE) # not rwow match(need calculate )
-    # diff$delta<-diff[,2]- diff[,1]
-    # diff$sig<-ifelse(diff$delta >= 0,"*","ns")
-    #
-    # FornellNacker <-cbind(psi, max_rho=diff[,1],
-    #                       sqrt.AVE,  # row 396
-    #                       sig=diff[,4]) %>% as.data.frame()
-
-    #New revise
-    rho1 <- rho1 %>% mutate(max = apply(rho1,1, max),
-                            lv = rownames(rho1))
+    rho1 <- rho1 %>% mutate(max = apply(rho1,1, max), lv = rownames(rho1))
     sqrt.AVE$lv <- rownames(sqrt.AVE)
 
-    # diff <- merge(x=rho1, y=sqrt.AVE, by="lv",
-    #               all=TRUE, sort = dis.sort)
-    diff_0 <- merge(x = rho1[,c("max","lv")],
-                    y = sqrt.AVE, by = "lv",
-                    all = TRUE,
-                    sort = FALSE)
-    diff <- merge(x = rho1[,-(ncol(rho1)-1)],
-                  y = diff_0, by = "lv",
-                  all = TRUE,
-                  sort = FALSE)
-    # diff$sqrt.AVE[is.na(diff$sqrt.AVE)] <- 0
-
-
-    # diff <- cbind(rho1$max, sqrt.AVE)
-    # diff$delta <- diff$sqrt.AVE - diff$max
-    # diff$sig <-ifelse(sqrt.AVE == 0, "-",
-    #                   ifelse(diff$delta >= 0, "*", "ns"))
-
+    diff_0 <- merge(x = rho1[,c("max","lv")], y = sqrt.AVE, by = "lv", all = TRUE, sort = FALSE)
+    diff <- merge(x = rho1[,-(ncol(rho1)-1)], y = diff_0, by = "lv", all = TRUE, sort = FALSE)
     diff$delta <- diff[,(ncol(diff))]- diff[,(ncol(diff)-1)]
-    diff$sig<-ifelse(diff$delta >= 0,"*","ns")
-
+    diff$sig <- ifelse(diff$delta >= 0, "*", "ns")
 
     FornellNacker <- diff[,c(-(ncol(diff)-1))]
 
-    validity <- FornellNacker %>%
+    validity <- FornellNacker %>% cut_print()%>%
       knitr::kable(digits=3, format=format,
-            caption="04 Discriminant Validity:
+                   caption="04 Discriminant Validity:
           rho < Square Root of(AVE)
            By Fornell & Lacker(1981)")
 
-  }else{
+  } else {
     lv.cor <- lavaan::lavInspect(x, what="cor.lv")
     lv.cor1 <- lv.cor
-    diag(lv.cor1)<-0
+    diag(lv.cor1) <- 0
 
     rho1 <- lv.cor1 %>% as.data.frame()
-    rho1[lower.tri(rho1)==FALSE]<-0
+    rho1[lower.tri(rho1)==FALSE] <- 0
     rho1$max <- apply(rho1,1, max)
 
-    # bind data
-    rho1 <- rho1 %>% mutate(max=apply(rho1,1, max),
-                            lv =rownames(rho1))
+    rho1 <- rho1 %>% mutate(max=apply(rho1,1, max), lv =rownames(rho1))
     sqrt.AVE$lv <- rownames(sqrt.AVE)
 
-    # diff <- merge(x=rho1, y=sqrt.AVE, by="lv",
-    #               all=TRUE, sort = dis.sort)
-    diff_0 <- merge(x=rho1[,c("max","lv")],
-                    y=sqrt.AVE, by="lv",
-                    all=TRUE, sort=FALSE)
-    diff <- merge(x= rho1[,-(ncol(rho1)-1)],
-                  y=diff_0, by="lv",
-                  all=TRUE, sort = FALSE)
-    # diff$sqrt.AVE[is.na(diff$sqrt.AVE)] <- 0
-
-    # diff <- cbind(rho1$max, sqrt.AVE)
+    diff_0 <- merge(x = rho1[,c("max","lv")], y = sqrt.AVE, by = "lv", all = TRUE, sort = FALSE)
+    diff <- merge(x = rho1[,-(ncol(rho1)-1)], y = diff_0, by = "lv", all = TRUE, sort = FALSE)
     diff$delta <- diff[,(ncol(diff))]- diff[,(ncol(diff)-1)]
-    diff$sig<-ifelse(diff$delta >= 0,"*","ns")
-
-
+    diff$sig <- ifelse(diff$delta >= 0, "*", "ns")
 
     FornellNacker <- diff[,c(-(ncol(diff)-1))]
-    # cbind(rho1, max_rho=diff[,1], sqrt.AVE,
-    #                     sig=diff[,4]) %>% as.data.frame()
-    #
 
-    validity <- FornellNacker %>%
+    validity <- FornellNacker%>%cut_print()%>%
       knitr::kable(digits=3, format=format,
-            caption="04 Discriminant Validity:
+                   caption="04 Discriminant Validity:
           rho < Square Root of(AVE)
            By Fornell & Lacker(1981)")
   }
 
 
 
-  # 05-2 discriminant :HTMT #####
-  # Assessing Discriminant Validity using Heterotrait–Monotrait Ratio
-  # discriminant validity through the heterotrait-monotrait ratio (HTMT) of the correlations (Henseler, Ringlet & Sarstedt, 2015)
-
-
-
-# if( is.character(model)==TRUE |
-#     is.data.frame(dataset)==TRUE){
-#
-#   options(knitr.kable.NA = '') # hide NA
-#   # generate dataframe
-#   htmt0 <- semTools::htmt(model, dataset) %>%
-#     as.data.frame()
-#
-#   htmt0[lower.tri(htmt0)==FALSE]<-0 # diag =0
-#   htmt0NA <- htmt0 # NA remove
-#   htmt0NA[lower.tri(htmt0)==FALSE]<-NA   # upper to NA
-#   htmt1 <- htmt0 %>%   #make sig
-#     mutate(Max = apply(htmt0, 1, max, na.rm=T),  # max
-#            dis = ifelse(htmt_cut - Max== htmt_cut, 0, htmt_cut - Max),  #discriminant
-#            sig = ifelse(htmt_cut- Max >= 0,"*","ns")) #significant
-#   htmt2 <-cbind(htmt0NA,
-#                 htmt1[,c(ncol(htmt1)-2, #max
-#                          ncol(htmt1)-1, #dis
-#                          ncol(htmt1))] ) #sig
-#
-# #
-#
-#     htmt <- htmt2  %>%
-#       knitr::kable(format=format, digits = digits,
-#        caption="The heterotrait-monotrait ratio of correlations (HTMT).
-#           All correalation < 0.9 --> discriminant Accept(roburst:0.85)
-#           general accept: < 1
-#           (Henseler, Ringlet & Sarstedt, 2015)
-#
-#           ")
-#   #
-  #
-  # }else{
-  #   htmt <- print("Not calculation HTMT, input syntax is [ model = lavaan model,dataset = data] ")
-  #
-  # }
-
-
-    htmt2 = lav_htmt(x, cut = htmt_cut, htmt2 = htmt2 ,  digits= digits)
-    htmt <- htmt2  %>%
-      knitr::kable(format=format, digits = digits,
-                   caption="The heterotrait-monotrait ratio of correlations (HTMT).
+  htmt2 <- lav_htmt(x, cut = htmt_cut, htmt2 = htmt2 ,  digits= digits)
+  # htmt2=NULL
+  htmt <- htmt2  %>%
+    knitr::kable(format=format, digits = digits,
+                 caption="The heterotrait-monotrait ratio of correlations (HTMT).
           All correalation < 0.9 --> discriminant Accept(roburst:0.85)
           general accept: < 1
           (Henseler, Ringlet & Sarstedt, 2015)
-
           ")
 
-
-
-
-
-  ##06 cor significant----
   lv.cor.sig0 <- lavaan::parameterEstimates(x, standardized = T) %>%
     dplyr::filter(op=="~"|op=="~~"&lhs != rhs) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue) %>%
@@ -662,58 +465,42 @@ cfa2 <- function(x,
                      ifelse(op=="~~","cor",""))) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue,sig)
 
-  lv.cor.sig = lv.cor.sig0 %>%
+  lv.cor.sig <- lv.cor.sig0 %>%
     knitr::kable(digits=3, format=format,
-          caption="05 latent correlation Significant Check")
+                 caption="05 latent correlation Significant Check")
+
+
+  #model return
+  model= lav_return_model(x)
 
 
 
 
-
-
-  ## final result  --------------
-  all.reuslt <-list(model = model,
-                    fit_criterian = fit,
-                    model_fit = fitMeasures_s1,
-                    factorloadings = factorloading,
-                    Internal_Consistency = FL,
-                    Convergent = alpha_AVE_CR_0,
-                    Discriminant = validity,
-                    Discriminant_HTMT = htmt,
-                    # Latent_Cor=lv.cor,
-                    betaMat_sig = lv.cor.sig,
-                    loadings_Bar = gg,
-                    variable_order = varnames_check
+  all.reuslt <- list(
+    model = model,
+    fit_criterian = fit,
+    model_fit = fitMeasures_s1,
+    factorloadings = factorloading,
+    Internal_Consistency = FL,
+    Convergent = alpha_AVE_CR_0,
+    Discriminant = validity,
+    Discriminant_HTMT = htmt,
+    betaMat_sig = lv.cor.sig,
+    loadings_Bar = gg,
+    variable_order = varnames_check
   )
 
+  raw = list(
+    fit = fitMeasures,
+    model_fit = modelfitdata,
+    factorloading = factorloading_0,
+    convergent = alpha_AVE_CR_0,
+    discriminant = FornellNacker,
+    htmt = htmt2,
+    bar = gg,
+    lv.cor.sig = lv.cor.sig0
+  )
 
-  raw = list(fit=fitMeasures,
-             model_fit=modelfitdata,
-            factorloading = factorloading_0,
-
-            convergent = alpha_AVE_CR_0,
-            discriminant = FornellNacker,
-            htmt = htmt2,
-            bar = gg,
-            lv.cor.sig = lv.cor.sig0)
-  # all.reuslt
-  ## cfa2() output option ---------------
-  # switch(res,
-  #        all = all.reuslt,
-  #        model = model,
-  #        modelfit = fit,
-  #        modelfit2 = fitMeasures_s1,
-  #        loadings = factorloading,
-  #        alpha = FL,
-  #        CR_AVE = alpha_AVE_CR,
-  #        Convegent = alpha_AVE_CR,
-  #        fl_criteria = validity,
-  #        Discriminant = validity,
-  #        htmt = htmt,
-  #        HTMT = htmt,
-  #        # Latent_Cor=lv.cor,
-  #        str_cor = lv.cor.sig,
-  #        loadings_Bar = gg )
   switch(type,
          all = all.reuslt,
          raw = raw,
@@ -725,53 +512,646 @@ cfa2 <- function(x,
          item = factorloading_0,
          indicator = factorloading_0,
          loadings_bar = gg,
-
          alpha = FL.1,
          CR_AVE = alpha_AVE_CR_0,
-
          Convergent = alpha_AVE_CR_0,
-
          fl_criteria = FornellNacker,
          Discriminant = FornellNacker,
          htmt = htmt2,
          HTMT = htmt2,
-         # Latent_Cor=lv.cor,
          str_cor = lv.cor.sig0
-         )
-
+  )
 }
 
 
-#cfa2
+# cfa2 <- function(x,
+#                  format="markdown",
+#                  # dataset=NA, #dataset input htmt
+#                  # model=NA, # lavaan Model htmt(<0.9)
+#                  htmt_cut = 0.9,
+#                  htmt2=FALSE,
+#                  cut=0.7,
+#                  angle=90,
+#                  cex=11, hjust=0.9,
+#                  val.size=4,
+#                  dis.sort=TRUE,
+#                  rename=F,
+#                  var_name=NA,
+#                  digits=3,
+#                  type = "all"){
 #
-# #quick markdown_table , knitr::kable(format="html) using cfa2()-----------
-# markdown_table_s <- function(data,
-#                              caption="html to markdown",
-#                              full_width=FALSE,
-#                              font_size=20,
-#                              row.names = NA,
-#                              col.names = NA,
-#                              centering = TRUE,
-#                              digits=3,
-#                              show="markdown"
-# ){
-#
+#   library(dplyr)
+#   library(knitr)
+#   library(lavaan)
+#   library(semTools)
+#   library(tibble)
+#   library(semPlot)
+#   library(ggplot2)
 #   library(kableExtra)
+#   library(tidyverse)
 #
-#   if(show=="kbl"){
-#     data %>%as.data.frame() %>%
-#       kbl(digits = digits,
-#           caption =  caption,
-#           row.names=row.names,col.names=col.names,
-#           centering=centering
+#   # tryCatch({
+#
+#   # 01 fit table-----
+#   options(scipen = 100)
+#
+#   fit.indices=c("chisq","pvalue", "df","rmsea",
+#                 "gfi","agfi","srmr","cfi","tli","nfi","aic","bic")
+#   fitMeasures <- round(fitMeasures(x,fit.indices),3)
+#   fitMeasures_s <- round(fitMeasures(x,fit.indices),3)
+#
+#
+#   # fitMeasures <- as.data.frame(fitMeasures(x,fit.indices))
+#   fitMeasures <- as.data.frame(fitMeasures) #check.names = TRUE
+#   fitMeasures$critera <- c("",
+#                            "*p.value >= 0.05",
+#                            "_chisq/df <= 3(<5(ok)",
+#                            "*RMSEA< 0.05(or 0.08)",
+#                            "*GFI >= 0.95",
+#                            "_AGFI>= 0.90",
+#                            "*SRMR < 0.08",
+#                            "*CFI >= 0.95",
+#                            "_TLI >= 0.90",
+#                            "_NFI >= 0.90",
+#                            "_lower",
+#                            "_lower")
+#   fitMeasures$Ref <-c("-",
+#                       "-",
+#                       "Wheaton et al.(1977)",
+#                       "Browne & Cudek(1993)",
+#                       "Joreskog-Sorbom(1970)",
+#                       "Tanaka & Huba(1985)",
+#                       "Hu & Bentler(1999)",
+#                       "Kline(2011)",
+#                       "Bentler & Bonett(1980)",
+#                       "Bollen(1989)",
+#                       "Akaike(1973)",
+#                       "-")
+#   fitMeasures$chiq_df <- c("","",
+#                            round(fitMeasures[1,1]/fitMeasures[3,1],2),
+#                            "","","","","","","","","")
+#   # fitMeasures$fit_chek  <- c("absolute fit","",
+#   #                            "absolute fit",
+#   #                            "absolute fit ",
+#   #                            "absolute fit ",
+#   #                            "absolute fit ",
+#   #                            "absolute fit ",
+#   #                            "incremental fit",
+#   #                            "incremental fit",
+#   #                            "incremental fit",
+#   #                            "parsimonious fit",
+#   #                            "parsimonious fit")
+#   fit <- fitMeasures  %>%
+#     knitr::kable(digits=3, format=format,
+#           caption="FitMeasure and criterian
+#           (*)satisfy By kline(2011) Suggestion")
+#
+#
+#
+#
+#   # TEST[[2]]$test %in% c("satorra.bentler", "yuan.bentler.mplus", "yuan.bentler")
+#   # if(length(fitMeasures(x)) == 45 ){
+#
+#
+#   if(length(fitMeasures(x)) == length(fitMeasures(x)) ){
+#
+#     #generarl reasearch
+#     #modelfit
+#     fitdata_00 <- fitMeasures(x,c("chisq","df","pvalue",
+#                                   "rmsea",
+#                                   "rmsea.ci.lower",
+#                                   "rmsea.ci.upper",
+#                                   "rmsea.pvalue",
+#                                   "srmr",
+#                                   "gfi",
+#                                   "cfi",
+#                                   "tli",
+#                                   "aic",
+#                                   "bic"
+#     ))
+#
+#     criteria_data_00 = c("Chisq",
+#                          "df",
+#                          "p > .05",
+#                          "RMSEA < .05",
+#                          "90%CI.L",
+#                          "90%CI.U",
+#                          "p <= .05",
+#                          "SRMR < .08",
+#                          "GFI > .90",
+#                          "CFI > .90",
+#                          "TLI > .90",
+#                          "AIC lower ",
+#                          "BIC lower "
+#     )
+#
+#     modelfitdata <-cbind.data.frame("criterian" = criteria_data_00,
+#                                     "Value" = round(fitdata_00,3))
+#
+#   }else{
+#
+#     #01-2 robust research--------
+#     #modelfit
+#     fitdata <- fitMeasures(x,c("chisq","df","pvalue",
+#                                "rmsea",
+#                                "rmsea.ci.lower",
+#                                "rmsea.ci.upper",
+#                                "rmsea.pvalue",
+#                                "srmr",
+#                                "gfi",
+#                                "cfi",
+#                                "tli",
+#                                "aic",
+#                                "bic",
+#                                "chisq.scaled", #roburst chisq
+#                                "df.scaled",
+#                                "pvalue.scaled",
+#                                "chisq.scaling.factor",
+#                                "cfi.robust",   # add
+#                                "tli.robust",
+#                                "rmsea.robust",
+#                                "rmsea.ci.lower.robust",
+#                                "rmsea.ci.upper.robust",
+#                                "rmsea.pvalue.robust",
+#                                "srmr_bentler",
+#                                "srmr_mplus"
+#
+#     ))
+#
+#     criteria_data = c("Chisq",
+#                       "df",
+#                       "p > .05",
+#                       "RMSEA < .05",
+#                       "90%CI.L",
+#                       "90%CI.U",
+#                       "p <= .05",
+#                       "SRMR < .08",
+#                       "GFI > .90",
+#                       "CFI > .90",
+#                       "TLI > .90",
+#                       "AIC lower ",
+#                       "BIC lower ",
+#                       "chisq.robust", #roburst chisq
+#                       "df.robust",
+#                       "p.robust",
+#                       "Satorra-Bentler correction",
+#                       "CFI.robust",   # add
+#                       "TLI.robust",
+#                       "RMSEA.robust",
+#                       "RMSEA.ci.lower.robust",
+#                       "RMSEA.ci.upper.robust",
+#                       "RMASE.p.robust(blank=NA)",
+#                       "SRMR_bentler",
+#                       "SRMR_Mplus"
+#          )
+#
+#     modelfitdata <-cbind("criterian"=criteria_data,
+#                          "Value"=round(fitdata,3))
+#
+#        }
+#
+#
+#
+#     #summary
+#   fitMeasures_s1 <- modelfitdata %>%
+#     row2col("index")%>%
+#     unite_rows(5, 6) %>% #unite ci
+#     move_row(6,5) %>%
+#     replace_df_rep("rmsea.ci.lower","90%CI.L",
+#                     "rmsea.ci.upper", "90%CI.U") %>%
+#     knitr::kable(format=format,
+#            caption = "01 Model fit information")
+#
+#
+#
+#
+#   ## 02 factor loading-----
+#   options(knitr.kable.NA="")
+#
+#   factorloading_0 <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
+#     dplyr::filter(op=="=~") %>%
+#     mutate(stars=ifelse(pvalue < 0.001, "***",
+#                         ifelse(pvalue < 0.01, "**",
+#                                ifelse(pvalue < 0.05, "*", "")))) %>%
+#     mutate(label=ifelse(std.all>0.7,"Yes(Good)",
+#                         ifelse(std.all>0.5,"Yes(fair)","No"))) %>%
+#     dplyr::select("Latent"=lhs, Item=rhs, Est=est,S.E.=se,
+#                   cr=z, Sig.=stars, "p"=pvalue,
+#                   std=std.all, Accept=label)
+#
+#
+#
+#   ### factpr loadings Input New variable  ------
+#   if(rename == TRUE){
+#
+#     factorloading <- factorloading_0 %>% mutate(Indicator= var_name)%>%
+#       dplyr::select(Latent,Item ,Indicator , Est, S.E., cr, Sig., p ,
+#                     std, Accept
 #       ) %>%
-#       knitr::kable_classic(full_width=full_width,font_size= font_size)
-#   }else if(show=="markdown"){
-#     data %>%
-#       kable_classic(full_width=full_width,font_size= font_size)
+#       knitr::kable(digits=3, format=format,
+#             caption="02 Indicator Validity(1)
+#           Factor Loadings:
+#           (1) cr(critical ratio = Estimate/S.E) p<0.05,
+#           (2) std.damda >= 0.5(Bagozzi & Yi(1988)")
+#
+#   }else{
+#
+#     factorloading <-factorloading_0 %>%
+#       knitr::kable(digits=3, format=format,
+#             caption="02 Indicator Validity(1)
+#           Factor Loadings:
+#           (1) cr(critical ratio = Estimate/S.E) p<0.05,
+#           (2) std.damda >= 0.5(Bagozzi & Yi(1988)")
 #   }
+#
+#
+#
+#
+#
+#   dataplot0 <-  lavaan::parameterEstimates(x, standardized=TRUE) %>%
+#     dplyr::filter(op=="=~") %>%
+#     mutate(stars=ifelse(pvalue < 0.001, "***",
+#                         ifelse(pvalue < 0.01, "**",
+#                                ifelse(pvalue < 0.05, "*", "")))) %>%
+#     mutate(label=ifelse(std.all>0.7,"Yes(Good)",
+#                         ifelse(std.all>0.5,"Yes(fair)","No"))) %>%
+#     dplyr::select("Latent"=lhs, Item=rhs, Est=est,S.E.=se,
+#                   cr=z, Sig.=stars, "p"=pvalue,
+#                   std=std.all, beta_Accept=label)
+#
+#
+#
+#
+#
+#
+#   #plotting data
+#   dataplot<- dataplot0%>% select(Item,Latent, std)
+#
+#
+#
+#   varnames_check = dataplot0[,"Item"]
+#   #02 -2 loadings -ggplot------
+#
+#   if(rename == TRUE ){
+#     #02 -2 loadings -ggplot------
+#     dataplot$Item <- var_name
+#
+#     gg <-ggplot(dataplot, aes(x=Item, y=std,
+#                               fill=Latent))+
+#       geom_bar(stat="identity", position='dodge')+
+#       geom_hline(yintercept = cut , color= "darkred", linetype = 2)+ #cut: critera >0.7
+#       geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
+#       ggtitle("Factor loadings")+
+#       theme_bw()+
+#       geom_text(aes(label=round(std,2)),
+#                 vjust=-.3, size=val.size)+
+#       ylim(0, 1.1)+
+#       theme(axis.text.x = element_text(
+#         angle=angle,
+#         size = cex, hjust = hjust,
+#         face="bold")) #angle, cex
+#
+#   }else if(rename == FALSE){
+#
+#     gg <-ggplot(dataplot, aes(x=Item, y=std,
+#                               fill=Latent))+
+#       geom_bar(stat="identity", position='dodge')+
+#       geom_hline(yintercept = cut ,  color= "darkred", linetype=2)+ #cut: critera >0.7
+#       geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
+#       ggtitle("Factor loadings")+
+#       theme_bw()+
+#       geom_text(aes(label=round(std,2)),
+#                 vjust=-.3, size=val.size)+
+#       ylim(0, 1.1 )+
+#       theme(axis.text.x = element_text(
+#         angle= angle,
+#         size = cex, hjust = hjust,
+#         face="bold")) #angle, cex
+#   }else{
+#     gg <-ggplot(dataplot,aes(x=Item, y=std,
+#                              fill=Latent))+
+#       geom_bar(stat="identity", position='dodge')+
+#       geom_hline(yintercept = cut,  color= "darkred", linetype=2)+ #cut: critera >0.7
+#       geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
+#       ggtitle("Factor loadings")+
+#       theme_bw()+
+#       geom_text(aes(label=round(std,2)),
+#                 vjust=-.3, size=val.size)+
+#       ylim(0,1.1)+
+#       theme(axis.text.x = element_text(
+#         angle=angle,
+#         size = cex, hjust = hjust,
+#         face="bold")) #angle, cex
+#   }
+#
+#
+#
+#   #Cronbach alpha
+#   alpha.1 <-  semTools::reliability(x,return.total = F) %>%
+#     # alpha.1 <- reliability(x) %>%
+#     t() %>%
+#     as.data.frame() %>%
+#     dplyr::select("Cronbach"=alpha,"CR" = omega3) %>%
+#     mutate(alpha_Check=ifelse(Cronbach>0.7,"Accept(>0.7) *",
+#                               ifelse(Cronbach>0.6,"Yes(poor) *", "Reject"))) %>%
+#     mutate(CR_Check=ifelse(CR>0.7,"Accept(>0.7) *","Reject")) %>%
+#     dplyr::select(Cronbach,alpha_Check,CR,CR_Check )
+#
+#
+#   #05 Reprort cronbach, AVE, C.R
+#   FL.1 <- cbind(alpha.1)
+#   FL <- FL.1%>%knitr::kable(digits=3, format=format,
+#                     caption="03-1. Internal consistency
+#           (Cronbach's Alpha, 1951) and Composite Relibility")
+#
+#
+#
+#
+#   ## 03 CR,AVE-----
+#   # ?semTools::reliability
+#   AVE <-  semTools::reliability(x, return.total = F) %>%
+#     t() %>%
+#     as.data.frame() %>%
+#     dplyr::select( "AVE"=avevar)
+#
+#   sqrt.AVE <- sqrt(AVE)
+#   colnames(sqrt.AVE)="sqrt.AVE"
+#
+#   #correlations Matrix
+#   rho <- lavaan::lavInspect(x,"std")$beta
+#
+#
+#
+#
+#   ## 04 Convergent validity-----
+#   alpha_AVE_CR_0 <-   semTools::reliability(x,
+#                           return.total = FALSE) %>%
+#     # alpha_AVE_CR <-  reliability(x) %>%
+#     t() %>%
+#     as.data.frame() %>%
+#     dplyr::select("Cronbach"=alpha,
+#                   "CR" = omega3, "AVE"=avevar) %>%
+#     mutate(sqrt.AVE=sqrt(AVE))%>%
+#     mutate(AVE_check=ifelse(AVE>0.5,"Accept(>0.5) *","Reject"))%>%
+#     dplyr::select(Cronbach,CR, AVE,AVE_check, #sqrt.AVE
+#     )
+#   alpha_AVE_CR <-   alpha_AVE_CR_0 %>%
+#     knitr::kable(digits = 3,format = format,
+#           caption = "03 Convergent validity
+#           Internal consistency(Cronbach's Alpha, 1951)(>0.7)
+#           AVE(>0.5) & CR(>0.7): Fornell & Lacker(1981)")
+#
+#
+#
+#
+#
+#   #05-1 discriminant validity=====
+#   betaa <- lavaan::lavInspect(x, "std")$beta
+#
+#   if(is.null(betaa)){
+#
+#     psi <-lavaan::lavInspect(x, "std")$psi
+#     psi[lower.tri(psi)==FALSE]<-0
+#
+#     rho1<- psi %>% as.data.frame()
+#     rho1$max<- apply(rho1,1,max)
+#     # diff<- cbind(rho1$max, sqrt.AVE) # not rwow match(need calculate )
+#     # diff$delta<-diff[,2]- diff[,1]
+#     # diff$sig<-ifelse(diff$delta >= 0,"*","ns")
+#     #
+#     # FornellNacker <-cbind(psi, max_rho=diff[,1],
+#     #                       sqrt.AVE,  # row 396
+#     #                       sig=diff[,4]) %>% as.data.frame()
+#
+#     #New revise
+#     rho1 <- rho1 %>% mutate(max = apply(rho1,1, max),
+#                             lv = rownames(rho1))
+#     sqrt.AVE$lv <- rownames(sqrt.AVE)
+#
+#     # diff <- merge(x=rho1, y=sqrt.AVE, by="lv",
+#     #               all=TRUE, sort = dis.sort)
+#     diff_0 <- merge(x = rho1[,c("max","lv")],
+#                     y = sqrt.AVE, by = "lv",
+#                     all = TRUE,
+#                     sort = FALSE)
+#     diff <- merge(x = rho1[,-(ncol(rho1)-1)],
+#                   y = diff_0, by = "lv",
+#                   all = TRUE,
+#                   sort = FALSE)
+#     # diff$sqrt.AVE[is.na(diff$sqrt.AVE)] <- 0
+#
+#
+#     # diff <- cbind(rho1$max, sqrt.AVE)
+#     # diff$delta <- diff$sqrt.AVE - diff$max
+#     # diff$sig <-ifelse(sqrt.AVE == 0, "-",
+#     #                   ifelse(diff$delta >= 0, "*", "ns"))
+#
+#     diff$delta <- diff[,(ncol(diff))]- diff[,(ncol(diff)-1)]
+#     diff$sig<-ifelse(diff$delta >= 0,"*","ns")
+#
+#
+#     FornellNacker <- diff[,c(-(ncol(diff)-1))]
+#
+#     validity <- FornellNacker %>%
+#       knitr::kable(digits=3, format=format,
+#             caption="04 Discriminant Validity:
+#           rho < Square Root of(AVE)
+#            By Fornell & Lacker(1981)")
+#
+#   }else{
+#     lv.cor <- lavaan::lavInspect(x, what="cor.lv")
+#     lv.cor1 <- lv.cor
+#     diag(lv.cor1)<-0
+#
+#     rho1 <- lv.cor1 %>% as.data.frame()
+#     rho1[lower.tri(rho1)==FALSE]<-0
+#     rho1$max <- apply(rho1,1, max)
+#
+#     # bind data
+#     rho1 <- rho1 %>% mutate(max=apply(rho1,1, max),
+#                             lv =rownames(rho1))
+#     sqrt.AVE$lv <- rownames(sqrt.AVE)
+#
+#     # diff <- merge(x=rho1, y=sqrt.AVE, by="lv",
+#     #               all=TRUE, sort = dis.sort)
+#     diff_0 <- merge(x=rho1[,c("max","lv")],
+#                     y=sqrt.AVE, by="lv",
+#                     all=TRUE, sort=FALSE)
+#     diff <- merge(x= rho1[,-(ncol(rho1)-1)],
+#                   y=diff_0, by="lv",
+#                   all=TRUE, sort = FALSE)
+#     # diff$sqrt.AVE[is.na(diff$sqrt.AVE)] <- 0
+#
+#     # diff <- cbind(rho1$max, sqrt.AVE)
+#     diff$delta <- diff[,(ncol(diff))]- diff[,(ncol(diff)-1)]
+#     diff$sig<-ifelse(diff$delta >= 0,"*","ns")
+#
+#
+#
+#     FornellNacker <- diff[,c(-(ncol(diff)-1))]
+#     # cbind(rho1, max_rho=diff[,1], sqrt.AVE,
+#     #                     sig=diff[,4]) %>% as.data.frame()
+#     #
+#
+#     validity <- FornellNacker %>%
+#       knitr::kable(digits=3, format=format,
+#             caption="04 Discriminant Validity:
+#           rho < Square Root of(AVE)
+#            By Fornell & Lacker(1981)")
+#   }
+#
+#
+#
+#   # 05-2 discriminant :HTMT #####
+#   # Assessing Discriminant Validity using Heterotrait–Monotrait Ratio
+#   # discriminant validity through the heterotrait-monotrait ratio (HTMT) of the correlations (Henseler, Ringlet & Sarstedt, 2015)
+#
+#
+#
+# # if( is.character(model)==TRUE |
+# #     is.data.frame(dataset)==TRUE){
+# #
+# #   options(knitr.kable.NA = '') # hide NA
+# #   # generate dataframe
+# #   htmt0 <- semTools::htmt(model, dataset) %>%
+# #     as.data.frame()
+# #
+# #   htmt0[lower.tri(htmt0)==FALSE]<-0 # diag =0
+# #   htmt0NA <- htmt0 # NA remove
+# #   htmt0NA[lower.tri(htmt0)==FALSE]<-NA   # upper to NA
+# #   htmt1 <- htmt0 %>%   #make sig
+# #     mutate(Max = apply(htmt0, 1, max, na.rm=T),  # max
+# #            dis = ifelse(htmt_cut - Max== htmt_cut, 0, htmt_cut - Max),  #discriminant
+# #            sig = ifelse(htmt_cut- Max >= 0,"*","ns")) #significant
+# #   htmt2 <-cbind(htmt0NA,
+# #                 htmt1[,c(ncol(htmt1)-2, #max
+# #                          ncol(htmt1)-1, #dis
+# #                          ncol(htmt1))] ) #sig
+# #
+# # #
+# #
+# #     htmt <- htmt2  %>%
+# #       knitr::kable(format=format, digits = digits,
+# #        caption="The heterotrait-monotrait ratio of correlations (HTMT).
+# #           All correalation < 0.9 --> discriminant Accept(roburst:0.85)
+# #           general accept: < 1
+# #           (Henseler, Ringlet & Sarstedt, 2015)
+# #
+# #           ")
+# #   #
+#   #
+#   # }else{
+#   #   htmt <- print("Not calculation HTMT, input syntax is [ model = lavaan model,dataset = data] ")
+#   #
+#   # }
+#
+#
+#     htmt2 = lav_htmt(x, cut = htmt_cut, htmt2 = htmt2 ,  digits= digits)
+#     htmt <- htmt2  %>%
+#       knitr::kable(format=format, digits = digits,
+#       caption="The heterotrait-monotrait ratio of correlations (HTMT).
+#           All correalation < 0.9 --> discriminant Accept(roburst:0.85)
+#           general accept: < 1
+#           (Henseler, Ringlet & Sarstedt, 2015)
+#
+#           ")
+#
+#
+#
+#
+#
+#   ##06 cor significant----
+#   lv.cor.sig0 <- lavaan::parameterEstimates(x, standardized = T) %>%
+#     dplyr::filter(op=="~"|op=="~~"&lhs != rhs) %>%
+#     dplyr::select(lhs,op,rhs, std.lv, pvalue) %>%
+#     mutate(sig=ifelse(pvalue < 0.001, "***",
+#                       ifelse(pvalue < 0.01, "**",
+#                              ifelse(pvalue < 0.05, "*", "Not Sig")))) %>%
+#     mutate(op=ifelse(op=="~","<--",
+#                      ifelse(op=="~~","cor",""))) %>%
+#     dplyr::select(lhs,op,rhs, std.lv, pvalue,sig)
+#
+#   lv.cor.sig = lv.cor.sig0 %>%
+#     knitr::kable(digits=3, format=format,
+#           caption="05 latent correlation Significant Check")
+#
+#
+#   #model return
+#    model= lav_return_model(x)
+#
+#
+#
+#
+#   ## final result  --------------
+#   all.reuslt <-list(model = model,
+#                     fit_criterian = fit,
+#                     model_fit = fitMeasures_s1,
+#                     factorloadings = factorloading,
+#                     Internal_Consistency = FL,
+#                     Convergent = alpha_AVE_CR_0,
+#                     Discriminant = validity,
+#                     Discriminant_HTMT = htmt,
+#                     # Latent_Cor=lv.cor,
+#                     betaMat_sig = lv.cor.sig,
+#                     loadings_Bar = gg,
+#                     variable_order = varnames_check
+#   )
+#
+#
+#   raw = list(fit=fitMeasures,
+#              model_fit=modelfitdata,
+#             factorloading = factorloading_0,
+#
+#             convergent = alpha_AVE_CR_0,
+#             discriminant = FornellNacker,
+#             htmt = htmt2,
+#             bar = gg,
+#             lv.cor.sig = lv.cor.sig0)
+#   # all.reuslt
+#   ## cfa2() output option ---------------
+#   # switch(res,
+#   #        all = all.reuslt,
+#   #        model = model,
+#   #        modelfit = fit,
+#   #        modelfit2 = fitMeasures_s1,
+#   #        loadings = factorloading,
+#   #        alpha = FL,
+#   #        CR_AVE = alpha_AVE_CR,
+#   #        Convegent = alpha_AVE_CR,
+#   #        fl_criteria = validity,
+#   #        Discriminant = validity,
+#   #        htmt = htmt,
+#   #        HTMT = htmt,
+#   #        # Latent_Cor=lv.cor,
+#   #        str_cor = lv.cor.sig,
+#   #        loadings_Bar = gg )
+#   switch(type,
+#          all = all.reuslt,
+#          raw = raw,
+#          data.frame = raw,
+#          model = model,
+#          modelfit = modelfitdata,
+#          modelfit2 = fitMeasures_s1,
+#          loadings = factorloading_0,
+#          item = factorloading_0,
+#          indicator = factorloading_0,
+#          loadings_bar = gg,
+#
+#          alpha = FL.1,
+#          CR_AVE = alpha_AVE_CR_0,
+#
+#          Convergent = alpha_AVE_CR_0,
+#
+#          fl_criteria = FornellNacker,
+#          Discriminant = FornellNacker,
+#          htmt = htmt2,
+#          HTMT = htmt2,
+#          # Latent_Cor=lv.cor,
+#          str_cor = lv.cor.sig0
+#          )
+#
 # }
-
+#
 
 
 

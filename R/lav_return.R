@@ -2,6 +2,7 @@
 #' lavaan::sem으로 분석한 함수에서 model추출
 #'
 #' @param sem_res sem data
+#' @param sep sep =
 #'
 #' @return text
 #' @export
@@ -44,15 +45,17 @@
 #' }
 #'
 #'
-lav_return_model <- function(sem_res) {
+lav_return_model <- function(sem_res, sep="\n") {
   library(dplyr)
   library(lavaan)
+
   # Extract parameter table
   param_table <- lavaan::parameterTable(sem_res)
 
   # Create empty lists to hold different parts of the model
   latent_vars <- list()
   regressions <- list()
+  covariances <- list()
 
   # Populate the lists
   for (i in 1:nrow(param_table)) {
@@ -64,6 +67,8 @@ lav_return_model <- function(sem_res) {
       latent_vars[[row$lhs]] <- c(latent_vars[[row$lhs]], row$rhs)
     } else if (row$op == "~") {
       regressions <- c(regressions, paste(row$lhs, row$op, row$rhs))
+    } else if (row$op == "~~") {
+      covariances <- c(covariances, paste(row$lhs, row$op, row$rhs))
     }
   }
 
@@ -75,7 +80,11 @@ lav_return_model <- function(sem_res) {
   }
 
   for (reg in regressions) {
-    model_string <- paste0(model_string, reg, "\n")
+    model_string <- paste0(model_string, reg, sep)
+  }
+
+  for (cov in covariances) {
+    model_string <- paste0(model_string, cov, sep)
   }
 
   return(model_string)

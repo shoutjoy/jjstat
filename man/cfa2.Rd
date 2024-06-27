@@ -146,6 +146,6 @@ cfa2(fit, dataset = PoliticalDemocracy, model = model,
 cfa2(fit1, dataset = PoliticalDemocracy, model = model,
       res =  "str_cor")
 
-      op
+
 }
 }

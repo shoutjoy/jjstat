@@ -4,10 +4,12 @@
 \alias{lav_return_model}
 \title{lavaan::sem으로 분석한 함수에서 model추출}
 \usage{
-lav_return_model(sem_res)
+lav_return_model(sem_res, sep = "\\n")
 }
 \arguments{
 \item{sem_res}{sem data}
+
+\item{sep}{sep =}
 }
 \value{
 text
