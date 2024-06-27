@@ -145,6 +145,12 @@ cfa2(fit, dataset = PoliticalDemocracy, model = model,
 # structure correlation
 cfa2(fit1, dataset = PoliticalDemocracy, model = model,
       res =  "str_cor")
+#'
+library(jjstat)
+example(sem)
+fit\%>\%cfa2()
+fit\%>\%sem_effect()
+
 
 
 }
