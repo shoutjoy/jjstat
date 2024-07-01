@@ -4,7 +4,7 @@
 #' @param n_profiles_range 1:9
 #' @param modelNames "EEV","EEI","EEE","EII"
 #'
-#' @return
+#' @return data
 #' @export
 #'
 #' @examples

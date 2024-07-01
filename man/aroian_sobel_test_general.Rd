@@ -4,21 +4,19 @@
 \alias{aroian_sobel_test_general}
 \title{Aroian Approximation Sobel Test generalized function}
 \usage{
-aroian_sobel_test_general(a, SE, digits = 5)
+aroian_sobel_test_general(a, SE, digits = 5, conf = 0.95)
 }
 \arguments{
-\item{a}{est1}
+\item{a}{est}
 
-\item{b}{est2}
+\item{SE}{se}
 
-\item{sa}{se1}
+\item{digits}{5}
 
-\item{sb}{se2}
-
-\item{type}{Sobel, Aroian, Goodman}
+\item{conf}{0.90, 0.95, 0.99, 0.999}
 }
 \value{
-test result
+result
 }
 \description{
 Aroian Approximation Sobel Test generalized function
@@ -40,5 +38,31 @@ Sobel_test(a, b, sa, sb, "Sobel")
 Sobel_test(a, b, sa, sb,"Aroian")
 
 Sobel_test(a, b, sa, sb,"Goodman")
+
+#'
+# 예제 데이터
+a <- c(0.5, 0.3, 0.4)
+SE <- c(0.1, 0.1, 0.1)
+
+# 함수 실행 (기본 95\% 신뢰구간)
+aroian_sobel_test_general(a, SE)
+print(result_95)
+
+# 함수 실행 (90\% 신뢰구간)
+result_90 <- aroian_sobel_test_general(a, SE, conf=0.90)
+print(result_90)
+
+# 함수 실행 (99\% 신뢰구간)
+result_99 <- aroian_sobel_test_general(a, SE, conf=0.99)
+print(result_99)
+
+# 함수 실행 (99.9\% 신뢰구간)
+result_999 <- aroian_sobel_test_general(a, SE, conf=0.999)
+print(result_999)
+
+
+aroian_sobel_test_general(a = c(0.2, 0.3, 0.4, 0.5),
+                          SE = c(0.05, 0.04, 0.03, 0.02))\%>\%unite_ci()
+
 }
 }

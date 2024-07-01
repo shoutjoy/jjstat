@@ -4,21 +4,21 @@
 \alias{general_Sobel_test}
 \title{Sobeltest toal}
 \usage{
-general_Sobel_test(a, SE, digits = 6)
+general_Sobel_test(a, SE, digits = 5, conf = 0.95, type = "all")
 }
 \arguments{
-\item{a}{est1}
+\item{a}{est}
 
-\item{b}{est2}
+\item{SE}{se}
 
-\item{sa}{se1}
+\item{digits}{5}
 
-\item{sb}{se2}
+\item{conf}{0.90, 0.95, 0.99, 0.999}
 
-\item{type}{Sobel, Aroian, Goodman}
+\item{type}{all, res, sobel, aroian, goodman}
 }
 \value{
-test result
+result
 }
 \description{
 Sobeltest toal
@@ -37,8 +37,15 @@ Sobel_test(a, b, sa, sb)
 Sobel_test(a, b, sa, sb, "all")
 Sobel_test(a, b, sa, sb, "Sobel")
 
-Sobel_test(a, b, sa, sb,"Aroian")
+Sobel_test(a, b, sa, sb,"aroian")
 
 Sobel_test(a, b, sa, sb,"Goodman")
+#'
+a <- c(0.5, 0.3, 0.4)
+SE <- c(0.1, 0.1, 0.1)
+general_Sobel_test(a, SE)
+general_Sobel_test(a, SE)\%>\%unite_ci(digits=4)
+
+
 }
 }

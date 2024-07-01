@@ -4,7 +4,7 @@
 \alias{Sobel_test}
 \title{sobel test}
 \usage{
-Sobel_test(a, b, sa, sb)
+Sobel_test(a, b, sa, sb, conf_level = 0.95)
 }
 \arguments{
 \item{a}{est1}
@@ -40,6 +40,7 @@ Sobel_test(a, b, sa, sb, "Sobel")
 Sobel_test(a, b, sa, sb,"Aroian")
 
 Sobel_test(a, b, sa, sb,"Goodman")
+
 }
 
 }

@@ -180,3 +180,4 @@ lpa_BIC_plot3 <-  function(data,
   res
 
 }
+

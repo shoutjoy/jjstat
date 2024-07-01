@@ -17,6 +17,9 @@ lpa_explore_modelfit(
 
 \item{modelNames}{"EEV","EEI","EEE","EII"}
 }
+\value{
+data
+}
 \description{
 lpa_explore_modelfit
 }
