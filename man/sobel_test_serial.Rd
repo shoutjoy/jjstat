@@ -4,12 +4,20 @@
 \alias{sobel_test_serial}
 \title{sobel_test_extend}
 \usage{
-sobel_test_serial(coefficients, se_values, show = TRUE, sobel = "aroian")
+sobel_test_serial(
+  coefficients,
+  se_values,
+  digits = 5,
+  show = TRUE,
+  sobel = "aroian"
+)
 }
 \arguments{
 \item{coefficients}{coefficients c()}
 
 \item{se_values}{se}
+
+\item{digits}{5}
 
 \item{show}{TRUE}
 

@@ -83,7 +83,7 @@ Sobel_test <-  function(a, b, sa, sb, conf_level = 0.95) {
   test_name = names(result)
   data = result %>% do.call(what = rbind)
 
-  bind_cols(Test = test_name, data)
+  dplyr::bind_cols(Test = test_name, data)
 }
 
 
@@ -175,7 +175,7 @@ sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
 
   test <- "sobel_test_delta"
   # 결과를 data.frame으로 반환
-  result <- bind_cols(
+  result <- dplyr::bind_cols(
     test = test,
     ind_coef = round(coef_indirect, digits),
     SE = round(SE_sobel, digits),
@@ -293,7 +293,7 @@ aroian_sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
   CI_upper <- coef_indirect + Z_alpha_half * SE_indirect
 
   test = "Aroian_sobel_exact"
-  return(bind_cols(test = test,
+  return(dplyr::bind_cols(test = test,
                    ind_coef = round(coef_indirect, digits),
                    SE = round(SE_indirect, digits),
                    Z = round(Z, digits),
@@ -396,7 +396,7 @@ goodman_sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
   CI_upper <- indirect_effect + Z_alpha_half * SE_generalized
 
   # 결과 출력
-  res <- bind_cols(
+  res <- dplyr::bind_cols(
     test = "Goodman_sobel_unbiased",
     ind_coef = round(indirect_effect, digits),
     SE = round(SE_generalized, digits),
@@ -455,7 +455,7 @@ general_Sobel_test= function(a, SE, digits = 5, conf=0.95, type="all"){
   aroian_sobel = aroian_sobel_test_general(a, SE, digits, conf=conf )
   Goodman_sobel = goodman_sobel_test_general(a, SE, digits, conf=conf )
 
-  res= bind_rows(sobeltest,aroian_sobel , Goodman_sobel)%>%
+  res= dplyr::bind_rows(sobeltest,aroian_sobel , Goodman_sobel)%>%
     p_mark_sig("p_value", digits=digits, unite=TRUE)
 
 

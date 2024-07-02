@@ -3,6 +3,7 @@
 #' @param coefficients coefficients c()
 #' @param se_values se
 #' @param show TRUE
+#' @param digits 5
 #' @param sobel aroian(default), sobel, goodman
 #'
 #' @return seobel resutl
@@ -71,7 +72,8 @@
 #' }
 #'
 #'
-sobel_test_extend <- function(coefficients, se_values, show=TRUE, sobel="aroian") {
+sobel_test_extend <- function(coefficients, se_values,digits=5,
+                              show=TRUE, sobel="aroian" ) {
   n <- length(coefficients)
 
   # Check if the coefficients and se_values have names
@@ -88,72 +90,49 @@ sobel_test_extend <- function(coefficients, se_values, show=TRUE, sobel="aroian"
   unique_path <- unique(unlist(strsplit(path_names, " -> ")))
   effect_path <- paste(unique_path, collapse = " -> ")
 
-  if (n == 2) {
-    # 특별한 처리: 값이 두 개일 경우
-    a <- coefficients[1]
-    b <- coefficients[2]
-    se_a <- se_values[1]
-    se_b <- se_values[2]
+  # Initialize sums for Sobel, Aroian, and Goodman methods
+  sobel_se_sum <- 0
+  aroian_se_sum <- 0
+  goodman_se_sum <- 0
 
-    if (sobel == "sobel") {
-      sobel_se <- sqrt(a^2 * se_b^2 + b^2 * se_a^2)
-    } else if (sobel == "aroian") {
-      sobel_se <- sqrt(a^2 * se_b^2 + b^2 * se_a^2 + se_a^2 * se_b^2)
-    } else if (sobel == "goodman") {
-      sobel_se <- sqrt(a^2 * se_b^2 + b^2 * se_a^2 - se_a^2 * se_b^2)
-    }
+  # Compute sums for Sobel, Aroian, and Goodman methods
+  term1 <- sum(sapply(1:n, function(i) {
+    se_values[i]^2 * prod(vapply(setdiff(1:n, i), function(j) coefficients[j]^2, numeric(1)))
+  }))
 
-    indirect_effect <- a * b
-    z_value <- indirect_effect / sobel_se
-    p_value <- 2 * (1 - stats::pnorm(abs(z_value)))
+  term2 <- sum(sapply(1:(n-1), function(i) {
+    sum(sapply((i+1):n, function(j) {
+      se_values[i]^2 * se_values[j]^2 * prod(vapply(setdiff(1:n, c(i, j)), function(k) coefficients[k]^2, numeric(1)))
+    }))
+  }))
 
-    result <- list(
-      paths = effect_path,
-      ind_effect = indirect_effect,
-      sobel_se = sobel_se,
-      z_value = z_value,
-      p_value = p_value
-    ) %>% p_mark_sig("p_value")
-  } else {
-    # Initialize the sum for Sobel method
-    sobel_se_sum <- 0
-    # Initialize the sum for Aroian method
-    aroian_se_sum <- 0
-    # Initialize the sum for Goodman method
-    goodman_se_sum <- 0
+  term3 <- prod(se_values^2)
 
-    for (i in 1:n) {
-      prod_a_except_i <- prod(coefficients[-i]) # i번째 요소를 제외한 모든 a의 곱
-      sobel_se_sum <- sobel_se_sum + (prod_a_except_i^2 * se_values[i]^2)
-    }
-
-    aroian_se_sum <- sobel_se_sum + prod(se_values^2)
-    goodman_se_sum <- sobel_se_sum - prod(se_values^2)
-
-    # Calculate the SE based on the sobel option
-    if (sobel == "sobel") {
-      sobel_se <- sqrt(sobel_se_sum)
-    } else if (sobel == "aroian") {
-      sobel_se <- sqrt(aroian_se_sum)
-    } else if (sobel == "goodman") {
-      sobel_se <- sqrt(goodman_se_sum)
-    }
-
-    # Calculate the indirect effect
-    indirect_effect <- prod(coefficients)
-    # Calculate the z-value
-    z_value <- indirect_effect / sobel_se
-    # Calculate the p-value
-    p_value <- 2 * (1 - stats::pnorm(abs(z_value)))
-    # Return results as a list
-    result <- list(
-      paths = effect_path,
-      ind_effect = indirect_effect,
-      sobel_se = sobel_se,
-      z_value = z_value,
-      p_value = p_value
-    ) %>% p_mark_sig("p_value")
+  # Calculate SE based on the chosen method
+  if (sobel == "sobel") {
+    sobel_se <- sqrt(term1)
+  } else if (sobel == "aroian") {
+    sobel_se <- sqrt(term1 + term3)
+  } else if (sobel == "goodman") {
+    sobel_se <- sqrt(term1 - term2)
   }
+
+  # Calculate the indirect effect
+  indirect_effect <- prod(coefficients)
+  # Calculate the z-value
+  z_value <- indirect_effect / sobel_se
+  # Calculate the p-value
+  p_value <- 2 * (1 - stats::pnorm(abs(z_value)))
+
+  # Return results as a list
+  result <- list(
+    paths = effect_path,
+    ind_effect = indirect_effect,
+    sobel_se = sobel_se,
+    z_value = z_value,
+    p_value = p_value
+  ) %>% p_mark_sig("p_value")
+
   sig = result$sig
 
   if (show) {
@@ -171,9 +150,10 @@ sobel_test_extend <- function(coefficients, se_values, show=TRUE, sobel="aroian"
         "(", sig, ")", sep = "")
   }
   cat("\n")
-  return(result %>% dplyr::as_tibble())
-}
 
+  return(result %>% dplyr::as_tibble()%>%Round(digits))
+
+}
 
 
 #' sobel_test_extend
@@ -181,6 +161,7 @@ sobel_test_extend <- function(coefficients, se_values, show=TRUE, sobel="aroian"
 #' @param coefficients coefficients c()
 #' @param se_values se
 #' @param show TRUE
+#' @param digits 5
 #' @param sobel aroina, sobel, goodman
 #'
 #' @return seobel resutl
@@ -249,7 +230,8 @@ sobel_test_extend <- function(coefficients, se_values, show=TRUE, sobel="aroian"
 #' }
 #'
 #'
-sobel_test_serial <- function(coefficients, se_values, show=TRUE, sobel="aroian") {
+sobel_test_serial <- function(coefficients, se_values,digits=5,
+                              show=TRUE, sobel="aroian" ) {
   n <- length(coefficients)
 
   # Check if the coefficients and se_values have names
@@ -266,72 +248,49 @@ sobel_test_serial <- function(coefficients, se_values, show=TRUE, sobel="aroian"
   unique_path <- unique(unlist(strsplit(path_names, " -> ")))
   effect_path <- paste(unique_path, collapse = " -> ")
 
-  if (n == 2) {
-    # 특별한 처리: 값이 두 개일 경우
-    a <- coefficients[1]
-    b <- coefficients[2]
-    se_a <- se_values[1]
-    se_b <- se_values[2]
+  # Initialize sums for Sobel, Aroian, and Goodman methods
+  sobel_se_sum <- 0
+  aroian_se_sum <- 0
+  goodman_se_sum <- 0
 
-    if (sobel == "sobel") {
-      sobel_se <- sqrt(a^2 * se_b^2 + b^2 * se_a^2)
-    } else if (sobel == "aroian") {
-      sobel_se <- sqrt(a^2 * se_b^2 + b^2 * se_a^2 + se_a^2 * se_b^2)
-    } else if (sobel == "goodman") {
-      sobel_se <- sqrt(a^2 * se_b^2 + b^2 * se_a^2 - se_a^2 * se_b^2)
-    }
+  # Compute sums for Sobel, Aroian, and Goodman methods
+  term1 <- sum(sapply(1:n, function(i) {
+    se_values[i]^2 * prod(vapply(setdiff(1:n, i), function(j) coefficients[j]^2, numeric(1)))
+  }))
 
-    indirect_effect <- a * b
-    z_value <- indirect_effect / sobel_se
-    p_value <- 2 * (1 - stats::pnorm(abs(z_value)))
+  term2 <- sum(sapply(1:(n-1), function(i) {
+    sum(sapply((i+1):n, function(j) {
+      se_values[i]^2 * se_values[j]^2 * prod(vapply(setdiff(1:n, c(i, j)), function(k) coefficients[k]^2, numeric(1)))
+    }))
+  }))
 
-    result <- list(
-      paths = effect_path,
-      ind_effect = indirect_effect,
-      sobel_se = sobel_se,
-      z_value = z_value,
-      p_value = p_value
-    ) %>% p_mark_sig("p_value")
-  } else {
-    # Initialize the sum for Sobel method
-    sobel_se_sum <- 0
-    # Initialize the sum for Aroian method
-    aroian_se_sum <- 0
-    # Initialize the sum for Goodman method
-    goodman_se_sum <- 0
+  term3 <- prod(se_values^2)
 
-    for (i in 1:n) {
-      prod_a_except_i <- prod(coefficients[-i]) # i번째 요소를 제외한 모든 a의 곱
-      sobel_se_sum <- sobel_se_sum + (prod_a_except_i^2 * se_values[i]^2)
-    }
-
-    aroian_se_sum <- sobel_se_sum + prod(se_values^2)
-    goodman_se_sum <- sobel_se_sum - prod(se_values^2)
-
-    # Calculate the SE based on the sobel option
-    if (sobel == "sobel") {
-      sobel_se <- sqrt(sobel_se_sum)
-    } else if (sobel == "aroian") {
-      sobel_se <- sqrt(aroian_se_sum)
-    } else if (sobel == "goodman") {
-      sobel_se <- sqrt(goodman_se_sum)
-    }
-
-    # Calculate the indirect effect
-    indirect_effect <- prod(coefficients)
-    # Calculate the z-value
-    z_value <- indirect_effect / sobel_se
-    # Calculate the p-value
-    p_value <- 2 * (1 - stats::pnorm(abs(z_value)))
-    # Return results as a list
-    result <- list(
-      paths = effect_path,
-      ind_effect = indirect_effect,
-      sobel_se = sobel_se,
-      z_value = z_value,
-      p_value = p_value
-    ) %>% p_mark_sig("p_value")
+  # Calculate SE based on the chosen method
+  if (sobel == "sobel") {
+    sobel_se <- sqrt(term1)
+  } else if (sobel == "aroian") {
+    sobel_se <- sqrt(term1 + term3)
+  } else if (sobel == "goodman") {
+    sobel_se <- sqrt(term1 - term2)
   }
+
+  # Calculate the indirect effect
+  indirect_effect <- prod(coefficients)
+  # Calculate the z-value
+  z_value <- indirect_effect / sobel_se
+  # Calculate the p-value
+  p_value <- 2 * (1 - stats::pnorm(abs(z_value)))
+
+  # Return results as a list
+  result <- list(
+    paths = effect_path,
+    ind_effect = indirect_effect,
+    sobel_se = sobel_se,
+    z_value = z_value,
+    p_value = p_value
+  ) %>% p_mark_sig("p_value")
+
   sig = result$sig
 
   if (show) {
@@ -349,5 +308,7 @@ sobel_test_serial <- function(coefficients, se_values, show=TRUE, sobel="aroian"
         "(", sig, ")", sep = "")
   }
   cat("\n")
-  return(result %>% dplyr::as_tibble())
+
+  return(result %>% dplyr::as_tibble()%>%Round(digits))
+
 }
