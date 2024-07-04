@@ -4,12 +4,18 @@
 \alias{general_Sobel_test}
 \title{Sobeltest toal}
 \usage{
-general_Sobel_test(a, SE, digits = 5, conf = 0.95, type = "all")
+general_Sobel_test(a, SE, roburst = FALSE, n = NULL, k = 2, digits = 5)
 }
 \arguments{
 \item{a}{est}
 
 \item{SE}{se}
+
+\item{roburst}{roburst T whide correction}
+
+\item{n}{sample size}
+
+\item{k}{number of regressin coefs, default 2}
 
 \item{digits}{5}
 

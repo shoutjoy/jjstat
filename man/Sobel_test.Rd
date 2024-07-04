@@ -4,7 +4,18 @@
 \alias{Sobel_test}
 \title{sobel test}
 \usage{
-Sobel_test(a, b, sa, sb, conf_level = 0.95)
+Sobel_test(
+  a,
+  b,
+  sa,
+  sb,
+  roburst = FALSE,
+  n = NULL,
+  k1 = 2,
+  k2 = 2,
+  digits = 5,
+  conf_level = 0.95
+)
 }
 \arguments{
 \item{a}{est1}
@@ -14,6 +25,16 @@ Sobel_test(a, b, sa, sb, conf_level = 0.95)
 \item{sa}{se1}
 
 \item{sb}{se2}
+
+\item{roburst}{roburst T whide correction}
+
+\item{n}{sample size}
+
+\item{k1}{number of regressin coefs, default 2}
+
+\item{k2}{number of regressin coefs, default 2}
+
+\item{digits}{5}
 
 \item{type}{Sobel, Aroian, Goodman}
 }
@@ -40,6 +61,10 @@ Sobel_test(a, b, sa, sb, "Sobel")
 Sobel_test(a, b, sa, sb,"Aroian")
 
 Sobel_test(a, b, sa, sb,"Goodman")
+
+
+# roburst se correction : White(1980)
+Sobel_test(0.2, 0.3,0.05, 0.04, TRUE, 100)
 
 }
 

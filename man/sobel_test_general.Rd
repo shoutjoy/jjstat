@@ -4,12 +4,26 @@
 \alias{sobel_test_general}
 \title{Generalized Sobel Test function}
 \usage{
-sobel_test_general(a, SE, digits = 5, conf = 0.95)
+sobel_test_general(
+  a,
+  SE,
+  roburst = FALSE,
+  n = NULL,
+  k = 2,
+  digits = 5,
+  conf = 0.95
+)
 }
 \arguments{
 \item{a}{est}
 
 \item{SE}{se}
+
+\item{roburst}{roburst T whide correction}
+
+\item{n}{sample size}
+
+\item{k}{number of regressin coefs, default 2}
 
 \item{digits}{5}
 

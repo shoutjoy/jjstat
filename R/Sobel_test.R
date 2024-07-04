@@ -5,6 +5,11 @@
 #' @param b est2
 #' @param sa  se1
 #' @param sb  se2
+#' @param roburst  roburst T whide correction
+#' @param n sample size
+#' @param k1 number of regressin coefs, default 2
+#' @param k2 number of regressin coefs, default 2
+#' @param digits 5
 #' @param type Sobel, Aroian, Goodman
 #'
 #' @return test result
@@ -28,9 +33,36 @@
 #'
 #' Sobel_test(a, b, sa, sb,"Goodman")
 #'
+#'
+#' # roburst se correction : White(1980)
+#' Sobel_test(0.2, 0.3,0.05, 0.04, TRUE, 100)
+#'
 #' }
 #'
-Sobel_test <-  function(a, b, sa, sb, conf_level = 0.95) {
+Sobel_test <-  function(a, b, sa, sb,
+                        roburst=FALSE, n=NULL, k1=2, k2=2,
+                        digits= 5,
+                        conf_level = 0.95) {
+
+  if(roburst){
+    # 헤테로스케다스티시티 조정 계수 계산
+    adjustment_factor1 <- sqrt(n / (n + k1))
+    adjustment_factor2 <- sqrt(n / (n + k2))
+
+    sa0 = sa
+    sb0 = sb
+    # 강건 표준오차 계산
+    sa <- sa *  sqrt(n / (n + k1))
+    sb <- sb *  sqrt(n / (n + k2))
+
+    cat("\n","Roburst SE ratio(Scott & Ervin(2000)):",  "\n",
+        "adjustment_factor = sqrt(n / (n - k))
+","\n",
+        "sa = ", sa0, ", se_a_factor =", adjustment_factor1,"se_a: ",sa,"\n",
+        "sb = ", sb0, ", se_b_factor =", adjustment_factor2,"se_b: ",sb,"\n")
+
+
+  }
   # Sobel test equation
 
   ind_coef = a * b
@@ -62,20 +94,21 @@ Sobel_test <-  function(a, b, sa, sb, conf_level = 0.95) {
 
   # Return results as a list
   result <- list(
-    Sobel_delta = cbind(ind_coef = ind_coef,
-                        SE = sobel_se,
-                        Z = sobel_z, p_value = sobel_p,
+    Sobel_delta = cbind(ind_coef = round(ind_coef, digits),
+                        SE = round(sobel_se,digits),
+                        Z = round(sobel_z,digits),
+                        p_value = sobel_p,
                         CI_lower = sobel_ci_lower,
                         CI_upper = sobel_ci_upper),
-    Aroian_exact = cbind(ind_coef = ind_coef,
-                         SE = aroian_se,
-                         Z = aroian_z,
+    Aroian_exact = cbind(ind_coef = round(ind_coef, digits),
+                         SE = round(aroian_se, digits),
+                         Z = round(aroian_z, digits),
                          p_value = aroian_p,
                          CI_lower = aroian_ci_lower,
                          CI_upper = aroian_ci_upper),
-    Goodman_unbaised = cbind(ind_coef = ind_coef,
-                             SE = goodman_se,
-                             Z = goodman_z,
+    Goodman_unbaised = cbind(ind_coef = round(ind_coef,digits),
+                             SE = round(goodman_se, digits),
+                             Z = round(goodman_z, digits),
                              p_value = goodman_p,
                              CI_lower = goodman_ci_lower,
                              CI_upper = goodman_ci_upper)
@@ -83,8 +116,9 @@ Sobel_test <-  function(a, b, sa, sb, conf_level = 0.95) {
   test_name = names(result)
   data = result %>% do.call(what = rbind)
 
-  dplyr::bind_cols(Test = test_name, data)
+  bind_cols(test = test_name, data)
 }
+
 
 
 
@@ -94,6 +128,9 @@ Sobel_test <-  function(a, b, sa, sb, conf_level = 0.95) {
 #' @param SE se
 #' @param digits 5
 #' @param conf 0.90, 0.95, 0.99, 0.999
+#' @param roburst  roburst T whide correction
+#' @param n sample size
+#' @param k number of regressin coefs, default 2
 #'
 #' @return result
 #' @export
@@ -139,7 +176,28 @@ Sobel_test <-  function(a, b, sa, sb, conf_level = 0.95) {
 #' }
 #'
 #'
-sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
+
+sobel_test_general <- function(a, SE,
+                               roburst=FALSE, n=NULL, k=2,
+                               digits=5, conf=0.95) {
+
+  library(dplyr)
+
+  if(roburst){
+    # 헤테로스케다스티시티 조정 계수 계산
+    adjustment_factor <- sqrt(n / (n - k))
+
+
+    # 강건 표준오차 계산
+    SE = SE * adjustment_factor
+
+    cat("\n","Roburst SE ratio(Scott & Ervin, 2000; Hinkley, 1977):",
+        adjustment_factor,"\n")
+  }else{
+    SE=SE
+  }
+
+
   # 매개변수 개수
   k <- length(a)
 
@@ -175,7 +233,7 @@ sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
 
   test <- "sobel_test_delta"
   # 결과를 data.frame으로 반환
-  result <- dplyr::bind_cols(
+  result <-  dplyr::bind_cols(
     test = test,
     ind_coef = round(coef_indirect, digits),
     SE = round(SE_sobel, digits),
@@ -195,6 +253,9 @@ sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
 #' @param digits 5
 #' @param conf 0.90, 0.95, 0.99, 0.999
 #'
+#' @param roburst  roburst T whide correction
+#' @param n sample size
+#' @param k number of regressin coefs, default 2
 #' @return result
 #' @export
 #'
@@ -243,9 +304,25 @@ sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
 
 #'
 #' }
-aroian_sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
+aroian_sobel_test_general <- function(a, SE,
+                                      roburst=FALSE, n=NULL, k=2,
+                                      digits=5, conf=0.95) {
 
   # 허용되는 신뢰수준과 해당하는 Z 값
+  if(roburst){
+    # 헤테로스케다스티시티 조정 계수 계산
+    adjustment_factor <- sqrt(n / (n - k))
+
+    # 강건 표준오차 계산
+
+    cat("\n","Roburst SE ratio(Scott & Ervin, 2000; Hinkley, 1977):",
+        adjustment_factor,"\n")
+  }else{
+    SE=SE
+  }
+
+
+
   conf_levels <- c(0.90, 0.95, 0.99, 0.999)
   Z_values <- c(1.645, 1.96, 2.576, 3.291)  # 각각의 신뢰수준에 해당하는 Z 값
 
@@ -293,21 +370,23 @@ aroian_sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
   CI_upper <- coef_indirect + Z_alpha_half * SE_indirect
 
   test = "Aroian_sobel_exact"
-  return(dplyr::bind_cols(test = test,
-                   ind_coef = round(coef_indirect, digits),
-                   SE = round(SE_indirect, digits),
-                   Z = round(Z, digits),
-                   p_value = round(p_value, digits),
-                   CI_lower = round(CI_lower, digits),
-                   CI_upper = round(CI_upper, digits)))
+  return( dplyr::bind_cols(test = test,
+                           ind_coef = round(coef_indirect, digits),
+                           SE = round(SE_indirect, digits),
+                           Z = round(Z, digits),
+                           p_value = round(p_value, digits),
+                           CI_lower = round(CI_lower, digits),
+                           CI_upper = round(CI_upper, digits)))
 }
-
 #' Goodman Sobel Test generalized function
 #'
 #' @param a est
 #' @param SE se
 #' @param digits 5
 #' @param conf 0.90, 0.95, 0.99, 0.999
+#' @param roburst  roburst T whide correction
+#' @param n sample size
+#' @param k number of regressin coefs, default 2
 #'
 #' @return result
 #' @export
@@ -351,7 +430,26 @@ aroian_sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
 #' #'
 #'
 #' }
-goodman_sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
+goodman_sobel_test_general <- function(a, SE,
+                                       roburst=FALSE, n=NULL, k=2,
+                                       digits=5, conf=0.95) {
+
+
+
+  library(dplyr)
+
+  if(roburst){
+    # 헤테로스케다스티시티 조정 계수 계산
+    adjustment_factor <- sqrt(n / (n - k))
+
+    # 강건 표준오차 계산
+
+    cat("\n","Roburst SE ratio(Scott & Ervin, 2000; Hinkley, 1977):",
+        adjustment_factor,"\n")
+  }else{
+    SE=SE
+  }
+
   # 허용되는 신뢰수준과 해당하는 Z 값
   conf_levels <- c(0.90, 0.95, 0.99, 0.999)
   Z_values <- c(1.645, 1.96, 2.576, 3.291)  # 각각의 신뢰수준에 해당하는 Z 값
@@ -417,6 +515,9 @@ goodman_sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
 #' @param SE se
 #' @param digits 5
 #' @param conf 0.90, 0.95, 0.99, 0.999
+#' @param roburst  roburst T whide correction
+#' @param n sample size
+#' @param k number of regressin coefs, default 2
 #' @param type all, res, sobel, aroian, goodman
 #'
 #' @return result
@@ -449,18 +550,13 @@ goodman_sobel_test_general <- function(a, SE, digits=5, conf=0.95) {
 #'
 #'
 #' }
-general_Sobel_test= function(a, SE, digits = 5, conf=0.95, type="all"){
+general_Sobel_test= function(a, SE, roburst=FALSE,n=NULL,k=2, digits = 5){
 
-  sobeltest = sobel_test_general(a, SE, digits, conf=conf )
-  aroian_sobel = aroian_sobel_test_general(a, SE, digits, conf=conf )
-  Goodman_sobel = goodman_sobel_test_general(a, SE, digits, conf=conf )
+  sobeltest = sobel_test_general(a, SE, digits, roburst=roburst, n=n, k=k )
+  aroian_sobel = aroian_sobel_test_general(a, SE, digits , roburst=roburst, n=n, k=k)
+  Goodman_sobel = goodman_sobel_test_general(a, SE, digits, roburst=roburst, n=n, k=k )
 
-  res= dplyr::bind_rows(sobeltest,aroian_sobel , Goodman_sobel)%>%
-    p_mark_sig("p_value", digits=digits, unite=TRUE)
-
-
-  switch(type, all= res, res= res,
-         sobel =sobeltest, aroian = aroian_sobel , goodman = Goodman_sobel)
+  res= dplyr::bind_rows(sobeltest,aroian_sobel , Goodman_sobel)#%>%p_mark_sig("p_value")
+  res
 }
-
 
