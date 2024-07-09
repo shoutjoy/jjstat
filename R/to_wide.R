@@ -14,32 +14,34 @@
 #'
 #' @examples
 #'
+#'
 #' \dontrun{
 #' mtcars[1:3, 1:7]
-#' mtcars[1:3, 1:7] %>% long_df()
-#' mtcars[1:3, 1:7] %>% long_df(cols= 3:7)
-#' mtcars[1:3, 1:7] %>% long_df(fix=1:2)
-#' mtcars[1:3, 1:7] %>% long_df(fix= 1:3, rownames_to_column=F)
+#' #this is error
+#' mtcars[1:4, 1:5] %>% to_long() %>% wide_df()
 #'
-#' mtcars[1:3, 1:7] %>% long_df() %>% mutate(ik = "bc", io = "a")
+#' mtcars[1:3, 1:7] %>% add_id()%>% to_wide()
+#' mtcars[1:3, 1:7] %>% to_wide(add_id=TRUE)
+
+#' mtcars[1:3, 1:7] %>% to_wide(cols= 3:7)
+#' mtcars[1:3, 1:7] %>% to_wide(fix=1:2)
+#' mtcars[1:3, 1:7] %>% to_wide(fix= 1:3, rownames_to_column=F)
 #'
-#' #wide_df
-#' mtcars[1:3, 1:7] %>% long_df() %>% mutate(ik = "bc", io = "a")%>% wide_df()
+#' mtcars[1:3, 1:7] %>% to_wide() %>% mutate(ik = "bc", io = "a")
+#' mtcars[1:3, 1:7] %>% to_wide() %>% mutate(ik = "bc", io = "a")%>% to_wide()
 #'
-#' mtcars[1:3, 1:7] %>% long_df() %>%
+#' mtcars[1:3, 1:7] %>% to_wide() %>%
 #'   mutate(ik = "bc", io = "a")%>%
-#'   wide_df(names_from = c("names","ik"))
+#'   to_wide(names_from = c("names","ik"))
 #'
-#'
-#' mtcars[1:3, 1:7] %>% long_df() %>%
+#' mtcars[1:3, 1:7] %>% to_wide() %>%
 #'   mutate(ik = rownames, io = "a")%>%
-#'   wide_df(names_from = c("ik"))%>%pall()
+#'   to_wide(names_from = c("ik"))%>%pall()
 #'
-#' dfa = mtcars[1:3, 1:7] %>% long_df()
-#'
-#' dfa%>%
+#' mtcars[1:3, 1:7] %>% to_wide() %>%
 #'   mutate(ik = "bc", io = "a")%>%
-#' #'   wide_df(names_from = 2)
+#'   to_wide(names_from = 2)
+#'
 #'
 #'
 #' #일반적인 데이터에서  롱포맷으로 바꾸기
@@ -93,10 +95,11 @@
 #'   group=c(rep("a",3),rep("b",3),rep("c",3))
 #' )
 #' data3
-#' data3 %>% wide_df("group", "weight", add_id=2)
-#' }
+#' data3 %>% to_wide("group", "weight", add_id=2)
+
 #'
-wide_df = function(data,
+#' }
+to_wide = function(data,
                    names_from = "names",
                    values_from = "values",
                    names_prefix = "",
@@ -133,5 +136,3 @@ wide_df = function(data,
   }
   res
 }
-
-

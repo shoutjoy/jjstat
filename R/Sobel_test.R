@@ -314,7 +314,8 @@ aroian_sobel_test_general <- function(a, SE,
     adjustment_factor <- sqrt(n / (n - k))
 
     # 강건 표준오차 계산
-
+    # 강건 표준오차 계산
+    SE = SE * adjustment_factor
     cat("\n","Roburst SE ratio(Scott & Ervin, 2000; Hinkley, 1977):",
         adjustment_factor,"\n")
   }else{
@@ -443,7 +444,8 @@ goodman_sobel_test_general <- function(a, SE,
     adjustment_factor <- sqrt(n / (n - k))
 
     # 강건 표준오차 계산
-
+    # 강건 표준오차 계산
+    SE = SE * adjustment_factor
     cat("\n","Roburst SE ratio(Scott & Ervin, 2000; Hinkley, 1977):",
         adjustment_factor,"\n")
   }else{
