@@ -1,9 +1,9 @@
-#' lpa_profile_plot data
+#' profile_plot2 Brargrahp
 #'
 #' @param data data
-#' @param n_profiles 3
-#' @param model_name EEE,EEI,VVI,VVV
-#' @param view pair, each
+#' @param n_profiles profiles number
+#' @param model_name "EEE","EEI", "VVV","VVI",
+#' @param view each, pair
 #'
 #' @return plot
 #' @export
@@ -11,13 +11,15 @@
 #' @examples
 #'
 #' \dontrun{
-#' iris[,-5] %>%profile_plot(n_profiles = 4, model_name = "EEE")
+#'
+#' iris[,-5] %>%profile_plot2(n_profiles = 4, model_name = "EEE")
+#'
 #' }
 #'
 #'
-lpa_profile_plot <- function(data, n_profiles=3,
-                             model_name="EEE",
-                             view="pair"
+profile_plot2 <- function(data, n_profiles=3,
+                          model_name=NULL,
+                          view="pair"
 
 ){
   library(tidyverse, warn.conflicts = FALSE)
@@ -25,8 +27,8 @@ lpa_profile_plot <- function(data, n_profiles=3,
   library(hrbrthemes)
 
   mean_data <-data %>%
-    lpa_create_profiles2( n_profiles=n_profiles,
-                          model_name = model_name)
+    create_profiles_mclust2( n_profiles=n_profiles,
+                             model_name = model_name)
 
 
 
@@ -41,10 +43,10 @@ lpa_profile_plot <- function(data, n_profiles=3,
     # geom_line(aes(x = profile, y = val))+
     ylab("Z-score") +
     xlab("(b)") +
+    theme(axis.text.x = element_text(size=14))+
     scale_fill_discrete("") +
     labs(title = "LPA모형추정 잠재Profile 평균의 표준화 점수")+
-    theme_bw()+
-    theme(axis.text = element_text(size=14))
+    theme_bw()
 
   #비표준화 데이터
   raw_data = Mclust(data, G=n_profiles, modelNames = model_name)
@@ -64,10 +66,10 @@ lpa_profile_plot <- function(data, n_profiles=3,
     # geom_line(aes(x = profile, y = val))+
     ylab("Raw-score") +
     xlab("(a)") +
+    theme(axis.text.x = element_text(size=14))+
     scale_fill_discrete("") +
     labs(title = " LPA모형추정 잠재Profile 평균의 원점수 ")+
-    theme_bw()+
-    theme(axis.text = element_text(size=14))
+    theme_bw()
 
   ggg<- gridExtra::grid.arrange(gg2, gg, ncol=2)
 

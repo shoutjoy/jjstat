@@ -2,7 +2,7 @@
 % Please edit documentation in R/lpa_profiles_plot.R
 \name{lpa_profile_plot}
 \alias{lpa_profile_plot}
-\title{lpa_profile_plot}
+\title{lpa_profile_plot data}
 \usage{
 lpa_profile_plot(data, n_profiles = 3, model_name = "EEE", view = "pair")
 }
@@ -19,12 +19,12 @@ lpa_profile_plot(data, n_profiles = 3, model_name = "EEE", view = "pair")
 plot
 }
 \description{
-lpa_profile_plot
+lpa_profile_plot data
 }
 \examples{
 
 \dontrun{
-
+iris[,-5] \%>\%profile_plot(n_profiles = 4, model_name = "EEE")
 }
 
 

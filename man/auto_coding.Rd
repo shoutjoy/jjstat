@@ -10,7 +10,8 @@ auto_coding(
   range = 1:ncol(data),
   custom = NULL,
   rev = FALSE,
-  data.fram = FALSE
+  data.fram = FALSE,
+  start_number = 1
 )
 }
 \arguments{
@@ -18,7 +19,7 @@ auto_coding(
 
 \item{...}{coding levels}
 
-\item{range}{data col range}
+\item{range}{data col range#'}
 }
 \value{
 transforamtion data
@@ -118,7 +119,7 @@ data2 <- data.frame(
 )
 data2
 auto_coding(data2)
-
-
+# jutr1 \%>\% auto_coding( range=91:95, custom=c("아니다.","그렇다."),start_number=0)\%>\%dall("head")
+# jutr1 \%>\% auto_coding( range="L01:L05", custom=c("아니다.","그렇다."),start_number=0)\%>\% head(30)
 }
 }

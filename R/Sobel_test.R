@@ -355,10 +355,10 @@ aroian_sobel_test_general <- function(a, SE,
     }))
   }
 
-  term3 <- prod(SE^2)
+  # term3 <- prod(SE^2)
 
   # Standard Error
-  SE_indirect <- sqrt(term1 + term2 + term3)
+  SE_indirect <- sqrt(term1 + term2 )
 
   # Z statistic
   Z <- coef_indirect / SE_indirect
@@ -431,71 +431,63 @@ aroian_sobel_test_general <- function(a, SE,
 #' #'
 #'
 #' }
-goodman_sobel_test_general <- function(a, SE,
-                                       roburst=FALSE, n=NULL, k=2,
-                                       digits=5, conf=0.95) {
-
-
-
+goodman_sobel_test_general <- function(a, SE, roburst=FALSE, n=NULL, k=2, digits=5, conf=0.95) {
   library(dplyr)
 
-  if(roburst){
-    # 헤테로스케다스티시티 조정 계수 계산
+  if (roburst) {
     adjustment_factor <- sqrt(n / (n - k))
-
-    # 강건 표준오차 계산
-    # 강건 표준오차 계산
-    SE = SE * adjustment_factor
-    cat("\n","Roburst SE ratio(Scott & Ervin, 2000; Hinkley, 1977):",
-        adjustment_factor,"\n")
-  }else{
-    SE=SE
+    SE <- SE * adjustment_factor
+    cat("\n", "Roburst SE ratio(Scott & Ervin, 2000; Hinkley, 1977):", adjustment_factor, "\n")
+  } else {
+    SE <- SE
   }
 
-  # 허용되는 신뢰수준과 해당하는 Z 값
   conf_levels <- c(0.90, 0.95, 0.99, 0.999)
-  Z_values <- c(1.645, 1.96, 2.576, 3.291)  # 각각의 신뢰수준에 해당하는 Z 값
+  Z_values <- c(1.645, 1.96, 2.576, 3.291)
 
-  # 신뢰수준 확인
   if (!(conf %in% conf_levels)) {
     stop("conf는 0.90, 0.95, 0.99, 0.999 중 하나여야 합니다.")
   }
 
-  # 적절한 Z 값 선택
   Z_alpha_half <- Z_values[which(conf_levels == conf)]
 
-  # 매개변수 개수 확인
   n <- length(a)
 
-  # 첫 번째 합 계산
-  term1 <- sum(sapply(1:n, function(i) {
-    SE[i]^2 * prod(vapply(setdiff(1:n, i), function(j) a[j]^2, numeric(1)))
-  }))
-
-  # 두 번째 합 계산
-  term2 <- sum(sapply(1:(n-1), function(i) {
-    sum(sapply((i+1):n, function(j) {
-      SE[i]^2 * SE[j]^2 * prod(vapply(setdiff(1:n, c(i, j)), function(k) a[k]^2, numeric(1)))
+  if (n == 2) {
+    term1 <- sum(sapply(1:n, function(i) {
+      SE[i]^2 * prod(vapply(setdiff(1:n, i), function(j) a[j]^2, numeric(1)))
     }))
-  }))
 
-  # Goodman의 표준 오차 계산
-  SE_generalized <- sqrt(term1 - term2)
+    term2 <- sum(sapply(1:(n-1), function(i) {
+      sum(sapply((i+1):n, function(j) {
+        SE[i]^2 * SE[j]^2
+      }))
+    }))
 
-  # 간접효과 계산
+    SE_generalized <- sqrt(term1 - term2)
+  } else {
+    term1 <- sum(sapply(1:n, function(i) {
+      SE[i]^2 * prod(vapply(setdiff(1:n, i), function(j) a[j]^2, numeric(1)))
+    }))
+
+    term2 <- sum(sapply(1:(n-1), function(i) {
+      sum(sapply((i+1):n, function(j) {
+        SE[i]^2 * SE[j]^2 * prod(vapply(setdiff(1:n, c(i, j)),
+                                        function(k) a[k]^2, numeric(1)))
+      }))
+    }))
+
+    term3 <- prod(SE^2)
+
+    SE_generalized <- sqrt(term1 - term2 + term3)
+  }
+
   indirect_effect <- prod(a)
-
-  # Z 통계량 계산
   Z <- indirect_effect / SE_generalized
-
-  # p-value 계산
   p_value <- 2 * (1 - pnorm(abs(Z)))
-
-  # 신뢰구간 계산
   CI_lower <- indirect_effect - Z_alpha_half * SE_generalized
   CI_upper <- indirect_effect + Z_alpha_half * SE_generalized
 
-  # 결과 출력
   res <- dplyr::bind_cols(
     test = "Goodman_sobel_unbiased",
     ind_coef = round(indirect_effect, digits),
@@ -508,6 +500,7 @@ goodman_sobel_test_general <- function(a, SE,
 
   return(res)
 }
+
 
 
 
