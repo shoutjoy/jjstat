@@ -17,7 +17,7 @@
 #' }
 #'
 #'
-profile_plot2 <- function(data, n_profiles=3,
+lpa_profile_plot2 <- function(data, n_profiles=3,
                           model_name=NULL,
                           view="pair"
 
@@ -55,7 +55,7 @@ profile_plot2 <- function(data, n_profiles=3,
 
   names(raw_mean_data) = str_c("profile",1:n_profiles)
   raw_mean_data$factor= colnames(data)
-  raw_mean_data<-raw_mean_data %>% select(factor,1:ncol(raw_mean_data)-1)
+  raw_mean_data<-raw_mean_data %>% dplyr::select(factor,1:ncol(raw_mean_data)-1)
 
   gg2<-raw_mean_data %>% pivot_longer(
     cols=-factor,
