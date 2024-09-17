@@ -3,7 +3,7 @@
 #' @param data data.frame, vector
 #' @param ...  coding levels
 #' @param range data col range#'
-#' @start_number start_number = 1
+#' @param start_number start_number = 1
 #' @return transforamtion data
 #' @export
 #'

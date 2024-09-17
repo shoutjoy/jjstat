@@ -20,6 +20,8 @@ auto_coding(
 \item{...}{coding levels}
 
 \item{range}{data col range#'}
+
+\item{start_number}{start_number = 1}
 }
 \value{
 transforamtion data

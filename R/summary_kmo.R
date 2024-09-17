@@ -40,7 +40,7 @@ summary_kmo <- function(data, test="df", cat=TRUE) {
 
   kmo_summary <- paste0(
     "Kaiser-Meyer-Olkin factor adequacy (KMO) = ", round(overall_msa, 3), "\n\n",
-    "KMO는 입력된 변수간 상관계수의 제곱들과 편상관계수를 모두 더한 값 중에서 상관계수의 제곱의 합이 차지하는 비율이며, ",
+    "KMO는 입력된 변수간 상관계수의 제곱들과 편상관계수를 모두 더한 값 중에서 상관계수의 제곱의 합이 차지하는 비율로 각 변수간의 상관관계가 얼마나 강한지를 평가하며 ",
     "요인분석이 적합한가를 나타내는 기준이다 (Kaiser and Rice, 1974). KMO가 0.5 이상이면 요인분석이 가능, 0.7 이상이면 적합하고, ",
     "0.9 이상이면 매우 적합한 것으로 판단한다. 현재 KMO는 ", round(overall_msa, 3), "으로 ", suitability, "."
   )

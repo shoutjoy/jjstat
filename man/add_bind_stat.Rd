@@ -16,7 +16,7 @@ add_bind_stat(data, ..., fun = mean, type = "res")
 \item{type}{data, res --data.fram , res, cols_check}
 }
 \value{
-data.fram
+data.frame
 }
 \description{
 Functions that item parceling generate multiple pieces of data,
