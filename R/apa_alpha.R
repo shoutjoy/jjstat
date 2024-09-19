@@ -25,8 +25,8 @@ alpha_apa <- function(data) {
 
   # 'Var' 컬럼이 공백이 아닌 경우에만 선택하여 신뢰도 분석 결과를 APA 형식으로 출력
   results <- data %>%
-    filter(Var != "") %>%
-    distinct(Var, .keep_all = TRUE) %>%
+    dplyr::filter(Var != "") %>%
+    dplyr::distinct(Var, .keep_all = TRUE) %>%
     rowwise() %>%
     mutate(
       # Var 컬럼에서 alpha 값과 95%CI를 추출

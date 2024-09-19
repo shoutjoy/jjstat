@@ -63,3 +63,26 @@ bind_alpha_table = function(data, ..., check.keys=TRUE){
 
   result
 }
+
+
+
+#' bind_alpha_table문자 정리 함수
+#'
+#' @param data bind_alpha_table result
+#'
+#' @return table data.frame
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' #'
+#' jutr2 %>% select(B01:B25) %>%
+#'   bind_alpha_table(c(1:5),c(6:10),c(11:15),c(16:20),c(21:25))%>%
+#'   nice_Var()%>%  # <----this
+#'   nice_table()
+#' }
+nice_Var = function(data){
+  data %>% dplyr::mutate(Var= substring(Var, 1, 1))
+}
+

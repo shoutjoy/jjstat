@@ -187,7 +187,7 @@ plspm_lav2blocks(blocks_model)
 #model 그리기
 paste(model1, blocks_model)\%>\%
 
-  diagram_model(rotation = 1, sizeLat = 6, sizeMan = 4, sizeMan2=3,
+  plspm_diagram_model(rotation = 1, sizeLat = 6, sizeMan = 4, sizeMan2=3,
                 mar=c(2,2,2,2))
 
 #'
