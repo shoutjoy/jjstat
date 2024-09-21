@@ -34,7 +34,7 @@ plspm_loadings = function(plsres, digits=3, unite= TRUE){
     add_t_sig("Mean.Boot", "Std.Error", 5, unite = unite, ns="")%>%
     unite_ci()%>%
     dplyr::rename(측정항목 = paths,
-                  비표준화계수=Original,
+                  요인적재량=Original,
                   Boot.평균=Mean.Boot,
                   표준오차=Std.Error,
                   신뢰구간95=`95%CI`)

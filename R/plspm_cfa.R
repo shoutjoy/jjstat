@@ -95,7 +95,8 @@ plspm_cfa = function(plsres_boot, type="all", axis_x=1.2){
 
   item_combine = full_join(item, CR_AVE_partial, by="잠재변수")%>%
     dplyr::select(-신뢰구간)%>%
-    nice_table()%>%dall()
+    nice_table(exclude=c("측정변수","표준오차","경로계수","t"))%>%
+    dall()
 
   fl = plspm_fl(plsres_boot)
   #

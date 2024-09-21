@@ -1,7 +1,7 @@
 #' correlation analysis
 #'
 #' @param selectdata seledted daa
-#' @param type res_all, res, p, r, res_p, res_md. g
+#' @param type res_all, res, p, r, res_p, res_md, res_lower, g(chart.Correlation)
 #' @param digits default 3
 #' @param plot graph performanceAnalytis::chart.Correlation
 #' @param md markdown table output
@@ -24,6 +24,7 @@ add_cor = function(selectdata, type="res_all", digits=3, plot = TRUE,md=FALSE ){
 
   res = combine_data(round(cor_data$r, digits), add_significance_symbols(cor_data$p))
   res_p_star = combine_data(res_p, add_significance_symbols(cor_data$p))
+  res_lower = res %>% lowerMat(fill="-", diag="-")
 
   if(md){
     res_md = res%>%
@@ -61,6 +62,7 @@ add_cor = function(selectdata, type="res_all", digits=3, plot = TRUE,md=FALSE ){
          res_all = res_all,
          res_p_star = res_p_star,
          res = res,
+         res_lower = res_lower,
          res_p = res_p,
          r = rho,
          p = pvalue ,

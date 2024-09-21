@@ -9,7 +9,7 @@ add_cor(selectdata, type = "res_all", digits = 3, plot = TRUE, md = FALSE)
 \arguments{
 \item{selectdata}{seledted daa}
 
-\item{type}{res_all, res, p, r, res_p, res_md. g}
+\item{type}{res_all, res, p, r, res_p, res_md, res_lower, g(chart.Correlation)}
 
 \item{digits}{default 3}
 
