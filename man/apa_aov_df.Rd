@@ -21,9 +21,9 @@ total anova report
 \dontrun{
 aov_table(data = mtcars, dv_var = "mpg",
 iv_vars = c("cyl", "gear", "carb"),
-grp_mean = FALSE)\%>\% aov_table_apa()
+grp_mean = FALSE)\%>\% apa_aov_df()
 
-aov_table_apa(data = mtcars, dv_var = "mpg",
+apa_aov_df(data = mtcars, dv_var = "mpg",
  iv_vars = c("cyl", "gear", "carb"))
 }
 

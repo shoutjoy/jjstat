@@ -306,7 +306,7 @@ aov_rename = function(data){
 #' iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE)
 #' aov_table(data = mtcars, dv_var = "mpg",
 #' iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE) %>%
-#' aov_table_apa()
+#'
 #'
 #' aov_table(data = mtcars, dv_var = "mpg",
 #' iv_vars = c("cyl", "gear", "carb"),
