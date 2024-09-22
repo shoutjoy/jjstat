@@ -18,7 +18,7 @@ data
 lca_result lca분석후 결과 정리
 }
 \examples{
-\fontrun{
+\dontrun{
 #'
 jutLca3 \%>\%lca_result() \%>\%
   replace_df_rep( "L01", "진로목표(L01)",
