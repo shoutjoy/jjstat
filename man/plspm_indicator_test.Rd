@@ -11,7 +11,7 @@ plspm_indicator_test(
   grp,
   n_perm = 100,
   n_boot = 100,
-  n_cores = 8
+  n_cores = 12
 )
 }
 \arguments{

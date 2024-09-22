@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' \fontrun{
+#' \dontrun{
 #' #'
 #' jutLca3 %>%lca_result() %>%
 #'   replace_df_rep( "L01", "진로목표(L01)",

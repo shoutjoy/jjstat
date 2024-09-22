@@ -20,7 +20,8 @@
 #' print(result_df2)
 #' }
 #'
-plspm_indicator_test <- function(Data, path_matrix, blocks, grp, n_perm = 100, n_boot = 100, n_cores = 8) {
+plspm_indicator_test <- function(Data, path_matrix, blocks,
+                                 grp, n_perm = 100, n_boot = 100, n_cores = 12) {
   library(plspm)
   library(parallel)
   library(progress)
@@ -66,38 +67,40 @@ plspm_indicator_test <- function(Data, path_matrix, blocks, grp, n_perm = 100, n
   # 원래 데이터에서의 표준 오차 차이 계산
   se_diff_orig <- grp1_se - grp2_se
 
-  # progress bar 설정 (메인 프로세스에서 관리)
+  # Permutation Test 수행
+  perm_se_diff <- matrix(NA, nrow = n_perm, ncol = length(grp1_se))  # 표준 오차 차이에 맞춰 차원 수정
+
+  # 그룹 데이터를 합친 후 섞기
+  combined_data <- rbind(grp1, grp2)  # 두 그룹 데이터를 합침
+
+  # progress bar 설정
   pb <- progress_bar$new(
     format = "  Permutation Test 진행 [:bar] :percent eta: :eta",
     total = n_perm, clear = FALSE, width = 60
   )
 
-  # Permutation Test 수행
-  perm_results <- vector("list", n_perm)  # 결과 저장
-  for (i in 1:n_perm) {
+  # Permutation Test 병렬 처리 적용
+  perm_results <- parallel::parLapply(cl, 1:n_perm, function(i) {
     pb$tick()  # 진행 상태 업데이트
 
+    # 두 그룹 데이터를 무작위로 섞음
+    perm_data <- combined_data[sample(nrow(combined_data)), ]
+
+    # 섞은 데이터를 다시 두 그룹으로 나눔
+    perm_grp1 <- perm_data[1:nrow(grp1), ]
+    perm_grp2 <- perm_data[(nrow(grp1) + 1):nrow(combined_data), ]
+
     # 병렬 처리로 Permutation 부트스트랩 분석 수행
-    perm_results[[i]] <- parallel::parLapply(cl, 1:n_cores, function(core_id) {
-      # 두 그룹 데이터를 무작위로 섞음
-      perm_data <- combined_data[sample(nrow(combined_data)), ]
+    perm_plspm_grp1 <- plspm(perm_grp1, path_matrix, blocks, modes = rep("A", length(blocks)), boot.val = TRUE, br = n_boot)
+    perm_plspm_grp2 <- plspm(perm_grp2, path_matrix, blocks, modes = rep("A", length(blocks)), boot.val = TRUE, br = n_boot)
 
-      # 섞은 데이터를 다시 두 그룹으로 나눔
-      perm_grp1 <- perm_data[1:nrow(grp1), ]
-      perm_grp2 <- perm_data[(nrow(grp1) + 1):nrow(combined_data), ]
+    # 각 그룹의 부트스트랩 표준 오차 추출
+    perm_grp1_se <- perm_plspm_grp1$boot$loadings$Std.Error
+    perm_grp2_se <- perm_plspm_grp2$boot$loadings$Std.Error
 
-      # 병렬 처리로 Permutation 부트스트랩 분석 수행
-      perm_plspm_grp1 <- plspm(perm_grp1, path_matrix, blocks, modes = rep("A", length(blocks)), boot.val = TRUE, br = n_boot)
-      perm_plspm_grp2 <- plspm(perm_grp2, path_matrix, blocks, modes = rep("A", length(blocks)), boot.val = TRUE, br = n_boot)
-
-      # 각 그룹의 부트스트랩 표준 오차 추출
-      perm_grp1_se <- perm_plspm_grp1$boot$loadings$Std.Error
-      perm_grp2_se <- perm_plspm_grp2$boot$loadings$Std.Error
-
-      # 각 그룹의 표준 오차 차이를 반환 (각 지표별로 차이 계산)
-      return(perm_grp1_se - perm_grp2_se)
-    })
-  }
+    # 각 그룹의 표준 오차 차이를 저장 (각 지표별로 차이 계산)
+    perm_grp1_se - perm_grp2_se
+  })
 
   perm_se_diff <- do.call(rbind, perm_results)
 
@@ -116,7 +119,9 @@ plspm_indicator_test <- function(Data, path_matrix, blocks, grp, n_perm = 100, n
     grp2_se = grp2_se,
     se_diff = se_diff_orig,
     p_value = p_values
-  )
+  )#
+  result_df = result_df%>%
+    dplyr::mutate(invariance= ifelse(p_value>0.05,"OK","ns"))
 
   return(result_df)
 }
