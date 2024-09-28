@@ -7,10 +7,11 @@
 lpa_bind_classdata(
   data,
   n_profiles = 3,
-  model = NULL,
+  models = NULL,
   package = c("mclust", "MplusAutomation"),
   type = "all",
-  add_line = TRUE
+  add_line = TRUE,
+  var_model = "EEE"
 )
 }
 \arguments{
@@ -43,7 +44,14 @@ lpa_bind_classdata(select(iris, -Species), type="est")
 lpa_bind_classdata(select(iris, -Species), type="data")\%>\%Round(3)\%>\%dall
 lpa_bind_classdata(select(iris, -Species), type="all")
 #'
-
+# "EEE": variances = "equal", covariances = "equal"
+# 프로파일 간 분산과 공분산이 모두 동일하다고 가정.
+# "EEV": variances = "equal", covariances = "varying"
+# 분산은 동일하지만, 공분산은 프로파일마다 다르게 추정.
+# "EEI": variances = "equal", covariances = "zero"
+# 분산은 동일하지만, 공분산은 추정하지 않음 (공변량 간 독립성 가정).
+# "EII": variances = "equal", covariances = "zero"
+# 동일한 가정으로 분산이 동일하고, 공분산은 추정되지 않음.
 }
 
 
