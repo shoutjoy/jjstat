@@ -55,8 +55,8 @@
 #'
 #'
 replace_df_rep <- function(data, ..., detect = TRUE, chr = TRUE) {
-  # Convert a variable of type factor in the dataframe to type character if chr is TRUE
-  if (chr) {
+  # Convert factor to character if chr is TRUE and data is a dataframe
+  if (chr && is.data.frame(data)) {
     data <- data %>%
       dplyr::mutate(across(where(is.factor), as.character))
   }
@@ -73,20 +73,29 @@ replace_df_rep <- function(data, ..., detect = TRUE, chr = TRUE) {
     stop("Arguments should be in pairs of pattern and replacement")
   }
 
-  if (detect) {
-    # if detect is TRUE, traverse all cells in the dataframe to replace words
-    data <- replace_in_dataframe(data, changes)
-  } else {
-    # Replace dataframes with replace_dataframe if detect is FALSE
+  if (is.vector(data)) {
+    # If data is a vector, use gsub for replacement
     for (i in seq(1, length(changes), by = 2)) {
       pattern <- changes[i]
       imp <- changes[i + 1]
-      data <- replace_df(data, pattern = pattern, imp = imp)
+      data <- gsub(pattern, imp, data)
+    }
+  } else {
+    # If data is a dataframe and detect is TRUE, use replace_in_dataframe
+    if (detect) {
+      data <- replace_in_dataframe(data, changes)
+    } else {
+      for (i in seq(1, length(changes), by = 2)) {
+        pattern <- changes[i]
+        imp <- changes[i + 1]
+        data <- replace_df(data, pattern = pattern, imp = imp)
+      }
     }
   }
 
   return(data)
 }
+
 
 
 

@@ -4,10 +4,12 @@
 \alias{Rsave}
 \title{RData fast save}
 \usage{
-Rsave(df)
+Rsave(df, file = "")
 }
 \arguments{
 \item{df}{data to save}
+
+\item{file}{filename}
 }
 \value{
 data
@@ -18,6 +20,7 @@ RData fast save
 \examples{
 \dontrun{
 
-# Rsave(Kge_jbs)
+Rsave(Kge_jbs)           # 기본 파일 이름: Kge_jbs.RData
+Rsave(Kge_jbs, file = "my_custom_name")  # 사용자 지정 파일 이름: my_custom_name.RData
 }
 }

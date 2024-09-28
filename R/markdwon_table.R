@@ -77,6 +77,18 @@ markdown_table <- function(data,
   # library(tidyverse)
   # library(kableExtra)
   # library(broom)
+  # 자동으로 패키지 설치 및 로드하는 함수
+  install_if_missing <- function(pkg) {
+    if (!require(pkg, character.only = TRUE)) {
+      install.packages(pkg, dependencies = TRUE)
+      library(pkg, character.only = TRUE)
+    }
+  }
+
+  # 필요한 패키지 설치 및 로드
+  install_if_missing("tidyverse")
+  install_if_missing("kableExtra")
+  install_if_missing("broom")
   #논문에 넣을때 복사하여 넣을 것
   options(knitr.kable.NA = '')
 
