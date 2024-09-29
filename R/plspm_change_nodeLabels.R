@@ -50,33 +50,42 @@
 #'
 
 plspm_change_nodeLabels <- function(data, ...,
-                                    label.cex,
-                                    label.scale,
-                                    label.prop,
-                                    label.norm,
-                                    plot=TRUE ) {
-  # Convert an input of ... to a list
+                                    label.cex = 1.2,
+                                    label.scale = TRUE,
+                                    label.prop = 1,
+                                    label.norm = "width",
+                                    plot = TRUE) {
+
+  # ...로 받은 인자를 리스트로 변환
   args <- list(...)
 
-  # Create a list of node changes by pairing lists
+  # 입력된 첫 번째 인자가 벡터인지 확인 (벡터일 경우 2개씩 묶어 처리)
+  if (length(args) == 1 && is.vector(args[[1]])) {
+    args <- args[[1]]
+  }
+
+  # 인자가 짝수여야 함을 확인
+  if (length(args) %% 2 != 0) {
+    stop("짝이 맞지 않는 인자가 있습니다. 노드와 레이블 쌍을 입력해야 합니다.")
+  }
+
+  # 인자를 2개씩 짝지어 리스트로 변환
   namechange <- lapply(seq(1, length(args), by = 2), function(i) {
     list(node = args[[i]], to = args[[i + 1]])
   })
 
-  # apply rename
+  # Apply rename
   res <- semptools::change_node_label(data, namechange,
-                                      label.cex= label.cex,
+                                      label.cex = label.cex,
                                       label.scale = label.scale,
                                       label.prop = label.prop,
                                       label.norm = label.norm)
 
   # Plot the results
-  if(plot){
-
+  if (plot) {
     plot(res)
   }
 
   # Returning changed data to keep pipelines connected
   return(res)
 }
-

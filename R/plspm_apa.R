@@ -103,7 +103,7 @@ plspm_apa_ind <- function(data) {
     ) %>%
     mutate(interpretation_text = paste0(
       "간접효과[", row_number(), "] : ", paths, " 의 경로는 ", interpretation,
-      "(est = ", round(ind_effect, 4), ", Z = ", round(Z, 2), ", p ", p.value, ")"
+      "(est = ", round(ind_effect, 4), ", Z = ", round(Z, 2), ", p ", p.value, ")."
     ))
 
   return(data$interpretation_text)

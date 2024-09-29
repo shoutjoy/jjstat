@@ -7,10 +7,10 @@
 plspm_change_nodeLabels(
   data,
   ...,
-  label.cex,
-  label.scale,
-  label.prop,
-  label.norm,
+  label.cex = 1.2,
+  label.scale = TRUE,
+  label.prop = 1,
+  label.norm = "width",
   plot = TRUE
 )
 }

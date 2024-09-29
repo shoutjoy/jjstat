@@ -66,8 +66,9 @@ plspm_cfa = function(plsres_boot, type="all", axis_x=1.2){
                         Round(3)%>%
                         add_t_sig(3,4,5,T,ns="")%>%
                         unite_ci() %>%
-                        rename(경로계수=Original,
-                               평균계수=Mean.Boot, 표준오차=Std.Error,
+                        rename(요인적재량= Original,
+                               평균계수= Mean.Boot,
+                               표준오차= Std.Error,
                                관계 = relationships )
                       #  dplyr::select(-Original)
                     })
@@ -95,7 +96,7 @@ plspm_cfa = function(plsres_boot, type="all", axis_x=1.2){
 
   item_combine = full_join(item, CR_AVE_partial, by="잠재변수")%>%
     dplyr::select(-신뢰구간)%>%
-    nice_table(exclude=c("측정변수","표준오차","경로계수","t"))%>%
+    nice_table(exclude=c("측정변수","표준오차","요인적재량","t"))%>%
     dall()
 
   fl = plspm_fl(plsres_boot)
@@ -109,7 +110,7 @@ plspm_cfa = function(plsres_boot, type="all", axis_x=1.2){
   #effect join
   total_effect_sig = full_join(total_effect,
                                res_boot$total.efs%>%
-                                 dplyr::select(-경로계수, -평균계수, -표준오차)%>%
+                                 dplyr::select(-요인적재량, -평균계수, -표준오차)%>%
                                  rename(relationships=관계),
                                by="relationships")
 
