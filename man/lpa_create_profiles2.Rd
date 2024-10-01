@@ -4,7 +4,7 @@
 \alias{lpa_create_profiles2}
 \title{lpa_create_profiles2}
 \usage{
-lpa_create_profiles2(df, n_profiles = 3, model_name = NULL)
+lpa_create_profiles2(df, n_profiles = 4, model_name = NULL, type = "mean")
 }
 \arguments{
 \item{df}{data}
@@ -40,6 +40,5 @@ iris[,-5] \%>\% lpa_create_profiles2(n_profiles = 4, model_name="VVI")
 iris[,-5] \%>\% lpa_create_profiles2(n_profiles = 4, model_name="EEI")
 #'
 }
-
 
 }

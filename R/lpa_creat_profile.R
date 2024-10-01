@@ -104,31 +104,67 @@ lpa_create_profiles<- function(df,
 #' #'
 #' }
 #'
-#'
-lpa_create_profiles2 <- function(df,
-                                 n_profiles=3,
-                                 model_name=NULL){
-
+lpa_create_profiles2 <- function(df, n_profiles = 4, model_name = NULL, type = "mean") {
   library(tidyverse, warn.conflicts = FALSE)
   library(mclust)
   library(hrbrthemes)
 
-
+  # Mclust를 사용하여 잠재 프로파일 분석 수행
   x <- Mclust(df, G = n_profiles, modelNames = model_name)
-
   print(summary(x))
 
+  # 각 데이터에 분류(classification) 추가
   dff <- bind_cols(df, classification = x$classification)
 
-  proc_df <- dff %>%
-    mutate_at(vars(-classification), scale) %>%
-    group_by(classification) %>%
-    summarize_all(list(mean)) %>%
-    mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
-    mutate_at(vars(-classification), function(x) round(x, 3)) %>%
-    rename(profile = classification)
+  # 평균을 계산할 때
+  if (type == "mean") {
+    proc_df <- dff %>%
+      mutate_at(vars(-classification), scale) %>%
+      group_by(classification) %>%
+      summarize_all(list(mean)) %>%
+      mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
+      mutate_at(vars(-classification), function(x) round(x, 3)) %>%
+      rename(profile = classification)
 
-  return(proc_df)
+    return(proc_df)
+  }
 
+  # 표준편차를 계산할 때
+  if (type == "sd") {
+    proc_sd <- dff %>%
+      group_by(classification) %>%
+      summarize_all(list(sd)) %>%
+      mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
+      mutate_at(vars(-classification), function(x) round(x, 3)) %>%
+      rename(profile = classification)
+
+    return(proc_sd)
+  }
 }
+# lpa_create_profiles2 <- function(df,
+#                                  n_profiles=3,
+#                                  model_name=NULL){
+#
+#   library(tidyverse, warn.conflicts = FALSE)
+#   library(mclust)
+#   library(hrbrthemes)
+#
+#
+#   x <- Mclust(df, G = n_profiles, modelNames = model_name)
+#
+#   print(summary(x))
+#
+#   dff <- bind_cols(df, classification = x$classification)
+#
+#   proc_df <- dff %>%
+#     mutate_at(vars(-classification), scale) %>%
+#     group_by(classification) %>%
+#     summarize_all(list(mean)) %>%
+#     mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
+#     mutate_at(vars(-classification), function(x) round(x, 3)) %>%
+#     rename(profile = classification)
+#
+#   return(proc_df)
+#
+# }
 

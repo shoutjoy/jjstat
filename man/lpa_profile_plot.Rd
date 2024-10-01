@@ -4,7 +4,21 @@
 \alias{lpa_profile_plot}
 \title{lpa_profile_plot data}
 \usage{
-lpa_profile_plot(data, n_profiles = 3, model_name = "EEE", view = "pair")
+lpa_profile_plot(
+  data,
+  n_profiles = 3,
+  model_name = "EEE",
+  view = "pair",
+  alpha = 0.7,
+  gtype = "normal",
+  angle = 90,
+  size.x = 13,
+  size.p = 2,
+  ncol = 2,
+  fct_reorder = NULL,
+  show.legend = FALSE,
+  legend.text.size = 16
+)
 }
 \arguments{
 \item{data}{data}
@@ -14,6 +28,24 @@ lpa_profile_plot(data, n_profiles = 3, model_name = "EEE", view = "pair")
 \item{model_name}{EEE,EEI,VVI,VVV}
 
 \item{view}{pair, each}
+
+\item{alpha}{bargraph alpha}
+
+\item{gtype}{normal(x: variable), trans(x: profile), each(Separate views)}
+
+\item{angle}{text.x angle}
+
+\item{size.x}{text.x size}
+
+\item{size.p}{Point size}
+
+\item{ncol}{each ncol default = 2}
+
+\item{fct_reorder}{NULL Changes the order as you type}
+
+\item{show.legend}{line legend show}
+
+\item{legend.text.size}{legend.text.size =16}
 }
 \value{
 plot
@@ -25,6 +57,59 @@ lpa_profile_plot data
 
 \dontrun{
 iris[,-5] \%>\%profile_plot(n_profiles = 4, model_name = "EEE")
+#'
+
+######################
+edlcarename = edLca\%>\% rename(
+  Attitude = ATT,
+  FlowExperience = FLOW,
+  EaseOfUse = PEOU,
+  PerceivedUsefulness = PU,
+  SystemUsage = SUX,
+  UsageIntent = USE
+)
+# edlcarename = edLca\%>\% rename(
+#       e_태도 = ATT,
+#       b_학습몰입 = FLOW,
+#       d_지각된편리성 = PEOU,
+#       c_지각된유용성 = PU,
+#       a_에듀테크 = SUX,
+#       f_지속사용 = USE
+#     )
+edlcarename = edLca\%>\% rename(
+  태도 = ATT,
+  학습몰입 = FLOW,
+  지각된편리성 = PEOU,
+  지각된유용성 = PU,
+  에듀테크 = SUX,
+  지속사용 = USE
+)
+# lpa_profile_plot(edLca, n_profiles = 4, model_name = "EEE", gtype="normal")
+# lpa_profile_plot(edLca, n_profiles = 4, model_name = "EEE", gtype="trans")
+# lpa_profile_plot(edLca, n_profiles = 4, model_name = "EEE", gtype="each")
+f_order=c("에듀테크","학습몰입","지각된유용성","지각된편리성","태도","지속사용")
+#일반
+lpa_profile_plot(edlcarename, n_profiles = 4, model_name = "EEE", gtype="normal")
+#순서적용
+lpa_profile_plot(edlcarename, n_profiles = 4, model_name = "EEE", gtype="normal",
+                 fct_reorder= f_order )
+
+#일반
+lpa_profile_plot(edlcarename, n_profiles = 4, model_name = "EEE", gtype="trans")
+#순서적용
+lpa_profile_plot(edlcarename, n_profiles = 4, model_name = "EEE", gtype="trans",
+                 fct_reorder= f_order)
+
+# f_order=c("에듀테크","학습몰입","지각된유용성","지각된편리성","태도","지속사용")
+lpa_profile_plot(edlcarename, n_profiles = 4, model_name = "EEE", gtype="each",
+                 fct_reorder= f_order)
+
+lpa_profile_plot(edlcarename, n_profiles = 4,
+                 model_name = "EEE", gtype="each",size.x=15, size.p=3,
+                 fct_reorder= f_order)
+
+
+
 }
 
 

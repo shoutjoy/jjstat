@@ -11,7 +11,10 @@ lpa_bind_classdata(
   package = c("mclust", "MplusAutomation"),
   type = "all",
   add_line = TRUE,
-  var_model = "EEE"
+  var_model = "EEE",
+  Class_colors = 1:4,
+  linewidth = 0.9,
+  sd = TRUE
 )
 }
 \arguments{
@@ -23,7 +26,15 @@ lpa_bind_classdata(
 
 \item{type}{all, res, fit, est, data, all, plot, group_plot}
 
-\item{add_line}{add_line null}
+\item{add_line}{add_lineTRUE}
+
+\item{var_model}{"EEE","EEI,"VVV","EII"}
+
+\item{Class_colors}{1:4}
+
+\item{linewidth}{linewidth 0.9}
+
+\item{sd}{TRUE graph}
 }
 \value{
 data

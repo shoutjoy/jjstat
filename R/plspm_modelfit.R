@@ -64,7 +64,7 @@ plspm_modelfit <- function(pls_model, blocks,
     }
 
     # Return the parcelled data as a data frame
-    return(parcelled_data)
+       parcelled_data
   }
 
   # Create parcelled data
