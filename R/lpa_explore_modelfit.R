@@ -2,7 +2,10 @@
 #'
 #' @param df data
 #' @param n_profiles_range 1:9
-#' @param modelNames "EEV","EEI","EEE","EII"
+#' @param modelNames "EEV", "EEI", "EEE", "EII", "VVI", "VII", "VVV"
+#' @param chk default FALSE, TRUE show
+#' @param basic select EII, EEE, VII, EEI
+#' @param set_n_profile default select row number then result show
 #'
 #' @return data
 #' @export
@@ -13,12 +16,21 @@
 #'
 #' df <- select(iris, -Species)
 #' lpa_explore_modelfit(df, 1:4)
-#' lpa_explore_modelfit(df, 1:9)
+#' #' lpa_explore_modelfit(df, 1:9)
+#' lpa_explore_modelfit(pwjlpa,1:4, basic=TRUE)
+#' lpa_explore_modelfit(pwjlpa,1:4, basic=TRUE, set_n_profile=4)
+#' lpa_explore_modelfit(pwjlpa,1:6, basic=TRUE)
+#'
+#' lpa_explore_modelfit(pwjlpa,1:6, basic=FALSE)
+#' lpa_explore_modelfit(pwjlpa,1:10, basic=TRUE, set_n_profile=4)
+#' lpa_explore_modelfit(pwjlpa,1:10, basic=TRUE, set_n_profile=4, chk=TRUE)
 #'
 #' }
 #'
-lpa_explore_modelfit <- function(df, n_profiles_range = 1:9, # profile n
-                                 modelNames = c("EEV", "EEI", "EEE", "EII","VVI","VII","VVV")) {
+lpa_explore_modelfit <- function(df, n_profiles_range = 1:9,
+                                 modelNames = c("EEV", "EEI", "EEE",
+                                                "EII", "VVI", "VII", "VVV"), chk = FALSE,
+                                 basic = FALSE, set_n_profile = NULL) {
   library(tidyverse, warn.conflicts = FALSE)
   library(mclust)
   library(hrbrthemes) # Additional Themes and Theme Components for 'ggplot2'
@@ -36,47 +48,77 @@ lpa_explore_modelfit <- function(df, n_profiles_range = 1:9, # profile n
            EII = EII,
            VVI = VVI,
            VII = VII,
-           VVV = VVV
-    )
+           VVV = VVV)
 
   # Round the values to 3 decimal places to avoid precision issues
   y <- y %>%
-    mutate(across(c(EEV, EEI, EEE, EII, VVI, VII,VVV), ~round(.x, 3))) %>%
-    mutate(across(c(EEV, EEI, EEE, EII, VVI, VII,VVV), ~ifelse(is.na(.x), 0, .x)))
+    mutate(across(c(EEV, EEI, EEE, EII, VVI, VII, VVV), ~round(.x, 3))) %>%
+    mutate(across(c(EEV, EEI, EEE, EII, VVI, VII, VVV), ~ifelse(is.na(.x), 0, .x)))
 
-  # Find the minimum value for each model
-  eev_min <- min(y$EEV, na.rm = TRUE)
+  # General case: calculate minimum values for each model
   eei_min <- min(y$EEI, na.rm = TRUE)
   eee_min <- min(y$EEE, na.rm = TRUE)
   eii_min <- min(y$EII, na.rm = TRUE)
-  vvi_min <- min(y$VVI, na.rm = TRUE)
   vii_min <- min(y$VII, na.rm = TRUE)
-  vvv_min <- min(y$VVV, na.rm = TRUE)
+  eev_min <- if ("EEV" %in% colnames(y)) min(y$EEV, na.rm = TRUE) else NA
+  vvi_min <- if ("VVI" %in% colnames(y)) min(y$VVI, na.rm = TRUE) else NA
+  vvv_min <- if ("VVV" %in% colnames(y)) min(y$VVV, na.rm = TRUE) else NA
 
   # Create new _chk columns showing the minimum value or 0 for each model
   y <- y %>%
-    mutate(EEV_chk = ifelse(EEV == eev_min, EEV, 0),
-           EEI_chk = ifelse(EEI == eei_min, EEI, 0),
+    mutate(EEI_chk = ifelse(EEI == eei_min, EEI, 0),
            EEE_chk = ifelse(EEE == eee_min, EEE, 0),
            EII_chk = ifelse(EII == eii_min, EII, 0),
-           VVI_chk = ifelse(VVI == vvi_min, VVI, 0),
            VII_chk = ifelse(VII == vii_min, VII, 0),
-           VVV_chk = ifelse(VVV == vvv_min, VVV, 0)
-    )
+           EEV_chk = if ("EEV" %in% colnames(y)) ifelse(EEV == eev_min, EEV, 0) else NA,
+           VVI_chk = if ("VVI" %in% colnames(y)) ifelse(VVI == vvi_min, VVI, 0) else NA,
+           VVV_chk = if ("VVV" %in% colnames(y)) ifelse(VVV == vvv_min, VVV, 0) else NA)
 
   # Create a 'final' column that shows the minimum value among the _chk columns
   y <- y %>%
-    mutate(final = pmin(EEV_chk, EEI_chk, EEE_chk, EII_chk, VVI_chk, VII_chk,VVV_chk))
+    rowwise() %>%
+    mutate(final = min(c_across(EEI:VII), na.rm = TRUE))
 
-  # Find the minimum value in 'final' column
-  min_final <- min(y$final, na.rm = TRUE)
+  # If set_n_profile is provided, adjust only the row for that profile
+  if (!is.null(set_n_profile)) {
+    # Adjust the set_n_profile-th row's _chk values to be the actual values in that row
+    y <- y %>%
+      mutate(
+        EII_chk = ifelse(n_profiles == set_n_profile, EII, EII_chk),
+        EEE_chk = ifelse(n_profiles == set_n_profile, EEE, EEE_chk),
+        VII_chk = ifelse(n_profiles == set_n_profile, VII, VII_chk),
+        EEI_chk = ifelse(n_profiles == set_n_profile, EEI, EEI_chk)
+      ) %>%
+      # Recalculate 'final' column for the set_n_profile row
+      mutate(final = ifelse(n_profiles == set_n_profile, pmin(EEI_chk, EEE_chk, EII_chk, VII_chk, na.rm = TRUE), final))
+  }
 
-  # Create a 'sig' column that marks the minimum final value with '*' and others with '-'
+  # Create a 'sig' column that indicates the model name of the minimum final value
   y <- y %>%
-    mutate(sig = ifelse(final == min_final, "*", "-"))
+    rowwise() %>%
+    mutate(sig = case_when(
+      final == EEI ~ "EEI",
+      final == EEE ~ "EEE",
+      final == EII ~ "EII",
+      final == VII ~ "VII",
+      TRUE ~ "-"
+    )) %>%
+    ungroup()
+
+  # If basic = TRUE, select only specified columns
+  if (basic) {
+    y <- y %>%
+      select(n_profiles, EII, EEE, VII, EEI, final, sig)
+  }
+
+  # Remove _chk columns if chk is FALSE
+  if (!chk) {
+    y <- y %>% dplyr::select(-contains("_chk"))
+  }
 
   return(y)
 }
+
 
 # lpa_explore_modelfit <- function(df, n_profiles_range = 1:9, #profile n
 #                                modelNames =c("EEV","EEI","EEE","EII")) {

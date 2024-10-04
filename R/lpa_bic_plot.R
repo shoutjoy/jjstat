@@ -21,7 +21,7 @@
 #'
 lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
                          legend_position = "top",
-                         covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),
+                         covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,
                          xintercept = 4, size.text = 4,
                          flip = TRUE,  # flip option added
                          basic = TRUE) {  # basic option added
@@ -34,7 +34,8 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
   }
 
   # 데이터를 long 형식으로 변환
-  to_plot_wide <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range)
+  to_plot_wide <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range,
+                                       set_n_profile=set_n_profile)
 
   # 데이터 내 실제 존재하는 covariance 모델만 필터링
   existing_models <- colnames(to_plot_wide)[-1]  # 첫 번째 열은 'n_profiles'이므로 제외
@@ -70,7 +71,9 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
                             group = `Covariance matrix structure`)) +
     geom_line(linewidth = 1) +
     geom_point(size = 2, color = "black") +
-    ggrepel::geom_text_repel(aes(label = round(val, 2)), vjust = -0.9, size = size.text) +
+    ggrepel::geom_text_repel(aes(label =
+                                   paste0(`Covariance matrix structure`,":",round(val, 2))),
+                             vjust = -0.9, hjust=0.5, size = size.text, min.segment.length = 0.8) +
     ylab(ifelse(flip, "Flipped BIC (larger value is better)", "BIC (smaller value is better)")) +
     guides(linewidth = "none", alpha = "none") +
     geom_vline(xintercept = xintercept, linetype = "dashed", color = "tomato") +
@@ -78,7 +81,9 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
     theme(legend.position = legend_position)
 
   # 결과 반환
-  res <- list(data = to_plot_wide, graph = gg)
+  to_plot= to_plot%>%rename(Gaussian_Mixture_Model=`Covariance matrix structure`)
+
+  res <- list(data = to_plot_wide, graph = gg,  to_plot)
   return(res)
 }
 

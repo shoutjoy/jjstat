@@ -7,7 +7,10 @@
 lpa_explore_modelfit(
   df,
   n_profiles_range = 1:9,
-  modelNames = c("EEV", "EEI", "EEE", "EII", "VVI", "VII", "VVV")
+  modelNames = c("EEV", "EEI", "EEE", "EII", "VVI", "VII", "VVV"),
+  chk = FALSE,
+  basic = FALSE,
+  set_n_profile = NULL
 )
 }
 \arguments{
@@ -15,7 +18,13 @@ lpa_explore_modelfit(
 
 \item{n_profiles_range}{1:9}
 
-\item{modelNames}{"EEV","EEI","EEE","EII"}
+\item{modelNames}{"EEV", "EEI", "EEE", "EII", "VVI", "VII", "VVV"}
+
+\item{chk}{default FALSE, TRUE show}
+
+\item{basic}{select EII, EEE, VII, EEI}
+
+\item{set_n_profile}{default select row number then result show}
 }
 \value{
 data
@@ -29,7 +38,14 @@ lpa_explore_modelfit
 
 df <- select(iris, -Species)
 lpa_explore_modelfit(df, 1:4)
-lpa_explore_modelfit(df, 1:9)
+#' lpa_explore_modelfit(df, 1:9)
+lpa_explore_modelfit(pwjlpa,1:4, basic=TRUE)
+lpa_explore_modelfit(pwjlpa,1:4, basic=TRUE, set_n_profile=4)
+lpa_explore_modelfit(pwjlpa,1:6, basic=TRUE)
+
+lpa_explore_modelfit(pwjlpa,1:6, basic=FALSE)
+lpa_explore_modelfit(pwjlpa,1:10, basic=TRUE, set_n_profile=4)
+lpa_explore_modelfit(pwjlpa,1:10, basic=TRUE, set_n_profile=4, chk=TRUE)
 
 }
 
