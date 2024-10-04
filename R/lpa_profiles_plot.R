@@ -77,6 +77,7 @@
 #' }
 #'
 #'
+
 lpa_profile_plot <- function(data, n_profiles = 3,
                              model_name = "EEE",
                              view = "pair", alpha = 0.7,
@@ -84,18 +85,23 @@ lpa_profile_plot <- function(data, n_profiles = 3,
                              size.x = 13, size.p = 2, ncol = 2,
                              fct_reorder = NULL,  # fct_reorder 추가
                              show.legend = FALSE,
-                             legend.text.size=16) {
+                             legend.text.size = 16,
+                             seed = 123) {  # set.seed 추가
   library(tidyverse, warn.conflicts = FALSE)
   library(mclust)
   library(hrbrthemes)
+
+  # set.seed 추가 (seed 값이 있으면 사용)
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
 
   # 프로파일 레이블 정의
   profile_labels <- setNames(paste0("profile", 1:n_profiles), 1:n_profiles)
 
   # 평균 데이터 생성
   mean_data <- data %>%
-    lpa_create_profiles2(n_profiles = n_profiles,
-                         model_name = model_name)
+    lpa_create_profiles2(n_profiles = n_profiles, model_name = model_name, seed = seed)
 
   # 'profile' 열이 없을 가능성을 대비하여 새로운 열을 추가하고, profile을 문자형으로 변환
   mean_data <- mean_data %>%
@@ -103,20 +109,16 @@ lpa_profile_plot <- function(data, n_profiles = 3,
 
   # 표준편차 계산 (profile을 문자형으로 변환)
   sd_data <- data %>%
-    lpa_create_profiles2(n_profiles = n_profiles, model_name = model_name) %>%
+    lpa_create_profiles2(n_profiles = n_profiles, model_name = model_name, seed = seed) %>%
     group_by(profile) %>%
-    summarise(across(everything(), ~ sd(.x, na.rm = TRUE))) %>%  # 표준편차 계산 시 NA 처리
+    summarise(across(everything(), ~ sd(.x, na.rm = TRUE))) %>%
     pivot_longer(-profile, names_to = "key", values_to = "sd_val") %>%
     mutate(profile = as.character(profile))  # profile을 문자형으로 변환
-
 
   # 평균 데이터를 길게 변환하고 표준편차 데이터와 병합
   plot_data <- mean_data %>%
     gather(key, val, -profile) %>%
-    left_join(sd_data, by = c("profile", "key"))  # profile과 key를 기준으로 병합
-
-
-
+    left_join(sd_data, by = c("profile", "key"))
 
   # fct_reorder가 NULL이 아닌 경우, key 및 factor의 순서를 변경
   if (!is.null(fct_reorder)) {
@@ -124,11 +126,25 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       mutate(key = factor(key, levels = fct_reorder))  # key 변수의 순서 재정렬
   }
 
+  # 비표준화 데이터 미리 생성
+  raw_data <- Mclust(data, G = n_profiles, modelNames = model_name)
+  raw_mean_data <- raw_data$parameters$mean %>% as_tibble()
+
+  names(raw_mean_data) <- str_c("profile", 1:n_profiles)
+  raw_mean_data$factor <- colnames(data)
+  raw_mean_data <- raw_mean_data %>% dplyr::select(factor, 1:ncol(raw_mean_data) - 1)
+
+  # fct_reorder가 NULL이 아닌 경우 factor 변수의 순서 재정렬
+  if (!is.null(fct_reorder)) {
+    raw_mean_data <- raw_mean_data %>%
+      mutate(factor = factor(factor, levels = fct_reorder))
+  }
+
   if (gtype == "normal") {
     # 막대그래프 끝에 각 프로파일마다 다른 모양의 포인트 추가 및 표준편차 그리기
     gg <- plot_data %>%
       ggplot(aes(x = profile, y = val, fill = key, group = key)) +
-      geom_col(position = "dodge", alpha = alpha+0.1) +  # 막대 그래프
+      geom_col(position = "dodge", alpha = alpha + 0.1) +  # 막대 그래프
       geom_errorbar(aes(ymin = val - sd_val, ymax = val + sd_val),  # 표준편차 추가
                     position = position_dodge(width = 0.9),
                     width = 0.25) +
@@ -146,21 +162,6 @@ lpa_profile_plot <- function(data, n_profiles = 3,
             axis.title = element_text(size = size.x),
             legend.text = element_text(size = legend.text.size))
 
-    # 비표준화 데이터
-    raw_data = Mclust(data, G = n_profiles, modelNames = model_name)
-    raw_mean_data <- raw_data$parameters$mean %>% as_tibble()
-
-    names(raw_mean_data) = str_c("profile", 1:n_profiles)
-    raw_mean_data$factor = colnames(data)
-    raw_mean_data <- raw_mean_data %>% dplyr::select(factor, 1:ncol(raw_mean_data) - 1)
-
-    # fct_reorder가 NULL이 아닌 경우 factor 변수의 순서 재정렬
-    if (!is.null(fct_reorder)) {
-      raw_mean_data <- raw_mean_data %>%
-        mutate(factor = factor(factor, levels = fct_reorder))
-    }
-
-
     gg2 <- raw_mean_data %>%
       pivot_longer(
         cols = -factor,
@@ -168,7 +169,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
         values_to = "val"
       ) %>%
       ggplot(aes(x = profile, y = val, fill = factor, group = factor)) +
-      geom_col(position = "dodge", alpha = alpha+0.1) +  # 비표준화 막대 그래프
+      geom_col(position = "dodge", alpha = alpha + 0.1) +  # 비표준화 막대 그래프
       geom_point(aes(shape = factor), size = 2,
                  position = position_dodge(width = 0.9),
                  show.legend = FALSE) +  # 막대 끝에 포인트 추가
@@ -185,9 +186,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
 
     ggg <- gridExtra::grid.arrange(gg2, gg, ncol = 2)
 
-
   } else if (gtype == "trans") {
-
     # 평균값과 표준편차를 그리는 그래프 (factor에 따라 라인 및 포인트 추가)
     gg <- plot_data %>%
       ggplot(aes(x = key, y = val, fill = profile, group = profile)) +
@@ -205,23 +204,6 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
             axis.title = element_text(size = size.x))
 
-    # 비표준화 데이터
-    raw_data = Mclust(data, G = n_profiles, modelNames = model_name)
-    raw_mean_data <- raw_data$parameters$mean %>% as_tibble()
-
-    names(raw_mean_data) = str_c("profile", 1:n_profiles)
-    raw_mean_data$factor = colnames(data)
-    raw_mean_data <- raw_mean_data %>% dplyr::select(factor, 1:ncol(raw_mean_data) - 1)
-
-
-    # fct_reorder가 NULL이 아닌 경우 factor 변수의 순서 재정렬
-    if (!is.null(fct_reorder)) {
-      raw_mean_data <- raw_mean_data %>%
-        mutate(factor = factor(factor, levels = fct_reorder))
-    }
-
-
-    # 비표준화 그래프 (factor에 따라 라인 및 포인트 추가)
     gg2 <- raw_mean_data %>%
       pivot_longer(
         cols = -factor,
@@ -229,7 +211,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
         values_to = "val"
       ) %>%
       ggplot(aes(x = factor, y = val, fill = profile, group = profile)) +
-      geom_col(position = "dodge", alpha = alpha) +  # 막대 그래프
+      geom_col(position = "dodge", alpha = alpha) +  # 비표준화 그래프
       geom_line(aes(group = profile, linetype = profile), size = 1) +  # profile에 따른 라인 추가
       geom_point(aes(group = profile, shape = profile), color = "black", size = 2, show.legend = FALSE) +  # profile에 따른 포인트 추가
       ylab("Raw-score") +
@@ -242,9 +224,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
 
     ggg <- gridExtra::grid.arrange(gg2, gg, ncol = 2)
 
-
   } else if (gtype == "each") {
-
     # 표준화된 데이터에 대한 그래프 (key에 따른 라인 및 막대 추가)
     gg <- plot_data %>%
       ggplot(aes(x = key, y = val, group = profile)) +
@@ -256,29 +236,15 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       geom_point(aes(group = key, shape = key), color = "black", size = size.p , show.legend = FALSE) +  # key에 따른 포인트 추가
       facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +  # 프로파일별로 그래프 분리 및 레이블 변경
       ylab("Z-score") +
-      xlab("Key") +
+      xlab("Factors") +
       scale_fill_discrete("") +
       labs(title = "LPA모형추정 잠재Profile 평균의 표준화 점수") +
+      geom_hline(yintercept = 0, linetype = "dashed") +
       theme_bw() +
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
             axis.title = element_text(size = size.x),
             strip.text = element_text(size = size.x, face = "bold"))
 
-    # 비표준화 데이터 생성
-    raw_data <- Mclust(data, G = n_profiles, modelNames = model_name)
-    raw_mean_data <- raw_data$parameters$mean %>% as_tibble()
-
-    names(raw_mean_data) <- str_c("profile", 1:n_profiles)
-    raw_mean_data$factor <- colnames(data)
-    raw_mean_data <- raw_mean_data %>% dplyr::select(factor, 1:ncol(raw_mean_data) - 1)
-
-    # fct_reorder가 NULL이 아닌 경우 factor 변수의 순서 재정렬
-    if (!is.null(fct_reorder)) {
-      raw_mean_data <- raw_mean_data %>%
-        mutate(factor = factor(factor, levels = fct_reorder))
-    }
-
-    # 비표준화 데이터에 대한 그래프 (factor에 따른 라인 및 막대 추가)
     gg2 <- raw_mean_data %>%
       pivot_longer(cols = -factor, names_to = "profile", values_to = "val") %>%
       ggplot(aes(x = factor, y = val, group = profile)) +
@@ -287,7 +253,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       geom_point(aes(group = factor, shape = factor), color = "black", size = size.p, show.legend = FALSE) +  # factor에 따른 포인트 추가
       facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +  # 프로파일별로 그래프 분리 및 레이블 변경
       ylab("Raw-score") +
-      xlab("Factor") +
+      xlab("Factors") +
       scale_fill_discrete("") +
       labs(title = "LPA모형추정 잠재Profile 평균의 원점수") +
       theme_bw() +
@@ -299,11 +265,18 @@ lpa_profile_plot <- function(data, n_profiles = 3,
     ggg <- gridExtra::grid.arrange(gg2, gg, ncol = ncol)
   }
 
-
+  # 결과 반환
   if (view == "pair") {
-    res <- list(std = mean_data, est = raw_mean_data, graph = ggg, plot_data=dall(plot_data))
+    res <- list(std = mean_data, est = raw_mean_data,
+                graph = ggg,
+                plot_data = data.frame(mean_data))
   } else if (view == "each") {
-    res <- list(std = mean_data, est = raw_mean_data, gg2, gg,plot_data=plot_data)
+    x11()
+    print(gg2)
+    x11()
+    print(gg)
+    res <- list(std = mean_data, est = raw_mean_data,
+                plot_data = mean_data)
   }
   res
 }

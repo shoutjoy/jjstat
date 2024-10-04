@@ -4,12 +4,33 @@
 \alias{lpa_BIC_plot}
 \title{lpa_BIC_plot}
 \usage{
-lpa_BIC_plot(data, n_profiles_range = 1:9)
+lpa_BIC_plot(
+  data,
+  n_profiles_range = 1:6,
+  legend_position = "top",
+  covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),
+  xintercept = 4,
+  size.text = 4,
+  flip = TRUE,
+  basic = TRUE
+)
 }
 \arguments{
 \item{data}{data}
 
 \item{n_profiles_range}{1:9}
+
+\item{legend_position}{top}
+
+\item{covar_model}{"EEI", "EEE", "VVI", "VVV", "EEV", "EII", "VII",VVV}
+
+\item{xintercept}{model 4}
+
+\item{size.text}{size.text 4}
+
+\item{flip}{y value <0 default}
+
+\item{basic}{basic is "EII", "EEE", "VII", "EEI"}
 }
 \value{
 pot
@@ -23,6 +44,5 @@ lpa_BIC_plot
 
 select(iris, -Species)\%>\%lpa_BIC_plot()
 }
-
 
 }

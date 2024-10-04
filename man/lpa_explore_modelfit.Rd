@@ -7,7 +7,7 @@
 lpa_explore_modelfit(
   df,
   n_profiles_range = 1:9,
-  modelNames = c("EEV", "EEI", "EEE", "EII")
+  modelNames = c("EEV", "EEI", "EEE", "EII", "VVI", "VII", "VVV")
 )
 }
 \arguments{

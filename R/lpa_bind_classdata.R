@@ -41,32 +41,57 @@
 lpa_bind_classdata <- function(data, n_profiles = 3, models = NULL,
                                package = c("mclust", "MplusAutomation"),
                                type = "all", add_line = TRUE, var_model = "EEE",
-                               Class_colors = 1:4, linewidth =0.9,
-                               sd=TRUE) {
+                               Class_colors = 1:4, linewidth = 0.9, sd = TRUE) {
   library(tidyLPA)
 
   # var_model에 따라 variances와 covariances 설정
   variances <- "equal"
   covariances <- "equal"
 
-  if (var_model == "EII") {
-    variances <- "equal"
-    covariances <- "zero"
-  } else if (var_model == "VII") {
-    variances <- "varying"
-    covariances <- "zero"
-  } else if (var_model == "EEE") {
-    variances <- "equal"
-    covariances <- "equal"
-  } else if (var_model == "VEE") {
-    stop("VEE model is not supported in 'mclust', try with 'MplusAutomation'.")
-  } else if (var_model == "EEV") {
-    stop("EEV model is not supported in 'mclust', try with 'MplusAutomation'.")
-  } else if (var_model == "VVV") {
-    variances <- "varying"
-    covariances <- "varying"
-  } else {
-    stop("Invalid var_model provided. Choose from 'EII', 'VII', 'EEE', 'VEE', 'EEV', 'VVV'.")
+  if (package == "mclust") {
+    if (var_model == "EII") { # Model 1: Varying means, equal variances, covariances fixed to 0
+      variances <- "equal"
+      covariances <- "zero"
+    } else if (var_model == "EEE") { # Model 2: Varying means, equal variances, equal covariances
+      variances <- "equal"
+      covariances <- "equal"
+    } else if (var_model == "VII") { # Model 3: Varying means, varying variances, covariances fixed to 0
+      variances <- "varying"
+      covariances <- "zero"
+    } else if (var_model == "VVV") { # Model 6: Varying means, varying variances, varying covariances
+      variances <- "varying"
+      covariances <- "varying"
+    } else if (var_model == "VEE") { # Mplus 전용: Model 4 - Varying means, varying variances, equal covariances
+      stop("VEE model is not supported in 'mclust', try with 'MplusAutomation'.")
+    } else if (var_model == "EEV") { # Mplus 전용: Model 5 - Varying means, equal variances, varying covariances
+      stop("EEV model is not supported in 'mclust', try with 'MplusAutomation'.")
+    } else {
+      stop("Invalid var_model provided for 'mclust'.")
+    }
+  }
+
+  if (package == "MplusAutomation") {
+    if (var_model == "EII") { # Model 1
+      variances <- "equal"
+      covariances <- "zero"
+    } else if (var_model == "EEE") { # Model 2
+      variances <- "equal"
+      covariances <- "equal"
+    } else if (var_model == "VII") { # Model 3
+      variances <- "varying"
+      covariances <- "zero"
+    } else if (var_model == "VEE") { # Model 4
+      variances <- "varying"
+      covariances <- "equal"
+    } else if (var_model == "EEV") { # Model 5
+      variances <- "equal"
+      covariances <- "varying"
+    } else if (var_model == "VVV") { # Model 6
+      variances <- "varying"
+      covariances <- "varying"
+    } else {
+      stop("Invalid var_model provided for 'MplusAutomation'.")
+    }
   }
 
   # 프로파일 추정
@@ -81,57 +106,25 @@ lpa_bind_classdata <- function(data, n_profiles = 3, models = NULL,
   fit <- get_fit(lpa_res)
   bivariate <- plot_bivariate(lpa_res)
   density <- plot_density(lpa_res)
-  plot <- plot_profiles(lpa_res, add_line = add_line,
-                        sd=sd  )+
+
+  plot <- plot_profiles(lpa_res, add_line = add_line, sd = sd) +
     scale_linetype_manual(values = Class_colors) +
     aes(linewidth = linewidth) +
     scale_linewidth_identity()
 
-  # plot_profiles(
-  #    x,
-  #    variables = NULL,
-  #    ci = 0.95,
-  #    sd = TRUE,
-  #    add_line = FALSE,
-  #    rawdata = TRUE,
-  #    bw = FALSE,
-  #    alpha_range = c(0, 0.1),
-  #    ...
-  #  )
-
-
-  # Class 부분만 별도로 추출하여 저장
-  raw_data = Mclust(data, G=n_profiles, modelNames = var_model)
-  Class_data = raw_data$classification
-
   # 그룹 프로파일 플롯
-  if (type == "group_plot") {
-    lpa_res_group <- data %>%
-      poms() %>%
-      estimate_profiles(n_profiles = 1:n_profiles, package = package,
-                        variances = variances, covariances = covariances)
-    group_plot <- plot_profiles(lpa_res_group, add_line = add_line)
-  }
+  lpa_res_group <- data %>%
+    poms() %>%
+    estimate_profiles(n_profiles = 1:n_profiles, package = package,
+                      variances = variances, covariances = covariances)
 
-  if (type == "plot" | type == "group_plot") {
-    x11()
-  }
+  group_plot <- plot_profiles(lpa_res_group, add_line = add_line)
 
-  # all 변수에 class_data 추가
-
-  x11()
-  print(density)
-  x11()
-  print(plot)
-  all <- list(fit = fit, estimate = est,
-              data = res_data,
-              # Class = Class_data,
-              Class_freq = table(Class_data)
-              # bivariate = bivariate,
-              # density = density,
-              # plot = plot
-  )
-
+  # 결과 리스트 반환
+  all <- list(fit = fit, estimate = est, data = res_data,
+              Class = res_data$Class, Class_freq = table(res_data$Class),
+              bivariate = bivariate, density = density, plot = plot,
+              group_plot = group_plot)
 
   # switch 문으로 결과 반환
   switch(type,
@@ -140,16 +133,13 @@ lpa_bind_classdata <- function(data, n_profiles = 3, models = NULL,
          data = res_data,
          est = est %>% Round(3) %>% dall(),
          fit = fit %>% dall(),
-         Class = Class_data,
-         Class_freq = Freq_table(Class_data, prop=TRUE),
          bivariate = bivariate,
          density = density,
          plot_density = density,
          plot = plot,
          plot_profiles = plot,
          plot_profiles_group = group_plot,
-         group_plot = group_plot
-  )
+         group_plot = group_plot)
 }
 # lpa_bind_classdata <- function(data, n_profiles = 3, models = NULL,
 # package = c("mclust", "MplusAutomation"),

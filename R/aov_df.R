@@ -40,29 +40,29 @@
 #'
 #'
 aov_table <- function(data,
-                     dv_var = NULL,
-                     iv_vars = NULL,
-                     grp_mean = TRUE,
-                     unite_p = FALSE,
-                     unite_F = FALSE,
-                     digits = 2,
-                     posthoc="lsd",
-                     p.adj= "bonferroni",
-                     sig = FALSE
+                   dv_var = NULL,
+                   iv_vars = NULL,
+                   grp_mean = TRUE,
+                   unite_p = FALSE,
+                   unite_F = FALSE,
+                   digits = 2,
+                   posthoc = "lsd",
+                   p.adj = "bonferroni",
+                   sig = FALSE
 ) {
 
-  if(!is.data.frame(data)){
+  if (!is.data.frame(data)) {
     stop("you need input data.frame")
   }
 
-  if(is.null(dv_var) | is.null(iv_vars)){
+  if (is.null(dv_var) | is.null(iv_vars)) {
+    stop("Please provide both dv_var and iv_vars.")
   }
 
-  cat("\naov_df & aov_table Result
- grp_mean is TRUE -> add grp_mean / grp_mean is FLASE -> only levels \n\n")
+  cat("\naov_df & aov_table Result\n",
+      "grp_mean is TRUE -> add grp_mean / grp_mean is FALSE -> only levels \n\n")
 
-  data = as_trt(data, iv_vars)  #factor treatment
-
+  data <- as_trt(data, iv_vars)  # factor treatment
 
   # Initialize a data frame to store the results
   result_df <- data.frame(Indv_Variable = character(0),
@@ -72,186 +72,117 @@ aov_table <- function(data,
   # Perform an ANOVA analysis for each independent variable
   for (iv in iv_vars) {
     # ANOVA
-    anova_result <- aov(formula(paste(dv_var, "~", iv)),data = data)
-    #group_by mean
-    meandata =  jjstat::mysummaryBy(formula(paste(dv_var, "~", iv)),
-                                    data = data)[2]
-    #
-    #     lsd = multcompView::multcompLetters4(
-    #                          anova_result, lsdHSD(anova_result ))
-    #     lsdlist = lsd[[1]] %>% as.data.frame.list()
-    #
-    lsd = agricolae::LSD.test(anova_result, iv, console = FALSE, p.adj= p.adj)
-    lsdlist = lsd$groups[[2]]
+    anova_result <- aov(formula(paste(dv_var, "~", iv)), data = data)
 
+    # Group-by mean calculation using dplyr to ensure correct matching
+    meandata <- data %>%
+      group_by_at(iv) %>%
+      summarise(mean_value = mean(!!sym(dv_var), na.rm = TRUE))
+
+    # Posthoc tests
+    lsd = agricolae::LSD.test(anova_result, iv, console = FALSE, p.adj = p.adj)
     duncan = agricolae::duncan.test(anova_result, iv, console = FALSE)
-    duncanlist = duncan$groups[[2]]
-
     scheffe = agricolae::scheffe.test(anova_result, iv, console = FALSE)
-    scheffelist = scheffe$groups[[2]]
+    tukey = agricolae::HSD.test(anova_result, iv, console = FALSE)
 
-    tukey = agricolae::HSD.test(anova_result, iv, console = FALSE)#
-    tukeylist = lsd$groups[[2]]
+    posthoc_groups_lsd <- lsd$groups[, 2]
+    posthoc_groups_duncan <- duncan$groups[, 2]
+    posthoc_groups_scheffe <- scheffe$groups[, 2]
+    posthoc_groups_tukey <- tukey$groups[, 2]
 
+    group_levels <- rownames(lsd$groups)
 
+    # Reorder meandata to match the posthoc group order
+    meandata <- meandata %>%
+      mutate(group = !!sym(iv)) %>%
+      arrange(match(group, group_levels))
 
+    # Extract ANOVA result statistics
     tidy_result <- broom::tidy(anova_result)
-    levels_paste <- paste0(unique(data[[iv]]), collapse =", " )
 
-    lsdlists <- paste0(unique(lsdlist), collapse =", " )
-    duncanlists <- paste0(unique(duncanlist), collapse =", " )
-    scheffelists <- paste0(unique(scheffelist), collapse =", " )
-    tukeylists <- paste0(unique(tukeylist), collapse =", " ) #
-
-    levels <- unique(data[[iv]])
-
+    # Create result dataframe
     result_df <- rbind(result_df,
                        data.frame(
-                         iv=iv,
-                         dv=dv_var,
-                         levels = levels_paste,   # unite
-                         level = levels,
-                         Mean = meandata,
-                         posthoc_lsd = lsdlist, #posthoc
-                         posthoc_scheffe = scheffelist,
-                         posthoc_duncan = duncanlist,
-                         posthoc_tukey = tukeylist,
-
-                         lsdlists = lsdlists,
-                         duncanlists = duncanlists,
-                         scheffelists = scheffelists,
-                         tukeylists = tukeylists,
-
-                         df1= tidy_result$df[1],
-                         df2= tidy_result$df[2],
+                         iv = iv,
+                         dv = dv_var,
+                         level = group_levels,  # Add levels to the result
+                         Mean = meandata$mean_value,  # Matching means with groups
+                         posthoc_lsd = posthoc_groups_lsd,
+                         posthoc_duncan = posthoc_groups_duncan,
+                         posthoc_scheffe = posthoc_groups_scheffe,
+                         posthoc_tukey = posthoc_groups_tukey,
+                         df1 = tidy_result$df[1],
+                         df2 = tidy_result$df[2],
                          F_value = tidy_result$statistic[1],
-                         p_value = tidy_result$p.value[1]))
-  } #for
-  #
-  if(posthoc == "lsd"){
-    result_df = result_df %>%
-      dplyr::select(-posthoc_scheffe, -posthoc_duncan, -posthoc_tukey,
-                    -scheffelists,-duncanlists,-tukeylists) %>%
-      dplyr::rename(POSTHOC = posthoc_lsd,
-                    POSTHOCs = lsdlists )
+                         p_value = tidy_result$p.value[1]
+                       ))
+  }
 
+  # Posthoc selection and column renaming
+  if (posthoc == "lsd") {
+    result_df <- result_df %>%
+      dplyr::select(-posthoc_duncan, -posthoc_scheffe, -posthoc_tukey) %>%
+      dplyr::rename(POSTHOC = posthoc_lsd)
     cat("   Using The Least Significant Difference (LSD) posthoc \n\n")
-
-  }else if(posthoc == "scheffe"){
-    result_df = result_df %>%
-      dplyr::select(-posthoc_lsd, -posthoc_duncan, -posthoc_tukey,
-                    -lsdlists,-duncanlists ,-tukeylists)%>%
-      dplyr::rename(POSTHOC = posthoc_scheffe,
-                    POSTHOCs = scheffelists )
-
-    cat("   Using Scheffe's posthoc \n\n")
-
-  }else if(posthoc == "duncan"){
-    result_df = result_df %>%
-      dplyr::select(-posthoc_scheffe, -posthoc_lsd, -posthoc_tukey,
-                    -lsdlists,-scheffelists,-tukeylists)%>%
-      dplyr::rename(POSTHOC = posthoc_duncan,
-                    POSTHOCs = duncanlists )
-
+  } else if (posthoc == "duncan") {
+    result_df <- result_df %>%
+      dplyr::select(-posthoc_lsd, -posthoc_scheffe, -posthoc_tukey) %>%
+      dplyr::rename(POSTHOC = posthoc_duncan)
     cat("   Using Duncan's posthoc \n\n")
-  }else if(posthoc == "tukey"){
-    result_df = result_df %>%
-      dplyr::select(-posthoc_scheffe, -posthoc_duncan,-posthoc_lsd,
-                    -scheffelists,-duncanlists, lsdlists) %>%
-      dplyr::rename(POSTHOC = posthoc_tukey,
-                    POSTHOCs = tukeylists )
-
-    cat("   Using Tukey’s W Procedure (HSD)   posthoc \n\n")
-
+  } else if (posthoc == "scheffe") {
+    result_df <- result_df %>%
+      dplyr::select(-posthoc_lsd, -posthoc_duncan, -posthoc_tukey) %>%
+      dplyr::rename(POSTHOC = posthoc_scheffe)
+    cat("   Using Scheffe's posthoc \n\n")
+  } else if (posthoc == "tukey") {
+    result_df <- result_df %>%
+      dplyr::select(-posthoc_lsd, -posthoc_duncan, -posthoc_scheffe) %>%
+      dplyr::rename(POSTHOC = posthoc_tukey)
+    cat("   Using Tukey's HSD posthoc \n\n")
   }
 
-
-
-
-  # Adding results to a data frame
-  if(grp_mean){
-    result_df  = result_df %>% dplyr::select(-levels, -POSTHOCs)
-
-    result_df2 = result_df %>%
-      mutate(p_value = format_number(p_value, n3 = 3, n1=5)) %>%
-      # Round(digits, exclude = "p_value")%>%
+  # Group Mean Inclusion
+  if (grp_mean) {
+    result_df <- result_df %>%
       tibble::tibble()
 
-    result_df2$p_value = as.numeric(result_df2$p_value)
+    result_df$p_value <- as.numeric(format(result_df$p_value, nsmall = 3))
 
-    if(sig){
-      result_df2 = result_df2 %>% mutate(sig = add_sig(p_value))
-
-    }else{
-      result_df2 = result_df2
+    if (sig) {
+      result_df <- result_df %>% mutate(sig = add_sig(result_df$p_value))
     }
 
+  } else {
+    result_df <- result_df %>%
+      dplyr::select(-Mean)
 
-  }else{
-    result_df  = result_df %>% dplyr::select(-Mean, -level)
-    #
-
-
-    result_df = dplyr::distinct(result_df,
-                                iv, dv, levels, POSTHOCs,
-                                df1, df2, F_value, p_value)
-    result_df2 = result_df %>%
-      mutate(p_value = format_number(as.vector(p_value), n3 = 3, n1=5)) %>%
-      # Round(digits, exclude = "p_value")%>%
+    result_df <- result_df %>%
       tibble::tibble()
 
+    result_df$p_value <- as.numeric(format(result_df$p_value, nsmall = 3))
 
-    result_df2$p_value = as.numeric(result_df2$p_value)
-
-    if(sig){
-      result_df2 = result_df2 %>% mutate(sig = add_sig(p_value))
-
-    }else{
-      result_df2 = result_df2
-
+    if (sig) {
+      result_df <- result_df %>% mutate(sig = add_sig(result_df$p_value))
     }
-
   }
 
-
-
-  # UNite
-  if(unite_F){
-    result_df1 = result_df  %>%
+  # Unite F-value and p-value if needed
+  if (unite_F) {
+    result_df <- result_df %>%
       mutate(sig = ifelse(p_value < 0.001, "***",
                           ifelse(p_value < 0.01, "**",
-                                 ifelse(p_value < 0.05, "*", "")))
-
-      )
-
-    result_df1$F_value = round(result_df1$F_value , digits)
-
-    result_df2 = result_df1 %>%
-      tidyr::unite(F_value, F_value, sig, sep="") %>%
-      # Round(digits, exclude = "p_value") %>%
-      tibble::tibble()
-
-
-  }else if(unite_p){
-
-    result_df1 = result_df %>%
+                                 ifelse(p_value < 0.05, "*", "")))) %>%
+      unite(F_value, F_value, sig, sep = "")
+  } else if (unite_p) {
+    result_df <- result_df %>%
       mutate(sig = ifelse(p_value < 0.001, "***",
                           ifelse(p_value < 0.01, "**",
-                                 ifelse(p_value < 0.05, "*", ""))))
+                                 ifelse(p_value < 0.05, "*", "")))) %>%
+      unite(p_value, p_value, sig, sep = "")
+  }
 
-
-    # result_df1$F_value = round(result_df1$F_value , digits)
-
-    result_df2 = result_df1 %>%
-      # Round(digits, exclude = "p_value") %>%
-      mutate(p_value = format_number(p_value, n3=2)) %>%
-      tidyr::unite(p_value, p_value, sig, sep="") %>%
-      tibble::tibble()
-
-  }  # result_df2
-  result_df2
+  return(result_df)
 }
-
 
 
 #' aov_rename
@@ -340,23 +271,23 @@ aov_df <- function(data,
                    unite_p = FALSE,
                    unite_F = FALSE,
                    digits = 2,
-                   posthoc="lsd",
-                   p.adj= "bonferroni",
+                   posthoc = "lsd",
+                   p.adj = "bonferroni",
                    sig = FALSE
 ) {
 
-  if(!is.data.frame(data)){
+  if (!is.data.frame(data)) {
     stop("you need input data.frame")
   }
 
-  if(is.null(dv_var) | is.null(iv_vars)){
+  if (is.null(dv_var) | is.null(iv_vars)) {
+    stop("Please provide both dv_var and iv_vars.")
   }
 
-  cat("\naov_df & aov_table Result
- grp_mean is TRUE -> add grp_mean / grp_mean is FLASE -> only levels \n\n")
+  cat("\naov_df & aov_table Result\n",
+      "grp_mean is TRUE -> add grp_mean / grp_mean is FALSE -> only levels \n\n")
 
-  data = as_trt(data, iv_vars)  #factor treatment
-
+  data <- as_trt(data, iv_vars)  # factor treatment
 
   # Initialize a data frame to store the results
   result_df <- data.frame(Indv_Variable = character(0),
@@ -366,186 +297,116 @@ aov_df <- function(data,
   # Perform an ANOVA analysis for each independent variable
   for (iv in iv_vars) {
     # ANOVA
-    anova_result <- aov(formula(paste(dv_var, "~", iv)),data = data)
-    #group_by mean
-    meandata =  jjstat::mysummaryBy(formula(paste(dv_var, "~", iv)),
-                                    data = data)[2]
-    #
-    #     lsd = multcompView::multcompLetters4(
-    #                          anova_result, lsdHSD(anova_result ))
-    #     lsdlist = lsd[[1]] %>% as.data.frame.list()
-    #
-    lsd = agricolae::LSD.test(anova_result, iv, console = FALSE, p.adj= p.adj)
-    lsdlist = lsd$groups[[2]]
+    anova_result <- aov(formula(paste(dv_var, "~", iv)), data = data)
 
+    # Group-by mean calculation using dplyr to ensure correct matching
+    meandata <- data %>%
+      group_by_at(iv) %>%
+      summarise(mean_value = mean(!!sym(dv_var), na.rm = TRUE))
+
+    # Posthoc tests
+    lsd = agricolae::LSD.test(anova_result, iv, console = FALSE, p.adj = p.adj)
     duncan = agricolae::duncan.test(anova_result, iv, console = FALSE)
-    duncanlist = duncan$groups[[2]]
-
     scheffe = agricolae::scheffe.test(anova_result, iv, console = FALSE)
-    scheffelist = scheffe$groups[[2]]
+    tukey = agricolae::HSD.test(anova_result, iv, console = FALSE)
 
-    tukey = agricolae::HSD.test(anova_result, iv, console = FALSE)#
-    tukeylist = lsd$groups[[2]]
+    posthoc_groups_lsd <- lsd$groups[, 2]
+    posthoc_groups_duncan <- duncan$groups[, 2]
+    posthoc_groups_scheffe <- scheffe$groups[, 2]
+    posthoc_groups_tukey <- tukey$groups[, 2]
 
+    group_levels <- rownames(lsd$groups)
 
+    # Reorder meandata to match the posthoc group order
+    meandata <- meandata %>%
+      mutate(group = !!sym(iv)) %>%
+      arrange(match(group, group_levels))
 
+    # Extract ANOVA result statistics
     tidy_result <- broom::tidy(anova_result)
-    levels_paste <- paste0(unique(data[[iv]]), collapse =", " )
 
-    lsdlists <- paste0(unique(lsdlist), collapse =", " )
-    duncanlists <- paste0(unique(duncanlist), collapse =", " )
-    scheffelists <- paste0(unique(scheffelist), collapse =", " )
-    tukeylists <- paste0(unique(tukeylist), collapse =", " ) #
-
-    levels <- unique(data[[iv]])
-
+    # Create result dataframe
     result_df <- rbind(result_df,
                        data.frame(
-                         iv=iv,
-                         dv=dv_var,
-                         levels = levels_paste,   # unite
-                         level = levels,
-                         Mean = meandata,
-                         posthoc_lsd = lsdlist, #posthoc
-                         posthoc_scheffe = scheffelist,
-                         posthoc_duncan = duncanlist,
-                         posthoc_tukey = tukeylist,
-
-                         lsdlists = lsdlists,
-                         duncanlists = duncanlists,
-                         scheffelists = scheffelists,
-                         tukeylists = tukeylists,
-
-                         df1= tidy_result$df[1],
-                         df2= tidy_result$df[2],
+                         iv = iv,
+                         dv = dv_var,
+                         level = group_levels,  # Add levels to the result
+                         Mean = meandata$mean_value,  # Matching means with groups
+                         posthoc_lsd = posthoc_groups_lsd,
+                         posthoc_duncan = posthoc_groups_duncan,
+                         posthoc_scheffe = posthoc_groups_scheffe,
+                         posthoc_tukey = posthoc_groups_tukey,
+                         df1 = tidy_result$df[1],
+                         df2 = tidy_result$df[2],
                          F_value = tidy_result$statistic[1],
-                         p_value = tidy_result$p.value[1]))
-  } #for
-  #
-  if(posthoc == "lsd"){
-    result_df = result_df %>%
-      dplyr::select(-posthoc_scheffe, -posthoc_duncan, -posthoc_tukey,
-                    -scheffelists,-duncanlists,-tukeylists) %>%
-      dplyr::rename(POSTHOC = posthoc_lsd,
-                    POSTHOCs = lsdlists )
+                         p_value = tidy_result$p.value[1]
+                       ))
+  }
 
+  # Posthoc selection and column renaming
+  if (posthoc == "lsd") {
+    result_df <- result_df %>%
+      dplyr::select(-posthoc_duncan, -posthoc_scheffe, -posthoc_tukey) %>%
+      dplyr::rename(POSTHOC = posthoc_lsd)
     cat("   Using The Least Significant Difference (LSD) posthoc \n\n")
-
-  }else if(posthoc == "scheffe"){
-    result_df = result_df %>%
-      dplyr::select(-posthoc_lsd, -posthoc_duncan, -posthoc_tukey,
-                    -lsdlists,-duncanlists ,-tukeylists)%>%
-      dplyr::rename(POSTHOC = posthoc_scheffe,
-                    POSTHOCs = scheffelists )
-
-    cat("   Using Scheffe's posthoc \n\n")
-
-  }else if(posthoc == "duncan"){
-    result_df = result_df %>%
-      dplyr::select(-posthoc_scheffe, -posthoc_lsd, -posthoc_tukey,
-                    -lsdlists,-scheffelists,-tukeylists)%>%
-      dplyr::rename(POSTHOC = posthoc_duncan,
-                    POSTHOCs = duncanlists )
-
+  } else if (posthoc == "duncan") {
+    result_df <- result_df %>%
+      dplyr::select(-posthoc_lsd, -posthoc_scheffe, -posthoc_tukey) %>%
+      dplyr::rename(POSTHOC = posthoc_duncan)
     cat("   Using Duncan's posthoc \n\n")
-  }else if(posthoc == "tukey"){
-    result_df = result_df %>%
-      dplyr::select(-posthoc_scheffe, -posthoc_duncan,-posthoc_lsd,
-                    -scheffelists,-duncanlists, lsdlists) %>%
-      dplyr::rename(POSTHOC = posthoc_tukey,
-                    POSTHOCs = tukeylists )
-
-    cat("   Using Tukey’s W Procedure (HSD)   posthoc \n\n")
-
+  } else if (posthoc == "scheffe") {
+    result_df <- result_df %>%
+      dplyr::select(-posthoc_lsd, -posthoc_duncan, -posthoc_tukey) %>%
+      dplyr::rename(POSTHOC = posthoc_scheffe)
+    cat("   Using Scheffe's posthoc \n\n")
+  } else if (posthoc == "tukey") {
+    result_df <- result_df %>%
+      dplyr::select(-posthoc_lsd, -posthoc_duncan, -posthoc_scheffe) %>%
+      dplyr::rename(POSTHOC = posthoc_tukey)
+    cat("   Using Tukey's HSD posthoc \n\n")
   }
 
-
-
-
-  # Adding results to a data frame
-  if(grp_mean){
-    result_df  = result_df %>% dplyr::select(-levels, -POSTHOCs)
-
-    result_df2 = result_df %>%
-      mutate(p_value = format_number(p_value, n3 = 3, n1=5)) %>%
-      # Round(digits, exclude = "p_value")%>%
+  # Group Mean Inclusion
+  if (grp_mean) {
+    result_df <- result_df %>%
       tibble::tibble()
 
-    result_df2$p_value = as.numeric(result_df2$p_value)
+    result_df$p_value <- as.numeric(format(result_df$p_value, nsmall = 3))
 
-    if(sig){
-      result_df2 = result_df2 %>% mutate(sig = add_sig(p_value))
-
-    }else{
-      result_df2 = result_df2
+    if (sig) {
+      result_df <- result_df %>% mutate(sig = add_sig(result_df$p_value))
     }
 
+  } else {
+    result_df <- result_df %>%
+      dplyr::select(-Mean)
 
-  }else{
-    result_df  = result_df %>% dplyr::select(-Mean, -level)
-    #
-
-
-    result_df = dplyr::distinct(result_df,
-                                iv, dv, levels, POSTHOCs,
-                                df1, df2, F_value, p_value)
-    result_df2 = result_df %>%
-      mutate(p_value = format_number(as.vector(p_value), n3 = 3, n1=5)) %>%
-      # Round(digits, exclude = "p_value")%>%
+    result_df <- result_df %>%
       tibble::tibble()
 
+    result_df$p_value <- as.numeric(format(result_df$p_value, nsmall = 3))
 
-    result_df2$p_value = as.numeric(result_df2$p_value)
-
-    if(sig){
-      result_df2 = result_df2 %>% mutate(sig = add_sig(p_value))
-
-    }else{
-      result_df2 = result_df2
-
+    if (sig) {
+      result_df <- result_df %>% mutate(sig = add_sig(result_df$p_value))
     }
-
   }
 
-
-
-  # UNite
-  if(unite_F){
-    result_df1 = result_df  %>%
+  # Unite F-value and p-value if needed
+  if (unite_F) {
+    result_df <- result_df %>%
       mutate(sig = ifelse(p_value < 0.001, "***",
                           ifelse(p_value < 0.01, "**",
-                                 ifelse(p_value < 0.05, "*", "")))
-
-      )
-
-    result_df1$F_value = round(result_df1$F_value , digits)
-
-    result_df2 = result_df1 %>%
-      tidyr::unite(F_value, F_value, sig, sep="") %>%
-      # Round(digits, exclude = "p_value") %>%
-      tibble::tibble()
-
-
-  }else if(unite_p){
-
-    result_df1 = result_df %>%
+                                 ifelse(p_value < 0.05, "*", "")))) %>%
+      unite(F_value, F_value, sig, sep = "")
+  } else if (unite_p) {
+    result_df <- result_df %>%
       mutate(sig = ifelse(p_value < 0.001, "***",
                           ifelse(p_value < 0.01, "**",
-                                 ifelse(p_value < 0.05, "*", ""))))
+                                 ifelse(p_value < 0.05, "*", "")))) %>%
+      unite(p_value, p_value, sig, sep = "")
+  }
 
-
-    # result_df1$F_value = round(result_df1$F_value , digits)
-
-    result_df2 = result_df1 %>%
-      # Round(digits, exclude = "p_value") %>%
-      mutate(p_value = format_number(p_value, n3=2)) %>%
-      tidyr::unite(p_value, p_value, sig, sep="") %>%
-      tibble::tibble()
-
-  }  # result_df2
-  result_df2
+  return(result_df)
 }
-
-
 
 

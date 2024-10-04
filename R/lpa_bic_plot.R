@@ -2,6 +2,12 @@
 #'
 #' @param data data
 #' @param n_profiles_range 1:9
+#' @param legend_position top
+#' @param covar_model "EEI", "EEE", "VVI", "VVV", "EEV", "EII", "VII",VVV
+#' @param xintercept model 4
+#' @param size.text size.text 4
+#' @param flip y value <0 default
+#' @param basic basic is "EII", "EEE", "VII", "EEI"
 #'
 #' @return pot
 #' @export
@@ -13,37 +19,99 @@
 #' select(iris, -Species)%>%lpa_BIC_plot()
 #' }
 #'
-#'
-lpa_BIC_plot <- function(data, n_profiles_range = 1:9){
+lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
+                         legend_position = "top",
+                         covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),
+                         xintercept = 4, size.text = 4,
+                         flip = TRUE,  # flip option added
+                         basic = TRUE) {  # basic option added
   library(forcats)
+  library(dplyr)
 
-  #long data trnasformation
-  to_plot <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range)%>%
+  # 기본 covar_model 값 설정 (basic이 TRUE이면 Mplus 전용 모델 제외)
+  if (basic) {
+    covar_model <- c("EII", "EEE", "VII", "EEI")
+  }
+
+  # 데이터를 long 형식으로 변환
+  to_plot_wide <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range)
+
+  # 데이터 내 실제 존재하는 covariance 모델만 필터링
+  existing_models <- colnames(to_plot_wide)[-1]  # 첫 번째 열은 'n_profiles'이므로 제외
+  covar_model <- intersect(covar_model, existing_models)  # 실제 데이터에 존재하는 모델만 선택
+
+  to_plot <- to_plot_wide %>%
     gather(`Covariance matrix structure`, val, -n_profiles) %>%
-    mutate(`Covariance matrix structure` = as.factor(`Covariance matrix structure`), val = abs(val))
+    filter(`Covariance matrix structure` %in% covar_model) %>%
+    mutate(`Covariance matrix structure` = as.factor(`Covariance matrix structure`),
+           val = abs(as.numeric(val)))  # val을 숫자로 변환 후 절댓값 적용
 
-  # C- variable arrange
-  to_plot$`Covariance matrix structure` <- fct_relevel(
-    to_plot$`Covariance matrix structure`,
-    "Constrained variance, fixed covariance",
-    "Freed variance, fixed covariance",
-    "Constrained variance, constrained covariance",
-    "Freed variance, freed covariance")
+  # 기본 covar_model 값 설정 (basic이 TRUE인 경우)
+  if (basic) {
+    to_plot$`Covariance matrix structure` <- fct_relevel(
+      to_plot$`Covariance matrix structure`,
+      "EII", "EEE", "VII", "EEI"
+    )
+  } else {
+    to_plot$`Covariance matrix structure` <- fct_relevel(
+      to_plot$`Covariance matrix structure`,
+      "EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"
+    )
+  }
 
-  #plotting
-  gg <-ggplot(to_plot, aes(x = n_profiles, y = val,
-                           color = `Covariance matrix structure`,
-                           group = `Covariance matrix structure`)) +
+  # flip이 TRUE이면 y값을 반전
+  if (flip) {
+    to_plot$val <- -to_plot$val  # y값을 반전
+  }
+
+  # 플롯 생성
+  gg <- ggplot(to_plot, aes(x = n_profiles, y = val,
+                            color = `Covariance matrix structure`,
+                            group = `Covariance matrix structure`)) +
     geom_line(linewidth = 1) +
-    geom_point(size=2) +
-    ylab("BIC (smaller value is better)") +
-    guides( linewidth="none", alpha="none")+
-    theme_bw()
+    geom_point(size = 2, color = "black") +
+    ggrepel::geom_text_repel(aes(label = round(val, 2)), vjust = -0.9, size = size.text) +
+    ylab(ifelse(flip, "Flipped BIC (larger value is better)", "BIC (smaller value is better)")) +
+    guides(linewidth = "none", alpha = "none") +
+    geom_vline(xintercept = xintercept, linetype = "dashed", color = "tomato") +
+    theme_bw() +
+    theme(legend.position = legend_position)
 
-  res= list(to_plot, gg)
-  res
-
+  # 결과 반환
+  res <- list(data = to_plot_wide, graph = gg)
+  return(res)
 }
+
+# lpa_BIC_plot <- function(data, n_profiles_range = 1:9){
+#   library(forcats)
+#
+#   #long data trnasformation
+#   to_plot <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range)%>%
+#     gather(`Covariance matrix structure`, val, -n_profiles) %>%
+#     mutate(`Covariance matrix structure` = as.factor(`Covariance matrix structure`), val = abs(val))
+#
+#   # C- variable arrange
+#   to_plot$`Covariance matrix structure` <- fct_relevel(
+#     to_plot$`Covariance matrix structure`,
+#     "Constrained variance, fixed covariance",
+#     "Freed variance, fixed covariance",
+#     "Constrained variance, constrained covariance",
+#     "Freed variance, freed covariance")
+#
+#   #plotting
+#   gg <-ggplot(to_plot, aes(x = n_profiles, y = val,
+#                            color = `Covariance matrix structure`,
+#                            group = `Covariance matrix structure`)) +
+#     geom_line(linewidth = 1) +
+#     geom_point(size=2) +
+#     ylab("BIC (smaller value is better)") +
+#     guides( linewidth="none", alpha="none")+
+#     theme_bw()
+#
+#   res= list(data = to_plot, graph = gg)
+#   res
+#
+# }
 
 
 #' lpa_BIC_plot2
@@ -57,6 +125,7 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:9){
 #' @param l_linewidth 1, #line width
 #' @param title "적절한 개수의 profiles 판정 "
 #' @param flip TRUE
+#' @param legend_position legend_position top
 #' @param line FALSE
 #'
 #' @return plot
@@ -78,6 +147,7 @@ lpa_BIC_plot2 <- function(data,
                           l_linewidth=1, #line width
                           title="적절한 개수의 profiles 판정 ",
                           flip=TRUE,
+                          legend_position = "top",
                           line=FALSE
 ){
   library(forcats)
@@ -121,7 +191,10 @@ lpa_BIC_plot2 <- function(data,
                  linetype = "longdash", linewidth=v_linewidth, # cutline
                  alpha=.4)+
       labs(title=title)+
+      theme(legend.position = legend_position)  # Add legend position argument
       theme_bw()
+
+
   }else if(line==FALSE){
     gg <-ggplot(to_plot, aes(x = n_profiles, y = val
 
@@ -139,6 +212,7 @@ lpa_BIC_plot2 <- function(data,
                  linetype = "longdash", linewidth=v_linewidth, # cutline
                  alpha=.4)+
       labs(title=title)+
+      theme(legend.position = legend_position)  # Add legend position argument
       theme_bw()
   }
 

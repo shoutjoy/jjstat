@@ -13,7 +13,7 @@
 #'
 #'
 #' }
-round_col <- function(df, col = ncol(df), digits = 3) {
+round_col <- function(df, col = ncol(df), digits = 3, scientific=FALSE) {
   # 입력 데이터가 데이터프레임인지 확인
   if (!is.data.frame(df)) {
     stop("The input df must be a data frame.")
@@ -42,7 +42,7 @@ round_col <- function(df, col = ncol(df), digits = 3) {
   }
 
   # 지정된 열을 반올림하고 과학적 표기법으로 변환
-  df[[col]] <- format(round(df[[col]], digits), scientific = TRUE)
+  df[[col]] <- format(round(df[[col]], digits), scientific = scientific)
 
   return(df)
 }

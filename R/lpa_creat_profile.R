@@ -104,10 +104,15 @@ lpa_create_profiles<- function(df,
 #' #'
 #' }
 #'
-lpa_create_profiles2 <- function(df, n_profiles = 4, model_name = NULL, type = "mean") {
+lpa_create_profiles2 <- function(df, n_profiles = 4, model_name = NULL, type = "mean", seed = 123) {
   library(tidyverse, warn.conflicts = FALSE)
   library(mclust)
   library(hrbrthemes)
+
+  # set.seed 추가 (seed 값이 있으면 사용)
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
 
   # Mclust를 사용하여 잠재 프로파일 분석 수행
   x <- Mclust(df, G = n_profiles, modelNames = model_name)
@@ -119,9 +124,9 @@ lpa_create_profiles2 <- function(df, n_profiles = 4, model_name = NULL, type = "
   # 평균을 계산할 때
   if (type == "mean") {
     proc_df <- dff %>%
-      mutate_at(vars(-classification), scale) %>%
-      group_by(classification) %>%
-      summarize_all(list(mean)) %>%
+      mutate_at(vars(-classification), scale) %>%  # 표준화
+      group_by(classification) %>%                 # 그룹별 평균 계산
+      summarize_all(list(mean)) %>%                # 평균값
       mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
       mutate_at(vars(-classification), function(x) round(x, 3)) %>%
       rename(profile = classification)
@@ -132,8 +137,8 @@ lpa_create_profiles2 <- function(df, n_profiles = 4, model_name = NULL, type = "
   # 표준편차를 계산할 때
   if (type == "sd") {
     proc_sd <- dff %>%
-      group_by(classification) %>%
-      summarize_all(list(sd)) %>%
+      group_by(classification) %>%                 # 그룹별 표준편차 계산
+      summarize_all(list(sd)) %>%                  # 표준편차
       mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
       mutate_at(vars(-classification), function(x) round(x, 3)) %>%
       rename(profile = classification)

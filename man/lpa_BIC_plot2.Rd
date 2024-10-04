@@ -14,6 +14,7 @@ lpa_BIC_plot2(
   l_linewidth = 1,
   title = "적절한 개수의 profiles 판정 ",
   flip = TRUE,
+  legend_position = "top",
   line = FALSE
 )
 }
@@ -35,6 +36,8 @@ lpa_BIC_plot2(
 \item{title}{"적절한 개수의 profiles 판정 "}
 
 \item{flip}{TRUE}
+
+\item{legend_position}{legend_position top}
 
 \item{line}{FALSE}
 }

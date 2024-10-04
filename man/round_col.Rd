@@ -4,7 +4,7 @@
 \alias{round_col}
 \title{round_col, 한개의 열만 round처리}
 \usage{
-round_col(df, col = ncol(df), digits = 3)
+round_col(df, col = ncol(df), digits = 3, scientific = FALSE)
 }
 \arguments{
 \item{df}{df}

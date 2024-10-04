@@ -17,7 +17,8 @@ lpa_profile_plot(
   ncol = 2,
   fct_reorder = NULL,
   show.legend = FALSE,
-  legend.text.size = 16
+  legend.text.size = 16,
+  seed = 123
 )
 }
 \arguments{

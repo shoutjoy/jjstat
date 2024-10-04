@@ -4,7 +4,13 @@
 \alias{lpa_create_profiles2}
 \title{lpa_create_profiles2}
 \usage{
-lpa_create_profiles2(df, n_profiles = 4, model_name = NULL, type = "mean")
+lpa_create_profiles2(
+  df,
+  n_profiles = 4,
+  model_name = NULL,
+  type = "mean",
+  seed = 123
+)
 }
 \arguments{
 \item{df}{data}
