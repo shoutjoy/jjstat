@@ -21,7 +21,8 @@
 #'
 lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
                          legend_position = "top",
-                         covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,
+                         covar_model = c("EII", "EEE", "VII",
+                                         "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,
                          xintercept = 4, size.text = 4,
                          flip = TRUE,  # flip option added
                          basic = TRUE) {  # basic option added
@@ -123,16 +124,12 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
 #'
 #' @param data data
 #' @param n_profiles_range 1:9
-#' @param modelNames NULL
-#' @param v 0
-#' @param point_size 1.5
-#' @param v_linewidth  0.6, #profile cut
-#' @param l_linewidth 1, #line width
-#' @param title "적절한 개수의 profiles 판정 "
-#' @param flip TRUE
-#' @param legend_position legend_position top
-#' @param line FALSE
-#'
+#' @param legend_position top
+#' @param covar_model "EEI", "EEE", "VVI", "VVV", "EEV", "EII", "VII",VVV
+#' @param xintercept model 4
+#' @param size.text size.text 4
+#' @param flip y value <0 default
+#' @param basic basic is "EII", "EEE", "VII", "EEI"
 #' @return plot
 #' @export
 #'
@@ -143,86 +140,77 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
 #' select(iris, -Species)%>%lpa_BIC_plot2()
 #' }
 #'
-lpa_BIC_plot2 <- function(data,
-                          n_profiles_range = 1:9, #범위
-                          modelNames=NULL,  #모델선정
-                          v= 0, #모델개수한정라인
-                          point_size=1.5, #데이터구분점
-                          v_linewidth=0.6, #profile cut
-                          l_linewidth=1, #line width
-                          title="적절한 개수의 profiles 판정 ",
-                          flip=TRUE,
-                          legend_position = "top",
-                          line=FALSE
-){
+lpa_BIC_plot2 <-  function(data, n_profiles_range = 1:6, type="all",
+                           legend_position = "top",
+                           covar_model = c("EII", "EEE", "VII",
+                                           "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,                            xintercept = 4, size.text = 4,
+                           flip = FALSE,  # flip option added
+                           basic = TRUE) {  # basic option added
   library(forcats)
+  library(dplyr)
 
-  #long data trnasformation
-  if(flip== TRUE){
-    to_plot <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range,
-                                    modelNames = modelNames)%>%
-      tidyr::pivot_longer(names_to = "Covariance_matrix_str",
-                          values_to =  "val", cols = - n_profiles) %>%
-      dplyr::mutate("Covariance.matrix.str" = as.factor(Covariance_matrix_str),
-                    "val" = val) %>% select(1,4, 3) %>% as.data.frame()
-
-  }else if(flip==FALSE){
-    to_plot <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range,
-                                    modelNames = modelNames)%>%
-      tidyr::pivot_longer(names_to = "Covariance_matrix_str",
-                          values_to =  "val", cols = - n_profiles) %>%
-      dplyr::mutate("Covariance.matrix.str" = as.factor(Covariance_matrix_str),
-                    "val" = abs(val)) %>% select(1,4, 3) %>% as.data.frame()
-
-  }else if(filp=="none"){
-    stop("end revise ")
+  # 기본 covar_model 값 설정 (basic이 TRUE이면 Mplus 전용 모델 제외)
+  if (basic) {
+    covar_model <- c("EII", "EEE", "VII", "EEI")
   }
 
-  #plotting
+  # 데이터를 long 형식으로 변환
+  to_plot_wide <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range,
+                                       set_n_profile=set_n_profile)
 
-  if(line==TRUE){
-    gg <-ggplot(to_plot, aes(x = n_profiles, y = val
+  # 데이터 내 실제 존재하는 covariance 모델만 필터링
+  existing_models <- colnames(to_plot_wide)[-1]  # 첫 번째 열은 'n_profiles'이므로 제외
+  covar_model <- intersect(covar_model, existing_models)  # 실제 데이터에 존재하는 모델만 선택
 
-    )) +
-      geom_line(aes(group = Covariance.matrix.str,
-                    color = Covariance.matrix.str,
-                    linetype= Covariance.matrix.str),linewidth = l_linewidth) +
-      geom_point(aes(group = Covariance.matrix.str), size=point_size) +# 데이터사이즈
-      ylab("BIC (smaller value is better)") +
-      xlab("Number of Components(profiles) ")+
+  to_plot <- to_plot_wide %>%
+    gather(`Covariance matrix structure`, val, -n_profiles) %>%
+    filter(`Covariance matrix structure` %in% covar_model) %>%
+    mutate(`Covariance matrix structure` = as.factor(`Covariance matrix structure`),
+           val = abs(as.numeric(val)))  # val을 숫자로 변환 후 절댓값 적용
 
-      guides( linewidth="none", alpha="none")+
-      geom_vline(xintercept = v, colour="red",
-                 linetype = "longdash", linewidth=v_linewidth, # cutline
-                 alpha=.4)+
-      labs(title=title)+
-      theme(legend.position = legend_position)  # Add legend position argument
-      theme_bw()
-
-
-  }else if(line==FALSE){
-    gg <-ggplot(to_plot, aes(x = n_profiles, y = val
-
-    )) +
-      geom_line(aes(group = Covariance.matrix.str,
-                    color = Covariance.matrix.str #,
-                    # linetype= Covariance.matrix.str
-      ),linewidth = l_linewidth) +
-      geom_point(aes(group = Covariance.matrix.str),
-                 size=point_size) +# 데이터사이즈
-      ylab("BIC (smaller value is better)") +
-      xlab("Number of Components(profiles) ")+
-      guides( linewidth="none", alpha="none")+
-      geom_vline(xintercept = v, colour="red",
-                 linetype = "longdash", linewidth=v_linewidth, # cutline
-                 alpha=.4)+
-      labs(title=title)+
-      theme(legend.position = legend_position)  # Add legend position argument
-      theme_bw()
+  # 기본 covar_model 값 설정 (basic이 TRUE인 경우)
+  if (basic) {
+    to_plot$`Covariance matrix structure` <- fct_relevel(
+      to_plot$`Covariance matrix structure`,
+      "EII", "EEE", "VII", "EEI"
+    )
+  } else {
+    to_plot$`Covariance matrix structure` <- fct_relevel(
+      to_plot$`Covariance matrix structure`,
+      "EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"
+    )
   }
 
-  res= list(to_plot, gg)
-  res
+  # flip이 TRUE이면 y값을 반전
+  if (flip) {
+    to_plot$val <- -to_plot$val  # y값을 반전
+  }
+
+  # 플롯 생성
+  gg <- ggplot(to_plot, aes(x = n_profiles, y = val,
+                            color = `Covariance matrix structure`,
+                            group = `Covariance matrix structure`)) +
+    geom_line(linewidth = 1) +
+    geom_point(size = 2, color = "black") +
+    ggrepel::geom_text_repel(aes(label =
+                                   paste0(`Covariance matrix structure`,":",round(val, 2))),
+                             vjust = -0.9, hjust=0.5, size = size.text, min.segment.length = 0.8) +
+    ylab(ifelse(flip, "Flipped BIC (larger value is better)", "BIC (smaller value is better)")) +
+    guides(linewidth = "none", alpha = "none") +
+    geom_vline(xintercept = xintercept, linetype = "dashed", color = "tomato") +
+    theme_bw() +
+    theme(legend.position = legend_position)
+
+  # 결과 반환
+  # to_plot= to_plot%>%rename(Gaussian_Mixture_Model=`Covariance matrix structure`)
+
+  res <- list(data = to_plot_wide, graph = gg,  to_plot)
+
+  switch( type, res = res, all = res,
+          data = to_plot_wide, long_data= to_long ,
+          wide_data =to_plot_wide,
+          graph= gg, gg =gg  )
+
 }
 
 

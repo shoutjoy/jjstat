@@ -6,16 +6,15 @@
 \usage{
 lpa_BIC_plot2(
   data,
-  n_profiles_range = 1:9,
-  modelNames = NULL,
-  v = 0,
-  point_size = 1.5,
-  v_linewidth = 0.6,
-  l_linewidth = 1,
-  title = "적절한 개수의 profiles 판정 ",
-  flip = TRUE,
+  n_profiles_range = 1:6,
+  type = "all",
   legend_position = "top",
-  line = FALSE
+  covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),
+  set_n_profile = NULL,
+  xintercept = 4,
+  size.text = 4,
+  flip = FALSE,
+  basic = TRUE
 )
 }
 \arguments{
@@ -23,23 +22,17 @@ lpa_BIC_plot2(
 
 \item{n_profiles_range}{1:9}
 
-\item{modelNames}{NULL}
+\item{legend_position}{top}
 
-\item{v}{0}
+\item{covar_model}{"EEI", "EEE", "VVI", "VVV", "EEV", "EII", "VII",VVV}
 
-\item{point_size}{1.5}
+\item{xintercept}{model 4}
 
-\item{v_linewidth}{0.6, #profile cut}
+\item{size.text}{size.text 4}
 
-\item{l_linewidth}{1, #line width}
+\item{flip}{y value <0 default}
 
-\item{title}{"적절한 개수의 profiles 판정 "}
-
-\item{flip}{TRUE}
-
-\item{legend_position}{legend_position top}
-
-\item{line}{FALSE}
+\item{basic}{basic is "EII", "EEE", "VII", "EEI"}
 }
 \value{
 plot

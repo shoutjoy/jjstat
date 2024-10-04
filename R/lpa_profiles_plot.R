@@ -140,7 +140,12 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       mutate(factor = factor(factor, levels = fct_reorder))
   }
 
+  # 프로파일의 빈도수 계산
+  class_assignments <- raw_data$classification
+  Class_freq <- table(class_assignments)
+
   if (gtype == "normal") {
+    #표준화
     # 막대그래프 끝에 각 프로파일마다 다른 모양의 포인트 추가 및 표준편차 그리기
     gg <- plot_data %>%
       ggplot(aes(x = profile, y = val, fill = key, group = key)) +
@@ -153,7 +158,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
                  show.legend = FALSE) +  # 막대 끝에 포인트 추가
       scale_x_discrete(labels = profile_labels) +  # x축 레이블 변경
       ylab("Z-score") +
-      xlab("Profile Types") +
+      xlab("(b) 표준화 자료(scale)") +
       scale_fill_discrete("") +
       scale_shape_manual(values = c(16, 17, 18, 19, 15, 20)) +  # shape를 다르게 설정
       labs(title = "LPA모형추정 잠재Profile 평균의 표준화 점수") +
@@ -161,7 +166,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
             axis.title = element_text(size = size.x),
             legend.text = element_text(size = legend.text.size))
-
+    #비표준화
     gg2 <- raw_mean_data %>%
       pivot_longer(
         cols = -factor,
@@ -175,7 +180,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
                  show.legend = FALSE) +  # 막대 끝에 포인트 추가
       scale_x_discrete(labels = profile_labels) +  # x축 레이블 변경
       ylab("Raw-score") +
-      xlab("Profile Types") +
+      xlab("(a) 원데이터(Raw)") +
       scale_fill_discrete("") +
       scale_shape_manual(values = c(16, 17, 18, 19, 15, 20)) +  # shape를 다르게 설정
       labs(title = "LPA모형추정 잠재Profile 평균의 원점수") +
@@ -197,7 +202,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       geom_line(aes(group = profile, linetype = profile), size = 1) +  # profile에 따른 라인 추가
       geom_point(aes(group = profile, shape = profile), color = "black", size = 2, show.legend = FALSE) +  # profile에 따른 포인트 추가
       ylab("Z-score") +
-      xlab("(b)") +
+      xlab("(b) Normalized data") +
       scale_fill_discrete("") +
       labs(title = "LPA모형추정 잠재Profile 평균의 표준화 점수") +
       theme_bw() +
@@ -215,7 +220,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       geom_line(aes(group = profile, linetype = profile), size = 1) +  # profile에 따른 라인 추가
       geom_point(aes(group = profile, shape = profile), color = "black", size = 2, show.legend = FALSE) +  # profile에 따른 포인트 추가
       ylab("Raw-score") +
-      xlab("(a)") +
+      xlab("(a) Raw data") +
       scale_fill_discrete("") +
       labs(title = "LPA모형추정 잠재Profile 평균의 원점수") +
       theme_bw() +
@@ -236,7 +241,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       geom_point(aes(group = key, shape = key), color = "black", size = size.p , show.legend = FALSE) +  # key에 따른 포인트 추가
       facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +  # 프로파일별로 그래프 분리 및 레이블 변경
       ylab("Z-score") +
-      xlab("Factors") +
+      xlab("(a) propile Decomposition") +
       scale_fill_discrete("") +
       labs(title = "LPA모형추정 잠재Profile 평균의 표준화 점수") +
       geom_hline(yintercept = 0, linetype = "dashed") +
@@ -244,7 +249,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
             axis.title = element_text(size = size.x),
             strip.text = element_text(size = size.x, face = "bold"))
-
+    #분리된 도표
     gg2 <- raw_mean_data %>%
       pivot_longer(cols = -factor, names_to = "profile", values_to = "val") %>%
       ggplot(aes(x = factor, y = val, group = profile)) +
@@ -253,7 +258,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       geom_point(aes(group = factor, shape = factor), color = "black", size = size.p, show.legend = FALSE) +  # factor에 따른 포인트 추가
       facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +  # 프로파일별로 그래프 분리 및 레이블 변경
       ylab("Raw-score") +
-      xlab("Factors") +
+      xlab("(b)Profile Overlap") +
       scale_fill_discrete("") +
       labs(title = "LPA모형추정 잠재Profile 평균의 원점수") +
       theme_bw() +
@@ -269,14 +274,16 @@ lpa_profile_plot <- function(data, n_profiles = 3,
   if (view == "pair") {
     res <- list(std = mean_data, est = raw_mean_data,
                 graph = ggg,
-                plot_data = data.frame(mean_data))
+                plot_data = data.frame(mean_data),
+                Class_freq = Class_freq)  # Class 빈도수 포함
   } else if (view == "each") {
     x11()
     print(gg2)
     x11()
     print(gg)
     res <- list(std = mean_data, est = raw_mean_data,
-                plot_data = mean_data)
+                plot_data = mean_data,
+                Class_freq = Class_freq)  # Class 빈도수 포함
   }
   res
 }
