@@ -33,7 +33,9 @@ Rsave <- function(df, file = "") {
 
   # 메시지 출력
   cat("Data saved to:", file_path, "\n")
-  cat("To load this data, use: load(file=\"", file_path, "\")\n", sep="")
+  cat("To load this data, Use: Rload(file=\"", file_path, "\")\n", sep="","\n",
+      "Use: load(file=\"", file_path, "\")\n", sep=""
+      )
 }
 
 # Rsave <- function(df, file = "") {

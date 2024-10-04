@@ -81,7 +81,7 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
     theme(legend.position = legend_position)
 
   # 결과 반환
-  to_plot= to_plot%>%rename(Gaussian_Mixture_Model=`Covariance matrix structure`)
+  # to_plot= to_plot%>%rename(Gaussian_Mixture_Model=`Covariance matrix structure`)
 
   res <- list(data = to_plot_wide, graph = gg,  to_plot)
   return(res)
