@@ -13,6 +13,7 @@
 #' @param fct_reorder NULL Changes the order as you type
 #' @param show.legend line legend show
 #' @param legend.text.size legend.text.size =16
+#' @param legend_position llegend_position default "top"
 #'
 #' @return plot
 #' @export
@@ -86,6 +87,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
                              fct_reorder = NULL,  # fct_reorder 추가
                              show.legend = FALSE,
                              legend.text.size = 16,
+                             legend_position="top",
                              seed = 123) {  # set.seed 추가
   library(tidyverse, warn.conflicts = FALSE)
   library(mclust)
@@ -165,7 +167,8 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       theme_bw() +
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
             axis.title = element_text(size = size.x),
-            legend.text = element_text(size = legend.text.size))
+            legend.text = element_text(size = legend.text.size),
+            legend.position = legend_position)
     #비표준화
     gg2 <- raw_mean_data %>%
       pivot_longer(
@@ -187,7 +190,8 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       theme_bw() +
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
             axis.title = element_text(size = size.x),
-            legend.text = element_text(size = legend.text.size))
+            legend.text = element_text(size = legend.text.size),
+            legend.position = legend_position)
 
     ggg <- gridExtra::grid.arrange(gg2, gg, ncol = 2)
 
@@ -207,7 +211,8 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       labs(title = "LPA모형추정 잠재Profile 평균의 표준화 점수") +
       theme_bw() +
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
-            axis.title = element_text(size = size.x))
+            axis.title = element_text(size = size.x),
+            legend_position=legend_position)
 
     gg2 <- raw_mean_data %>%
       pivot_longer(
@@ -225,7 +230,8 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       labs(title = "LPA모형추정 잠재Profile 평균의 원점수") +
       theme_bw() +
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
-            axis.title = element_text(size = size.x))
+            axis.title = element_text(size = size.x),
+            legend_position=legend_position)
 
     ggg <- gridExtra::grid.arrange(gg2, gg, ncol = 2)
 

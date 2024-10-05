@@ -18,6 +18,7 @@ lpa_profile_plot(
   fct_reorder = NULL,
   show.legend = FALSE,
   legend.text.size = 16,
+  legend_position = "top",
   seed = 123
 )
 }
@@ -47,6 +48,8 @@ lpa_profile_plot(
 \item{show.legend}{line legend show}
 
 \item{legend.text.size}{legend.text.size =16}
+
+\item{legend_position}{llegend_position default "top"}
 }
 \value{
 plot
