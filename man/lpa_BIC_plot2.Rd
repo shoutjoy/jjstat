@@ -10,10 +10,10 @@ lpa_BIC_plot2(
   type = "all",
   legend_position = "top",
   covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),
-  set_n_profile = NULL,
-  xintercept = 4,
+  set_n_profile = 4,
   size.text = 4,
   flip = FALSE,
+  na2zero = FALSE,
   basic = TRUE
 )
 }
@@ -22,20 +22,24 @@ lpa_BIC_plot2(
 
 \item{n_profiles_range}{1:9}
 
+\item{type}{"all", res, data, long_data, wide_data, graph, gg}
+
 \item{legend_position}{top}
 
 \item{covar_model}{"EEI", "EEE", "VVI", "VVV", "EEV", "EII", "VII",VVV}
 
-\item{xintercept}{model 4}
+\item{set_n_profile}{model 4 default}
 
 \item{size.text}{size.text 4}
 
 \item{flip}{y value <0 default}
 
+\item{na2zero}{na2zero=FALSE na to 0 change}
+
 \item{basic}{basic is "EII", "EEE", "VII", "EEI"}
 }
 \value{
-plot
+pot
 }
 \description{
 lpa_BIC_plot2
@@ -44,7 +48,7 @@ lpa_BIC_plot2
 
 \dontrun{
 
-select(iris, -Species)\%>\%lpa_BIC_plot2()
+select(iris, -Species)\%>\%lpa_BIC_plot()
 }
 
 }

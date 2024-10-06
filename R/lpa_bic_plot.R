@@ -2,11 +2,13 @@
 #'
 #' @param data data
 #' @param n_profiles_range 1:9
+#' @param type  "all", res, data, long_data, wide_data, graph, gg
 #' @param legend_position top
 #' @param covar_model "EEI", "EEE", "VVI", "VVV", "EEV", "EII", "VII",VVV
-#' @param xintercept model 4
+#' @param set_n_profile model 4 default
 #' @param size.text size.text 4
 #' @param flip y value <0 default
+#' @param na2zero na2zero=FALSE na to 0 change
 #' @param basic basic is "EII", "EEE", "VII", "EEI"
 #'
 #' @return pot
@@ -21,9 +23,11 @@
 #'
 lpa_BIC_plot <- function(data, n_profiles_range = 1:6, type="all",
                          legend_position = "top",
-                         covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,
-                         xintercept = 4, size.text = 4,
+                         covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),
+                         set_n_profile= 4,
+                         size.text = 4,
                          flip = TRUE,  # flip option added
+                         na2zero=FALSE,
                          basic = TRUE) {  # basic option added
   library(forcats)
   library(dplyr)
@@ -35,7 +39,7 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6, type="all",
 
   # 데이터를 long 형식으로 변환
   to_plot_wide <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range,
-                                       set_n_profile=set_n_profile)
+                                       set_n_profile=set_n_profile, na2zero =na2zero)
 
   # 데이터 내 실제 존재하는 covariance 모델만 필터링
   existing_models <- colnames(to_plot_wide)[-1]  # 첫 번째 열은 'n_profiles'이므로 제외
@@ -76,7 +80,7 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6, type="all",
                              vjust = -0.9, hjust=0.5, size = size.text, min.segment.length = 0.8) +
     ylab(ifelse(flip, "Flipped BIC (larger value is better)", "BIC (smaller value is better)")) +
     guides(linewidth = "none", alpha = "none") +
-    geom_vline(xintercept = xintercept, linetype = "dashed", color = "tomato") +
+    geom_vline(xintercept = set_n_profile, linetype = "dashed", color = "tomato") +
     theme_bw() +
     theme(legend.position = legend_position)
 
@@ -86,7 +90,8 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6, type="all",
   res <- list(data = to_plot_wide, graph = gg,  to_plot)
 
   switch( type, res = res, all = res,
-          data = to_plot_wide, long_data= to_long ,
+          data = to_plot_wide,
+          long_data= to_long ,
           wide_data =to_plot_wide,
           graph= gg, gg =gg  )
 
@@ -128,28 +133,33 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6, type="all",
 #'
 #' @param data data
 #' @param n_profiles_range 1:9
+#' @param type  "all", res, data, long_data, wide_data, graph, gg
 #' @param legend_position top
 #' @param covar_model "EEI", "EEE", "VVI", "VVV", "EEV", "EII", "VII",VVV
-#' @param xintercept model 4
+#' @param set_n_profile model 4 default
 #' @param size.text size.text 4
 #' @param flip y value <0 default
+#' @param na2zero na2zero=FALSE na to 0 change
 #' @param basic basic is "EII", "EEE", "VII", "EEI"
-#' @return plot
+#'
+#' @return pot
 #' @export
 #'
 #' @examples
 #'
 #' \dontrun{
 #'
-#' select(iris, -Species)%>%lpa_BIC_plot2()
+#' select(iris, -Species)%>%lpa_BIC_plot()
 #' }
 #'
 lpa_BIC_plot2 <- function(data, n_profiles_range = 1:6, type="all",
-                          legend_position = "top",
-                          covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,
-                          xintercept = 4, size.text = 4,
-                          flip = FALSE,  # flip option added
-                          basic = TRUE) {  # basic option added
+                         legend_position = "top",
+                         covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),
+                         set_n_profile= 4,
+                         size.text = 4,
+                         flip = FALSE,  # flip option added
+                         na2zero=FALSE,
+                         basic = TRUE) {  # basic option added
   library(forcats)
   library(dplyr)
 
@@ -160,7 +170,7 @@ lpa_BIC_plot2 <- function(data, n_profiles_range = 1:6, type="all",
 
   # 데이터를 long 형식으로 변환
   to_plot_wide <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range,
-                                       set_n_profile=set_n_profile)
+                                       set_n_profile=set_n_profile, na2zero =na2zero)
 
   # 데이터 내 실제 존재하는 covariance 모델만 필터링
   existing_models <- colnames(to_plot_wide)[-1]  # 첫 번째 열은 'n_profiles'이므로 제외
@@ -201,7 +211,7 @@ lpa_BIC_plot2 <- function(data, n_profiles_range = 1:6, type="all",
                              vjust = -0.9, hjust=0.5, size = size.text, min.segment.length = 0.8) +
     ylab(ifelse(flip, "Flipped BIC (larger value is better)", "BIC (smaller value is better)")) +
     guides(linewidth = "none", alpha = "none") +
-    geom_vline(xintercept = xintercept, linetype = "dashed", color = "tomato") +
+    geom_vline(xintercept = set_n_profile, linetype = "dashed", color = "tomato") +
     theme_bw() +
     theme(legend.position = legend_position)
 
@@ -211,7 +221,8 @@ lpa_BIC_plot2 <- function(data, n_profiles_range = 1:6, type="all",
   res <- list(data = to_plot_wide, graph = gg,  to_plot)
 
   switch( type, res = res, all = res,
-          data = to_plot_wide, long_data= to_long ,
+          data = to_plot_wide,
+          long_data= to_long ,
           wide_data =to_plot_wide,
           graph= gg, gg =gg  )
 

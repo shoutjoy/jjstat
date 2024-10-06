@@ -10,7 +10,8 @@ lpa_explore_modelfit(
   modelNames = c("EEV", "EEI", "EEE", "EII", "VVI", "VII", "VVV"),
   chk = FALSE,
   basic = FALSE,
-  set_n_profile = NULL
+  set_n_profile = NULL,
+  na2zero = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ lpa_explore_modelfit(
 \item{basic}{select EII, EEE, VII, EEI}
 
 \item{set_n_profile}{default select row number then result show}
+
+\item{na2zero}{na2zero is NA data to 0}
 }
 \value{
 data
