@@ -19,10 +19,9 @@
 #' select(iris, -Species)%>%lpa_BIC_plot()
 #' }
 #'
-lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
+lpa_BIC_plot <- function(data, n_profiles_range = 1:6, type="all",
                          legend_position = "top",
-                         covar_model = c("EII", "EEE", "VII",
-                                         "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,
+                         covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,
                          xintercept = 4, size.text = 4,
                          flip = TRUE,  # flip option added
                          basic = TRUE) {  # basic option added
@@ -85,7 +84,12 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
   # to_plot= to_plot%>%rename(Gaussian_Mixture_Model=`Covariance matrix structure`)
 
   res <- list(data = to_plot_wide, graph = gg,  to_plot)
-  return(res)
+
+  switch( type, res = res, all = res,
+          data = to_plot_wide, long_data= to_long ,
+          wide_data =to_plot_wide,
+          graph= gg, gg =gg  )
+
 }
 
 # lpa_BIC_plot <- function(data, n_profiles_range = 1:9){
@@ -140,12 +144,12 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6,
 #' select(iris, -Species)%>%lpa_BIC_plot2()
 #' }
 #'
-lpa_BIC_plot2 <-  function(data, n_profiles_range = 1:6, type="all",
-                           legend_position = "top",
-                           covar_model = c("EII", "EEE", "VII",
-                                           "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,                            xintercept = 4, size.text = 4,
-                           flip = FALSE,  # flip option added
-                           basic = TRUE) {  # basic option added
+lpa_BIC_plot2 <- function(data, n_profiles_range = 1:6, type="all",
+                          legend_position = "top",
+                          covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),set_n_profile=NULL,
+                          xintercept = 4, size.text = 4,
+                          flip = FALSE,  # flip option added
+                          basic = TRUE) {  # basic option added
   library(forcats)
   library(dplyr)
 

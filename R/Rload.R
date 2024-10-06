@@ -33,8 +33,18 @@ Rload <- function(file, verbose = TRUE) {
     if (!exists(object_name, envir = .GlobalEnv)) {
       assign(object_name, get(obj, envir = .GlobalEnv), envir = .GlobalEnv)
       if (verbose) {
-        message("Loading object: ", object_name)
+        message("Loading object: str(", object_name, ")")
       }
     }
+  }
+
+  # 로드된 객체 구조를 message로 출력
+  if (exists(object_name, envir = .GlobalEnv)) {
+    message("Structure of the loaded object below to")
+    cat("\n")
+    message(paste0("str(",object_name,")"))
+    cat("\n")
+    object_str <- capture.output(str(get(object_name, envir = .GlobalEnv)))
+    message(paste(object_str, collapse = "\n"))
   }
 }

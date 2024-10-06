@@ -7,6 +7,7 @@
 lpa_BIC_plot(
   data,
   n_profiles_range = 1:6,
+  type = "all",
   legend_position = "top",
   covar_model = c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV"),
   set_n_profile = NULL,

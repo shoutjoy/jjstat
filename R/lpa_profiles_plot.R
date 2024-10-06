@@ -204,7 +204,8 @@ lpa_profile_plot <- function(data, n_profiles = 3,
                     position = position_dodge(width = 0.9),
                     width = 0.25) +  # 표준편차 막대 추가
       geom_line(aes(group = profile, linetype = profile), size = 1) +  # profile에 따른 라인 추가
-      geom_point(aes(group = profile, shape = profile), color = "black", size = 2, show.legend = FALSE) +  # profile에 따른 포인트 추가
+      geom_point(aes(group = profile, shape = profile),
+                 color = "black", size = 3, show.legend = FALSE) +  # profile에 따른 포인트 추가
       ylab("Z-score") +
       xlab("(b) Normalized data") +
       scale_fill_discrete("") +
@@ -223,7 +224,8 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       ggplot(aes(x = factor, y = val, fill = profile, group = profile)) +
       geom_col(position = "dodge", alpha = alpha) +  # 비표준화 그래프
       geom_line(aes(group = profile, linetype = profile), size = 1) +  # profile에 따른 라인 추가
-      geom_point(aes(group = profile, shape = profile), color = "black", size = 2, show.legend = FALSE) +  # profile에 따른 포인트 추가
+      geom_point(aes(group = profile, shape = profile), color = "black",
+                 size = 3, show.legend = FALSE) +  # profile에 따른 포인트 추가
       ylab("Raw-score") +
       xlab("(a) Raw data") +
       scale_fill_discrete("") +
