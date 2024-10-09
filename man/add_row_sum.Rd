@@ -4,10 +4,14 @@
 \alias{add_row_sum}
 \title{add_row_sum, row sum}
 \usage{
-add_row_sum(df)
+add_row_sum(df, freq_col = "Freq", prop_col = "prop(\%)")
 }
 \arguments{
 \item{df}{df}
+
+\item{freq_col}{"Freq" or number}
+
+\item{prop_col}{"prop(%)" or number}
 }
 \value{
 df

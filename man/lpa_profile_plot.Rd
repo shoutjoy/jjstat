@@ -9,7 +9,7 @@ lpa_profile_plot(
   n_profiles = 3,
   model_name = "EEE",
   view = "pair",
-  alpha = 0.7,
+  alpha = 0.3,
   gtype = "normal",
   angle = 90,
   size.x = 13,
@@ -19,6 +19,8 @@ lpa_profile_plot(
   show.legend = FALSE,
   legend.text.size = 16,
   legend_position = "top",
+  linewidth = 1,
+  title_size = 18,
   seed = 123
 )
 }

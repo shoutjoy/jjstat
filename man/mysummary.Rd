@@ -4,7 +4,7 @@
 \alias{mysummary}
 \title{my summary descriptive statistics}
 \usage{
-mysummary(myobject, ..., digits = 5, msdn = FALSE)
+mysummary(myobject, ..., digits = 5, msdn = FALSE, na.rm = FALSE)
 }
 \arguments{
 \item{myobject}{data.frame, matrix}
@@ -14,6 +14,8 @@ mysummary(myobject, ..., digits = 5, msdn = FALSE)
 \item{digits}{round default 3}
 
 \item{msdn}{TRUE only output var, N, mean. sd}
+
+\item{na.rm}{FALSE, TRUE is remove NA}
 }
 \value{
 size   MEAN    SD  MIN  MAX

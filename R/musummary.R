@@ -5,6 +5,7 @@
 #' @param ... column variable
 #' @param digits round default 3
 #' @param msdn TRUE only output var, N, mean. sd
+#' @param na.rm FALSE, TRUE is remove NA
 #'
 #'
 #' @return size   MEAN    SD  MIN  MAX
@@ -28,89 +29,58 @@
 #' mysummary(mtcars, all=FALSE)
 #'
 #' }
-mysummary <- function(myobject, ... , digits= 5, msdn=FALSE){
+mysummary <- function(myobject, ... , digits=5, msdn=FALSE, na.rm=FALSE){
   #  Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr
   # 1.1.0.
   # ℹ Please use `reframe()` instead.
   # ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()` always
   #   returns an ungrouped data frame and adjust accordingly.
 
-  #Extracting and cleaning only the numeirc variable from the data
+  # Extracting and cleaning only the numeric variable from the data
   myvars <- c(...)
 
-  if(!is.null(myvars)){
+  if(na.rm){
+    # Removing rows with NA values if na.rm is TRUE
+    myobject <- myobject %>% na.omit()
+  }
 
+  if(!is.null(myvars)){
     myvars <- c(...)
     myresult <- dplyr::reframe(myobject,
                                var = myvars,
                                N = sapply(myobject[myvars], length),
-                               MEAN = sapply(myobject[myvars], mean),
-                               SD = sapply(myobject[myvars], sd),
-                               MIN = sapply(myobject[myvars], min),
-                               MAX = sapply(myobject[myvars], max),
+                               MEAN = sapply(myobject[myvars], mean, na.rm = TRUE),
+                               SD = sapply(myobject[myvars], sd, na.rm = TRUE),
+                               MIN = sapply(myobject[myvars], min, na.rm = TRUE),
+                               MAX = sapply(myobject[myvars], max, na.rm = TRUE),
                                Skew = sapply(myobject[myvars], SKEW),
                                Kurt = sapply(myobject[myvars], KURT))
-  }else{
-
+  } else {
     myobject <- myobject %>% purrr::keep(is.numeric)
     myvars <- colnames(myobject)
 
-
-    myresult <- dplyr::reframe(myobject %>% purrr::keep(is.numeric) ,
+    myresult <- dplyr::reframe(myobject %>% purrr::keep(is.numeric),
                                var = myvars,
                                N = sapply(myobject[myvars], length),
-                               MEAN = sapply(myobject[myvars], mean),
-                               SD = sapply(myobject[myvars], sd),
-                               MIN = sapply(myobject[myvars], min),
-                               MAX = sapply(myobject[myvars], max),
+                               MEAN = sapply(myobject[myvars], mean, na.rm = TRUE),
+                               SD = sapply(myobject[myvars], sd, na.rm = TRUE),
+                               MIN = sapply(myobject[myvars], min, na.rm = TRUE),
+                               MAX = sapply(myobject[myvars], max, na.rm = TRUE),
                                Skew = sapply(myobject[myvars], SKEW),
                                Kurt = sapply(myobject[myvars], KURT))
-
   }
-
 
   if(msdn){
-    res =   myresult %>% dplyr::select( var, N, MEAN, SD)%>%
+    res <- myresult %>% dplyr::select(var, N, MEAN, SD) %>%
       tibble::tibble()
-  }else{
-    res =   myresult %>% tibble::tibble()
+  } else {
+    res <- myresult %>% tibble::tibble()
   }
-
-
-
-
 
   options(pillar.sigfig = digits)
   return(res)
   # on.exit(options(current_options))
 }
-
-
-
-#' mydescriptive 'n','mean','sd','min','max'
-#'
-#'
-#' @param myvariable variable vector
-#' @param digits digits
-#' @export
-#' @examples
-#' \dontrun{
-#'
-#' mydescriptive(mtcars$mpg)
-#'
-#' }
-#'
-mydescriptive <- function(myvariable, digits = 3){
-  mysize <- length(myvariable)
-  mymean <- round(mean(myvariable),digits)
-  mysd <- round(sd(myvariable),digits)
-  mymin <- round(min(myvariable),digits)
-  mymax <- round(max(myvariable),digits)
-  mydes <- matrix(c(mysize, mymean, mysd, mymin, mymax), ncol=5)
-  colnames(mydes) <- c('n','mean','sd','min','max')
-  mydes
-}
-
 
 
 

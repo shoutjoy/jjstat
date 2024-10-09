@@ -31,22 +31,34 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6, type="all",
                          basic = TRUE) {  # basic option added
   library(forcats)
   library(dplyr)
+  library(tidyr)  # 최신 pivot_longer 사용을 위해 필요
 
   # 기본 covar_model 값 설정 (basic이 TRUE이면 Mplus 전용 모델 제외)
   if (basic) {
     covar_model <- c("EII", "EEE", "VII", "EEI")
   }
 
-  # 데이터를 long 형식으로 변환
+  # 데이터를 wide 형식으로 변환
   to_plot_wide <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range,
                                        set_n_profile=set_n_profile, na2zero =na2zero)
 
+  # 'n_profiles' 열이 없는 경우 'row_number()'로 생성
+  if (!"n_profiles" %in% colnames(to_plot_wide)) {
+    to_plot_wide <- to_plot_wwide %>% mutate(n_profiles = row_number())
+  }
+
+  # 숫자형 열만 선택 (문자형 열 제외)
+  numeric_cols <- to_plot_wide %>% select(where(is.numeric), n_profiles)
+
   # 데이터 내 실제 존재하는 covariance 모델만 필터링
-  existing_models <- colnames(to_plot_wide)[-1]  # 첫 번째 열은 'n_profiles'이므로 제외
+  existing_models <- colnames(numeric_cols)[-1]  # 첫 번째 열은 'n_profiles'이므로 제외
   covar_model <- intersect(covar_model, existing_models)  # 실제 데이터에 존재하는 모델만 선택
 
-  to_plot <- to_plot_wide %>%
-    gather(`Covariance matrix structure`, val, -n_profiles) %>%
+  # pivot_longer를 사용하여 long 형식으로 변환
+  to_plot <- numeric_cols %>%
+    pivot_longer(cols = -n_profiles,
+                 names_to = "Covariance matrix structure",
+                 values_to = "val") %>%
     filter(`Covariance matrix structure` %in% covar_model) %>%
     mutate(`Covariance matrix structure` = as.factor(`Covariance matrix structure`),
            val = abs(as.numeric(val)))  # val을 숫자로 변환 후 절댓값 적용
@@ -85,16 +97,15 @@ lpa_BIC_plot <- function(data, n_profiles_range = 1:6, type="all",
     theme(legend.position = legend_position)
 
   # 결과 반환
-  # to_plot= to_plot%>%rename(Gaussian_Mixture_Model=`Covariance matrix structure`)
+  res <- list(data = to_plot_wide, graph = gg, to_plot = to_plot)
 
-  res <- list(data = to_plot_wide, graph = gg,  to_plot)
-
-  switch( type, res = res, all = res,
-          data = to_plot_wide,
-          long_data= to_long ,
-          wide_data =to_plot_wide,
-          graph= gg, gg =gg  )
-
+  switch(type,
+         res = res,
+         all = res,
+         data = to_plot_wide,
+         long_data = to_plot,
+         wide_data = to_plot_wide,
+         graph = gg, gg = gg)
 }
 
 # lpa_BIC_plot <- function(data, n_profiles_range = 1:9){
@@ -162,22 +173,34 @@ lpa_BIC_plot2 <- function(data, n_profiles_range = 1:6, type="all",
                          basic = TRUE) {  # basic option added
   library(forcats)
   library(dplyr)
+  library(tidyr)  # 최신 pivot_longer 사용을 위해 필요
 
   # 기본 covar_model 값 설정 (basic이 TRUE이면 Mplus 전용 모델 제외)
   if (basic) {
     covar_model <- c("EII", "EEE", "VII", "EEI")
   }
 
-  # 데이터를 long 형식으로 변환
+  # 데이터를 wide 형식으로 변환
   to_plot_wide <- lpa_explore_modelfit(data, n_profiles_range = n_profiles_range,
                                        set_n_profile=set_n_profile, na2zero =na2zero)
 
+  # 'n_profiles' 열이 없는 경우 'row_number()'로 생성
+  if (!"n_profiles" %in% colnames(to_plot_wide)) {
+    to_plot_wide <- to_plot_wwide %>% mutate(n_profiles = row_number())
+  }
+
+  # 숫자형 열만 선택 (문자형 열 제외)
+  numeric_cols <- to_plot_wide %>% select(where(is.numeric), n_profiles)
+
   # 데이터 내 실제 존재하는 covariance 모델만 필터링
-  existing_models <- colnames(to_plot_wide)[-1]  # 첫 번째 열은 'n_profiles'이므로 제외
+  existing_models <- colnames(numeric_cols)[-1]  # 첫 번째 열은 'n_profiles'이므로 제외
   covar_model <- intersect(covar_model, existing_models)  # 실제 데이터에 존재하는 모델만 선택
 
-  to_plot <- to_plot_wide %>%
-    gather(`Covariance matrix structure`, val, -n_profiles) %>%
+  # pivot_longer를 사용하여 long 형식으로 변환
+  to_plot <- numeric_cols %>%
+    pivot_longer(cols = -n_profiles,
+                 names_to = "Covariance matrix structure",
+                 values_to = "val") %>%
     filter(`Covariance matrix structure` %in% covar_model) %>%
     mutate(`Covariance matrix structure` = as.factor(`Covariance matrix structure`),
            val = abs(as.numeric(val)))  # val을 숫자로 변환 후 절댓값 적용
@@ -216,16 +239,15 @@ lpa_BIC_plot2 <- function(data, n_profiles_range = 1:6, type="all",
     theme(legend.position = legend_position)
 
   # 결과 반환
-  # to_plot= to_plot%>%rename(Gaussian_Mixture_Model=`Covariance matrix structure`)
+  res <- list(data = to_plot_wide, graph = gg, to_plot = to_plot)
 
-  res <- list(data = to_plot_wide, graph = gg,  to_plot)
-
-  switch( type, res = res, all = res,
-          data = to_plot_wide,
-          long_data= to_long ,
-          wide_data =to_plot_wide,
-          graph= gg, gg =gg  )
-
+  switch(type,
+         res = res,
+         all = res,
+         data = to_plot_wide,
+         long_data = to_plot,
+         wide_data = to_plot_wide,
+         graph = gg, gg = gg)
 }
 
 

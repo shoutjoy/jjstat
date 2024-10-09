@@ -11,7 +11,9 @@ auto_coding(
   custom = NULL,
   rev = FALSE,
   data.fram = FALSE,
-  start_number = 1
+  start_number = 1,
+  default = c("전혀 그렇지 않다", "그렇지 않다", "보통이다", "그렇다",
+    "매우 그렇다")
 )
 }
 \arguments{
@@ -22,6 +24,8 @@ auto_coding(
 \item{range}{data col range#'}
 
 \item{start_number}{start_number = 1}
+
+\item{defaultc("전혀}{그렇지 않다", "그렇지 않다","보통이다", "그렇다", "매우 그렇다")}
 }
 \value{
 transforamtion data

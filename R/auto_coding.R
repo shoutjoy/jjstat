@@ -4,6 +4,7 @@
 #' @param ...  coding levels
 #' @param range data col range#'
 #' @param start_number start_number = 1
+#' @param defaultc("전혀 그렇지 않다", "그렇지 않다","보통이다", "그렇다", "매우 그렇다")
 #' @return transforamtion data
 #' @export
 #'
@@ -103,7 +104,9 @@
 #' # jutr1 %>% auto_coding( range="L01:L05", custom=c("아니다.","그렇다."),start_number=0)%>% head(30)
 #' }
 auto_coding <- function(data, ..., range = 1:ncol(data),
-                        custom=NULL, rev=FALSE, data.fram= FALSE, start_number=1) {
+                        custom=NULL, rev=FALSE, data.fram= FALSE, start_number=1,
+                        default =c("전혀 그렇지 않다", "그렇지 않다",
+                                   "보통이다", "그렇다", "매우 그렇다")) {
 
   # First checks if it's a dataframe
   if(is.data.frame(data)){
