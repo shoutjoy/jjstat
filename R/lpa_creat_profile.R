@@ -104,6 +104,7 @@ lpa_create_profiles<- function(df,
 #' #'
 #' }
 #'
+
 lpa_create_profiles2 <- function(df, n_profiles = 4, model_name = NULL, type = "mean", seed = 123) {
   library(tidyverse, warn.conflicts = FALSE)
   library(mclust)
@@ -122,29 +123,32 @@ lpa_create_profiles2 <- function(df, n_profiles = 4, model_name = NULL, type = "
   dff <- bind_cols(df, classification = x$classification)
 
   # 평균을 계산할 때
-  if (type == "mean") {
-    proc_df <- dff %>%
-      mutate_at(vars(-classification), scale) %>%  # 표준화
-      group_by(classification) %>%                 # 그룹별 평균 계산
-      summarize_all(list(mean)) %>%                # 평균값
-      mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
-      mutate_at(vars(-classification), function(x) round(x, 3)) %>%
-      rename(profile = classification)
 
-    return(proc_df)
-  }
+  proc_df <- dff %>%
+    mutate_at(vars(-classification), scale) %>%  # 표준화
+    group_by(classification) %>%                 # 그룹별 평균 계산
+    summarize_all(list(mean)) %>%                # 평균값
+    mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
+    mutate_at(vars(-classification), function(x) round(x, 3)) %>%
+    rename(profile = classification)
+
+
 
   # 표준편차를 계산할 때
-  if (type == "sd") {
-    proc_sd <- dff %>%
-      group_by(classification) %>%                 # 그룹별 표준편차 계산
-      summarize_all(list(sd)) %>%                  # 표준편차
-      mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
-      mutate_at(vars(-classification), function(x) round(x, 3)) %>%
-      rename(profile = classification)
 
-    return(proc_sd)
-  }
+  proc_sd <- dff %>%
+    group_by(classification) %>%                 # 그룹별 표준편차 계산
+    summarize_all(list(sd)) %>%                  # 표준편차
+    mutate(classification = paste0("Profile ", 1:n_profiles)) %>%
+    mutate_at(vars(-classification), function(x) round(x, 3)) %>%
+    rename(profile = classification)
+
+  res = list(mean = proc_df, sd= proc_sd)
+
+
+  switch(type, res= res, all= res, mean= proc_df, sd= proc_sd)
+
+
 }
 # lpa_create_profiles2 <- function(df,
 #                                  n_profiles=3,

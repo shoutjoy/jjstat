@@ -80,55 +80,52 @@
 #'
 lpa_profile_plot <- function(data, n_profiles = 3,
                              model_name = "EEE",
-                             view = "pair", alpha = 0.3,
+                             view = "pair", alpha = 0.6,
                              gtype = "normal", angle = 90,
-                             size.x = 13, size.p = 2, ncol = 2,
+                             size.x = 13, size.p = 5, ncol = 2,
                              fct_reorder = NULL,  # fct_reorder 추가
                              show.legend = FALSE,
                              legend.text.size = 16,
                              legend_position="top",
-                             linewidth=1,title_size=18,
+                             linewidth=1, title_size=18,
                              seed = 123) {  # set.seed 추가
   library(tidyverse, warn.conflicts = FALSE)
   library(mclust)
   library(hrbrthemes)
+  library(gridExtra)
 
   # set.seed 추가 (seed 값이 있으면 사용)
   if (!is.null(seed)) {
     set.seed(seed)
   }
 
-  # 프로파일 레이블 정의
-  profile_labels <- setNames(paste0("profile", 1:n_profiles), 1:n_profiles)
+  # 프로파일 레이블 정의 추가
+  profile_labels <- setNames(paste0("Profile ", 1:n_profiles), 1:n_profiles)
 
-  # 평균 데이터 생성
-  mean_data <- data %>%
-    lpa_create_profiles2(n_profiles = n_profiles, model_name = model_name, seed = seed)
+  # 잠재 프로파일 분석 수행 (평균과 표준편차 모두 사용)
+  lpa_all <- lpa_create_profiles2(df = data, n_profiles = n_profiles,
+                                  model_name = model_name, type = "res", seed = seed)
 
-  # 'profile' 열이 없을 가능성을 대비하여 새로운 열을 추가하고, profile을 문자형으로 변환
-  mean_data <- mean_data %>%
-    mutate(profile = as.character(row_number()))  # profile을 문자형으로 변환
+  mean_data <- lpa_all$mean
+  sd_data <- lpa_all$sd
 
-  # 표준편차 계산 (profile을 문자형으로 변환)
-  sd_data <- data %>%
-    lpa_create_profiles2(n_profiles = n_profiles, model_name = model_name, seed = seed) %>%
-    group_by(profile) %>%
-    summarise(across(everything(), ~ sd(.x, na.rm = TRUE))) %>%
-    pivot_longer(-profile, names_to = "key", values_to = "sd_val") %>%
-    mutate(profile = as.character(profile))  # profile을 문자형으로 변환
+  # 표준편차 데이터를 긴 형식으로 변환
+  sd_data_long <- sd_data %>%
+    pivot_longer(cols = -profile, names_to = "key", values_to = "sd_val")
 
-  # 평균 데이터를 길게 변환하고 표준편차 데이터와 병합
+  # 평균 데이터를 긴 형식으로 변환하고 표준편차 데이터와 병합
   plot_data <- mean_data %>%
-    gather(key, val, -profile) %>%
-    left_join(sd_data, by = c("profile", "key"))
+    pivot_longer(cols = -profile, names_to = "key", values_to = "val") %>%
+    left_join(sd_data_long, by = c("profile", "key"))
 
   # fct_reorder가 NULL이 아닌 경우, key 및 factor의 순서를 변경
   if (!is.null(fct_reorder)) {
     plot_data <- plot_data %>%
-      mutate(key = factor(key, levels = fct_reorder))  # key 변수의 순서 재정렬
+      mutate(key = factor(key, levels = fct_reorder))
   }
 
-  # 비표준화 데이터 미리 생성
+  # 비표준화 데이터를 위한 Mclust 결과 가져오기
+  set.seed(seed)
   raw_data <- Mclust(data, G = n_profiles, modelNames = model_name)
   raw_mean_data <- raw_data$parameters$mean %>% as_tibble()
 
@@ -146,67 +143,53 @@ lpa_profile_plot <- function(data, n_profiles = 3,
   class_assignments <- raw_data$classification
   Class_freq <- table(class_assignments)
 
+  # 그래프 생성
   if (gtype == "normal") {
-    # 표준화된 그래프
     gg <- plot_data %>%
       ggplot(aes(x = profile, y = val, fill = key, group = key)) +
       geom_col(position = "dodge", alpha = alpha + 0.1, color = NA) +  # 막대 그래프에서 border 제거
-      geom_errorbar(aes(ymin = val - sd_val, ymax = val + sd_val),  # 표준편차 추가
-                    position = position_dodge(width = 0.9),
-                    width = 0.25) +
-      geom_point(aes(shape = key), size = 2,
-                 position = position_dodge(width = 0.9),
-                 show.legend = TRUE) +  # 막대 끝에 포인트 추가
-      scale_x_discrete(labels = profile_labels) +  # x축 레이블 변경
+      geom_errorbar(aes(ymin = val - sd_val, ymax = val + sd_val),
+                    position = position_dodge(width = 0.9), width = 0.25) +
+      geom_point(aes(shape = key), size = 2, position = position_dodge(width = 0.9), show.legend = TRUE) +
+      scale_x_discrete(labels = profile_labels) +  # x축 레이블에 profile_labels 추가
       ylab("Z-score") +
       xlab("(b) 표준화 자료(scale)") +
       scale_fill_discrete("") +
-      scale_shape_manual(values = c(16, 17, 18, 19, 15, 20)) +  # shape를 다르게 설정
       labs(title = "Standardized score of the average of LPA") +
       theme_bw() +
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
             axis.title = element_text(size = size.x),
             legend.text = element_text(size = legend.text.size),
             legend.position = legend_position,
-            legend.title = element_blank())  # 중복된 범례 제거
+            legend.title = element_blank())
 
-    # 비표준화 그래프
     gg2 <- raw_mean_data %>%
-      pivot_longer(
-        cols = -factor,
-        names_to = "profile",
-        values_to = "val"
-      ) %>%
+      pivot_longer(cols = -factor, names_to = "profile", values_to = "val") %>%
       ggplot(aes(x = profile, y = val, fill = factor, group = factor)) +
-      geom_col(position = "dodge", alpha = alpha + 0.1, color = NA) +  # 비표준화 막대 그래프에서 border 제거
-      geom_point(aes(shape = factor), size = 2,
-                 position = position_dodge(width = 0.9),
-                 show.legend = TRUE) +  # 막대 끝에 포인트 추가
-      scale_x_discrete(labels = profile_labels) +  # x축 레이블 변경
+      geom_col(position = "dodge", alpha = alpha + 0.1, color = NA) +
+      geom_point(aes(shape = factor), size = 2, position = position_dodge(width = 0.9), show.legend = TRUE) +
+      scale_x_discrete(labels = profile_labels) +  # x축 레이블에 profile_labels 추가
       ylab("Raw-score") +
       xlab("(a) 원데이터(Raw)") +
-      scale_fill_discrete("") +
-      scale_shape_manual(values = c(16, 17, 18, 19, 15, 20)) +  # shape를 다르게 설정
       labs(title = "Raw score of the average of the LPA") +
       theme_bw() +
       theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
             axis.title = element_text(size = size.x),
             legend.text = element_text(size = legend.text.size),
             legend.position = legend_position,
-            legend.title = element_blank())  # 중복된 범례 제거
+            legend.title = element_blank())
 
     ggg <- gridExtra::grid.arrange(gg2, gg, ncol = 2)
 
   } else if (gtype == "trans") {
-    # 평균값과 표준편차를 그리는 그래프 (factor에 따라 라인 및 포인트 추가)
     gg <- plot_data %>%
       ggplot(aes(x = key, y = val, fill = profile, group = profile)) +
-      geom_col(position = "dodge", alpha = alpha, color = NA) +  # 막대 그래프에서 border 제거
-      geom_errorbar(aes(ymin = val - sd_val, ymax = val + sd_val),  # 표준편차 추가
-                    position = position_dodge(width = 0.9),
-                    width = 0.25) +  # 표준편차 막대 추가
-      geom_line(aes(group = profile), color = "black", size = linewidth, show.legend = TRUE) +  # profile에 따른 라인 추가, 검은색으로 설정
-      geom_point(aes(group = profile, shape = profile, color=profile), size = size.p, show.legend = TRUE) +  # profile에 따른 포인트 추가, 크기 3으로 설정
+      geom_col(position = "dodge", alpha = alpha, color = NA) +
+      geom_errorbar(aes(ymin = val - sd_val, ymax = val + sd_val),
+                    position = position_dodge(width = 0.9), width = 0.25) +
+      geom_line(aes(group = profile), color = "black", size = linewidth, show.legend = TRUE) +
+      geom_hline(yintercept = 0)+
+      geom_point(aes(group = profile, shape = profile, color = profile), size = size.p, show.legend = TRUE) +
       ylab("Z-score") +
       xlab("(b) Standardization data") +
       scale_fill_discrete("") +
@@ -216,18 +199,14 @@ lpa_profile_plot <- function(data, n_profiles = 3,
             axis.title = element_text(size = size.x),
             legend.position = legend_position,
             legend.title = element_blank(),
-            plot.title = element_text(size = title_size))  # 중복된 범례 제거
+            plot.title = element_text(size = title_size))
 
     gg2 <- raw_mean_data %>%
-      pivot_longer(
-        cols = -factor,
-        names_to = "profile",
-        values_to = "val"
-      ) %>%
+      pivot_longer(cols = -factor, names_to = "profile", values_to = "val") %>%
       ggplot(aes(x = factor, y = val, fill = profile, group = profile)) +
-      geom_col(position = "dodge", alpha = alpha, color = NA) +  # 비표준화 그래프에서 border 제거
-      geom_line(aes(group = profile), color = "black", size = linewidth, show.legend = TRUE) +  # profile에 따른 라인 추가, 검은색으로 설정
-      geom_point(aes(group = profile, shape = profile, color=profile), size = size.p, show.legend = TRUE) +  # profile에 따른 포인트 추가, 크기 3으로 설정
+      geom_col(position = "dodge", alpha = alpha, color = NA) +
+      geom_line(aes(group = profile), color = "black", size = linewidth, show.legend = TRUE) +
+      geom_point(aes(group = profile, shape = profile, color = profile), size = size.p, show.legend = TRUE) +
       ylab("Raw-score") +
       xlab("(a) Raw data") +
       scale_fill_discrete("") +
@@ -237,23 +216,20 @@ lpa_profile_plot <- function(data, n_profiles = 3,
             axis.title = element_text(size = size.x),
             legend.position = legend_position,
             legend.title = element_blank(),
-            plot.title = element_text(size = title_size))  # 중복된 범례 제거
+            plot.title = element_text(size = title_size))
 
-    ggg <- gridExtra::grid.arrange(gg2, gg, ncol = 2)
-  }
-  else if (gtype == "each") {
-    # 표준화된 데이터에 대한 그래프 (key에 따른 라인 및 막대 추가)
+    ggg <- gridExtra::grid.arrange(gg2, gg, ncol = 2)  # ggg 추가
+  } else if (gtype == "each") {
     gg <- plot_data %>%
       ggplot(aes(x = key, y = val, group = profile)) +
-      geom_col(aes(fill = key), position = "dodge", color = NA, show.legend = show.legend) +  # 막대 그래프에서 border 제거
-      geom_errorbar(aes(ymin = val - sd_val, ymax = val + sd_val),  # 표준편차 추가
-                    position = position_dodge(width = 0.9),
-                    width = 0.25) +
-      geom_line(aes(group = profile), size = 1, show.legend = FALSE) +  # profile에 따른 라인 추가
-      geom_point(aes(group = key, shape = key), color = "black", size = size.p , show.legend = FALSE) +  # key에 따른 포인트 추가
-      facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +  # 프로파일별로 그래프 분리 및 레이블 변경
+      geom_col(aes(fill = key), position = "dodge", color = NA, show.legend = show.legend) +
+      geom_errorbar(aes(ymin = val - sd_val, ymax = val + sd_val),
+                    position = position_dodge(width = 0.9), width = 0.25) +
+      geom_line(aes(group = profile), size = 1, show.legend = FALSE) +
+      geom_point(aes(group = key, shape = key), color = "black", size = size.p, show.legend = FALSE) +
+      facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +
       ylab("Z-score") +
-      xlab("(a) propile Decomposition") +
+      xlab("(a) Profile Decomposition") +
       scale_fill_discrete("") +
       labs(title = "Standardized score of the average of LPA") +
       geom_hline(yintercept = 0, linetype = "dashed") +
@@ -262,16 +238,15 @@ lpa_profile_plot <- function(data, n_profiles = 3,
             axis.title = element_text(size = size.x),
             strip.text = element_text(size = size.x, face = "bold"))
 
-    # 분리된 도표
     gg2 <- raw_mean_data %>%
       pivot_longer(cols = -factor, names_to = "profile", values_to = "val") %>%
       ggplot(aes(x = factor, y = val, group = profile)) +
-      geom_col(aes(fill = factor), position = "dodge", color = NA, show.legend = show.legend) +  # 비표준화 그래프에서 border 제거
-      geom_line(aes(group = profile), size = 1, show.legend = FALSE) +  # profile에 따른 라인 추가
-      geom_point(aes(group = factor, shape = factor), color = "black", size = size.p, show.legend = FALSE) +  # factor에 따른 포인트 추가
-      facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +  # 프로파일별로 그래프 분리 및 레이블 변경
+      geom_col(aes(fill = factor), position = "dodge", color = NA, show.legend = show.legend) +
+      geom_line(aes(group = profile), size = 1, show.legend = FALSE) +
+      geom_point(aes(group = factor, shape = factor), color = "black", size = size.p, show.legend = FALSE) +
+      facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +
       ylab("Raw-score") +
-      xlab("(b)Profile Overlap") +
+      xlab("(b) Profile Overlap") +
       scale_fill_discrete("") +
       labs(title = "Raw score of the average of the LPA") +
       theme_bw() +
@@ -279,26 +254,15 @@ lpa_profile_plot <- function(data, n_profiles = 3,
             axis.title = element_text(size = size.x),
             strip.text = element_text(size = size.x, face = "bold"))
 
-    # 두 그래프를 결합
-    ggg <- gridExtra::grid.arrange(gg2, gg, ncol = ncol)
+    ggg <- gridExtra::grid.arrange(gg2, gg, ncol = ncol)  # ggg 추가
   }
 
   # 결과 반환
-  if (view == "pair") {
-    res <- list(std = mean_data, est = raw_mean_data,
-                graph = ggg,
-                plot_data = data.frame(mean_data),
-                Class_freq = Class_freq)  # Class 빈도수 포함
-  } else if (view == "each") {
-    x11()
-    print(gg2)
-    x11()
-    print(gg)
-    res <- list(std = mean_data, est = raw_mean_data,
-                plot_data = mean_data,
-                Class_freq = Class_freq)  # Class 빈도수 포함
-  }
-  res
+  res <- list(std = mean_data, est = raw_mean_data,
+              graph = ggg, plot_data = data.frame(mean_data),
+              Class_freq = Class_freq)
+
+  return(res)
 }
 # lpa_profile_plot <- function(data, n_profiles = 3,
 #                              model_name = "EEE",

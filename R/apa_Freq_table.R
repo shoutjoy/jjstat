@@ -48,9 +48,9 @@ Freq_table_apa <- function(df, print=TRUE, digits=2) {
     result <- "빈도분석 결과, 각빈도와 비율은 다음과 같았다. "
 
     for (i in 1:nrow(df)) {
-      result <- paste0(result, df[[term_col]][i], "는 ", df[[freq_col]][i], "(",
+      result <- paste0(result, df[[term_col]][i], "는 ", df[[freq_col]][i], "명(",
                        round(df[[prop_col]][i], digits), "%)",
-                       ifelse(i == nrow(df), "였다.", ", "))
+                       ifelse(i == nrow(df), "이였다.", ", "))
     }
 
     # 빈도만 있는 경우
@@ -58,7 +58,7 @@ Freq_table_apa <- function(df, print=TRUE, digits=2) {
     result <- "빈도분석 결과, 각빈도와 비율은 다음과 같았다. "
 
     for (i in 1:nrow(df)) {
-      result <- paste0(result, df[[term_col]][i], "는 ", df[[freq_col]][i],
+      result <- paste0(result, df[[term_col]][i], "는 ", df[[freq_col]][i],"명",
                        ifelse(i == nrow(df), "이다.", ", "))
     }
   }
