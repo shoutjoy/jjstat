@@ -4,12 +4,25 @@
 \alias{plspm_loadings_plot}
 \title{plspm_loadings_plot}
 \usage{
-plspm_loadings_plot(plsres, show = FALSE)
+plspm_loadings_plot(
+  plsres,
+  size.x = 14,
+  size.y = 12,
+  size.legend = 12,
+  size.text = 5,
+  show = FALSE
+)
 }
 \arguments{
 \item{plsres}{plspm data}
 
-\item{show}{show data}
+\item{size.x}{axis text 14}
+
+\item{size.y}{12}
+
+\item{size.legend}{12}
+
+\item{size.text}{show data}
 }
 \value{
 plot
@@ -76,6 +89,5 @@ satpls \%>\%plspm_loadings_plot()
 satpls$outer_model\%>\%plspm_loadings_plot()
 
  }
-
 
 }

@@ -7,8 +7,8 @@
 table_df_bar(
   df,
   size.x = 20,
-  size.text = 8,
-  add_range = 150,
+  size.text = 6,
+  add_range = 100,
   x.title = "Items",
   flip = TRUE,
   hjust = -0.1,

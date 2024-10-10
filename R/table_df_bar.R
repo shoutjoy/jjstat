@@ -24,7 +24,8 @@
 
 #' }
 #'
-table_df_bar <- function(df, size.x = 20, size.text = 8, add_range = 150,
+
+table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 100,
                          x.title = "Items",
                          flip = TRUE,
                          hjust = -0.1, vjust=-0.5,
@@ -40,8 +41,6 @@ table_df_bar <- function(df, size.x = 20, size.text = 8, add_range = 150,
   # 빈도(Freq)의 최대값에 add_range를 더하여 y 축 범위 설정
   max_value <- max(df$Freq, na.rm = TRUE) + add_range
 
-  # 범주의 순서 설정
-  df$term <- factor(df$term, levels = c("전혀 아니다", "아니다", "중간이다", "그렇다", "매우 그렇다"))
 
   # flip이 TRUE일 경우 그래프를 가로로 회전
   if (flip) {
@@ -61,6 +60,9 @@ table_df_bar <- function(df, size.x = 20, size.text = 8, add_range = 150,
     p <- p + coord_flip()
 
   } else {
+    # 범주의 순서 설정
+    df$term <- factor(df$term, levels = c("전혀 아니다", "아니다", "중간이다", "그렇다", "매우 그렇다"))
+
     # flip이 FALSE일 경우
     p <- ggplot(df, aes(x = term, y = Freq, group = 1, fill = term)) +
       geom_bar(stat = "identity") +
@@ -87,3 +89,4 @@ table_df_bar <- function(df, size.x = 20, size.text = 8, add_range = 150,
   # 그래프 출력
   print(p)
 }
+

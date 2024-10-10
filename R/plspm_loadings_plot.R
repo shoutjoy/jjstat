@@ -1,10 +1,12 @@
 #' plspm_loadings_plot
 #'
 #' @param plsres plspm data
-#' @param show  show data
+#' @param size.x  axis text 14
+#' @param size.y  12
+#' @param size.legend 12
+#' @param size.text  show data
 #' @return plot
 #' @export
-#'
 #' @examples
 #'
 #' \dontrun{
@@ -65,8 +67,12 @@
 #'
 #'  }
 #'
-#'
-plspm_loadings_plot = function(plsres, show=FALSE){
+plspm_loadings_plot = function(plsres,
+                               size.x =14,
+                               size.y = 12,
+                               size.legend = 12,
+                               size.text=5,
+                               show=FALSE){
 
   if(length(plsres)==13){
     plsdf = plsres[["outer_model"]]
@@ -76,13 +82,13 @@ plspm_loadings_plot = function(plsres, show=FALSE){
 
   if(show){
 
-  print(plsdf)
+    print(plsdf)
   }
 
   ggplot(plsdf,
          aes(x = name, y = loading, fill = block)) +
     geom_bar(stat = 'identity', position = 'dodge') +
-    geom_text(aes(label= round(loading,2)), vjust=-.5)+
+    geom_text(aes(label= round(loading,2)), vjust=-.5, size= size.text)+
     # threshold line (to peek acceptable loadings above 0.7)
     geom_hline(yintercept = 0.7, color = 'gray30', linetype=2) +
     geom_hline(yintercept = 0.5, color = 'gray10', linetype=2) +
@@ -91,8 +97,40 @@ plspm_loadings_plot = function(plsres, show=FALSE){
     theme_bw()+
     # rotate x-axis names
     theme(
-      axis.text.x = element_text(size=12, angle = 90, face="bold"),
-      axis.text.y = element_text(size=12, angle = 0, face="bold")
+      axis.text.x = element_text(size=size.x, angle = 90, face="bold"),
+      axis.text.y = element_text(size=size.y, angle = 0, face="bold"),
+      legend.text= element_text(size = size.legend)
     )
 
 }
+
+# plspm_loadings_plot = function(plsres, show=FALSE){
+#
+#   if(length(plsres)==13){
+#     plsdf = plsres[["outer_model"]]
+#   }else{
+#     plsdf = plsres
+#   }
+#
+#   if(show){
+#
+#   print(plsdf)
+#   }
+#
+#   ggplot(plsdf,
+#          aes(x = name, y = loading, fill = block)) +
+#     geom_bar(stat = 'identity', position = 'dodge') +
+#     geom_text(aes(label= round(loading,2)), vjust=-.5)+
+#     # threshold line (to peek acceptable loadings above 0.7)
+#     geom_hline(yintercept = 0.7, color = 'gray30', linetype=2) +
+#     geom_hline(yintercept = 0.5, color = 'gray10', linetype=2) +
+#     # add title
+#     ggtitle("Barchart of Loadings") +
+#     theme_bw()+
+#     # rotate x-axis names
+#     theme(
+#       axis.text.x = element_text(size=12, angle = 90, face="bold"),
+#       axis.text.y = element_text(size=12, angle = 0, face="bold")
+#     )
+#
+# }
