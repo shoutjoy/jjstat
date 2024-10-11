@@ -25,7 +25,7 @@
 #' }
 #'
 
-table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 100,
+table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 150,
                          x.title = "Items",
                          flip = TRUE,
                          hjust = -0.1, vjust=-0.5,
