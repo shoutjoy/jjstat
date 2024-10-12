@@ -4,10 +4,12 @@
 \alias{Freq_table_apa}
 \title{Interpreting frequency analysis results from Freq_table}
 \usage{
-Freq_table_apa(df, print = TRUE, digits = 2)
+Freq_table_apa(df, title = "", print = TRUE, digits = 2)
 }
 \arguments{
 \item{df}{data}
+
+\item{title}{title =""}
 
 \item{print}{df output}
 

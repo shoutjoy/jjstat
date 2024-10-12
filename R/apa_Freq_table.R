@@ -2,6 +2,7 @@
 #' Interpreting frequency analysis results from Freq_table
 #'
 #' @param df data
+#' @param title title =""
 #' @param print df output
 #' @param digits 2
 #'
@@ -23,7 +24,7 @@
 #' Mtcars %>% table_freq("vs","am","cyl", angle=90)%>% Freq_table_apa()
 #'}
 #'
-Freq_table_apa <- function(df, print=TRUE, digits=2) {
+Freq_table_apa <- function(df, title="", print=TRUE, digits=2) {
 
   # 컬럼명 추출
   cols <- colnames(df)
@@ -45,7 +46,7 @@ Freq_table_apa <- function(df, print=TRUE, digits=2) {
 
   # 빈도와 비율을 포함한 경우
   if(prop_col %in% colnames(df)) {
-    result <- "빈도분석 결과, 각빈도와 비율은 다음과 같았다. "
+    result <- paste0(title,"빈도분석 결과, 각 빈도와 비율은 다음과 같았다. ")
 
     for (i in 1:nrow(df)) {
       result <- paste0(result, df[[term_col]][i], "는 ", df[[freq_col]][i], "명(",
@@ -55,7 +56,7 @@ Freq_table_apa <- function(df, print=TRUE, digits=2) {
 
     # 빈도만 있는 경우
   } else {
-    result <- "빈도분석 결과, 각빈도와 비율은 다음과 같았다. "
+    result <- paste0(title,"빈도분석 결과, 각 빈도와 비율은 다음과 같았다. ")
 
     for (i in 1:nrow(df)) {
       result <- paste0(result, df[[term_col]][i], "는 ", df[[freq_col]][i],"명",
