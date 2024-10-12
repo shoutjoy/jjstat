@@ -4,7 +4,7 @@
 \alias{add_row_sum}
 \title{add_row_sum, row sum}
 \usage{
-add_row_sum(df, freq_col = "Freq", prop_col = "prop(\%)")
+add_row_sum(df, freq_col = 2, prop_col = 3)
 }
 \arguments{
 \item{df}{df}
