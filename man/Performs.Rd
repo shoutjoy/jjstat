@@ -4,14 +4,14 @@
 \alias{chisq_multcomp2}
 \title{Pairwise comparisons after a chi-squared goodness-of-fit test}
 \usage{
-chisq_multcomp2(df, p.method = "fdr", ko = TRUE)
+chisq_multcomp2(x, p.method = "fdr", ko = TRUE)
 }
 \arguments{
+\item{x}{numeric vector (counts).}
+
 \item{p.method}{method for p-values correction. See help of p.adjust}
 
 \item{ko}{TRUE variable names is changed to korean language}
-
-\item{x}{numeric vector (counts).}
 }
 \value{
 result

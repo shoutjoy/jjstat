@@ -20,7 +20,7 @@ data
 여러행으로 중복응답한 자료 빈도분석
 }
 \examples{
-\donrrun{
+\dontrun{
 }
 
 

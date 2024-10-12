@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' \donrrun{
+#' \dontrun{
 
 #' }
 #'

@@ -18,7 +18,7 @@
 #' chisq.multcomp(counts)
 #'
 #' }
-chisq_multcomp2 <- function(df, p.method = "fdr", ko=TRUE) {
+chisq_multcomp2 <- function(x, p.method = "fdr", ko=TRUE) {
   library(dplyr)
   library(tidyr)
   library(stats)
