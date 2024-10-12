@@ -23,7 +23,7 @@
 #' }
 #'
 #'
-Pull <- function(df, col="Freq", name= "name", sep="_") {
+Pull <- function(df, col="Freq", name= NULL, sep="_") {
   # col이 열 번호나 열 이름인지 확인하고 해당 열을 추출
   if (is.numeric(col)) {
     col_data <- df[[col]]

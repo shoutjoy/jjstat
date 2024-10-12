@@ -20,8 +20,10 @@ df
 add_row_sum, row sum
 }
 \examples{
+
 \dontrun{
 
 mtcars$cyl \%>\% Freq_table(prop = TRUE) \%>\% addrow_sum()
+
 }
 }

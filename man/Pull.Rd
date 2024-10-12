@@ -4,7 +4,7 @@
 \alias{Pull}
 \title{Pull select data.frame col to vector}
 \usage{
-Pull(df, col = "Freq", name = "name", sep = "_")
+Pull(df, col = "Freq", name = NULL, sep = "_")
 }
 \arguments{
 \item{df}{df}
