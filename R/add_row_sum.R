@@ -1,15 +1,17 @@
 #' add_row_sum, row sum
 #'
-#' @param df df
+#' @param df df daa
 #' @param freq_col "Freq" or number
 #' @param prop_col "prop(%)" or number
-#'
 #' @return df
 #' @export
 #'
 #' @examples
+#'
 #' \dontrun{
+#'
 #' mtcars$cyl %>% Freq_table(prop = TRUE) %>% addrow_sum()
+#'
 #' }
 add_row_sum <- function(df, freq_col = 2, prop_col = 3) {
   # 열 번호나 이름을 지원하는 함수

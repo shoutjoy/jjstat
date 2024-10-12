@@ -7,7 +7,7 @@
 add_row_sum(df, freq_col = 2, prop_col = 3)
 }
 \arguments{
-\item{df}{df}
+\item{df}{df daa}
 
 \item{freq_col}{"Freq" or number}
 
@@ -21,6 +21,7 @@ add_row_sum, row sum
 }
 \examples{
 \dontrun{
+
 mtcars$cyl \%>\% Freq_table(prop = TRUE) \%>\% addrow_sum()
 }
 }

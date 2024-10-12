@@ -4,14 +4,14 @@
 \alias{Pull}
 \title{Pull select data.frame col to vector}
 \usage{
-Pull(df, col, name = NULL, sep = "_")
+Pull(df, col = "Freq", name = "name", sep = "_")
 }
 \arguments{
 \item{df}{df}
 
-\item{col}{select col}
+\item{col}{select col, "Freq"}
 
-\item{name}{using names from rownames or col data}
+\item{name}{using names from rownames or col data"name"}
 
 \item{sep}{paste sep = "_"}
 }

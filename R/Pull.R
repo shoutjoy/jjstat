@@ -1,8 +1,8 @@
 #' Pull select data.frame col to vector
 #'
 #' @param df df
-#' @param col select col
-#' @param name using names from rownames or col data
+#' @param col select col, "Freq"
+#' @param name using names from rownames or col data"name"
 #' @param sep paste sep = "_"
 #'
 #' @return vector
@@ -23,7 +23,7 @@
 #' }
 #'
 #'
-Pull <- function(df, col, name= NULL, sep="_") {
+Pull <- function(df, col="Freq", name= "name", sep="_") {
   # col이 열 번호나 열 이름인지 확인하고 해당 열을 추출
   if (is.numeric(col)) {
     col_data <- df[[col]]
