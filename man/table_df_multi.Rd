@@ -4,7 +4,7 @@
 \alias{table_df_multi}
 \title{여러행으로 중복응답한 자료 빈도분석}
 \usage{
-table_df_multi(df, type = "res", digits = 4)
+table_df_multi(df, type = "res", digits = 4, msg = TRUE)
 }
 \arguments{
 \item{df}{여려행이 있는 데이터}
@@ -12,6 +12,8 @@ table_df_multi(df, type = "res", digits = 4)
 \item{type}{res = freq_table=summary, missing = missing_list, data(remove missing)}
 
 \item{digits}{4 default}
+
+\item{mag}{TRUE}
 }
 \value{
 data
@@ -22,7 +24,6 @@ data
 \examples{
 \dontrun{
 }
-
 
 
 }
