@@ -102,7 +102,7 @@ chisq_multcomp2 <- function(x, p.method = "fdr", ko=TRUE) {
 
   # 결과 반환
   plist = plist %>%mutate_col(diff= .$cell_2 - .$cell_1, col=4) %>%
-    mutate(p.value= ifelse(p.value<0.001, " <.001", p.value))
+    mutate(p.value= ifelse(p.value<0.001, " <.001", round(p.value, 3)))
 
   if(ko){
     plist= plist%>% rename(비교그룹=pairwise, 값2=cell_2, 값1 = cell_1, 빈도차이=diff)
