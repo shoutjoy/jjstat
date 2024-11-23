@@ -40,8 +40,10 @@ chisq_apa <- function(data, chi_type = NULL, show= TRUE) {
                             ", ", p_vlaue_type, ".", sep = " "), sep = "")
   }else{
     # 결과에 따른 메시지 생성
-    message <- paste("chisq test:  ", chi_type, "으로 분석한 결과(", result$method,"), ", significance,
-                     paste0("(chisq(", result$parameter, ") = ", round(result$statistic, 3),
+    message <- paste("chisq test:  ", chi_type, "으로 분석한 결과(",
+                     result$method,"), ", significance,
+                     paste0("(chisq(", result$parameter, ") = ",
+                            round(result$statistic, 3),
                             ", ",  p_vlaue_type, ".", sep = " "), sep = "")
 
   }
