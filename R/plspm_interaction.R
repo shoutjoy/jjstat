@@ -316,15 +316,59 @@ plspm_add_inter_paths <- function(path_mat, paths) {
   }
 
   # 열의 순서를 재정렬
-  new_col_order <- c(setdiff(colnames(new_data), colnames(data)), colnames(data))
+  new_col_order <- c(setdiff(colnames(new_data), colnames(path_mat)), colnames(path_mat))
   new_data <- new_data[, new_col_order]
 
   # 행의 순서를 재정렬
-  new_row_order <- c(setdiff(rownames(new_data), rownames(data)), rownames(data))
+  new_row_order <- c(setdiff(rownames(new_data), rownames(path_mat)), rownames(path_mat))
   new_data <- new_data[new_row_order, ]
 
-  return(new_data%>%as.matrix())
+  # 하위 삼각 행렬로 변환
+  new_data[upper.tri(new_data, diag = TRUE)] <- 0
+
+  return(as.matrix(new_data))
 }
+
+# plspm_add_inter_paths <- function(path_mat, paths) {
+#   # 데이터 행렬을 복사하여 변경
+#   new_data <- path_mat
+#
+#   # 경로 추가 작업
+#   for (i in seq_along(paths)) {
+#     path <- paths[[i]]
+#
+#     if (is.null(names(paths))) {
+#       # 이름이 없는 경우 (경로 이름 생성)
+#       from_vars <- unlist(strsplit(path$from, "\\*"))
+#       int_name <- paste0("int_", substr(from_vars[1], 1, 2), substr(from_vars[2], 1, 2))
+#     } else {
+#       # 이름이 있는 경우
+#       int_name <- names(paths)[i]
+#     }
+#
+#     # 새로운 경로가 있는 열과 행을 추가
+#     if (!int_name %in% colnames(new_data)) {
+#       new_col <- setNames(data.frame(matrix(0, nrow(new_data), 1)), int_name)
+#       new_row <- setNames(data.frame(matrix(0, 1, ncol(new_data) + 1)), c(int_name, colnames(new_data)))
+#       rownames(new_row) <- int_name
+#       new_data <- cbind(new_data, new_col)
+#       new_data <- rbind(new_data, new_row)
+#     }
+#
+#     # 'to' 변수의 행에 경로 추가
+#     new_data[path$to, int_name] <- 1
+#   }
+#
+#   # 열의 순서를 재정렬
+#   new_col_order <- c(setdiff(colnames(new_data), colnames(data)), colnames(data))
+#   new_data <- new_data[, new_col_order]
+#
+#   # 행의 순서를 재정렬
+#   new_row_order <- c(setdiff(rownames(new_data), rownames(data)), rownames(data))
+#   new_data <- new_data[new_row_order, ]
+#
+#   return(new_data%>%as.matrix())
+# }
 
 
 

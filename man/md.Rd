@@ -7,7 +7,7 @@
 md(
   data,
   caption = "Table 1. Capiton title input",
-  digits = 2,
+  digits = 3,
   font_size = 13,
   full_width = F,
   table = "paper",
