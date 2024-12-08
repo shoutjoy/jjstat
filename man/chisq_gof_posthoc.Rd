@@ -4,7 +4,7 @@
 \alias{chisq_gof_posthoc}
 \title{chisq_gof_posthoc}
 \usage{
-chisq_gof_posthoc(vector, type = "res", method = "bonferroni", names = FALSE)
+chisq_gof_posthoc(vector, type = "res", method = "bonferroni", names = TRUE)
 }
 \arguments{
 \item{vector}{data}

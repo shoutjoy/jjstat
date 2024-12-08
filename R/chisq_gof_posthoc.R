@@ -45,7 +45,7 @@
 #'
 
 chisq_gof_posthoc <- function(vector, type = "res", method = "bonferroni",
-                              names=FALSE) {
+                              names=TRUE) {
   library(dplyr)
   library(tidyr)
   library(broom)  # For tidy()

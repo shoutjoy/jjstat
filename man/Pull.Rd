@@ -4,7 +4,7 @@
 \alias{Pull}
 \title{Pull select data.frame col to vector}
 \usage{
-Pull(df, col = "Freq", name = NULL, sep = "_")
+Pull(df, col = "Freq", name = "term", sep = "")
 }
 \arguments{
 \item{df}{df}
@@ -34,6 +34,5 @@ df <- tibble::tibble(
 # 함수 사용 예시
 Pull(df, col="Freq", name="term")
 }
-
 
 }

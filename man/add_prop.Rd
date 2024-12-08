@@ -4,7 +4,7 @@
 \alias{add_prop}
 \title{add_prop}
 \usage{
-add_prop(df, freq = "Freq")
+add_prop(df, freq = "Freq", percentage = TRUE)
 }
 \arguments{
 \item{df}{df}
@@ -19,8 +19,30 @@ add_prop
 }
 \examples{
 \dontrun{
+#'
+freq:
 
+  기본값은 "Freq".
+숫자일 경우 열 이름으로 변환.
+percentage:
+
+  기본값은 TRUE.
+TRUE일 경우, 비율에 100을 곱해 백분율로 나타냄.
+FALSE일 경우, 단순 비율 값을 나타냄.
+출력 열:
+
+  percentage = TRUE → 열 이름은 prop(\%).
+percentage = FALSE → 열 이름은 prop.
 mtcars$am \%>\% Freq_table() \%>\% add_prop()
+#'
+# 예제 데이터
+df <- data.frame(Category = c("A", "B", "C"), Freq = c(30, 50, 20))
+
+# percentage = TRUE (백분율로 출력)
+add_prop(df, freq = "Freq", percentage = TRUE)
+
+# percentage = FALSE (비율로 출력)
+add_prop(df, freq = "Freq", percentage = FALSE)
 
 }
 

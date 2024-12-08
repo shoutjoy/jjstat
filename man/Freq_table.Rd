@@ -12,11 +12,18 @@ Freq_table(
   angle = 0,
   size_text = 4,
   size_axis = 10,
-  vjust = -0.5,
-  yadd = 1,
+  vjust = -0.05,
+  hjust = 0.5,
+  yadd = 100,
   legend.position = "",
   reorder = FALSE,
   wt = NULL,
+  remove_rows = NULL,
+  add_row_sum = FALSE,
+  xlab = "Category",
+  flip = FALSE,
+  size_axis_title = 12,
+  sort_bar = TRUE,
   type = "res"
 )
 }
@@ -27,19 +34,39 @@ Freq_table(
 
 \item{prop}{proportion value, default TRUE}
 
+\item{plot}{plot defualt false}
+
+\item{angle}{angle = 0}
+
 \item{size_text}{default 3, bargraph text}
 
 \item{size_axis}{default 12, axis test}
 
 \item{vjust}{default -0.5}
 
+\item{hjust}{default -0.5}
+
 \item{yadd}{default 0.8}
 
 \item{legend.position}{legend.position="" none. top, bottom, left, right}
 
-\item{type}{all, res=data, g=plot=graph}
+\item{reorder}{reorder Sorting Graph Arrays}
 
-\item{legend.wt}{weight}
+\item{wt}{weight}
+
+\item{remove_rows}{Enter the number of rows to hide and they will be removed}
+
+\item{add_row_sum}{default FALSE, Sum excluding removed rows}
+
+\item{xlab}{xalb = "Category",}
+
+\item{flip}{FALSE}
+
+\item{size_axis_title}{default 12,}
+
+\item{sort_bar}{TRUE(default)}
+
+\item{type}{default  "res",  all, res=data, g=plot=graph}
 }
 \value{
 Freqency table
@@ -96,6 +123,23 @@ df_sample \%>\% unCount(sel = "sum") \%>\% Freq_table("gender")
 
 # this function
 df_sample \%>\% Freq_table("gender", wt="sum")
+#'
+# 데이터 생성
+df <- data.frame(
+  term = c("", "10-20분", "20-30분", "30분 이상", "5-10분", "5분 이내"),
+  Freq = c(728, 222, 77, 120, 319, 135)
+)
+
+# 기본 그래프
+Freq_table(df, term, prop = TRUE, remove_rows = 1, add_row_sum = FALSE, plot = TRUE)
+
+# xlab과 flip 옵션 사용
+Freq_table(df, term, prop = TRUE, remove_rows = 1, add_row_sum = TRUE, xlab = "응답 시간", flip = TRUE, plot = TRUE)
+#'
+
+#빈도분석 및 그래프
+Freq_table(eduteck2$Q9, prop=TRUE, remove_rows=1, add_row_sum=TRUE, vjust=-0.5,
+           plot=T, size_axis = 14, flip=FALSE, yadd=130, xlab="Eduteck Time", size_text = 6) #'
 }
 
 

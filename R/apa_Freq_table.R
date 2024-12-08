@@ -59,7 +59,7 @@ Freq_table_apa <- function(df, title="", print=TRUE, digits=2) {
     result <- paste0(title,"빈도분석 결과, 각 빈도와 비율은 다음과 같았다. ")
 
     for (i in 1:nrow(df)) {
-      result <- paste0(result, df[[term_col]][i], "는 ", df[[freq_col]][i],"명",
+      result <- paste0(result, df[[term_col]][i], " ", df[[freq_col]][i],"명",
                        ifelse(i == nrow(df), "이다.", ", "))
     }
   }
