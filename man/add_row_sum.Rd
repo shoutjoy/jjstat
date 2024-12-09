@@ -7,7 +7,7 @@
 add_row_sum(df, freq_col = 2, prop_col = 3)
 }
 \arguments{
-\item{df}{df daa}
+\item{df}{df datat}
 
 \item{freq_col}{"Freq" or number}
 

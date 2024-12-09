@@ -1,6 +1,6 @@
 #' add_row_sum, row sum
 #'
-#' @param df df daa
+#' @param df df datat
 #' @param freq_col "Freq" or number
 #' @param prop_col "prop(%)" or number
 #' @return df

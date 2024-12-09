@@ -55,6 +55,9 @@
 #'
 #'
 replace_df_rep <- function(data, ..., detect = TRUE, chr = TRUE) {
+  # 원래 열 이름 저장
+  original_colnames <- colnames(data)
+
   # Convert factor to character if chr is TRUE and data is a dataframe
   if (chr && is.data.frame(data)) {
     data <- data %>%
@@ -92,6 +95,9 @@ replace_df_rep <- function(data, ..., detect = TRUE, chr = TRUE) {
       }
     }
   }
+
+  # 원래 열 이름 복원
+  colnames(data) <- original_colnames
 
   return(data)
 }

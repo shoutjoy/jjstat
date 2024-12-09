@@ -53,16 +53,23 @@
 #' }
 #'
 #'
-replace_df = function(df, pattern = NA, imp = "", col = NULL) {
-  if(is.null(col)) {
+
+replace_df <- function(df, pattern = NA, imp = "", col = NULL) {
+  if (is.null(col)) {
+    # 전체 데이터프레임에서 pattern을 imp로 대체
     df[df == pattern] <- imp
   } else {
-    df[col] <- lapply(df[col], format)
-    df[df == pattern] <- imp
+    # col이 숫자인 경우 열 번호로 처리
+    if (is.numeric(col)) {
+      col <- names(df)[col]
+    }
+    # 선택된 열에서만 pattern을 imp로 대체
+    for (column in col) {
+      df[[column]] <- ifelse(df[[column]] == pattern, imp, df[[column]])
+    }
   }
-  df
+  return(df)
 }
-
 
 
 #' Search for and fill in NA data

@@ -24,7 +24,7 @@
 #' Mtcars %>% table_freq("vs","am","cyl", angle=90)%>% Freq_table_apa()
 #'}
 #'
-Freq_table_apa <- function(df, title="", print=TRUE, digits=2) {
+Freq_table_apa <- function(df, title = "", print = TRUE, digits = 2) {
 
   # 컬럼명 추출
   cols <- colnames(df)
@@ -44,31 +44,41 @@ Freq_table_apa <- function(df, title="", print=TRUE, digits=2) {
     term_col <- term_cols[1]
   }
 
+  # 받침이 있는지 확인하는 함수
+  has_batchim <- function(term) {
+    last_char <- substr(term, nchar(term), nchar(term))
+    # 유니코드 값 확인
+    code <- utf8ToInt(last_char)
+    (code - 44032) %% 28 != 0
+  }
+
   # 빈도와 비율을 포함한 경우
-  if(prop_col %in% colnames(df)) {
-    result <- paste0(title,"빈도분석 결과, 각 빈도와 비율은 다음과 같았다. ")
+  if (prop_col %in% colnames(df)) {
+    result <- paste0(title, "빈도분석 결과, 각 빈도와 비율은 다음과 같았다. ")
 
     for (i in 1:nrow(df)) {
-      result <- paste0(result, df[[term_col]][i], "는 ", df[[freq_col]][i], "명(",
+      particle <- ifelse(has_batchim(df[[term_col]][i]), "은", "는")
+      result <- paste0(result, df[[term_col]][i], particle, " ", df[[freq_col]][i], "명(",
                        round(df[[prop_col]][i], digits), "%)",
                        ifelse(i == nrow(df), "이였다.", ", "))
     }
 
     # 빈도만 있는 경우
   } else {
-    result <- paste0(title,"빈도분석 결과, 각 빈도와 비율은 다음과 같았다. ")
+    result <- paste0(title, "빈도분석 결과, 각 빈도와 비율은 다음과 같았다. ")
 
     for (i in 1:nrow(df)) {
-      result <- paste0(result, df[[term_col]][i], " ", df[[freq_col]][i],"명",
+      particle <- ifelse(has_batchim(df[[term_col]][i]), "은", "는")
+      result <- paste0(result, df[[term_col]][i], particle, " ", df[[freq_col]][i], "명",
                        ifelse(i == nrow(df), "이다.", ", "))
     }
   }
 
   # df에서 term_combined 제거
-  df <- df[ , !(colnames(df) %in% "term_combined")]
+  df <- df[, !(colnames(df) %in% "term_combined")]
 
   # df를 print로 출력
-  if(print) {
+  if (print) {
     print(df)
   }
 
@@ -76,6 +86,4 @@ Freq_table_apa <- function(df, title="", print=TRUE, digits=2) {
   cat("\n")
   cat(result, "\n")
   cat("\n")
-
-
 }
