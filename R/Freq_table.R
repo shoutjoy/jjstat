@@ -93,7 +93,6 @@
 #' }
 #'
 #'
-#'
 Freq_table <- function(data, ...,
                        prop = FALSE,
                        plot = FALSE,
@@ -114,27 +113,23 @@ Freq_table <- function(data, ...,
                        sort_bar = TRUE,
                        type = "res") {
 
-  # 행 복원
-  if (!is.null(wt)) {
-    data <- unCount(data, sel = wt)
+  # 데이터가 벡터일 경우 데이터프레임으로 변환
+  if (!is.data.frame(data)) {
+    data <- data.frame(term = data)
   }
 
-  # 데이터 프레임 확인 및 열 이름 설정
-  if (is.data.frame(data)) {
-    select_vars <- c(...)
-    res <- data[, c(...)] %>%
-      table() %>%
-      as.data.frame() %>%
-      mutate("prop(%)" = Freq / sum(Freq) * 100)
-    colnames(res)[1] <- "term" # 첫 번째 열 이름을 "term"으로 설정
-  } else {
-    data <- data.frame(term = data) # 벡터 데이터를 데이터프레임으로 변환
-    res <- data %>%
-      table() %>%
-      as.data.frame() %>%
-      mutate("prop(%)" = Freq / sum(Freq) * 100)
-    colnames(res) <- c("term", "Freq", "prop(%)")
+  # 열 이름 확인 및 설정
+  if (!"term" %in% colnames(data)) {
+    colnames(data)[1] <- "term"
   }
+
+  # NA 및 빈 문자열 처리
+  data <- data %>% mutate(term = ifelse(term == "" | is.na(term), "무응답", term))
+
+  # 테이블 생성 및 비율 계산
+  res <- data %>%
+    count(term, name = "Freq") %>% # "Freq"로 열 이름 지정
+    mutate("prop(%)" = Freq / sum(Freq) * 100)
 
   # 선택된 행 제거
   if (!is.null(remove_rows)) {
@@ -144,9 +139,6 @@ Freq_table <- function(data, ...,
       mutate("prop(%)" = Freq / total_freq * 100)
   }
 
-  # 그래프 데이터 저장 (add_row_sum 이전 상태)
-  graph_data <- res
-
   # 합계 행 추가
   if (add_row_sum) {
     total_freq <- sum(res$Freq)
@@ -154,47 +146,28 @@ Freq_table <- function(data, ...,
       add_row(term = "합계", Freq = total_freq, `prop(%)` = 100)
   }
 
-  # 그래프용 데이터 생성
-  if (!prop) {
-    graph_data <- graph_data %>% dplyr::select(-`prop(%)`)
-    graph_data <- graph_data %>%
-      mutate(LABEL = paste0("n=", Freq))
-  } else {
-    graph_data <- graph_data %>%
-      mutate(LABEL = paste0(Freq, "(", round(`prop(%)`, 2), " %)"))
-  }
+  # 그래프 데이터 저장
+  graph_data <- res
 
-  # 그래프 데이터에서 "합계" 행 제외
-  graph_data <- graph_data %>%
-    filter(term != "합계") %>%
-    unite(x_var, where(is.factor), where(is.character), remove = FALSE)
-
-  # 축 레이블 정리: 범주 이름만 포함
-  graph_data <- graph_data %>%
-    mutate(x_var_clean = term) # 범주 이름 정확히 유지
-
-  # 막대 정렬
   if (sort_bar) {
-    graph_data <- graph_data %>% mutate(x_var_clean = fct_reorder(x_var_clean, Freq))
+    graph_data <- graph_data %>%
+      mutate(term = fct_reorder(term, Freq))
   }
 
   # 그래프 생성
   g <- graph_data %>%
-    ggplot(aes(x = x_var_clean, y = Freq)) +
-    geom_bar(stat = "identity", aes(fill = x_var_clean)) +
+    filter(term != "합계") %>%
+    ggplot(aes(x = term, y = Freq, fill = term)) +
+    geom_bar(stat = "identity") +
     ylim(0, max(graph_data$Freq) + yadd) +
+    geom_text(aes(label = paste0(Freq, " (", round(`prop(%)`, 2), "%)")),
+              vjust = vjust, size = size_text) +
     theme_bw() +
     labs(x = xlab, y = "Frequency") +
-    geom_text(aes(label = LABEL),
-              vjust = ifelse(flip, 0.5, vjust),
-              hjust = ifelse(flip, hjust, 0.5),
-              size = size_text) +
-    theme(axis.text.x = element_text(angle = angle,
-                                     size = size_axis, face = "bold"),
+    theme(axis.text.x = element_text(angle = angle, size = size_axis),
           axis.title = element_text(size = size_axis_title),
           legend.position = legend.position)
 
-  # 플립 옵션
   if (flip) {
     g <- g + coord_flip()
   }
@@ -204,19 +177,138 @@ Freq_table <- function(data, ...,
     print(g)
   }
 
-  # 결과와 그래프 반환
-  all <- list(result = res %>% tibble::tibble(),
-              graph_data = graph_data %>% tibble::tibble(), g = g)
+  # 결과 반환
+  all <- list(result = res, graph = g)
 
   switch(type,
          all = all,
-         res = res %>% tibble::tibble(),
-         data = res %>% tibble::tibble(),
-         graph_data = graph_data %>% tibble::tibble(),
-         g = g,
-         plot = g,
+         res = res,
          graph = g)
 }
+
+# Freq_table <- function(data, ...,
+#                        prop = FALSE,
+#                        plot = FALSE,
+#                        angle = 0,
+#                        size_text = 4,
+#                        size_axis = 10,
+#                        vjust = -0.05,
+#                        hjust = 0.5,
+#                        yadd = 100,
+#                        legend.position = "",
+#                        reorder = FALSE,
+#                        wt = NULL,
+#                        remove_rows = NULL,
+#                        add_row_sum = FALSE,
+#                        xlab = "Category",
+#                        flip = FALSE,
+#                        size_axis_title = 12,
+#                        sort_bar = TRUE,
+#                        type = "res") {
+#
+#   # 행 복원
+#   if (!is.null(wt)) {
+#     data <- unCount(data, sel = wt)
+#   }
+#
+#   # 데이터 프레임 확인 및 열 이름 설정
+#   if (is.data.frame(data)) {
+#     select_vars <- c(...)
+#     res <- data[, c(...)] %>%
+#       table() %>%
+#       as.data.frame() %>%
+#       mutate("prop(%)" = Freq / sum(Freq) * 100)
+#     colnames(res)[1] <- "term" # 첫 번째 열 이름을 "term"으로 설정
+#   } else {
+#     data <- data.frame(term = data) # 벡터 데이터를 데이터프레임으로 변환
+#     res <- data %>%
+#       table() %>%
+#       as.data.frame() %>%
+#       mutate("prop(%)" = Freq / sum(Freq) * 100)
+#     colnames(res) <- c("term", "Freq", "prop(%)")
+#   }
+#
+#   # 선택된 행 제거
+#   if (!is.null(remove_rows)) {
+#     res <- res[-remove_rows, ]
+#     total_freq <- sum(res$Freq)
+#     res <- res %>%
+#       mutate("prop(%)" = Freq / total_freq * 100)
+#   }
+#
+#   # 그래프 데이터 저장 (add_row_sum 이전 상태)
+#   graph_data <- res
+#
+#   # 합계 행 추가
+#   if (add_row_sum) {
+#     total_freq <- sum(res$Freq)
+#     res <- res %>%
+#       add_row(term = "합계", Freq = total_freq, `prop(%)` = 100)
+#   }
+#
+#   # 그래프용 데이터 생성
+#   if (!prop) {
+#     graph_data <- graph_data %>% dplyr::select(-`prop(%)`)
+#     graph_data <- graph_data %>%
+#       mutate(LABEL = paste0("n=", Freq))
+#   } else {
+#     graph_data <- graph_data %>%
+#       mutate(LABEL = paste0(Freq, "(", round(`prop(%)`, 2), " %)"))
+#   }
+#
+#   # 그래프 데이터에서 "합계" 행 제외
+#   graph_data <- graph_data %>%
+#     filter(term != "합계") %>%
+#     unite(x_var, where(is.factor), where(is.character), remove = FALSE)
+#
+#   # 축 레이블 정리: 범주 이름만 포함
+#   graph_data <- graph_data %>%
+#     mutate(x_var_clean = term) # 범주 이름 정확히 유지
+#
+#   # 막대 정렬
+#   if (sort_bar) {
+#     graph_data <- graph_data %>% mutate(x_var_clean = fct_reorder(x_var_clean, Freq))
+#   }
+#
+#   # 그래프 생성
+#   g <- graph_data %>%
+#     ggplot(aes(x = x_var_clean, y = Freq)) +
+#     geom_bar(stat = "identity", aes(fill = x_var_clean)) +
+#     ylim(0, max(graph_data$Freq) + yadd) +
+#     theme_bw() +
+#     labs(x = xlab, y = "Frequency") +
+#     geom_text(aes(label = LABEL),
+#               vjust = ifelse(flip, 0.5, vjust),
+#               hjust = ifelse(flip, hjust, 0.5),
+#               size = size_text) +
+#     theme(axis.text.x = element_text(angle = angle,
+#                                      size = size_axis, face = "bold"),
+#           axis.title = element_text(size = size_axis_title),
+#           legend.position = legend.position)
+#
+#   # 플립 옵션
+#   if (flip) {
+#     g <- g + coord_flip()
+#   }
+#
+#   # 그래프 출력
+#   if (plot) {
+#     print(g)
+#   }
+#
+#   # 결과와 그래프 반환
+#   all <- list(result = res %>% tibble::tibble(),
+#               graph_data = graph_data %>% tibble::tibble(), g = g)
+#
+#   switch(type,
+#          all = all,
+#          res = res %>% tibble::tibble(),
+#          data = res %>% tibble::tibble(),
+#          graph_data = graph_data %>% tibble::tibble(),
+#          g = g,
+#          plot = g,
+#          graph = g)
+# }
 
 
 # Freq_table <- function(data, ...,
