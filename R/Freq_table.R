@@ -101,14 +101,14 @@ Freq_table <- function(data, ...,
                        size_text = 4,
                        size_axis = 10,
                        vjust = -0.05,
-                       hjust = 0.5, # hjust 기본값 변경
+                       hjust = 0.5,
                        yadd = 100,
                        legend.position = "",
                        reorder = FALSE,
                        wt = NULL,
                        remove_rows = NULL,
                        add_row_sum = FALSE,
-                       xlab = "Category", # x축 이름 기본값 변경
+                       xlab = "Category",
                        flip = FALSE,
                        size_axis_title = 12,
                        sort_bar = TRUE,
@@ -119,25 +119,21 @@ Freq_table <- function(data, ...,
     data <- unCount(data, sel = wt)
   }
 
-  # 데이터 프레임 확인
+  # 데이터 프레임 확인 및 열 이름 설정
   if (is.data.frame(data)) {
     select_vars <- c(...)
     res <- data[, c(...)] %>%
       table() %>%
       as.data.frame() %>%
       mutate("prop(%)" = Freq / sum(Freq) * 100)
+    colnames(res)[1] <- "term" # 첫 번째 열 이름을 "term"으로 설정
   } else {
-    data <- data.frame(data)
-    select_vars <- "term"
+    data <- data.frame(term = data) # 벡터 데이터를 데이터프레임으로 변환
     res <- data %>%
       table() %>%
       as.data.frame() %>%
       mutate("prop(%)" = Freq / sum(Freq) * 100)
-  }
-
-  # 컬럼 이름 설정
-  if (length(select_vars) == 1) {
-    colnames(res) <- c(select_vars, "Freq", "prop(%)")
+    colnames(res) <- c("term", "Freq", "prop(%)")
   }
 
   # 선택된 행 제거
@@ -158,6 +154,7 @@ Freq_table <- function(data, ...,
       add_row(term = "합계", Freq = total_freq, `prop(%)` = 100)
   }
 
+  # 그래프용 데이터 생성
   if (!prop) {
     graph_data <- graph_data %>% dplyr::select(-`prop(%)`)
     graph_data <- graph_data %>%
@@ -190,7 +187,7 @@ Freq_table <- function(data, ...,
     labs(x = xlab, y = "Frequency") +
     geom_text(aes(label = LABEL),
               vjust = ifelse(flip, 0.5, vjust),
-              hjust = ifelse(flip, hjust, 0.5), # flip이 FALSE일 때 중앙 정렬
+              hjust = ifelse(flip, hjust, 0.5),
               size = size_text) +
     theme(axis.text.x = element_text(angle = angle,
                                      size = size_axis, face = "bold"),
@@ -208,7 +205,8 @@ Freq_table <- function(data, ...,
   }
 
   # 결과와 그래프 반환
-  all <- list(result = res %>% tibble::tibble(), graph_data = graph_data %>% tibble::tibble(), g = g)
+  all <- list(result = res %>% tibble::tibble(),
+              graph_data = graph_data %>% tibble::tibble(), g = g)
 
   switch(type,
          all = all,
@@ -219,6 +217,8 @@ Freq_table <- function(data, ...,
          plot = g,
          graph = g)
 }
+
+
 # Freq_table <- function(data, ...,
 #                        prop = FALSE,
 #                        plot = FALSE,
