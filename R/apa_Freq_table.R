@@ -24,6 +24,7 @@
 #' Mtcars %>% table_freq("vs","am","cyl", angle=90)%>% Freq_table_apa()
 #'}
 #'
+
 Freq_table_apa <- function(df, title = "", print = TRUE, digits = 2) {
 
   # 컬럼명 추출
@@ -44,6 +45,11 @@ Freq_table_apa <- function(df, title = "", print = TRUE, digits = 2) {
     term_col <- term_cols[1]
   }
 
+  # 괄호를 제거하고 앞부분만 반환하는 함수
+  remove_parentheses <- function(term) {
+    sub("\\(.*\\)", "", term)
+  }
+
   # 받침이 있는지 확인하는 함수
   has_batchim <- function(term) {
     last_char <- substr(term, nchar(term), nchar(term))
@@ -57,7 +63,8 @@ Freq_table_apa <- function(df, title = "", print = TRUE, digits = 2) {
     result <- paste0(title, "빈도분석 결과, 각 빈도와 비율은 다음과 같았다. ")
 
     for (i in 1:nrow(df)) {
-      particle <- ifelse(has_batchim(df[[term_col]][i]), "은", "는")
+      term_no_parentheses <- remove_parentheses(df[[term_col]][i])  # 괄호 제거
+      particle <- ifelse(has_batchim(term_no_parentheses), "은", "는")
       result <- paste0(result, df[[term_col]][i], particle, " ", df[[freq_col]][i], "명(",
                        round(df[[prop_col]][i], digits), "%)",
                        ifelse(i == nrow(df), "이였다.", ", "))
@@ -68,7 +75,8 @@ Freq_table_apa <- function(df, title = "", print = TRUE, digits = 2) {
     result <- paste0(title, "빈도분석 결과, 각 빈도와 비율은 다음과 같았다. ")
 
     for (i in 1:nrow(df)) {
-      particle <- ifelse(has_batchim(df[[term_col]][i]), "은", "는")
+      term_no_parentheses <- remove_parentheses(df[[term_col]][i])  # 괄호 제거
+      particle <- ifelse(has_batchim(term_no_parentheses), "은", "는")
       result <- paste0(result, df[[term_col]][i], particle, " ", df[[freq_col]][i], "명",
                        ifelse(i == nrow(df), "이다.", ", "))
     }
@@ -87,3 +95,4 @@ Freq_table_apa <- function(df, title = "", print = TRUE, digits = 2) {
   cat(result, "\n")
   cat("\n")
 }
+
