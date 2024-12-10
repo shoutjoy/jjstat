@@ -2,28 +2,31 @@
 % Please edit documentation in R/add_row_sum.R
 \name{add_row_sum}
 \alias{add_row_sum}
-\title{add_row_sum, row sum}
+\title{Add Row Sum to Data Frame}
 \usage{
 add_row_sum(df, freq_col = 2, prop_col = 3)
 }
 \arguments{
-\item{df}{df datat}
+\item{df}{A data frame containing the data to be summed.}
 
-\item{freq_col}{"Freq" or number}
+\item{freq_col}{Column name or index for the frequency column. Default is 2.}
 
-\item{prop_col}{"prop(%)" or number}
+\item{prop_col}{Column name or index for the proportion column. Default is 3.}
 }
 \value{
-data.frame
+A data frame with an added summary row containing the sums.
 }
 \description{
-add_row_sum, row sum
+This function calculates the sum of specified numeric columns and appends a summary row
+to the input data frame. The summary row includes totals for `freq_col` and `prop_col`.
 }
 \examples{
-
 \dontrun{
-
-mtcars$cyl \%>\% Freq_table(prop = TRUE) \%>\% addrow_sum()
-
+data <- data.frame(
+  Group = c("A", "B", "C"),
+  Freq = c(10, 20, 30),
+  `prop(\%)` = c(25.0, 50.0, 25.0)
+)
+add_row_sum(data, freq_col = "Freq", prop_col = "prop(\%)")
 }
 }

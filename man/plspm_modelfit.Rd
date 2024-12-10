@@ -2,7 +2,7 @@
 % Please edit documentation in R/plspm_modelfit.R
 \name{plspm_modelfit}
 \alias{plspm_modelfit}
-\title{plspm_modelfit}
+\title{Calculate Model Fit Indices for PLS Models}
 \usage{
 plspm_modelfit(
   pls_model,
@@ -14,53 +14,22 @@ plspm_modelfit(
 )
 }
 \arguments{
-\item{pls_model}{plsresul}
+\item{pls_model}{A PLS model object containing model results.}
 
-\item{blocks}{model block}
+\item{blocks}{A list defining the measurement model blocks. Each block should contain variable names.}
 
-\item{bootstrap}{bootstrap 1000}
+\item{bootstrap}{The number of bootstrap samples to use. Default is 1000.}
 
-\item{ci}{ci 95%}
+\item{ci}{The confidence level for confidence intervals. Default is 0.95.}
 
-\item{digits}{defaul 5}
+\item{digits}{The number of decimal places to round results. Default is 5.}
 
-\item{trans}{trans result}
+\item{trans}{If TRUE, transforms the result into a transposed data frame. Default is TRUE.}
 }
 \value{
-datatable
+A data frame containing the computed fit indices and their evaluations.
 }
 \description{
-plspm_modelfit
-}
-\examples{
-\dontrun{
-
-#'
-#meausrement
-edblock = plspm_blocks(
-  SUX = item(paste0("sux",1:6)),
-  FLOW = item(paste0("flow",1:5)),
-  PEOU = item(paste0("peou",1:5)),
-  PU = item(paste0("pu",1:5)),
-  ATT = item(paste0("att",1:3)),
-  USE = item(paste0("use",1:3))
-  # dataset = ed_tam2
-)
-edblock
-#Seed value: 19995
-edt_pls = plspm_sem(Data=ed_tam2, edmodel, edblock)
-
-
-# Example call to the plspm_modelfit function
-plspm_modelfit(edt_pls, edblock)
-#' # Example call to the plspm_modelfit function with 1000 bootstrap samples
-rest= plspm_modelfit(edt_pls, edblock, bootstrap = 1000, ci = 0.95, trans=FALSE)
-rest
-rest\%>\%t()\%>\%rowdata2col(1)\%>\%data.frame()
-
-rest2= plspm_modelfit(edt_pls, edblock, bootstrap = 1000, ci = 0.95, trans=TRUE)
-rest2
-}
-
-
+This function computes various model fit indices for a Partial Least Squares (PLS) model, including SRMR, NFI, d_ULS, and d_G.
+Bootstrap confidence intervals for d_ULS and d_G are also provided.
 }

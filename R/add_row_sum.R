@@ -1,29 +1,33 @@
-#' add_row_sum, row sum
+#' Add Row Sum to Data Frame
 #'
-#' @param df df datat
-#' @param freq_col "Freq" or number
-#' @param prop_col "prop(%)" or number
-#' @return data.frame
+#' This function calculates the sum of specified numeric columns and appends a summary row
+#' to the input data frame. The summary row includes totals for `freq_col` and `prop_col`.
+#'
+#' @param df A data frame containing the data to be summed.
+#' @param freq_col Column name or index for the frequency column. Default is 2.
+#' @param prop_col Column name or index for the proportion column. Default is 3.
+#' @return A data frame with an added summary row containing the sums.
 #' @export
-#'
 #' @examples
-#'
 #' \dontrun{
-#'
-#' mtcars$cyl %>% Freq_table(prop = TRUE) %>% addrow_sum()
-#'
+#' data <- data.frame(
+#'   Group = c("A", "B", "C"),
+#'   Freq = c(10, 20, 30),
+#'   `prop(%)` = c(25.0, 50.0, 25.0)
+#' )
+#' add_row_sum(data, freq_col = "Freq", prop_col = "prop(%)")
 #' }
 add_row_sum <- function(df, freq_col = 2, prop_col = 3) {
-  # 열 번호나 이름을 지원하는 함수
+  # Helper function to get column by index or name
   get_column <- function(df, col) {
     if (is.numeric(col)) {
-      return(df[[col]])  # 열 번호인 경우
+      return(df[[col]])
     } else {
-      return(df[[as.character(col)]])  # 열 이름인 경우
+      return(df[[as.character(col)]])
     }
   }
 
-  # Freq와 prop(%)의 합을 계산, 숫자 타입(int, dbl)만 합산
+  # Calculate totals for freq_col and prop_col
   total_freq <- if (is.numeric(get_column(df, freq_col))) {
     sum(get_column(df, freq_col), na.rm = TRUE)
   } else {
@@ -36,21 +40,21 @@ add_row_sum <- function(df, freq_col = 2, prop_col = 3) {
     NA
   }
 
-  # 열 이름 추출
-  freq_col_name <- if(is.numeric(freq_col)) names(df)[freq_col] else freq_col
-  prop_col_name <- if(is.numeric(prop_col)) names(df)[prop_col] else prop_col
+  # Get column names
+  freq_col_name <- if (is.numeric(freq_col)) names(df)[freq_col] else freq_col
+  prop_col_name <- if (is.numeric(prop_col)) names(df)[prop_col] else prop_col
 
-  # 합계 행 생성
-  total_row <- df[1, ]  # 기존 데이터 구조 유지
-  total_row[1, ] <- NA  # 첫 열(구분)에 NA 할당
+  # Create a total row
+  total_row <- df[1, , drop = FALSE]  # Maintain structure
+  total_row[] <- NA  # Initialize with NA
   total_row[[freq_col_name]] <- total_freq
   total_row[[prop_col_name]] <- total_prop
-  total_row[[1]] <- "합계"  # 첫 열에 '합계' 입력
+  total_row[[1]] <- "합계"  # First column as '합계'
 
-  # chr 타입 열에서 NA를 "-"로 변환
+  # Replace NA in character columns with "-"
   total_row <- total_row %>% mutate(across(where(is.character), ~ ifelse(is.na(.), "-", .)))
 
-  # 원래 데이터에 합계 행 추가하여 반환
+  # Append total row to the original data frame
   df_with_sum <- bind_rows(df, total_row)
 
   return(df_with_sum)

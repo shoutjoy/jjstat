@@ -1,159 +1,127 @@
-#' plspm_modelfit
+#' Calculate Model Fit Indices for PLS Models
 #'
-#' @param pls_model plsresul
-#' @param blocks model block
-#' @param bootstrap bootstrap 1000
-#' @param ci ci 95%
-#' @param digits defaul 5
-#' @param trans trans result
+#' This function computes various model fit indices for a Partial Least Squares (PLS) model, including SRMR, NFI, d_ULS, and d_G.
+#' Bootstrap confidence intervals for d_ULS and d_G are also provided.
 #'
-#' @return datatable
+#' @param pls_model A PLS model object containing model results.
+#' @param blocks A list defining the measurement model blocks. Each block should contain variable names.
+#' @param bootstrap The number of bootstrap samples to use. Default is 1000.
+#' @param ci The confidence level for confidence intervals. Default is 0.95.
+#' @param digits The number of decimal places to round results. Default is 5.
+#' @param trans If TRUE, transforms the result into a transposed data frame. Default is TRUE.
+#'
+#' @return A data frame containing the computed fit indices and their evaluations.
 #' @export
-#'
-#' @examples
-#' \dontrun{
-#'
-#' #'
-#' #meausrement
-#' edblock = plspm_blocks(
-#'   SUX = item(paste0("sux",1:6)),
-#'   FLOW = item(paste0("flow",1:5)),
-#'   PEOU = item(paste0("peou",1:5)),
-#'   PU = item(paste0("pu",1:5)),
-#'   ATT = item(paste0("att",1:3)),
-#'   USE = item(paste0("use",1:3))
-#'   # dataset = ed_tam2
-#' )
-#' edblock
-#' #Seed value: 19995
-#' edt_pls = plspm_sem(Data=ed_tam2, edmodel, edblock)
-#'
-#'
-#' # Example call to the plspm_modelfit function
-#' plspm_modelfit(edt_pls, edblock)
-#' #' # Example call to the plspm_modelfit function with 1000 bootstrap samples
-#' rest= plspm_modelfit(edt_pls, edblock, bootstrap = 1000, ci = 0.95, trans=FALSE)
-#' rest
-#' rest%>%t()%>%rowdata2col(1)%>%data.frame()
-#'
-#' rest2= plspm_modelfit(edt_pls, edblock, bootstrap = 1000, ci = 0.95, trans=TRUE)
-#' rest2
-
-#' }
-#'
-#'
 plspm_modelfit <- function(pls_model, blocks,
                            bootstrap = 1000, ci = 0.95, digits = 5,
-                           trans= TRUE) {
-  # Item Parceling function for plspm
+                           trans = TRUE) {
+  # Helper function to perform item parceling for PLS blocks
   plspm_ip <- function(data, blocks) {
-    # Create an empty data frame with the same number of rows as the original data
+    # Create an empty data frame to store parcelled data
     parcelled_data <- data.frame(matrix(nrow = nrow(data), ncol = 0))
 
-    # Iterate over each block in the blocks list
+    # Iterate through each block in the measurement model
     for (block_name in names(blocks)) {
       block_vars <- blocks[[block_name]]
 
-      # Check if all block variables exist in the data
+      # Check if all variables in the block exist in the dataset
       if (!all(block_vars %in% colnames(data))) {
         stop(paste("Some variables in block", block_name, "are not in the data"))
       }
 
-      # Calculate the mean of the block variables (Item Parceling)
+      # Compute the mean of the block variables (item parceling)
       parcelled_data[[block_name]] <- rowMeans(data[, block_vars], na.rm = TRUE)
     }
-
     # Return the parcelled data as a data frame
-       parcelled_data
+    return(parcelled_data)
   }
 
-  # Create parcelled data
+  # Step 1: Generate parcelled data
   parcelled_data <- plspm_ip(pls_model$data, blocks)
 
-  # 관측된 상관 행렬 (Observed Correlation Matrix)
-  obs_cor <- cor(parcelled_data)
+  # Step 2: Compute correlation matrices
+  # Observed correlation matrix based on parcelled data
+  obs_cor <- cor(parcelled_data, use = "pairwise.complete.obs")
+  # Implied correlation matrix based on PLS scores
+  implied_cor <- cor(pls_model$scores, use = "pairwise.complete.obs")
 
-  # 모델에 의해 예측된 상관 행렬 (Implied Correlation Matrix)
-  implied_cor <- cor(pls_model$scores)
-
-  # Null Model (diagonal correlation matrix)
+  # Step 3: Calculate the null model's diagonal correlation matrix
   null_cor <- diag(diag(obs_cor))
 
+  # Step 4: Compute Chi-square values
   # Chi-square for the proposed model
   proposed_chi_square <- sum(diag(solve(implied_cor) %*% obs_cor)) - ncol(obs_cor) +
     log(det(implied_cor)) - log(det(obs_cor))
-
   # Chi-square for the null model
   null_chi_square <- sum(diag(solve(null_cor) %*% obs_cor)) - ncol(obs_cor) +
     log(det(null_cor)) - log(det(obs_cor))
 
-  # 자유도 (degrees of freedom)
+  # Step 5: Calculate degrees of freedom
   df <- (ncol(obs_cor) * (ncol(obs_cor) - 1)) / 2
 
-  # p-value 계산 (Chi-square 분포의 상위 테일에서 p값 계산)
+  # Step 6: Compute p-value from the Chi-square distribution
   p_value <- 1 - pchisq(proposed_chi_square, df)
 
-  # SRMR 계산: 잔차 행렬의 하삼각 행렬에 대한 제곱 평균 오차의 제곱근
+  # Step 7: Compute SRMR (Standardized Root Mean Square Residual)
   residuals <- obs_cor - implied_cor
   srmr <- sqrt(mean(residuals[lower.tri(residuals)]^2))
 
-  # NFI 계산
+  # Step 8: Compute NFI (Normed Fit Index)
   nfi <- (null_chi_square - proposed_chi_square) / null_chi_square
 
-  # d_ULS와 d_G 계산
+  # Step 9: Calculate d_ULS and d_G distances
+  # d_ULS: Squared Euclidean distance between observed and implied matrices
   d_ULS <- sum(residuals^2)
+  # d_G: Geodesic distance considering structural characteristics
   d_G <- sqrt(sum(log(diag(solve(implied_cor) %*% obs_cor))^2))
 
-  # 부트스트랩을 통한 신뢰구간 계산
+  # Step 10: Perform bootstrap for confidence intervals
   d_ULS_samples <- numeric(bootstrap)
   d_G_samples <- numeric(bootstrap)
 
-  # Progress bar 초기화
+  # Initialize progress bar for bootstrap
   pb <- txtProgressBar(min = 0, max = bootstrap, style = 3)
 
   for (i in 1:bootstrap) {
-    # Bootstrap resampling
+    # Resample data with replacement
     resample_idx <- sample(1:nrow(pls_model$data), replace = TRUE)
     resampled_data <- pls_model$data[resample_idx, ]
+
+    # Generate parcelled data for the resampled dataset
     resampled_parcelled_data <- plspm_ip(resampled_data, blocks)
 
-    # 관측된 상관 행렬 (Observed Correlation Matrix) for resample
-    resampled_obs_cor <- cor(resampled_parcelled_data)
+    # Compute correlation matrix for the resampled data
+    resampled_obs_cor <- cor(resampled_parcelled_data, use = "pairwise.complete.obs")
 
-    # d_ULS and d_G for resample
+    # Compute residuals and distances for the resampled data
     resampled_residuals <- resampled_obs_cor - implied_cor
     d_ULS_samples[i] <- sum(resampled_residuals^2)
     d_G_samples[i] <- sqrt(sum(log(diag(solve(implied_cor) %*% resampled_obs_cor))^2))
 
-    # Progress 업데이트
+    # Update progress bar
     setTxtProgressBar(pb, i)
   }
 
-  # Progress bar 닫기
+  # Close progress bar
   close(pb)
 
-  # 신뢰구간 계산
+  # Step 11: Calculate confidence intervals for d_ULS and d_G
   lower_bound <- (1 - ci) / 2
   upper_bound <- 1 - lower_bound
+  d_ULS_ci <- quantile(d_ULS_samples, probs = c(lower_bound, upper_bound), na.rm = TRUE)
+  d_G_ci <- quantile(d_G_samples, probs = c(lower_bound, upper_bound), na.rm = TRUE)
 
-  d_ULS_ci <- quantile(d_ULS_samples, probs = c(lower_bound, upper_bound))
-  d_G_ci <- quantile(d_G_samples, probs = c(lower_bound, upper_bound))
-
-  # 신뢰구간을 문자열 형태로 변환
+  # Format confidence intervals as strings
   d_ULS_ci_str <- paste0("[", round(d_ULS_ci[1], digits), ", ", round(d_ULS_ci[2], digits), "]")
   d_G_ci_str <- paste0("[", round(d_G_ci[1], digits), ", ", round(d_G_ci[2], digits), "]")
 
-  # SRMR 기준 해석
+  # Step 12: Evaluate SRMR, NFI, and p-value fit
   srmr_eval <- ifelse(srmr <= 0.05, "매우적합(<0.05)",
                       ifelse(srmr <= 0.08, "적합(<.08)", "부적합(>0.1)"))
-
-  # NFI 기준 해석
   nfi_eval <- ifelse(nfi >= 0.90, "적합(>.90)", "부적합")
-
-  # p-value 기준 해석 (p > 0.05일 때 적합)
   p_value_eval <- ifelse(p_value > 0.05, "적합(>0.05)", "부적합(<.05)")
 
-  # 결과를 데이터 프레임으로 반환
+  # Step 13: Organize results into a data frame
   result <- data.frame(
     model = "modelfit_index",
     Chisq = round(proposed_chi_square, digits),
@@ -165,26 +133,26 @@ plspm_modelfit <- function(pls_model, blocks,
     d_G_GeodesicDist = round(d_G, digits)
   )
 
-  # 적합도 기준을 두 번째 행에 추가
+  # Add evaluation criteria as a separate row
   evaluation <- data.frame(
     model = "evaluation",
-    Chisq = "-",  # Chi-square 평가 제외
-    df = "-",     # df 평가 제외
-    p_value = p_value_eval, # p-value 기준 추가
+    Chisq = "-",
+    df = "-",
+    p_value = p_value_eval,
     SRMR = srmr_eval,
     NFI = nfi_eval,
     d_ULS_EuclideanDist = d_ULS_ci_str,
     d_G_GeodesicDist = d_G_ci_str
   )
 
-  # 결과에 적합도 평가 기준을 추가하여 반환
+  # Combine results and evaluations
   final_result <- rbind(result, evaluation)
 
-  if(trans){
-    final_result=final_result%>%t()%>%rowdata2col(1)%>%data.frame()
-    return(final_result)
-  }else{
-    return(final_result)
+  # Optionally transpose the result
+  if (trans) {
+    final_result <- final_result %>% t() %>% rowdata2col(1) %>% data.frame()
   }
 
+  # Return the final result
+  return(final_result)
 }
