@@ -32,6 +32,8 @@ Freq_table(
 \arguments{
 \item{data}{data.frame}
 
+\item{...}{data.frame col names}
+
 \item{prop}{proportion value, default TRUE}
 
 \item{plot}{plot defualt false}
