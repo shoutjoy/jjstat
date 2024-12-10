@@ -18,6 +18,8 @@ Freq_table(
   legend.position = "",
   reorder = FALSE,
   wt = NULL,
+  na.rm = TRUE,
+  na_treatment = "무응답",
   remove_rows = NULL,
   add_row_sum = FALSE,
   xlab = "Category",
@@ -29,8 +31,6 @@ Freq_table(
 }
 \arguments{
 \item{data}{data.frame}
-
-\item{...}{vars If you input varabale names "var1", "var2" ,...}
 
 \item{prop}{proportion value, default TRUE}
 
@@ -54,6 +54,10 @@ Freq_table(
 
 \item{wt}{weight}
 
+\item{na.rm}{TRUE}
+
+\item{na_treatment}{"무응답", # 결측값 대체값}
+
 \item{remove_rows}{Enter the number of rows to hide and they will be removed}
 
 \item{add_row_sum}{default FALSE, Sum excluding removed rows}
@@ -67,10 +71,6 @@ Freq_table(
 \item{sort_bar}{TRUE(default)}
 
 \item{type}{default  "res",  all, res=data, g=plot=graph}
-
-\item{na.rm}{TRUE}
-
-\item{na_treatment}{"무응답", # 결측값 대체값}
 }
 \value{
 Freqency table
@@ -80,6 +80,12 @@ Frequency analysis table
 }
 \examples{
 \dontrun{
+#사용방법
+eduteck_s\%>\% Freq_table("Q9", prop=TRUE, add_row_sum = TRUE)
+
+eduteck_s$Q9 \%>\% Freq_table(prop=TRUE, add_row_sum = TRUE, na.rm= TRUE)
+eduteck_s$Q9 \%>\% Freq_table(prop=TRUE, add_row_sum = TRUE, na.rm=FALSE)
+
 Mtcars = mtcars
 Mtcars$am = factor(Mtcars$am, levels=c(0,1), labels= c("automatic","manual" ))
 Mtcars$vs  = factor(Mtcars$vs, levels=c(0,1), labels= c("V-shaped","straight" ))
