@@ -17,6 +17,7 @@
 #' @param add_row_sum default FALSE, Sum excluding removed rows
 #' @param xlab xalb = "Category",
 #' @param flip FALSE
+#' @param na.rm TRUE
 #' @param size_axis_title default 12,
 #' @param sort_bar TRUE(default)
 #' @param type default  "res",  all, res=data, g=plot=graph
@@ -107,15 +108,16 @@ Freq_table <- function(data, ...,
                        wt = NULL,
                        remove_rows = NULL,
                        add_row_sum = FALSE,
+                       na.rm = TRUE, # 결측값 처리 여부 추가
                        xlab = "Category",
                        flip = FALSE,
                        size_axis_title = 12,
                        sort_bar = TRUE,
                        type = "res") {
 
-  # 데이터가 벡터일 경우 데이터프레임으로 변환
+  # 데이터가 벡터 또는 리스트일 경우 데이터프레임으로 변환
   if (!is.data.frame(data)) {
-    data <- data.frame(term = data)
+    data <- data.frame(term = unlist(data))  # 벡터나 리스트를 데이터프레임으로 변환
   }
 
   # 열 이름 확인 및 설정
@@ -123,8 +125,10 @@ Freq_table <- function(data, ...,
     colnames(data)[1] <- "term"
   }
 
-  # NA 및 빈 문자열 처리
-  data <- data %>% mutate(term = ifelse(term == "" | is.na(term), "무응답", term))
+  # NA 및 빈 문자열 처리 (옵션으로 제어)
+  if (na.rm) {
+    data <- data %>% mutate(term = ifelse(term == "" | is.na(term), "무응답", term))
+  }
 
   # 테이블 생성 및 비율 계산
   res <- data %>%
@@ -185,6 +189,7 @@ Freq_table <- function(data, ...,
          res = res,
          graph = g)
 }
+
 
 # Freq_table <- function(data, ...,
 #                        prop = FALSE,

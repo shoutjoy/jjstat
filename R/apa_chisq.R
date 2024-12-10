@@ -18,47 +18,35 @@
 #' dfat= t(dfa)
 #' dfat%>%chisq.test()%>%chisq_apa()
 #' }
-chisq_apa <- function(data, chi_type = NULL, show= TRUE) {
-
-  # "적합성 검정", "독립성 검정", "동질성 검정"
+chisq_apa <- function(data, chi_type = NULL, show = TRUE) {
   # chisq.test()를 실행하고 tidy()를 이용하여 결과를 추출
-  #   if(is.list(data)){
-  # result <- data %>% tidy()
-  #   }else if(is.matrix(data)|is.numeric(data)){}
-  #   result <- chisq.test(data) %>% tidy()
+  result <- data %>% tidy()
 
-  result <-data%>% tidy()
   # 통계적 유의성 여부 계산
   significance <- ifelse(result$p.value < 0.05, "통계적으로 유의하였다", "통계적으로 유의하지 않았다")
 
-  p_vlaue_type = ifelse(result$p.value < 0.001, "p <.001", paste0("p = ",round(result$p.value, 3) ))
+  # p-value 표현 형식 설정
+  p_value_type <- ifelse(result$p.value < 0.001, "p < .001", paste0("p = ", round(result$p.value, 3)))
 
-  if(is.null(chi_type)){
-    # 결과에 따른 메시지 생성
-    message <- paste("카이제곱 분석", " 결과(", result$method,"), ", significance,
-                     paste0("(chisq(", result$parameter, ") = ", round(result$statistic, 3),
-                            ", ", p_vlaue_type, ".", sep = " "), sep = "")
-  }else{
-    # 결과에 따른 메시지 생성
-    message <- paste("chisq test:  ", chi_type, "으로 분석한 결과(",
-                     result$method,"), ", significance,
-                     paste0("(chisq(", result$parameter, ") = ",
-                            round(result$statistic, 3),
-                            ", ",  p_vlaue_type, ".", sep = " "), sep = "")
-
+  # 결과에 따른 메시지 생성
+  if (is.null(chi_type)) {
+    message <- paste("카이제곱 분석 결과(", result$method, "), ", significance,
+                     paste0("(chisq(", result$parameter, ") = ", round(result$statistic, 3), ", ", p_value_type, ")."), sep = "")
+  } else {
+    message <- paste("chisq test: ", chi_type, "으로 분석한 결과(", result$method, "), ", significance,
+                     paste0("(chisq(", result$parameter, ") = ", round(result$statistic, 3), ", ", p_value_type, ")."), sep = "")
   }
 
-  if(show){
-
+  # 결과 출력 또는 반환
+  if (show) {
     cat("\n")
     cat(message)
     cat("\n")
-
-  }else{
+  } else {
     return(message)
   }
-
 }
+
 # chisq_apa <- function(data, chi_type = NULL, show= TRUE) {
 #
 #   # "적합성 검정", "독립성 검정", "동질성 검정"

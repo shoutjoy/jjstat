@@ -20,6 +20,7 @@ Freq_table(
   wt = NULL,
   remove_rows = NULL,
   add_row_sum = FALSE,
+  na.rm = TRUE,
   xlab = "Category",
   flip = FALSE,
   size_axis_title = 12,
@@ -57,6 +58,8 @@ Freq_table(
 \item{remove_rows}{Enter the number of rows to hide and they will be removed}
 
 \item{add_row_sum}{default FALSE, Sum excluding removed rows}
+
+\item{na.rm}{TRUE}
 
 \item{xlab}{xalb = "Category",}
 
