@@ -147,5 +147,4 @@ Freq_table(df, term, prop = TRUE, remove_rows = 1, add_row_sum = TRUE, xlab = "ì
 Freq_table(eduteck2$Q9, prop=TRUE, remove_rows=1, add_row_sum=TRUE, vjust=-0.5,
            plot=T, size_axis = 14, flip=FALSE, yadd=130, xlab="Eduteck Time", size_text = 6) #'
 }
-
 }
