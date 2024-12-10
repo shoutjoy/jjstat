@@ -14,7 +14,7 @@ add_row_sum(df, freq_col = 2, prop_col = 3)
 \item{prop_col}{"prop(%)" or number}
 }
 \value{
-df
+data.frame
 }
 \description{
 add_row_sum, row sum

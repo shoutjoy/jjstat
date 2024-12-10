@@ -21,6 +21,7 @@ Freq_table(
   remove_rows = NULL,
   add_row_sum = FALSE,
   na.rm = TRUE,
+  na_treatment = "무응답",
   xlab = "Category",
   flip = FALSE,
   size_axis_title = 12,
@@ -60,6 +61,8 @@ Freq_table(
 \item{add_row_sum}{default FALSE, Sum excluding removed rows}
 
 \item{na.rm}{TRUE}
+
+\item{na_treatment}{"무응답", # 결측값 대체값}
 
 \item{xlab}{xalb = "Category",}
 
@@ -144,6 +147,5 @@ Freq_table(df, term, prop = TRUE, remove_rows = 1, add_row_sum = TRUE, xlab = "�
 Freq_table(eduteck2$Q9, prop=TRUE, remove_rows=1, add_row_sum=TRUE, vjust=-0.5,
            plot=T, size_axis = 14, flip=FALSE, yadd=130, xlab="Eduteck Time", size_text = 6) #'
 }
-
 
 }

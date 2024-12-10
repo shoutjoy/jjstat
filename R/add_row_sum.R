@@ -3,7 +3,7 @@
 #' @param df df datat
 #' @param freq_col "Freq" or number
 #' @param prop_col "prop(%)" or number
-#' @return df
+#' @return data.frame
 #' @export
 #'
 #' @examples
