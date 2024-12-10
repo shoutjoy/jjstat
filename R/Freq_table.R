@@ -93,6 +93,8 @@
 #' Freq_table(eduteck2$Q9, prop=TRUE, remove_rows=1, add_row_sum=TRUE, vjust=-0.5,
 #'            plot=T, size_axis = 14, flip=FALSE, yadd=130, xlab="Eduteck Time", size_text = 6) #'
 #' }
+
+
 Freq_table <- function(data, ...,
                        prop = FALSE,
                        plot = FALSE,
@@ -100,108 +102,105 @@ Freq_table <- function(data, ...,
                        size_text = 4,
                        size_axis = 10,
                        vjust = -0.05,
-                       hjust = 0.5,
+                       hjust = 0.5, # hjust 기본값 변경
                        yadd = 100,
                        legend.position = "",
                        reorder = FALSE,
                        wt = NULL,
                        remove_rows = NULL,
                        add_row_sum = FALSE,
-                       na.rm = TRUE, # 결측값 처리 여부
-                       na_treatment = "무응답", # 결측값 대체값
-                       xlab = "Category",
+                       xlab = "Category", # x축 이름 기본값 변경
                        flip = FALSE,
                        size_axis_title = 12,
                        sort_bar = TRUE,
                        type = "res") {
 
-  # 데이터가 벡터 또는 리스트일 경우 데이터프레임으로 변환
-  if (is.vector(data) || is.factor(data)) {
-    data <- data.frame(term = as.character(data))  # 벡터나 리스트를 데이터프레임으로 변환
-  } else if (is.data.frame(data)) {
-    # 데이터프레임일 경우 첫 번째 열을 "term"으로 설정
-    if (!"term" %in% colnames(data)) {
-      if (ncol(data) == 1) {
-        colnames(data) <- "term"
-      } else {
-        stop("Data frame must have only one column or explicitly include a 'term' column.")
-      }
-    }
-  } else {
-    stop("Invalid data type. Input must be a vector, factor, or data.frame.")
+  # 행 복원
+  if (!is.null(wt)) {
+    data <- unCount(data, sel = wt)
   }
 
-  # NA 및 빈 문자열 처리 (옵션으로 제어)
-  if (na.rm) {
-    # 결측값 제거
-    data <- data %>% filter(term != "" & !is.na(term))
+  # 데이터 프레임 확인
+  if (is.data.frame(data)) {
+    select_vars <- c(...)
+    res <- data[, c(...)] %>%
+      table() %>%
+      as.data.frame() %>%
+      mutate("prop(%)" = Freq / sum(Freq) * 100)
+    colnames(res)[1] <- "term" #추가
   } else {
-    # 결측값을 지정된 값으로 대체
-    data <- data %>% mutate(term = ifelse(term == "" | is.na(term), na_treatment, term))
+    data <- data.frame(data)
+    select_vars <- "term"
+    res <- data %>%
+      table() %>%
+      as.data.frame() %>%
+      mutate("prop(%)" = Freq / sum(Freq) * 100)
+    colnames(res) <- c("term", "Freq", "prop(%)") # 추가
   }
 
-  # 테이블 생성
-  res <- as.data.frame(table(data$term))
-  colnames(res) <- c("term", "Freq")
+  # 컬럼 이름 설정
+  if (length(select_vars) == 1) {
+    colnames(res) <- c(select_vars, "Freq", "prop(%)")
+  }
 
-  # 비율 계산은 prop = TRUE인 경우에만 실행
-  if (prop) {
+  # 선택된 행 제거
+  if (!is.null(remove_rows)) {
+    res <- res[-remove_rows, ]
     total_freq <- sum(res$Freq)
     res <- res %>%
       mutate("prop(%)" = Freq / total_freq * 100)
   }
 
-  # 선택된 행 제거
-  if (!is.null(remove_rows)) {
-    # 유효한 row 번호 확인
-    if (all(remove_rows > 0 & remove_rows <= nrow(res))) {
-      res <- res[-remove_rows, ]
-      if (prop) {  # 비율을 계산하는 경우에만 갱신
-        total_freq <- sum(res$Freq)
-        res <- res %>%
-          mutate("prop(%)" = Freq / total_freq * 100)
-      }
-    } else {
-      stop("Invalid row numbers provided in 'remove_rows'. Check input.")
-    }
-  }
-
-  # term 열을 문자형으로 변환
-  res <- res %>% mutate(term = as.character(term))
+  # 그래프 데이터 저장 (add_row_sum 이전 상태)
+  graph_data <- res
 
   # 합계 행 추가
   if (add_row_sum) {
-    if (prop) {
-      res <- res %>%
-        add_row(term = "합계", Freq = sum(res$Freq), `prop(%)` = 100)
-    } else {
-      res <- res %>%
-        add_row(term = "합계", Freq = sum(res$Freq))
-    }
+    total_freq <- sum(res$Freq)
+    res <- res %>%
+      add_row(term = "합계", Freq = total_freq, `prop(%)` = 100)
   }
 
-  # 그래프 데이터 저장
-  graph_data <- res
-
-  if (sort_bar) {
+  if (!prop) {
+    graph_data <- graph_data %>% dplyr::select(-`prop(%)`)
     graph_data <- graph_data %>%
-      mutate(term = fct_reorder(term, Freq))
+      mutate(LABEL = paste0("n=", Freq))
+  } else {
+    graph_data <- graph_data %>%
+      mutate(LABEL = paste0(Freq, "(", round(`prop(%)`, 2), " %)"))
+  }
+
+  # 그래프 데이터에서 "합계" 행 제외
+  graph_data <- graph_data %>%
+    filter(term != "합계") %>%
+    unite(x_var, where(is.factor), where(is.character), remove = FALSE)
+
+  # 축 레이블 정리: 범주 이름만 포함
+  graph_data <- graph_data %>%
+    mutate(x_var_clean = term) # 범주 이름 정확히 유지
+
+  # 막대 정렬
+  if (sort_bar) {
+    graph_data <- graph_data %>% mutate(x_var_clean = fct_reorder(x_var_clean, Freq))
   }
 
   # 그래프 생성
   g <- graph_data %>%
-    filter(term != "합계") %>%
-    ggplot(aes(x = term, y = Freq, fill = term)) +
-    geom_bar(stat = "identity") +
+    ggplot(aes(x = x_var_clean, y = Freq)) +
+    geom_bar(stat = "identity", aes(fill = x_var_clean)) +
     ylim(0, max(graph_data$Freq) + yadd) +
-    geom_text(aes(label = paste0(Freq, if (prop) paste0(" (", round(`prop(%)`, 2), "%)") else "")),
-              vjust = vjust, size = size_text) +
     theme_bw() +
     labs(x = xlab, y = "Frequency") +
-    theme(axis.text.x = element_text(angle = angle, size = size_axis),
+    geom_text(aes(label = LABEL),
+              vjust = ifelse(flip, 0.5, vjust),
+              hjust = ifelse(flip, hjust, 0.5), # flip이 FALSE일 때 중앙 정렬
+              size = size_text) +
+    theme(axis.text.x = element_text(angle = angle,
+                                     size = size_axis, face = "bold"),
           axis.title = element_text(size = size_axis_title),
           legend.position = legend.position)
 
+  # 플립 옵션
   if (flip) {
     g <- g + coord_flip()
   }
@@ -211,16 +210,18 @@ Freq_table <- function(data, ...,
     print(g)
   }
 
-  # 결과 반환
-  all <- list(result = res, graph = g)
+  # 결과와 그래프 반환
+  all <- list(result = res %>% tibble::tibble(), graph_data = graph_data %>% tibble::tibble(), g = g)
 
   switch(type,
          all = all,
-         res = res,
+         res = res %>% tibble::tibble(),
+         data = res %>% tibble::tibble(),
+         graph_data = graph_data %>% tibble::tibble(),
+         g = g,
+         plot = g,
          graph = g)
 }
-
-#
 # Freq_table <- function(data, ...,
 #                        prop = FALSE,
 #                        plot = FALSE,
@@ -249,7 +250,11 @@ Freq_table <- function(data, ...,
 #   } else if (is.data.frame(data)) {
 #     # 데이터프레임일 경우 첫 번째 열을 "term"으로 설정
 #     if (!"term" %in% colnames(data)) {
-#       colnames(data)[1] <- "term"
+#       if (ncol(data) == 1) {
+#         colnames(data) <- "term"
+#       } else {
+#         stop("Data frame must have only one column or explicitly include a 'term' column.")
+#       }
 #     }
 #   } else {
 #     stop("Invalid data type. Input must be a vector, factor, or data.frame.")
@@ -343,5 +348,5 @@ Freq_table <- function(data, ...,
 #          res = res,
 #          graph = g)
 # }
-#
+
 #

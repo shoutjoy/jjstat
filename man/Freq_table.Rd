@@ -20,8 +20,6 @@ Freq_table(
   wt = NULL,
   remove_rows = NULL,
   add_row_sum = FALSE,
-  na.rm = TRUE,
-  na_treatment = "무응답",
   xlab = "Category",
   flip = FALSE,
   size_axis_title = 12,
@@ -60,10 +58,6 @@ Freq_table(
 
 \item{add_row_sum}{default FALSE, Sum excluding removed rows}
 
-\item{na.rm}{TRUE}
-
-\item{na_treatment}{"무응답", # 결측값 대체값}
-
 \item{xlab}{xalb = "Category",}
 
 \item{flip}{FALSE}
@@ -73,6 +67,10 @@ Freq_table(
 \item{sort_bar}{TRUE(default)}
 
 \item{type}{default  "res",  all, res=data, g=plot=graph}
+
+\item{na.rm}{TRUE}
+
+\item{na_treatment}{"무응답", # 결측값 대체값}
 }
 \value{
 Freqency table
