@@ -5,6 +5,7 @@
 #' @param col "빈도"
 #' @param name 구분
 #' @param ns FALSE 생성한 것사용 ,TRUE RVAideMemoire로 행렬로 나타남
+#' @param sep sep="/"
 #'
 #' @return df
 #' @export
@@ -15,7 +16,7 @@
 #' eduteck_s$Q31%>% na_remover() %>% Freq_table(prop=TRUE) %>%
 #'   fei_Chisq_test()
 #' }
-fei_Chisq_test <- function(tabledf, col = "빈도", name = "구분", ns = FALSE) {
+fei_Chisq_test <- function(tabledf, col = "빈도", name = "구분", ns = FALSE,sep=" / ") {
   # RVAideMemoire 패키지 로드
   if (!requireNamespace("RVAideMemoire", quietly = TRUE)) {
     stop("RVAideMemoire 패키지를 설치해야 합니다. install.packages('RVAideMemoire')")
@@ -43,7 +44,7 @@ fei_Chisq_test <- function(tabledf, col = "빈도", name = "구분", ns = FALSE)
       arrange(Freq %>% desc()) %>%
       Freq_table_colnames() %>%
       Pull(col = col, name = name) %>%
-      chisq_multcomp2()
+      chisq_multcomp2(sep=sep)
 
     chisq_md <- chisq_posthoc %>%
       md()  # chisq_multcomp2() 결과 요약

@@ -1,6 +1,7 @@
 #' Pairwise comparisons after a chi-squared goodness-of-fit test
 #'
 #' @param x numeric vector (counts).
+#' @param sep sep =" / " default
 #' @param p.method method for p-values correction. See help of p.adjust
 #' @param ko TRUE variable names is changed to korean language
 #' @describeIn Performs pairwise comparisons after a global chi-squared goodness-of-fit test.
@@ -13,12 +14,12 @@
 #' #'
 #' counts <- c(49,30,63,59)
 #' chisq.test(counts)
-#' chisq_multcomp(counts)
+#' chisq_multcomp2(counts)
 #' # compare
-#' chisq.multcomp(counts)
+#' chisq.multcomp2(counts)
 #'
 #' }
-chisq_multcomp2 <- function(x, p.method = "fdr", ko=TRUE) {
+chisq_multcomp2 <- function(x, p.method = "fdr", ko=TRUE, sep = " / ") {
   library(dplyr)
   library(tidyr)
   library(stats)
@@ -60,7 +61,7 @@ chisq_multcomp2 <- function(x, p.method = "fdr", ko=TRUE) {
   plist$cell_1 = as.numeric(plist$cell_1)
 
   # pairwise 열 생성 (초기 값은 숫자로 결합)
-  plist <- plist %>% tidyr::unite(pairwise, cell_2, cell_1, sep = " / ", remove = FALSE)
+  plist <- plist %>% tidyr::unite(pairwise, cell_2, cell_1, sep = sep , remove = FALSE)
 
 
   # change_name 리스트 생성 (printx와 data_names를 묶음)

@@ -4,7 +4,7 @@
 \alias{fei_Chisq_test}
 \title{fei분석을위한 카이제곱함수}
 \usage{
-fei_Chisq_test(tabledf, col = "빈도", name = "구분", ns = FALSE)
+fei_Chisq_test(tabledf, col = "빈도", name = "구분", ns = FALSE, sep = " / ")
 }
 \arguments{
 \item{tabledf}{빈도분석 Freq_table 데이터}
@@ -14,6 +14,8 @@ fei_Chisq_test(tabledf, col = "빈도", name = "구분", ns = FALSE)
 \item{name}{구분}
 
 \item{ns}{FALSE 생성한 것사용 ,TRUE RVAideMemoire로 행렬로 나타남}
+
+\item{sep}{sep="/"}
 }
 \value{
 df
