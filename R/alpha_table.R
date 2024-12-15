@@ -86,7 +86,7 @@ alpha_table = function(alpha_data_res,
       #Required when combining multiple data to create another table
       data_res <- alpha_data_res %>%psych::alpha(check.keys = check.keys)
       alpha = paste0("alpha = ",
-                     round(data_res$total[1],3),
+                     round(data_res$total[1],3),"\n",
                      ", 95%CI[",round(data_res$feldt[[1]],2),", ",
                      round(data_res$feldt[[3]],2), "]")
 

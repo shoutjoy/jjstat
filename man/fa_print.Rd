@@ -2,7 +2,7 @@
 % Please edit documentation in R/fa_print.R
 \name{fa_print}
 \alias{fa_print}
-\title{Print Factor Analysis}
+\title{fa_print: A custom function to format and display Factor Analysis (FA) results}
 \usage{
 fa_print(
   data,
@@ -15,62 +15,34 @@ fa_print(
 )
 }
 \arguments{
-\item{data}{suammry fa}
+\item{data}{A data frame containing the FA results to format.}
 
-\item{cut}{cut off 0.4}
+\item{cut}{Numeric. The threshold for suppressing small factor loadings. Defaults to 0.4.}
 
-\item{sort}{TRUE FALSE}
+\item{sort}{Logical. If TRUE, sorts the factor loadings. Defaults to TRUE.}
 
-\item{abs}{TRUE cut}
+\item{abs}{Logical. If TRUE, applies the absolute value to the factor loadings for threshold comparison. Defaults to TRUE.}
 
-\item{desc}{decreasing=TRUE}
+\item{desc}{Logical. If TRUE, sorts in descending order. Defaults to TRUE.}
 
-\item{star}{star > cut}
+\item{star}{Logical. If TRUE, marks factor loadings exceeding the cut-off with "*". Defaults to FALSE.}
 
-\item{justify}{justify is align "right"}
+\item{justify}{Character. Specifies justification ("left", "center", or "right") for formatted values. Defaults to "right".}
 }
 \value{
-data.frame
+A data frame with formatted and optionally sorted FA results, keeping "Eigenvalues",
+        "Proportion Var", and "Cumulative Var" unaffected by filtering and sorting.
 }
 \description{
-Print Factor Analysis
+fa_print: A custom function to format and display Factor Analysis (FA) results
 }
 \examples{
-
 \dontrun{
-#'
-data <- data.frame(
-  source = c("B01", "B02", "B03", "B04", "B05",
-  "B06", "B07", "B08", "B09", "B10",
-             "B11", "B12", "B13", "B14", "B15",
-              "B16", "B17", "B18", "B19", "B20",
-             "B21", "B22", "B23", "B24", "B25",
-             "eigen_vlaue", "Proportion_Var", "Cumulative_Var"),
-  MR1 = c(-0.487, 0.966, -0.411, 0.579, 0.075,
-  0.04, 0.04, -0.195, 0.15, 0.494, 0.059,
-   -0.157, -0.149, 0.58, -0.39, -0.203, 0.109,
-   0.161, -0.173, -0.046, -0.156, 0.064, -0.161,
-   -0.267, -0.06, 2.77, 0.111, 0.111),
-  MR2 = c(-0.006, 0.029, 0.039, 0.021, 0.535,
-   0.689, 0.67, 0.427, 0.793, -0.122, -0.035,
-   0.014, 0.072, -0.019, -0.019, 0.141, -0.004,
-    0.139, 0.069, 0.013, -0.029, 0.01, -0.146,
-     0.646, 0.72, 3.05, 0.122, 0.233),
-  MR4 = c(0.144, -0.051, 0.017, -0.034, -0.111,
-   0.171, -0.008, -0.043, 0.009, -0.013, 0.023,
-    0.661, 0.288, -0.111, 0.198, 0.297, 0.471,
-    0.268, -0.058, 0.751, 0.308, 0.429, 0.17,
-    -0.161, 0.07, 1.93, 0.077, 0.31),
-  MR5 = c(0.034, 0.157, 0.201, -0.231, -0.044,
-   -0.003, 0.23, 0.236, -0.094, -0.351, 0.868,
-    0.155, 0.165, -0.296, 0.159, -0.059, -0.064,
-     0.22, 0.126, -0.077, 0.186, -0.072, 0.29,
-     -0.037, -0.06, 1.49, 0.059, 0.369),
-  MR3 = c(-0.037, 0.032, 0.389, -0.233, 0.195,
-   -0.153, -0.228, -0.525, 0.174, 0.01, 0.011,
-    0.077, 0.174, 0.029, 0.021, 0.346, 0.176,
-     0.383, 0.561, -0.157, 0.399, 0.236, 0.242,
-     0.191, -0.104, 1.62, 0.065, 0.434)
-)
+# Example usage with a FA result
+library(psych)
+results <- psych::fa(mtcars, nfactors = 2, rotate = "promax")
+summary <- summary_fa(results)
+formatted_results <- fa_print(summary, cut = 0.3, star = TRUE)
+print(formatted_results)
 }
 }
