@@ -50,6 +50,6 @@ fei_Chisq_test <- function(tabledf, col = "빈도", name = "구분", ns = FALSE,
       md()  # chisq_multcomp2() 결과 요약
   }
 
-  print(chisq_posthoc)
+  print(chisq_posthoc %>% dall())
   return(chisq_md)
 }

@@ -18,6 +18,8 @@ table_df_bar(
   linetype = "dashed",
   linecolor = "gray50",
   show_line = FALSE,
+  levels = c("전혀 아니다", "아니다", "중간이다", "그렇다",
+    "매우 그렇다"),
   sort = FALSE
 )
 }
@@ -43,6 +45,8 @@ table_df_bar(
 \item{x11_height}{x11_height 7}
 
 \item{show_line}{show_line, default FALSE}
+
+\item{levels}{c("전혀 아니다", "아니다", "중간이다", "그렇다", "매우 그렇다")}
 
 \item{sort}{FALSE (arrange graph )}
 }

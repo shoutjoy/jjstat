@@ -11,6 +11,7 @@
 #' @param x11_width x11_width 10
 #' @param x11_height x11_height 7
 #' @param show_line show_line, default FALSE
+#' @param levels  c("전혀 아니다", "아니다", "중간이다", "그렇다", "매우 그렇다")
 #' @param sort FALSE (arrange graph )
 #'
 #' @return graph
@@ -24,6 +25,7 @@
 
 #' }
 #'
+
 table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 100,
                          x.title = "Items",
                          flip = TRUE,
@@ -31,6 +33,7 @@ table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 100,
                          x11_width=8, x11_height=5,
                          linetype="dashed", linecolor="gray50",
                          show_line = FALSE,  # 선을 보이게 할지 여부를 결정하는 인수 추가
+                         levels = c("전혀 아니다", "아니다", "중간이다", "그렇다", "매우 그렇다"),
                          sort = FALSE) {
   # 데이터 정렬: sort가 TRUE일 경우 Freq에 따라 정렬
   if (sort) {
@@ -44,7 +47,13 @@ table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 100,
   # flip이 TRUE일 경우 그래프를 가로로 회전
   if (flip) {
     # ggplot으로 막대 그래프 생성
-    p <- ggplot(df, aes(x = reorder(term, Freq), y = Freq, fill = term)) +
+    if(sort){
+      p0 <- ggplot(df, aes(x = reorder(term, Freq), y = Freq, fill = term))
+    }else{
+      p0 <- ggplot(df, aes(x = term, y = Freq, fill = term))
+
+    }
+    p <- p0 +
       geom_bar(stat = "identity") +
       geom_text(aes(label = paste0(Freq, " (", round(`prop(%)`, 2), "%)")),
                 hjust = hjust, size = size.text) +
@@ -60,7 +69,7 @@ table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 100,
 
   } else {
     # 범주의 순서 설정
-    df$term <- factor(df$term, levels = c("전혀 아니다", "아니다", "중간이다", "그렇다", "매우 그렇다"))
+    df$term <- factor(df$term, levels = levels)
 
     # flip이 FALSE일 경우
     p <- ggplot(df, aes(x = term, y = Freq, group = 1, fill = term)) +
@@ -88,6 +97,8 @@ table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 100,
   # 그래프 출력
   print(p)
 }
+
+
 # table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 150,
 #                          x.title = "Items",
 #                          flip = TRUE,

@@ -161,6 +161,9 @@ Freq_table <- function(data, ...,
       dplyr::mutate(term = ifelse(term == "" | is.na(term), na_treatment, term))
   }
 
+  # term 열을 문자형으로 변환 (정렬 및 합계 추가를 위한 처리)
+  data <- data %>% dplyr::mutate(term = as.character(term))
+
   # 빈도표 생성
   res <- data %>%
     dplyr::count(term) %>%
@@ -192,7 +195,8 @@ Freq_table <- function(data, ...,
       dplyr::mutate(LABEL = paste0("n=", Freq))
   } else {
     graph_data <- graph_data %>%
-      dplyr::mutate(LABEL = paste0(Freq, "(", round(`prop(%)`, 2), " %)"))
+      dplyr::mutate(LABEL = paste0(Freq, "(", round(`prop(%)`, 2), " %)")
+      )
   }
 
   # 그래프 데이터에서 "합계" 행 제외
@@ -203,7 +207,9 @@ Freq_table <- function(data, ...,
   # 막대 정렬
   if (sort_bar) {
     graph_data <- graph_data %>%
-      dplyr::mutate(x_var_clean = forcats::fct_reorder(x_var_clean, Freq))
+      dplyr::mutate(
+        x_var_clean = forcats::fct_reorder(as.factor(x_var_clean), Freq)
+      )
   }
 
   # 그래프 생성

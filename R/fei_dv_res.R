@@ -31,7 +31,7 @@ fei_dv_res = function(df,title ="",
   console = Freq_table(df_var, prop=TRUE) %>%
     add_row_sum() %>%
     move_rows(4,1,4, 2, 5,3) %>%
-    Freq_table_apa()
+    Freq_table_apa(paste0(title,"에 관한 "))
   # Freq_table_colnames()
 
   markdown = Freq_table(df_var, prop=TRUE) %>%
