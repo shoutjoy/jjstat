@@ -2,35 +2,45 @@
 % Please edit documentation in R/mean_bar.R
 \name{mean_bar}
 \alias{mean_bar}
-\title{mean_bar: Create a Bar Plot to Compare Means}
+\title{mean_bar: Bar plot of means with optional sorting and customizations}
 \usage{
-mean_bar(df, x.title = "문항", sort = FALSE)
+mean_bar(
+  df,
+  x.title = "문항",
+  sort = FALSE,
+  size.text = 4,
+  text.angle = 0,
+  size.axis = 12
+)
 }
 \arguments{
-\item{df}{A data frame containing at least two columns:
-- `var`: A categorical variable representing the grouping.
-- `MEAN`: A numeric variable representing the mean values.}
+\item{df}{A data frame containing 'var' and 'MEAN' columns.}
 
-\item{x.title}{text default "문항"}
+\item{x.title}{A character string for the x-axis title. Default is "문항".}
 
-\item{sort}{Logical. If TRUE, sorts the bars by mean values. Default is FALSE.}
+\item{sort}{Logical. If TRUE, sorts the data by mean values in ascending order. Default is FALSE.}
+
+\item{size.text}{Numeric. Size of the text labels on bars. Default is 4.}
+
+\item{text.angle}{Numeric. Angle of the x-axis text labels. Default is 0.}
+
+\item{size.axis}{Numeric. Size of the axis text labels. Default is 12.}
 }
 \value{
-A ggplot2 object displaying the bar plot.
+A ggplot object showing a bar plot of means.
 }
 \description{
-This function generates a bar plot comparing the mean values of a dependent variable,
-with options to sort the bars based on the mean values.
+This function generates a bar plot displaying mean values, allowing customization of axis labels, text size, angle, and sorting.
 }
 \examples{
 \dontrun{
-# Example data
-data <- data.frame(var = c("A", "B", "C"),
-                   MEAN = c(3.5, 2.8, 4.1))
-# Plot without sorting
-mean_bar(data)
+# Example dataset
+df <- data.frame(var = c("Q1", "Q2", "Q3"), MEAN = c(3.5, 4.2, 2.8))
 
-# Plot with sorting
-mean_bar(data, sort = TRUE)
+# Default bar plot
+mean_bar(df)
+
+# Sorted bar plot with customized text size and angle
+mean_bar(df, sort = TRUE, size.text = 5, text.angle = 45)
 }
 }

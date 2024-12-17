@@ -2,28 +2,32 @@
 % Please edit documentation in R/colnames_change.R
 \name{colnames_change}
 \alias{colnames_change}
-\title{colnames_change}
+\title{colnames_change: Change column names partially or entirely, with optional preservation of original names}
 \usage{
 colnames_change(df, ...)
 }
 \arguments{
-\item{df}{df}
+\item{df}{A data frame. The target data frame whose column names need to be changed.}
 
-\item{...}{input list}
+\item{...}{Character vector of new column names. Use an empty string (`""`) to keep the original column name for specific positions.}
 }
 \value{
-data
+A data frame with updated column names. Columns corresponding to `""` in the input retain their original names.
 }
 \description{
-colnames_change
+colnames_change: Change column names partially or entirely, with optional preservation of original names
 }
 \examples{
 \dontrun{
-#'
-# 사용 예시
-jutLca3 \%>\%
-  lca_class_freq() \%>\%
-  data.frame() \%>\%
-  colnameschange("Class", "N")
+# Example with partial column renaming using mtcars
+data(mtcars)
+head(mtcars)
+
+# Rename selected columns
+mtcars_updated <- mtcars \%>\%
+  colnames_change("Miles_per_Gallon", "Cylinders", "Displacement", "", "Weight")
+
+head(mtcars_updated)
 }
+
 }

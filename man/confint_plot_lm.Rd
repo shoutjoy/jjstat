@@ -2,46 +2,64 @@
 % Please edit documentation in R/confint_plot_lm.R
 \name{confint_plot_lm}
 \alias{confint_plot_lm}
-\title{lm() confint plot}
+\title{Plot Confidence Intervals for Linear Model or Data Frame}
 \usage{
 confint_plot_lm(
   lm_data,
+  input = c("lm", "data.frame"),
   size_text = 12,
+  size_title = 14,
   color = "steelblue",
   linewidth = 1,
   alpha = 1,
   intercept = FALSE,
+  errorbar_height = 0.3,
+  x.title = "Estimate",
+  y.title = "Item",
   type = "g"
 )
 }
 \arguments{
-\item{lm_data}{lm(formula. data )}
+\item{lm_data}{An object of class 'lm' (linear model) or a data.frame containing results with estimates and confidence intervals.}
 
-\item{size_text}{text size 12}
+\item{input}{Character, one of 'lm' or 'data.frame'. Determines how lm_data is handled.}
 
-\item{color}{color = "steelblue"}
+\item{size_text}{Numeric, size of text in the plot (default = 12).}
 
-\item{linewidth}{linewidth =1}
+\item{size_title}{Numeric, size of axis titles in the plot (default = 14).}
 
-\item{alpha}{alpha = 0.9}
+\item{color}{Character, color of error bars (default = "steelblue").}
 
-\item{intercept}{default FALSE}
+\item{linewidth}{Numeric, thickness of error bars (default = 1).}
 
-\item{type}{graph is g, data =df , all is res}
+\item{alpha}{Numeric, transparency of error bars (default = 1).}
+
+\item{intercept}{Logical, whether to include the intercept in the plot (default = FALSE).}
+
+\item{errorbar_height}{Numeric, height of error bar ends (default = 0.3).}
+
+\item{x.title}{Character, label for the x-axis (default = "Estimate").}
+
+\item{y.title}{Character, label for the y-axis (default = "Item").}
+
+\item{type}{Character, output type ('g' for plot, 'res' for results, 'df' for tidy dataframe).}
 }
 \value{
-plot and data
+A ggplot object, results list, or tidy dataframe based on `type`.
 }
 \description{
-lm() confint plot
+Plot Confidence Intervals for Linear Model or Data Frame
 }
 \examples{
 \dontrun{
+# Example with lm object
+model <- lm(mpg ~ wt + hp, data = mtcars)
+confint_plot_lm(model, input = "lm", errorbar_height = 0.1, size_title = 16)
 
-lm(mpg ~ hp+ wt+ disp, mtcars) \%>\% confint_plot_lm()
-
-lm(mpg ~ hp+ wt+ disp, mtcars) \%>\% confint_plot_lm(intercept=T)
-
+# Example with data.frame
+df <- data.frame(term = c("wt", "hp"), estimate = c(-5.344, -0.018),
+                 conf.low = c(-7.344, -0.032), conf.high = c(-3.344, -0.004))
+confint_plot_lm(df, input = "data.frame", errorbar_height = 0.3,
+                x.title = "Beta Coefficients", y.title = "Predictors")
 }
-
 }
