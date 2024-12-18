@@ -2,7 +2,7 @@
 % Please edit documentation in R/table_df_bar.R
 \name{table_df_bar}
 \alias{table_df_bar}
-\title{table_df_bar grap}
+\title{Generate a Bar Plot with Automatic Column Renaming}
 \usage{
 table_df_bar(
   df,
@@ -24,43 +24,46 @@ table_df_bar(
 )
 }
 \arguments{
-\item{df}{table_df res}
+\item{df}{A data frame with at least three columns: the first column for terms, the second for frequencies, and the third for proportions.}
 
-\item{size.x}{size.x =14  axis text}
+\item{size.x}{Numeric. Font size for axis text. Default is 20.}
 
-\item{size.text}{size text label 4.5}
+\item{size.text}{Numeric. Font size for text labels on bars. Default is 6.}
 
-\item{add_range}{graph ragne +150}
+\item{add_range}{Numeric. Additional range added to the maximum frequency for y-axis limits. Default is 100.}
 
-\item{x.title}{x title}
+\item{x.title}{Character. Title for the x-axis. Default is "Items".}
 
-\item{flip}{flip FALSE}
+\item{flip}{Logical. Whether to flip the plot to horizontal orientation. Default is TRUE.}
 
-\item{hjust}{hjust -0.1}
+\item{hjust}{Numeric. Horizontal adjustment for text labels on bars. Default is -0.1.}
 
-\item{vjust}{vjust -0.5}
+\item{vjust}{Numeric. Vertical adjustment for text labels on bars. Default is -0.5.}
 
-\item{x11_width}{x11_width 10}
+\item{x11_width}{Numeric. Width of the x11 window. Default is 8.}
 
-\item{x11_height}{x11_height 7}
+\item{x11_height}{Numeric. Height of the x11 window. Default is 5.}
 
-\item{show_line}{show_line, default FALSE}
+\item{linetype}{Character. Line type for the optional line. Default is "dashed".}
 
-\item{levels}{c("전혀 아니다", "아니다", "중간이다", "그렇다", "매우 그렇다")}
+\item{linecolor}{Character. Color of the optional line. Default is "gray50".}
 
-\item{sort}{FALSE (arrange graph )}
+\item{show_line}{Logical. Whether to display a line connecting the bars. Default is FALSE.}
+
+\item{levels}{Character vector. Custom order for categories on the x-axis. Default is c("전혀 아니다", "아니다", "중간이다", "그렇다", "매우 그렇다").}
+
+\item{sort}{Logical. Whether to sort the bars by frequency in descending order. Default is FALSE.}
 }
 \value{
-graph
+A bar plot displayed in an x11 window.
 }
 \description{
-table_df_bar grap
+Generate a Bar Plot with Automatic Column Renaming
 }
 \examples{
 \dontrun{
-#'
-table_df_multit(eduteck2 \%>\% select(contains("Q4_")))\%>\%
-  table_df_bar(sort=TRUE)
+data <- data.frame(term = c("1", "2", "3", "4"), Freq = c(250, 66, 215, 364),
+                   `prop(\%)` = c(27.9, 7.37, 24.0, 40.7))
+table_df_bar(data)
 }
-
 }

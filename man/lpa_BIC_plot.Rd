@@ -2,7 +2,7 @@
 % Please edit documentation in R/lpa_bic_plot.R
 \name{lpa_BIC_plot}
 \alias{lpa_BIC_plot}
-\title{lpa_BIC_plot}
+\title{BIC Plot for Latent Profile Analysis (LPA)}
 \usage{
 lpa_BIC_plot(
   data,
@@ -18,37 +18,35 @@ lpa_BIC_plot(
 )
 }
 \arguments{
-\item{data}{data}
+\item{data}{A data frame for LPA modeling.}
 
-\item{n_profiles_range}{1:9}
+\item{n_profiles_range}{A numeric vector specifying the range of profiles to test (default: 1:6).}
 
-\item{type}{"all", res, data, long_data, wide_data, graph, gg}
+\item{type}{A string specifying the output type: "all", "data", "long_data", "wide_data", "graph".}
 
-\item{legend_position}{top}
+\item{legend_position}{A string specifying legend position in the plot (default: "top").}
 
-\item{covar_model}{"EEI", "EEE", "VVI", "VVV", "EEV", "EII", "VII",VVV}
+\item{covar_model}{A character vector specifying covariance models (default: c("EII", "EEE", "VII", "EEV", "EEI", "VVI", "VVV")).}
 
-\item{set_n_profile}{model 4 default}
+\item{set_n_profile}{A numeric value specifying the selected number of profiles (default: 4).}
 
-\item{size.text}{size.text 4}
+\item{size.text}{Numeric, size of text annotations in the plot (default: 4).}
 
-\item{flip}{y value <0 default}
+\item{flip}{Logical, whether to flip BIC values for plotting (default: TRUE).}
 
-\item{na2zero}{na2zero=FALSE na to 0 change}
+\item{na2zero}{Logical, whether to replace NA values with zeros in BIC results (default: FALSE).}
 
-\item{basic}{basic is "EII", "EEE", "VII", "EEI"}
+\item{basic}{Logical, whether to use a basic set of covariance models (default: TRUE).}
 }
 \value{
-pot
+A list containing the wide data, long data, and the generated ggplot object.
 }
 \description{
-lpa_BIC_plot
+This function generates a BIC plot for comparing covariance structures
+             across different numbers of profiles in Latent Profile Analysis (LPA).
 }
 \examples{
-
 \dontrun{
-
-select(iris, -Species)\%>\%lpa_BIC_plot()
+lpa_BIC_plot(edLca, 1:8, basic = FALSE, set_n_profile = 4)
 }
-
 }

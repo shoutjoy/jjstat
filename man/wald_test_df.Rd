@@ -2,47 +2,41 @@
 % Please edit documentation in R/wald_test_df.R
 \name{wald_test_df}
 \alias{wald_test_df}
-\title{wald-test using data.frame(or tibble)}
+\title{wald_test_df: Wald test for linear model coefficients using a data frame or tibble}
 \usage{
 wald_test_df(data, row1 = 2, row2 = 3, rname1 = "", rname2 = "", sel = "row")
 }
 \arguments{
-\item{data}{lm() and data.frame}
+\item{data}{An object of class `lm`, representing a fitted linear model.}
 
-\item{row1}{row1 = 2}
+\item{row1}{Integer. The row number of the first coefficient to compare (default = 2).}
 
-\item{row2}{row2 = 3}
+\item{row2}{Integer. The row number of the second coefficient to compare (default = 3).}
 
-\item{rname1}{select first row name}
+\item{rname1}{Character. Name of the first term to select when `sel = "term"`. Defaults to "".}
 
-\item{rname2}{select second row name}
+\item{rname2}{Character. Name of the second term to select when `sel = "term"`. Defaults to "".}
 
-\item{sel}{row is number, term rowname}
+\item{sel}{Character. Method for selecting coefficients: "row" (default) for row numbers,
+or "term" for term names.}
 }
 \value{
-diff, z, p value
+A tibble containing the estimated coefficients, standard errors, difference, z-statistic,
+and p-value.
 }
 \description{
-wald-test using data.frame(or tibble)
+This function performs a Wald test to compare two coefficients from a linear model.
+It calculates the difference, z-statistic, and p-value between the selected coefficients.
 }
 \examples{
 \dontrun{
- lm(mpg ~ hp + wt + drat, mtcars) \%>\%wald_test_df()
+# Using default row selection
+lm(mpg ~ hp + wt + drat, mtcars) \%>\% wald_test_df()
 
-# #selecting variable
-lm(mpg ~ hp + wt + drat, mtcars) \%>\%  wald_test_df(row1=2, row2=3)
-#
-# # When other variables are selected and analyzed
- lm(mpg ~ hp + wt + drat, mtcars) \%>\%
-   wald_test_df(row1=2, row2=4)
-#
-# # When variable-names are selected
- lm(mpg ~ hp + wt + drat, mtcars) \%>\%
-   wald_test_df(sel="term", rname1="hp", rname2="wt")
-#
- lm(mpg ~ hp + wt + drat, mtcars) \%>\%
-   wald_test_df(sel="term", rname1="hp", rname2="drat")
- }
+# Selecting specific rows by number
+lm(mpg ~ hp + wt + drat, mtcars) \%>\% wald_test_df(row1 = 2, row2 = 4)
 
-
+# Selecting specific terms by name
+lm(mpg ~ hp + wt + drat, mtcars) \%>\% wald_test_df(sel = "term", rname1 = "hp", rname2 = "wt")
+}
 }
