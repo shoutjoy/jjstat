@@ -20,7 +20,7 @@ A string formatted in APA style (English or Korean), summarizing the descriptive
 mysummary_apa: Generate descriptive statistics in APA style (English or Korean)
 }
 \examples{
-\dontrum{
+\dontrun{
 df <- data.frame(
   var = c("Q33_1", "Q33_2", "Q33_3"),
   N = c(4542, 4542, 4542),

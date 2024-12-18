@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrum{
+#' \dontrun{
 #' df <- data.frame(
 #'   var = c("Q33_1", "Q33_2", "Q33_3"),
 #'   N = c(4542, 4542, 4542),
