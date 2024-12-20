@@ -184,7 +184,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       geom_point(aes(group = key, shape = key), color = "black", size = size.p, show.legend = FALSE) +
       facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +
       ylab("Z-score") +
-      xlab("(a) Profile Decomposition") +
+      xlab("(b) Profile Decomposition") +
       scale_fill_discrete("") +
       labs(title = "Standardized score of the average of LPA") +
       geom_hline(yintercept = 0, linetype = "dashed") +
@@ -201,7 +201,7 @@ lpa_profile_plot <- function(data, n_profiles = 3,
       geom_point(aes(group = factor, shape = factor), color = "black", size = size.p, show.legend = FALSE) +
       facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +
       ylab("Raw-score") +
-      xlab("(b) Profile Overlap") +
+      xlab("(a) Profile Overlap") +
       scale_fill_discrete("") +
       labs(title = "Raw score of the average of the LPA") +
       theme_bw() +

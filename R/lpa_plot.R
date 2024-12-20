@@ -366,7 +366,8 @@ lpa_plot <- function(data, n_profiles = 3,
                     position = position_dodge(width = 0.9), width = 0.25) +
       geom_line(aes(group = profile), color = "black", size = linewidth, show.legend = TRUE) +
       geom_hline(yintercept = 0)+
-      geom_point(aes(group = profile, shape = profile, color = profile), size = size.p, show.legend = TRUE) +
+      geom_point(aes(group = profile, shape = profile, color = profile),
+                 size = size.p, show.legend = TRUE) +
       ylab("Z-score") +
       xlab("(b) Standardization data") +
       scale_fill_discrete("") +
@@ -383,7 +384,8 @@ lpa_plot <- function(data, n_profiles = 3,
       ggplot(aes(x = factor, y = val, fill = profile, group = profile)) +
       geom_col(position = "dodge", alpha = alpha, color = NA) +
       geom_line(aes(group = profile), color = "black", size = linewidth, show.legend = TRUE) +
-      geom_point(aes(group = profile, shape = profile, color = profile), size = size.p, show.legend = TRUE) +
+      geom_point(aes(group = profile, shape = profile,
+                     color = profile), size = size.p, show.legend = TRUE) +
       ylab("Raw-score") +
       xlab("(a) Raw data") +
       labs(title = "Raw score of the average of the LPA") +
@@ -420,7 +422,8 @@ lpa_plot <- function(data, n_profiles = 3,
       ggplot(aes(x = factor, y = val, group = profile)) +
       geom_col(aes(fill = factor), position = "dodge", color = NA, show.legend = show.legend) +
       geom_line(aes(group = profile), size = 1, show.legend = FALSE) +
-      geom_point(aes(group = factor, shape = factor), color = "black", size = size.p, show.legend = FALSE) +
+      geom_point(aes(group = factor, shape = factor),
+                 color = "black", size = size.p, show.legend = FALSE) +
       facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +
       ylab("Raw-score") +
       xlab("(b) Profile Overlap") +
