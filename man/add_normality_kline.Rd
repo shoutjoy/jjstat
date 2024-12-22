@@ -4,14 +4,14 @@
 \alias{add_normality_kline}
 \title{Add Normality Kline}
 \usage{
-add_normality_kline(df, skew = 3, kurt = 10)
+add_normality_kline(df, skew = 3, kurt = 8)
 }
 \arguments{
 \item{df}{A data frame containing statistical summary including Skew and Kurt columns.}
 
 \item{skew}{Threshold for skewness. Default is 3.0.}
 
-\item{kurt}{Threshold for kurtosis. Default is 10.0.}
+\item{kurt}{Threshold for kurtosis. Default is 8.0.}
 }
 \value{
 A data frame with added columns `skew_sig` and `kurt_sig` indicating the normality evaluation.

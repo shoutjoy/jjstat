@@ -4,7 +4,7 @@
 \alias{mysummary_apa}
 \title{mysummary_apa: Generate descriptive statistics in APA style (English or Korean)}
 \usage{
-mysummary_apa(df, sd = FALSE, eng = TRUE)
+mysummary_apa(df, sd = FALSE, eng = FALSE)
 }
 \arguments{
 \item{df}{A data frame containing descriptive statistics, including variables such as N, MEAN, SD, Skew, and Kurt.}

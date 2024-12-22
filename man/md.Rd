@@ -2,14 +2,14 @@
 % Please edit documentation in R/markdwon_table.R
 \name{md}
 \alias{md}
-\title{A tool that outputs data to the viewer}
+\title{md: Generate Styled Data Tables for Reports}
 \usage{
 md(
   data,
   caption = "Table 1. Capiton title input",
   digits = 3,
   font_size = 13,
-  full_width = F,
+  full_width = FALSE,
   table = "paper",
   show = "data",
   format = "html",
@@ -31,74 +31,76 @@ md(
   number = NULL,
   alphabet = NULL,
   catout = FALSE,
-  general = NULL
+  general = NULL,
+  pass = FALSE
 )
 }
 \arguments{
-\item{data}{data.frame or etc data, For , is an R object, which is typically a matrix or data frame. For , a list with each element being a returned value from .kable()xkables()kable()}
+\item{data}{A data frame or tibble to be styled and displayed.}
 
-\item{caption}{table title}
+\item{caption}{A character string for the table caption. Default is "Table 1. Capiton title input".}
 
-\item{digits}{Maximum number of digits for numeric columns, passed to round(). This can also be a vector of length ncol(x), to set the number of digits for individual columns.}
+\item{digits}{An integer indicating the number of decimal places. Default is 3.}
 
-\item{font_size}{table font size}
+\item{font_size}{A numeric value specifying the font size. Default is 13.}
 
-\item{full_width}{table wide and fit values}
+\item{full_width}{Logical, whether the table should use full width. Default is FALSE.}
 
-\item{table}{tbble type 'paper', 'classic', 'dark', 'minimal'}
+\item{table}{A character string specifying the table style. Options are "paper", "classic", "dark", "minimal", and "basic". Default is "paper".}
 
-\item{show}{'markdown' is output to the viewer, and 'data' is output to the console.}
+\item{show}{A character string specifying the type of display. Options are "data", "lm", or "p_add". Default is "data".}
 
-\item{format}{'markdown' and 'html'. default 'html'. A character string. Possible values are , , (Pandoc's pipe tables), (Pandoc's simple tables), and . The value of this argument will be automatically determined if the function is called within a knitr document. The value can also be set in the global option . If is a function, it must return a character string.latexhtmlpipesimplerstformatknitr.table.formatformat}
+\item{format}{The output format of the table. Default is "html".}
 
-\item{row.names}{row names in table(Set if necessary), Logical: whether to include row names. By default, row names are included if is neither nor identical to .rownames(x)NULL1:nrow(x)}
+\item{row.names}{Logical or character vector for row names. Default is NA.}
 
-\item{col.names}{column names in table (Set if necessary)}
+\item{col.names}{A character vector specifying column names. Default is NA.}
 
-\item{align}{Table value align, Column alignment: a character vector consisting of 'l' (left), 'c' (center) and/or 'r' (right). By default or if align = NULL, numeric columns are right-aligned, and other columns are left-aligned. If length(align) == 1L, the string will be expanded to a vector of individual letters, e.g. 'clc' becomes c('c', 'l', 'c'), unless the output format is LaTeX.}
+\item{align}{A character vector specifying column alignment. Default is NULL.}
 
-\item{label}{Table label, he table reference label. By default, the label is obtained from .knitr::opts_current$get('label')}
+\item{label}{A character string for table label. Default is NULL.}
 
-\item{format.args}{A list of arguments to be passed to to format table values, e.g. .format()list(big.mark = ',')}
+\item{format.args}{A list of additional arguments passed to `format()`. Default is an empty list.}
 
-\item{escape}{Boolean; whether to escape special characters when producing HTML or LaTeX tables. When , you have to make sure that special characters will not trigger syntax errors in LaTeX or HTML.escape = FALSE}
+\item{escape}{Logical, whether to escape special characters. Default is TRUE.}
 
-\item{table.attr}{A character string for addition HTML table attributes. This is convenient if you simply want to add a few HTML classes or styles. For example, you can put 'class="table" style="color: red"'.}
+\item{table.attr}{A character string for additional HTML attributes. Default is an empty string.}
 
-\item{booktabs}{booktabs - T/F for whether to use the longtable format. If you have a table that will span over two or more pages, you will have to turn this on.}
+\item{booktabs}{Logical, whether to use LaTeX booktabs style. Default is FALSE.}
 
-\item{longtable}{longtable}
+\item{longtable}{Logical, whether to use LaTeX longtable style. Default is FALSE.}
 
-\item{valign}{You probably won't need to adjust this latex option very often. If you are familar with latex tables, this is the optional position for the tabular environment controling the vertical position of the table relative to the baseline of the surrounding text. Possible choices are , and (default)}
+\item{valign}{A character string specifying vertical alignment. Default is "t".}
 
-\item{position}{kable_styling: A character string determining how to position the table on a page. Possible values include left, center, right, float_left and float_right. Please see the package doc site for demonstrations. For a LaTeX table, if ⁠float_*⁠ is selected, LaTeX package wrapfig will be imported.}
+\item{position}{A character string for table position. Default is "center".}
 
-\item{centering}{Align cener in Table default TRUE}
+\item{centering}{Logical, whether to center align the table. Default is TRUE.}
 
-\item{lightable_options}{Options to customize lightable. Similar with bootstrap_options in kable_styling. Choices include basic, striped and hover.}
+\item{lightable_options}{A character string for lightable styling options. Default is "basic".}
 
-\item{html_font}{A string for HTML css font. For example, html_font = '"Arial Narrow", arial, helvetica, sans-serif'.Everything else you need to specify in kable_styling.}
+\item{html_font}{A character string specifying the font for HTML output. Default is '"Arial Narrow", arial, helvetica, sans-serif'.}
 
-\item{general_title}{Section header for general footnotes. Default is "Note: ".}
+\item{general_title}{A character string specifying the title for footnotes. Default is "Note: ".}
 
-\item{number}{A vector of footnote texts. Footnotes here will be numbered. There is no upper cap for the number of footnotes here}
+\item{number}{A numeric vector specifying footnote numbering. Default is NULL.}
 
-\item{alphabet}{A vector of footnote texts, Footnotes here will be labeled with abc. The vector here should not have more than 26 elements.}
+\item{alphabet}{A character vector specifying footnote alphabet markers. Default is NULL.}
 
-\item{catout}{#p value msg}
+\item{catout}{Logical, whether to output significance markers (e.g., **, *). Default is FALSE.}
 
-\item{general}{#p value msg}
+\item{general}{A character string specifying a general footnote. Default is NULL.}
+
+\item{pass}{Logical, whether to process the table styling. If TRUE, returns the original data. Default is FALSE.}
+}
+\value{
+A styled table if `pass = TRUE`, otherwise returns the original data.
 }
 \description{
-knitr's kable function is the foundation of this package. However, it has many latex/html specific arguments hidden under the ground unless you check its source code. This wrapper function is created to provide better documentation (and auto-complete yay) and at the same time, solve the auto format setting in a better way.
-kableExtra uses the built-in bootstrap themes by default in kable_styling(). Alternatively, you can use a customized table themes for your table. This lightable table style sheet comes with three formats, namely lightable-minimal, lightable-classic, lightable-material and lightable-material-dark with hover and striped options.
+This function generates styled tables for reports, supporting different formats and options for enhanced visual presentation.
 }
 \examples{
-# example code
-
-  \dontrun{
-  markdown_table(mtcars[1:5,], table="minimal")
-
-  ###*** : p < .001, ** : p < .01, * : p < .05"
-  }
+\dontrun{
+  data <- data.frame(A = c(1.234, 2.345, 3.456), B = c(4.567, 5.678, 6.789))
+  md(data, caption = "Example Table", table = "classic")
+}
 }

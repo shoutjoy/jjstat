@@ -2,61 +2,61 @@
 % Please edit documentation in R/plspm_effectbar.R
 \name{plspm_effectbar}
 \alias{plspm_effectbar}
-\title{plspm effect bar graph}
+\title{plspm_effectbar: Bar graph with direct, indirect, and total effects}
 \usage{
 plspm_effectbar(
   x_pls,
-  axis_x = 1,
-  axis_y = 1.1,
-  mar = c(axis_x * 10, 3, 1, 0.5),
-  border = 1,
+  axis_x = 1.3,
+  axis_y = 1.3,
+  angle = 90,
+  hjust = 1,
+  axis_x_pos = 1,
+  size_text = 4,
+  legend.position = "top",
+  input = FALSE,
+  user_data = NULL,
   ylim = c(0, 1),
-  col = c("#9E9AC8", "#DADAEB")
+  col = c("black", "gray")
 )
 }
 \arguments{
-\item{x_pls}{plspm result data}
+\item{x_pls}{A plspm result object or a custom data frame with columns: "relationships", "direct", "indirect".}
 
-\item{axis_x}{axis text size}
+\item{axis_x}{Size of x-axis text. Default is 1.3.}
 
-\item{axis_y}{y axis size}
+\item{axis_y}{Size of y-axis text. Default is 1.3.}
 
-\item{mar}{mar = c(cex.names*11, 3, 1, 0.5)}
+\item{angle}{Angle of x-axis text. Default is 90 degrees.}
 
-\item{border}{1}
+\item{hjust}{Horizontal alignment of x-axis text. Default is 1.}
 
-\item{ylim}{default c(0,1)}
+\item{axis_x_pos}{Adjust x-axis position when axis labels are too large. Default is 1.}
 
-\item{col}{NA bar color 1:black, 2 redc("#9E9AC8", "#DADAEB")}
+\item{size_text}{Size of text displayed on the bars. Default is 4.}
+
+\item{legend.position}{Position of the legend. Default is "top". Options include "top", "bottom", "left", "right", or "none".}
+
+\item{input}{Boolean indicating whether the user provides a custom dataset. Default is FALSE.}
+
+\item{user_data}{A data frame containing relationships, direct, and indirect columns if `input = TRUE`.}
+
+\item{ylim}{A numeric vector of length 2 specifying the y-axis limits. Default is c(0, 1).}
+
+\item{col}{A character vector specifying bar colors for "direct" and "indirect" effects. Default is c("black", "gray").}
 }
 \value{
-data
+Returns the processed data frame with rounded values. It also prints a ggplot2 object.
 }
 \description{
-plspm effect bar graph
+This function creates a bar graph visualizing direct, indirect, and total effects
+using plspm result data. Users can input plspm results directly or provide custom data.
 }
 \examples{
+# Basic usage with plspm results
+edt_pls \%>\% plspm_effectbar()
 
-\dontrun{
-#'
-dftest = data.frame(relationships = c("자기효능감 -> 진로동기",
-"자기효능감 -> 진로태도성숙",
- "자기효능감 -> 진로준비행동",
-"진로동기 -> 진로태도성숙", "진로동기 -> 진로준비행동",
-"진로태도성숙 -> 진로준비행"동),
- direct = c(0.883044251414839, 0.455400556420822,
-  0.414089720886173, 0, 0.39512331888417,
-  0.115100737249484),
- indirect = c(0, 0, 0.40132831512848, 0, 0, 0),
- total = c(0.883044251414839, 0.455400556420822,
-  0.815418036014653, 0, 0.39512331888417,
-  0.115100737249484)
-)
-dftest\%>\%plspm_effectbar(axis_x=1.2)
-dftest\%>\%plspm_effectbar(axis_x=2)
-jutpls \%>\%plspm_effectbar(axis_x=1.2, border=1)
-jutpls \%>\%plspm_effectbar(axis_x=1.2, col=c("gray30","gray70"))
-#' total
-}
-
+# Directly specifying data with variable renaming
+edt_pls$effects \%>\% select(1:3) \%>\%
+    replace_df_rep(var_named) \%>\%
+    plspm_effectbar(axis_x = 1.6, legend.position = "bottom")
 }

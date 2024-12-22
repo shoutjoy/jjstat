@@ -4,7 +4,7 @@
 #'
 #' @param df A data frame containing statistical summary including Skew and Kurt columns.
 #' @param skew Threshold for skewness. Default is 3.0.
-#' @param kurt Threshold for kurtosis. Default is 10.0.
+#' @param kurt Threshold for kurtosis. Default is 8.0.
 #'
 #' @return A data frame with added columns `skew_sig` and `kurt_sig` indicating the normality evaluation.
 #' @export
@@ -23,13 +23,20 @@
 #' )
 #' add_normality_kline(data)
 #' }
-add_normality_kline <- function(df, skew = 3, kurt = 10) {
+add_normality_kline <- function(df, skew = 3, kurt = 8) {
   # Evaluate skewness
-  df$skew_sig <- ifelse(abs(df$Skew) <= skew, "Good(|s|<3)", "NO")
+  df$skew_sig <- ifelse(
+    abs(df$Skew) <= skew,
+    paste0("Good(|s|<", skew, ")"),
+    "NO"
+  )
 
   # Evaluate kurtosis with detailed thresholds
-  df$kurt_sig <- ifelse(abs(df$Kurt) <= 7, "Good(|k|<7)",
-                        ifelse(abs(df$Kurt) <= kurt, "Fair", "NO"))
+  df$kurt_sig <- ifelse(
+    abs(df$Kurt) <= kurt,
+    paste0("Good(|k|<", kurt, ")"),
+    ifelse(abs(df$Kurt) <= 10, "Fair", "NO")
+  )
 
   # Return updated data frame
   return(df)

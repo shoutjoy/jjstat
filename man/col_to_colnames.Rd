@@ -2,25 +2,26 @@
 % Please edit documentation in R/col_to_colnames.R
 \name{col_to_colnames}
 \alias{col_to_colnames}
-\title{one selcect column to colnames}
+\title{one select column to colnames}
 \usage{
-col_to_colnames(df, col = 1)
+col_to_colnames(df, col = 1, remove = TRUE)
 }
 \arguments{
-\item{df}{df}
+\item{df}{data frame}
 
-\item{col}{select col =1}
+\item{col}{column to use as new column names (default = 1)}
+
+\item{remove}{logical. If TRUE, removes the selected column (default = TRUE).}
 }
 \value{
-df
+data frame with updated column names
 }
 \description{
-one selcect column to colnames
+one select column to colnames
 }
 \examples{
 \dontrun{
-#'
-# 함수 사용 예시
+# Example usage
 df <- data.frame(
   요인 = c("에듀테크", "학습몰입", "지각된편리성", "지각된유용성", "태도", "지속사용"),
   SUX = c(NA, "0.948*", "0.933*", "0.947*", "0.902*", "0.865*"),
@@ -30,10 +31,12 @@ df <- data.frame(
   ATT = c(NA, NA, NA, NA, NA, "0.972*")
 )
 
-# col_to_colnames 함수 실행
-new_df <- col_to_colnames(df, col = 1)
+# col_to_colnames 실행
+new_df <- col_to_colnames(df, col = 1, remove = FALSE)
 print(new_df)
-}
 
+new_df2 <- col_to_colnames(df, col = 1, remove = TRUE)
+print(new_df2)
+}
 
 }

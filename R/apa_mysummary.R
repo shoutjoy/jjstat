@@ -20,7 +20,7 @@
 #' mysummary_apa(df, sd = TRUE, eng = TRUE)
 #' mysummary_apa(df, sd = TRUE, eng = FALSE)
 #' }
-mysummary_apa <- function(df, sd = FALSE, eng = TRUE) {
+mysummary_apa <- function(df, sd = FALSE, eng = FALSE) {
   # Order variables by mean
   df <- df[order(-df$MEAN), ]
 
@@ -85,7 +85,7 @@ mysummary_apa <- function(df, sd = FALSE, eng = TRUE) {
       normality
     )
   }
-
+  cat("\n",result,"\n\n")
   return(result)
 }
 
