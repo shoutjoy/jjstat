@@ -4,6 +4,7 @@
 #' @param ... Character vector of new column names. Use an empty string (`""`) to keep the original column name for specific positions.
 #'
 #' @return A data frame with updated column names. Columns corresponding to `""` in the input retain their original names.
+#' @export
 #' @examples
 #' \dontrun{
 #' # Example with partial column renaming using mtcars
