@@ -2,26 +2,49 @@
 % Please edit documentation in R/missfillin.R
 \name{missfillin}
 \alias{missfillin}
-\title{Function to determine missing values and then fill in any missing values}
+\title{missfillin: Fill Missing Values in a Data Frame}
 \usage{
-missfillin(data, fn = mean)
+missfillin(data, fn = mean, method = NULL)
 }
 \arguments{
-\item{data}{data.frame}
+\item{data}{A data frame containing missing values.}
 
-\item{fn}{mean, median}
+\item{fn}{A function to apply for filling missing values (default: `mean`).}
+
+\item{method}{The method to use for imputing missing values. Accepts `NULL` (default function-based) or `"pmm"`.}
 }
 \value{
-missing data fill in
+A data frame with missing values imputed.
 }
 \description{
-Function to determine missing values and then fill in any missing values
+This function fills missing values in a data frame using either a specified function (e.g., `mean` or `median`)
+or a method such as `pmm` (predictive mean matching) through the `mice` package.
 }
 \examples{
 \dontrun{
-sleep$NonD \%>\% missfillin()
-sleep$NonD \%>\% missfillin(fn=median)
-sleep$Exp \%>\% missfillin()
-}
+# Example 1: Impute with mean function
+data <- data.frame(a = c(1, 2, NA, 4), b = c(NA, 3, 5, 6))
+result <- missfillin(data, fn = mean)
+print(result)
 
+# Example 2: Impute with median function
+data <- data.frame(a = c(NA, 1, 2, 3), b = c(4, NA, NA, 8))
+result <- missfillin(data, fn = median)
+print(result)
+
+# Example 3: Impute using predictive mean matching (pmm)
+data <- data.frame(a = c(1, NA, 3, 4), b = c(NA, 2, NA, 5))
+result <- missfillin(data, method = "pmm")
+print(result)
+
+# Example 4: Handle data without missing values
+data <- data.frame(a = c(1, 2, 3, 4), b = c(4, 5, 6, 7))
+result <- missfillin(data)
+print(result)
+
+# Example 5: Error when insufficient columns for pmm
+data <- data.frame(a = c(1, 2, NA, 4))
+result <- tryCatch(missfillin(data, method = "pmm"), error = function(e) e)
+print(result)
+}
 }

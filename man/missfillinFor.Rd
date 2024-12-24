@@ -2,26 +2,52 @@
 % Please edit documentation in R/missfillinFor.R
 \name{missfillinFor}
 \alias{missfillinFor}
-\title{Fill in missing information at once}
+\title{missfillinFor: Fill Missing Values in Selected Columns of a Data Frame}
 \usage{
-missfillinFor(data, fn = mean, range = NULL)
+missfillinFor(data, fn = mean, method = NULL, range = NULL)
 }
 \arguments{
-\item{data}{data,frame}
+\item{data}{A data frame containing missing values.}
 
-\item{fn}{mean, median}
+\item{fn}{A function to apply for filling missing values (default: `mean`).}
+
+\item{method}{The method to use for imputing missing values. Accepts `NULL` (default function-based) or `"pmm"`.}
+
+\item{range}{A numeric vector indicating column indices or a character string specifying the range of column names (e.g., `"col1:col3"`).
+If `NULL`, all columns are considered.}
 }
 \value{
-result fill data
+A data frame with missing values imputed in the specified range of columns.
 }
 \description{
-Fill in missing information at once
+This function fills missing values in a specified range of columns within a data frame using either
+a specified function (e.g., `mean`, `median`) or a method such as `pmm` (predictive mean matching).
 }
 \examples{
 \dontrun{
-# sleep \%>\% str()
-sleep \%>\% ncol()
-sleep \%>\% missfillinFor()
-sleep \%>\% missfillinFor(fn=median)
+# Example 1: Impute all columns with mean function
+data <- data.frame(a = c(1, 2, NA, 4), b = c(NA, 3, 5, 6), c = c(NA, NA, 7, 8))
+result <- missfillinFor(data, fn = mean)
+print(result)
+
+# Example 2: Impute specific column range with median function
+data <- data.frame(a = c(1, NA, 3, 4), b = c(NA, 2, NA, 5), c = c(6, 7, 8, 9))
+result <- missfillinFor(data, fn = median, range = 1:2)
+print(result)
+
+# Example 3: Impute using predictive mean matching (pmm)
+data <- data.frame(a = c(1, NA, 3, 4), b = c(NA, 2, NA, 5), c = c(6, 7, 8, 9))
+result <- missfillinFor(data, method = "pmm", range = "a:b")
+print(result)
+
+# Example 4: Impute using column names
+data <- data.frame(a = c(1, 2, NA, 4), b = c(NA, 3, 5, 6), c = c(NA, NA, 7, 8))
+result <- missfillinFor(data, fn = mean, range = "a:c")
+print(result)
+
+# Example 5: Handle insufficient columns for pmm
+data <- data.frame(a = c(1, 2, NA, 4))
+result <- tryCatch(missfillinFor(data, method = "pmm", range = 1), error = function(e) e)
+print(result)
 }
 }
