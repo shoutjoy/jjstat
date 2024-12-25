@@ -38,7 +38,8 @@
 lpa_profile_plot <- function(data, n_profiles = 3,
                              model_name = "EEE",
                              view = "pair", alpha = 0.6,
-                             gtype = "normal", angle = 90,
+                             gtype = "normal",
+                             angle = 90,
                              size.x = 13, size.p = 5, ncol = 2,
                              fct_reorder = NULL,
                              show.legend = FALSE,
@@ -164,7 +165,45 @@ lpa_profile_plot <- function(data, n_profiles = 3,
             plot.title = element_text(size = title_size))
 
     ggg <- gridExtra::grid.arrange(gg2, gg, ncol = 2)
+  }else if (gtype == "each") {
+    gg <- plot_data %>%
+      ggplot(aes(x = key, y = val, group = profile)) +
+      geom_col(aes(fill = key), position = "dodge", color = NA, show.legend = show.legend) +
+      geom_errorbar(aes(ymin = val - sd_val, ymax = val + sd_val),
+                    position = position_dodge(width = 0.9), width = 0.25) +
+      geom_line(aes(group = profile), size = 1, show.legend = FALSE) +
+      geom_point(aes(group = key, shape = key), color = "black", size = size.p, show.legend = FALSE) +
+      facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +
+      ylab("Z-score") +
+      xlab("(a) Profile Decomposition") +
+      scale_fill_discrete("") +
+      labs(title = "Standardized score of the average of LPA") +
+      geom_hline(yintercept = 0, linetype = "dashed") +
+      theme_bw() +
+      theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
+            axis.title = element_text(size = size.x),
+            strip.text = element_text(size = size.x, face = "bold"))
+
+    gg2 <- raw_mean_data %>%
+      pivot_longer(cols = -factor, names_to = "profile", values_to = "val") %>%
+      ggplot(aes(x = factor, y = val, group = profile)) +
+      geom_col(aes(fill = factor), position = "dodge", color = NA, show.legend = show.legend) +
+      geom_line(aes(group = profile), size = 1, show.legend = FALSE) +
+      geom_point(aes(group = factor, shape = factor), color = "black", size = size.p, show.legend = FALSE) +
+      facet_wrap(~ profile, labeller = labeller(profile = profile_labels)) +
+      ylab("Raw-score") +
+      xlab("(b) Profile Overlap") +
+      scale_fill_discrete("") +
+      labs(title = "Raw score of the average of the LPA") +
+      theme_bw() +
+      theme(axis.text = element_text(size = size.x, angle = angle, face = "bold"),
+            axis.title = element_text(size = size.x),
+            strip.text = element_text(size = size.x, face = "bold"))
+
+    ggg <- gridExtra::grid.arrange(gg2, gg, ncol = ncol)  # ggg 추가
   }
+
+
 
   # Return results
   res <- list(std = mean_data, est = raw_mean_data,
