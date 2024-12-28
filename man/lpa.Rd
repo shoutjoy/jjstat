@@ -2,39 +2,60 @@
 % Please edit documentation in R/lpa.R
 \name{lpa}
 \alias{lpa}
-\title{Latent Profile Analysis (LPA) with Visualization}
+\title{Latent Profile Analysis (LPA) Function}
 \usage{
 lpa(
   df,
-  profiles = 4,
-  modelNames = "EII",
-  g_type = c("uncertainty", "classification")
+  profile = 4,
+  model = c("EII", "VII", "EEI", "VEI", "EVI", "VVI", "EEE", "EVE", "VEE", "VVE", "EEV",
+    "VEV", "EVV", "VVV"),
+  seed = 123,
+  size_axis = 14,
+  size_strip = 14,
+  name_strip = NULL,
+  md = FALSE
 )
 }
 \arguments{
-\item{df}{A data frame containing numeric variables for latent profile analysis.}
+\item{df}{Data frame containing the numeric variables for LPA.}
 
-\item{profiles}{Integer. Number of latent profiles to identify. Default is 4.}
+\item{profile}{Integer specifying the number of profiles (clusters). Default is 4.}
 
-\item{modelNames}{Character. Model name to use in Mclust for Gaussian mixture modeling. Default is "EII".}
+\item{model}{Character vector specifying the covariance model to use in the analysis.
+Options include "EII", "VII", "EEI", "VEI", "EVI", "VVI", "EEE", "EVE", "VEE", "VVE",
+"EEV", "VEV", "EVV", "VVV". Default is "EEE".}
 
-\item{g_type}{Character vector. Types of plots to generate for visualization (e.g., "uncertainty", "classification"). Default is c("uncertainty", "classification").}
+\item{seed}{Integer for setting the random seed for reproducibility. Default is 123.}
+
+\item{size_axis}{Numeric value specifying the size of the axis text in plots. Default is 14.}
+
+\item{size_strip}{Numeric value specifying the size of the strip text in plots. Default is 14.}
+
+\item{name_strip}{Optional vector of names for customizing profile strip labels.}
+
+\item{md}{Logical indicating whether to convert the combined data to markdown format. Default is FALSE.}
 }
 \value{
-A list containing the following elements:
-  \item{result}{Parameters of the Gaussian mixture model.}
-  \item{lpa_reuslt}{A data frame summarizing profile means and counts.}
-  \item{graph}{Plot of the GMM results based on g_type.}
-  \item{profile_plot}{A bar plot visualizing profile frequencies.}
-  \item{table}{Markdown-styled table summarizing profile results.}
+A list containing:
+  \item{summary_table}{Data frame with raw means, frequencies, and proportions for each profile.}
+  \item{scaled_summary_table}{Data frame with standardized means, frequencies, and proportions for each profile.}
+  \item{profile_frequencies}{Data frame with profile frequencies and proportions.}
+  \item{combined_data}{Combined data in either raw or markdown format.}
+  \item{mclust_object}{Summary of the Mclust object from the analysis.}
+  \item{raw_plot}{Plot of raw scores by profile.}
+  \item{scaled_plot}{Plot of standardized scores by profile.}
+  \item{combined_plot}{Combined plot of raw and standardized scores.}
 }
 \description{
-Latent Profile Analysis (LPA) with Visualization
+This function performs latent profile analysis (LPA) using the `mclust` package, creates visualizations,
+and returns summary statistics and plots.
 }
 \examples{
 \dontrun{
-data <- iris[, 1:4]
-result <- lpa(data, profiles = 3, modelNames = "VII")
-print(result$table)
+data <- mtcars[, c("mpg", "disp", "hp", "drat", "wt")]
+result <- lpa(data, profile = 3, model = "EEE", seed = 123)
+result$raw_plot
+result$scaled_plot
+result$combined_data
 }
 }

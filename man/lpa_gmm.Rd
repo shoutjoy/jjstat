@@ -2,25 +2,55 @@
 % Please edit documentation in R/lpa_gmm.R
 \name{lpa_gmm}
 \alias{lpa_gmm}
-\title{잠재프로파일 분석 변수별 군집분포와 결과데이터}
+\title{lpa_gmm: Latent Profile Analysis using Gaussian Mixture Models}
 \usage{
-lpa_gmm(df, model = 4, modelNames = "EII")
+lpa_gmm(
+  df,
+  profiles = 4,
+  modelNames = "EII",
+  g_type = c("uncertainty", "classification")
+)
 }
 \arguments{
-\item{df}{df}
+\item{df}{A data frame containing the variables to be analyzed.}
 
-\item{model}{G, model N = 4}
+\item{profiles}{An integer specifying the number of profiles to extract. Default is 4.}
 
-\item{modelNames}{model ="EEE", EII}
+\item{modelNames}{A character string specifying the GMM covariance model. Default is "EII".}
+
+\item{g_type}{A character string specifying the type of GMM plot to generate.
+Choices are "uncertainty" or "classification". Default is "uncertainty".}
 }
 \value{
-df, graph
+A list containing:
+\describe{
+  \item{result}{The GMM parameters for the fitted model.}
+  \item{lpa_reuslt}{A summary table of profile means and frequencies.}
+  \item{graph}{The GMM plot based on the specified type.}
+  \item{profile_plot}{A bar plot visualizing profile frequencies.}
+  \item{table}{A formatted markdown table summarizing profile results.}
+}
 }
 \description{
-잠재프로파일 분석 변수별 군집분포와 결과데이터
+This function performs latent profile analysis (LPA) using Gaussian Mixture Models (GMM).
+It provides model parameters, profile classifications, and visualizations for the analysis.
 }
 \examples{
 \dontrun{
-lpa_gmm(edlcarename, model=4, "EII")
+# Example usage of lpa_gmm
+library(mclust)
+library(dplyr)
+library(ggplot2)
+
+# Example data
+set.seed(123)
+df <- data.frame(x = rnorm(100), y = rnorm(100))
+
+# Perform LPA with 3 profiles
+lpa_results <- lpa_gmm(df, profiles = 3)
+
+# View results
+print(lpa_results$lpa_reuslt)
+plot(lpa_results$graph)
 }
 }
