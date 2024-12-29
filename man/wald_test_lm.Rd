@@ -2,31 +2,40 @@
 % Please edit documentation in R/wald_test_lm.R
 \name{wald_test_lm}
 \alias{wald_test_lm}
-\title{Pairwise Wald Test for LM Coefficients (Auto Input Detection)}
+\title{Pairwise Wald Test for Linear Model Coefficients}
 \usage{
 wald_test_lm(input_data, raw = FALSE)
 }
 \arguments{
-\item{input_data}{Regression result: lm object, summary output, or tidy dataframe.}
+\item{input_data}{An object of type `lm`, `summary` of an `lm` object, or a tidy dataframe
+containing `term`, `estimate`, and `std.error` columns.}
 
-\item{raw}{Logical. If TRUE, returns the raw result with significance marks.
-If FALSE, combines relevant columns for a simplified output. Default is FALSE.}
+\item{raw}{Logical. If `TRUE`, returns raw results. If `FALSE`, returns formatted results with significance markings.}
 }
 \value{
-A data frame with pairwise comparisons of coefficients using Wald test.
+A dataframe containing pairwise Wald test results. The output includes:
+  - `var_comparison`: Pairwise variable comparison.
+  - `est1`, `se1`, `est2`, `se2`: Estimates and standard errors of the variables being compared.
+  - `Z`: Wald statistic.
+  - `p_value`: p-value for the Wald test.
 }
 \description{
-Pairwise Wald Test for LM Coefficients (Auto Input Detection)
+This function performs pairwise Wald tests for coefficients of a linear model.
 }
 \examples{
-model <- lm(mpg ~ hp + wt + qsec + drat, data = mtcars)
-wald_test_lm(model) # lm object
 
-summary_model <- summary(model)
-wald_test_lm(summary_model) # summary object
+\dontrun{
+# Example with an lm object
+model <- lm(mpg ~ hp + wt, data = mtcars)
+wald_test_lm(model, raw = TRUE)
+wald_test_lm(model, raw = FALSE)
 
-tidy_model <- broom::tidy(model)
-wald_test_lm(tidy_model) # tidy dataframe
+# Example with a summary of lm object
+model_summary <- summary(model)
+wald_test_lm(model_summary, raw = TRUE)
 
-wald_test_lm(model, raw = TRUE) # Raw output
+# Example with a tidy dataframe
+tidy_data <- broom::tidy(model)
+wald_test_lm(tidy_data, raw = FALSE)
+}
 }

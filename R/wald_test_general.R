@@ -105,7 +105,8 @@ wald_test_general <- function(model, hypothesis_matrix, rhs = 0, test = c("F", "
     # 벡터/행렬 입력 처리
     terms <- setdiff(names(coef(model)), "(Intercept)")
     if (is.vector(hypothesis_matrix)) {
-      hypothesis_matrix <- matrix(hypothesis_matrix, nrow = 1, ncol = length(terms), dimnames = list(NULL, terms))
+      hypothesis_matrix <- matrix(hypothesis_matrix, nrow = 1,
+                                  ncol = length(terms), dimnames = list(NULL, terms))
     } else {
       hypothesis_matrix <- hypothesis_matrix[, terms, drop = FALSE]
     }
@@ -162,7 +163,8 @@ wald_test_general <- function(model, hypothesis_matrix, rhs = 0, test = c("F", "
   }
 
   # 벡터화된 가설 매트릭스 생성
-  mat_as_vector <- paste(paste0(colnames(hypothesis_matrix), ": ", hypothesis_matrix[1, ]), collapse = ", ")
+  mat_as_vector <- paste(paste0(colnames(hypothesis_matrix), ": ",
+                                hypothesis_matrix[1, ]), collapse = ", ")
 
   if (full) {
     # 결과 출력
