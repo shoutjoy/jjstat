@@ -2,57 +2,99 @@
 % Please edit documentation in R/item_parceling.R
 \name{item_parceling}
 \alias{item_parceling}
-\title{item_parceling of Functions that generate multiple pieces of data}
+\title{item_parceling: A Function to Generate Multiple Data Parcels}
 \usage{
 item_parceling(data, ..., fun = mean, type = "res")
 }
 \arguments{
-\item{data}{data.fram}
+\item{data}{A data.frame containing the source data.}
 
-\item{...}{colname, cols}
+\item{...}{Triples specifying the name of the new column, followed by the column names or indices to be used for parceling.}
 
-\item{fun}{fun  mean sd}
+\item{fun}{A function to apply for the parceling operation (default is `mean`).}
 
-\item{type}{data, res --data.fram , res, cols_check}
+\item{type}{Type of output: `"data"` (default data frame), `"res"` (data frame), `"cols_check"` (column checks).}
 }
 \value{
-data.frame
+A data frame or other result based on the specified type.
 }
 \description{
-item_parceling of Functions that generate multiple pieces of data
+item_parceling: A Function to Generate Multiple Data Parcels
 }
 \examples{
+
 \dontrun{
-
-#Common item parceling methods (group by average )
+# Common item parceling methods (group by average)
 mtcars \%>\% mutate(
-Mean_col1 = (mpg + cyl)/2 ,
-Mean_col2 = (disp + hp)/2 ,
-Mean_col3 = (drat + wt )/2 ,
-Mean_col4 = (qsec + vs + am)/3 )
+  Mean_col1 = (mpg + cyl) / 2,
+  Mean_col2 = (disp + hp) / 2,
+  Mean_col3 = (drat + wt) / 2,
+  Mean_col4 = (qsec + vs + am) / 3
+)
 
-#Methods for item parceling using functions
+# Using indices for parceling
 item_parceling(mtcars,
-c("Mean_col1","mpg", "cyl"),
-c("Mean_col2", "disp", "hp"),
-c("Mean_col3", "drat", "wt"),
-c("Mean_col4", "qsec", "vs", "am") )
+  c("Mean_col1", 1:2),
+  c("Mean_col2", 3:4),
+  c("Mean_col3", 5:6),
+  c("Mean_col4", 7:9)
+)
+
+# Using ranges in column names
+item_parceling(mtcars,
+  c("Mean_col1", "mpg:cyl"),
+  c("Mean_col2", "disp:hp"),
+  c("Mean_col3", "drat:wt"),
+  c("Mean_col4", "qsec:am")
 
 
+# Methods for item parceling using functions
+item_parceling(mtcars,
+  c("Mean_col1", "mpg", "cyl"),
+  c("Mean_col2", "disp", "hp"),
+  c("Mean_col3", "drat", "wt"),
+  c("Mean_col4", "qsec", "vs", "am"),
+  fun = mean
+)
+
+# Using the sum function
+item_parceling(mtcars,
+  c("Sum_col1", "mpg", "cyl"),
+  c("Sum_col2", "disp", "hp"),
+  fun = sum
+)
+
+# Using the median function
+item_parceling(mtcars,
+  c("Median_col1", "drat", "wt"),
+  c("Median_col2", "qsec", "vs"),
+  fun = median
+)
+
+# Using a custom function
+custom_function <- function(x) {
+  return(max(x) - min(x)) # Range calculation
+}
 
 item_parceling(mtcars,
-   c("Mean_col1", 1:2),
-   c("Mean_col2", 3:4),
-   c("Mean_col3", 5:6),
-   c("Mean_col4", 7:9))
- ##col_check
-#'  '
-item_parceling(mtcars,
-              c("Mean_col1", "mpg:cyl"),
-              c("Mean_col2", "disp:hp"),
-              c("Mean_col3", "drat:wt"),
-              c("Mean_col4", "qsec:am"))
+  c("Range_col1", "mpg", "cyl"),
+  c("Range_col2", "disp", "hp"),
+  fun = custom_function
+)
 
+# Using column indices for parceling
+item_parceling(mtcars,
+  c("Sum_col1", 1:2),
+  c("Sum_col2", 3:4),
+  fun = sum
+)
+
+# Using ranges in column names
+item_parceling(mtcars,
+  c("Range_col1", "mpg:cyl"),
+  c("Range_col2", "disp:hp"),
+  fun = custom_function
+)
 }
 
 }

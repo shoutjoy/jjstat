@@ -21,6 +21,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' set.seed(123)
 #' df <- data.frame(
 #'   Class = rep(c("A", "B"), each = 10),
 #'   EAI = rnorm(20, 15, 5),
@@ -30,17 +31,20 @@
 #'   USE_sum = rnorm(20, 19, 5),
 #'   EAI_check = rnorm(20, 16, 2)
 #' )
+#'
 #' g <- EAI_index(df, profile = "A", caption = "EAI Analysis", sel_col = "Class")
 #' print(g)
 #' }
-EAI_index <- function(df, profile = NULL, caption = "", sel_col = "Class",   level_start = 9, jump = 5, adj = 0,
+EAI_index <- function(df, profile = NULL, caption = "", sel_col = "Class",
+                      level_start = 9, jump = 5, adj = 0,
                       size_label = 5, size_text = 5, color_line = "gray20", color_label = "gray20",
                       lpos = 2.35, rpos = 2.65, print=TRUE, web=FALSE) {
   # Step 1: Filter dataframe based on profile
   if (!is.null(profile)) {
     # Ensure sel_col exists in the dataframe
     if (!sel_col %in% colnames(df)) {
-      stop(paste("The column", sel_col, "does not exist in the provided data frame. Please check the column names using colnames(df)."))
+      stop(paste("The column", sel_col,
+                 "does not exist in the provided data frame. Please check the column names using colnames(df)."))
     }
 
     if (is.factor(df[[sel_col]])) {

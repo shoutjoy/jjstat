@@ -61,6 +61,7 @@ EAI_index: Compute and visualize the Eduteck Acceptance Index (EAI) for given pr
 }
 \examples{
 \dontrun{
+set.seed(123)
 df <- data.frame(
   Class = rep(c("A", "B"), each = 10),
   EAI = rnorm(20, 15, 5),
@@ -70,6 +71,7 @@ df <- data.frame(
   USE_sum = rnorm(20, 19, 5),
   EAI_check = rnorm(20, 16, 2)
 )
+
 g <- EAI_index(df, profile = "A", caption = "EAI Analysis", sel_col = "Class")
 print(g)
 }

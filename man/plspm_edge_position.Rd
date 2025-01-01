@@ -7,14 +7,14 @@
 plspm_edge_position(semPaths_plot, ..., plot = TRUE)
 }
 \arguments{
-\item{semPaths_plot}{plot data}
+\item{semPaths_plot}{plot data generated from a PLS-PM model.}
 
-\item{...}{edge v1 v2 position}
+\item{...}{triples of arguments specifying `from` node, `to` node, and `new_position`.}
 
-\item{plot}{TRUE}
+\item{plot}{logical, if `TRUE`, the plot will be displayed with updated edge positions. Default is `TRUE`.}
 }
 \value{
-graph
+Modified plot object with updated edge positions.
 }
 \description{
 plspm_edge_position
@@ -22,8 +22,8 @@ plspm_edge_position
 \examples{
 
 \dontrun{
-
-pathmodel = "
+# Example 1: Adjusting edge positions
+pathmodel <- "
 자기효능감 =~ C_S1 +  C_S2 + C_S3 + C_S4 + C_S5
 진로태도 =~ B02 + B04 + B10 + B14
 진로동기 =~ A_M1 + A_M2 + A_M3
@@ -36,15 +36,19 @@ pathmodel = "
 진로준비 ~  H3*자기효능감
 "
 
-plspm_diagram_model(pathmodel, layout="tree2",
-                    rotation = 2,residuals = T, residScale = 6,
-                    edge.label.position = 0.6)\%>\%
-  plspm_rotate_resid(c(진로동기= 180, 진로태도= 30))\%>\%
-  plspm_curve(c("진로준비~~ 진로동기" = -2))\%>\%
-  plspm_edge_position("진로태도","진로준비", 0.4,
-                      "자기효능감","진로동기", 0.3        )
-#'
-}
+semPaths_plot <- plspm_diagram_model(pathmodel, layout="tree2",
+                    rotation = 2, residuals = TRUE, residScale = 6,
+                    edge.label.position = 0.6)
 
+semPaths_plot \%>\%
+  plspm_edge_position("진로태도", "진로준비", 0.4,
+                      "자기효능감", "진로동기", 0.3)
+
+# Example 2: Adjusting multiple edge positions
+semPaths_plot \%>\%
+  plspm_edge_position("진로동기", "진로태도", 0.5,
+                      "진로태도", "진로준비", 0.7,
+                      "자기효능감", "진로준비", 0.6)
+}
 
 }
