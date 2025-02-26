@@ -33,7 +33,7 @@ colnames_to_row <- function(df, row = 1) {
   if (row == 1) {
     # Add column names at the top
     result <- rbind(col_row, df)
-  } else if (row >= nrow(df)) {
+  } else if (row > nrow(df)) {
     # Add column names as the last row
     result <- rbind(df, col_row)
   } else {

@@ -1,11 +1,12 @@
-
-#' mat_text_arrange
+#' make_mat_text
 #'
-#' @param mat matrix data
-#' @param text TRUE '' FALSE number
-#' @param byrow FALSE, byrow =TRUE fill in row
+#' Converts a matrix into a formatted text representation for layout creation.
 #'
-#' @return  text
+#' @param mat Matrix data.
+#' @param text Logical. If `TRUE`, the elements are wrapped in quotes. If `FALSE`, numbers or `NA` are returned.
+#' @param byrow Logical. If `TRUE`, the matrix is converted row by row; otherwise, column by column.
+#'
+#' @return Formatted text representation of the matrix.
 #' @export
 #'
 #' @examples
@@ -18,8 +19,13 @@
 #'  nrow = 5, ncol = 6)
 #'
 #' make_mat_text(mmm, text = TRUE, byrow = TRUE)
-#'
 #' make_mat_text(mmm, text = TRUE, byrow = FALSE)
+#' make_mat_text(mmm, text = FALSE, byrow = TRUE)
+#' make_mat_text(mmm, text = FALSE, byrow = FALSE)
+#'
+#' # Example with NA
+#' mmm_with_na <- matrix(c(1, NA, 3, NA, 5, 6, NA, 8, 9, 10), nrow = 2)
+#' make_mat_text(mmm_with_na, text = FALSE, byrow = TRUE)
 #'
 #' data(offense)
 #' offense %>%str()
@@ -78,12 +84,12 @@ make_mat_text <- function(mat, text = TRUE, byrow = TRUE) {
   # Create a formatted string
   if (text) {
     formatted_string <- paste0("  ",
-        paste(sapply(mat_vector,function(x) if (is.na(x)) "NA" else paste0("'", x, "'")),
+                               paste(sapply(mat_vector, function(x) if (is.na(x) || x == "") "NA" else paste0("'", x, "'")),
                                      collapse = ", "))
   } else {
     formatted_string <- paste0("  ",
                                paste(sapply(mat_vector,
-                                            function(x) if (is.na(x)) 0 else x),
+                                            function(x) if (is.na(x) || x == "") "NA" else x),
                                      collapse = ", "))
   }
 
@@ -92,7 +98,7 @@ make_mat_text <- function(mat, text = TRUE, byrow = TRUE) {
   lines <- strsplit(formatted_string, ", ")[[1]]
 
   formatted_lines <- sapply(seq(1, length(lines), by = ncol),
-                            function(i) paste(lines[i:(i + ncol - 1)],
+                            function(i) paste(lines[i:min(i + ncol - 1, length(lines))],
                                               collapse = ", "))
 
   # Combine the lines into a final string
@@ -104,6 +110,43 @@ make_mat_text <- function(mat, text = TRUE, byrow = TRUE) {
 
   return(cat(final_string))
 }
+# make_mat_text <- function(mat, text = TRUE, byrow = TRUE) {
+#   # Convert the matrix to a vector based on byrow parameter
+#   if (byrow) {
+#     mat_vector <- as.vector(t(mat))
+#   } else {
+#     mat_vector <- as.vector(mat)
+#   }
+#
+#   # Create a formatted string
+#   if (text) {
+#     formatted_string <- paste0("  ",
+#         paste(sapply(mat_vector,function(x) if (is.na(x)) "NA" else paste0("'", x, "'")),
+#                                      collapse = ", "))
+#   } else {
+#     formatted_string <- paste0("  ",
+#                                paste(sapply(mat_vector,
+#                                             function(x) if (is.na(x)) 0 else x),
+#                                      collapse = ", "))
+#   }
+#
+#   # Add line breaks after every ncol elements
+#   ncol <- ncol(mat)
+#   lines <- strsplit(formatted_string, ", ")[[1]]
+#
+#   formatted_lines <- sapply(seq(1, length(lines), by = ncol),
+#                             function(i) paste(lines[i:(i + ncol - 1)],
+#                                               collapse = ", "))
+#
+#   # Combine the lines into a final string
+#   final_string <- paste0("layout_New = matrix(\n  c(",
+#                          paste(formatted_lines, collapse = ",\n    "),
+#                          "),\n    nrow = ", nrow(mat),
+#                          ", ncol = ", ncol(mat),
+#                          ", byrow = ", ifelse(byrow, "TRUE", "FALSE"), ")\n")
+#
+#   return(cat(final_string))
+# }
 
 
 

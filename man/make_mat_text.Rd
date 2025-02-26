@@ -2,22 +2,22 @@
 % Please edit documentation in R/make_mat_text.R
 \name{make_mat_text}
 \alias{make_mat_text}
-\title{mat_text_arrange}
+\title{make_mat_text}
 \usage{
 make_mat_text(mat, text = TRUE, byrow = TRUE)
 }
 \arguments{
-\item{mat}{matrix data}
+\item{mat}{Matrix data.}
 
-\item{text}{TRUE '' FALSE number}
+\item{text}{Logical. If `TRUE`, the elements are wrapped in quotes. If `FALSE`, numbers or `NA` are returned.}
 
-\item{byrow}{FALSE, byrow =TRUE fill in row}
+\item{byrow}{Logical. If `TRUE`, the matrix is converted row by row; otherwise, column by column.}
 }
 \value{
-text
+Formatted text representation of the matrix.
 }
 \description{
-mat_text_arrange
+Converts a matrix into a formatted text representation for layout creation.
 }
 \examples{
 
@@ -29,8 +29,13 @@ mmm <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9,
  nrow = 5, ncol = 6)
 
 make_mat_text(mmm, text = TRUE, byrow = TRUE)
-
 make_mat_text(mmm, text = TRUE, byrow = FALSE)
+make_mat_text(mmm, text = FALSE, byrow = TRUE)
+make_mat_text(mmm, text = FALSE, byrow = FALSE)
+
+# Example with NA
+mmm_with_na <- matrix(c(1, NA, 3, NA, 5, 6, NA, 8, 9, 10), nrow = 2)
+make_mat_text(mmm_with_na, text = FALSE, byrow = TRUE)
 
 data(offense)
 offense \%>\%str()
