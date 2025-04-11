@@ -1,7 +1,7 @@
 Package: jjstat
 Type: Package
 Title: Statistical Analysis Tools for Writing Papers
-Version: 0.1.2
+Version: 0.1.9
 Author: Park Joonghee
 Maintainer: The package maintainer <shoutjoy@hanmail.net>
 Description: More about what it does (maybe more than one line)
