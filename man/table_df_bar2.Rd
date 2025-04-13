@@ -2,7 +2,7 @@
 % Please edit documentation in R/table_df_bar2.R
 \name{table_df_bar2}
 \alias{table_df_bar2}
-\title{table_df_bar2, Bar and Line Plot for Frequency Data}
+\title{Bar and Line Plot for Frequency Data}
 \usage{
 table_df_bar2(
   df,
@@ -23,41 +23,41 @@ table_df_bar2(
 )
 }
 \arguments{
-\item{df}{Data frame with three columns: term (character), frequency (Freq), and percentage (prop(%)).}
+\item{df}{A data frame with three columns: term (character), Freq (numeric)}
 
 \item{size.x}{Numeric. Font size for x-axis labels. Default is 16.}
 
 \item{size.text}{Numeric. Font size for text labels inside the plot. Default is 4.}
 
-\item{add_range}{Numeric. Additional range added to the y-axis limit. Default is 100.}
+\item{add_range}{Numeric. Extra space added to the top of the y-axis. Default is 100.}
 
 \item{x.title}{Character. Title for the x-axis. Default is "Items".}
 
-\item{hjust}{Numeric. Horizontal adjustment for text labels. Default is -0.1.}
+\item{hjust}{Numeric. Horizontal justification for text labels. Default is -0.1.}
 
-\item{vjust}{Numeric. Vertical adjustment for text labels. Default is -0.5.}
+\item{vjust}{Numeric. Vertical justification for text labels. Default is -0.5.}
 
-\item{x11_width}{Numeric. Width of the X11 window for plotting. Default is 8.}
+\item{x11_width}{Numeric. Width of the X11 plot window. Default is 8.}
 
-\item{x11_height}{Numeric. Height of the X11 window for plotting. Default is 5.}
+\item{x11_height}{Numeric. Height of the X11 plot window. Default is 5.}
 
-\item{linetype}{Character. Type of line connecting the points. Default is "dashed".}
+\item{linetype}{Character. Line type used for connecting points. Default is "dashed".}
 
-\item{linecolor}{Character. Color of the connecting line. Default is "gray50".}
+\item{linecolor}{Character. Line color used for connecting points. Default is "gray50".}
 
-\item{show_line}{Logical. Whether to add a line connecting the points. Default is TRUE.}
+\item{show_line}{Logical. Whether to show the connecting line. Default is TRUE.}
 
 \item{remove_bar}{Logical. Whether to remove the bar plot. Default is FALSE.}
 
-\item{sort}{Logical. Whether to sort the data by frequency in descending order. Default is FALSE.}
+\item{sort}{Logical. Whether to sort the data in descending order of frequency. Default is FALSE.}
 
-\item{text_angle}{Numeric. Angle for x-axis text labels. Default is 45.}
+\item{text_angle}{Numeric. Angle for the x-axis text. Default is 45.}
 }
 \value{
-None. This function creates and displays a plot in a new X11 window.
+None. This function opens a new graphics window and displays a plot.
 }
 \description{
-This function creates a bar and line plot from a data frame containing terms, frequencies, and proportions.
+This function creates a bar and line plot using term frequency and proportion data.
 }
 \examples{
 \dontrun{

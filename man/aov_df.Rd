@@ -2,84 +2,94 @@
 % Please edit documentation in R/aov_df.R
 \name{aov_df}
 \alias{aov_df}
-\title{#' Generate an AOV results table for multiple independent variables}
+\title{ANOVA Summary with agricolae-based Posthoc Comparison}
 \usage{
 aov_df(
   data,
   dv_var = NULL,
   iv_vars = NULL,
   grp_mean = TRUE,
-  unite_p = FALSE,
-  unite_F = FALSE,
-  digits = 2,
   posthoc = "lsd",
-  p.adj = "bonferroni",
-  sig = FALSE
+  p.adj = NULL,
+  sig = TRUE,
+  alpha_posthoc = 0.05,
+  digits = 2
 )
 }
 \arguments{
-\item{data}{data.frame}
+\item{data}{A data frame containing the data to analyze.}
 
-\item{dv_var}{dv}
+\item{dv_var}{A string indicating the name of the dependent variable (e.g., "mpg").}
 
-\item{iv_vars}{c(iv1, iv2....)}
+\item{iv_vars}{A character vector of independent variable names (e.g., c("group", "gender")).}
 
-\item{grp_mean}{'grooup mean remove}
+\item{grp_mean}{Logical. Whether to include group means in the output (default = TRUE).}
 
-\item{unite_p}{pvalue unite}
+\item{posthoc}{Posthoc test method. One of "lsd", "duncan", "scheffe", or "tukey".}
 
-\item{unite_F}{Fvalue unite}
+\item{p.adj}{Method for p-value adjustment in ANOVA. If NULL, it is set automatically based on the posthoc method.}
 
-\item{posthoc}{'tukey, scheffe, duncan, lsd}
+\item{sig}{Logical. Whether to include significance symbols (e.g., "***", "**", "*", "ns") in the output.}
 
-\item{p.adj}{p.adj=c("none","holm","hommel", "hochberg", "bonferroni", "BH", "BY", "fdr") only lsd test}
+\item{alpha_posthoc}{Significance level for posthoc tests (default = 0.05).}
 
-\item{sig}{'sig = T' is add star}
+\item{digits}{Number of digits to round the output values (default = 2).}
 }
 \value{
-table
+A tibble with the following columns:
+\describe{
+  \item{iv}{Independent variable name}
+  \item{dv}{Dependent variable name}
+  \item{level}{Levels of the independent variable}
+  \item{Mean}{Group mean (optional)}
+  \item{POSTHOC}{Group classification from posthoc test (e.g., "a", "b", "ab")}
+  \item{df1, df2}{Degrees of freedom for ANOVA}
+  \item{F_value}{F statistic from ANOVA}
+  \item{p_value}{Adjusted p-value from ANOVA}
+  \item{sig}{Significance symbols (optional)}
+}
 }
 \description{
-#' Generate an AOV results table for multiple independent variables
+Performs one-way ANOVA for the specified dependent variable across one or more categorical independent variables.
+Supports posthoc comparison using methods from the `agricolae` package: `"lsd"`, `"duncan"`, `"scheffe"`, and `"tukey"`.
+The resulting ANOVA p-value is optionally adjusted using the `p.adjust()` method.
 }
 \examples{
+# Load packages
+library(dplyr)
+library(agricolae)
+library(broom)
+library(tibble)
 
-\dontrun{
-aov_table(data = mtcars, dv_var = "mpg",
-iv_vars = c("cyl", "gear", "carb"))
+# Load example data
+data("mtcars")
+mtcars$cyl <- as.factor(mtcars$cyl)
 
-aov_table(data = mtcars, dv_var = "mpg",
-iv_vars = c("cyl", "gear", "carb"),
-           mean = TRUE)
+# Base ANOVA model
+aov_model <- aov(mpg ~ cyl, data = mtcars)
 
-aov_table(data = mtcars, dv_var = "mpg",
-iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE)
-aov_table(data = mtcars, dv_var = "mpg",
-iv_vars = c("cyl", "gear", "carb"), grp_mean = FALSE) \%>\%
+# 1) LSD
+cat("===== LSD (custom function) =====\n")
+print(aov_df(mtcars, dv_var = "mpg", iv_vars = "cyl", posthoc = "lsd"))
+cat("===== LSD (agricolae) =====\n")
+print(agricolae::LSD.test(aov_model, "cyl", console = FALSE)$groups)
 
+# 2) Duncan
+cat("===== Duncan (custom function) =====\n")
+print(aov_df(mtcars, dv_var = "mpg", iv_vars = "cyl", posthoc = "duncan"))
+cat("===== Duncan (agricolae) =====\n")
+print(agricolae::duncan.test(aov_model, "cyl", console = FALSE)$groups)
 
-aov_table(data = mtcars, dv_var = "mpg",
-iv_vars = c("cyl", "gear", "carb"),
- grp_mean = TRUE)
+# 3) Scheffe
+cat("===== Scheffe (custom function) =====\n")
+print(aov_df(mtcars, dv_var = "mpg", iv_vars = "cyl", posthoc = "scheffe"))
+cat("===== Scheffe (agricolae) =====\n")
+print(agricolae::scheffe.test(aov_model, "cyl", console = FALSE)$groups)
 
-aov_table(data = mtcars, dv_var = "mpg",
- iv_vars = c("cyl", "gear", "carb"),
- grp_mean = TRUE, unite_F = TRUE)
-
-aov_table(data = mtcars, dv_var = "mpg",
-iv_vars = c("cyl", "gear", "carb"),
- grp_mean = TRUE, unite_F = TRUE) \%>\%
-  markdown_table()
-
-# park516d데이터 이용
-park516d \%>\%
-  select(1:6,teaching, academyType) \%>\%  #주요변수 선택
-  bind_add_stat(c("RV_Teah",1:6)) \%>\% # 평균을 이용하여 항목묶음
-  aov_df(dv_var="RV_Teah",
-         iv_vars =c("teaching", "academyType"), sig = T)
-
-
-}
-
+# 4) Tukey
+cat("===== Tukey (custom function) =====\n")
+print(aov_df(mtcars, dv_var = "mpg", iv_vars = "cyl", posthoc = "tukey"))
+cat("===== Tukey (agricolae) =====\n")
+print(agricolae::HSD.test(aov_model, "cyl", console = FALSE)$groups)
 
 }

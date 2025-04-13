@@ -2,30 +2,38 @@
 % Please edit documentation in R/apa_aov_df.R
 \name{apa_aov_df}
 \alias{apa_aov_df}
-\title{total anova report}
+\title{APA style ANOVA summary}
 \usage{
 apa_aov_df(data, show = TRUE, dv_var = NULL, iv_vars = NULL)
 }
 \arguments{
-\item{data}{aoa_df(grp_mean=F)}
+\item{data}{A data frame. This can be either the result of `aov_df()` / `aov_table()`,
+or raw data to be analyzed if `dv_var` and `iv_vars` are provided.}
 
-\item{show}{show data}
+\item{show}{Logical. Whether to print the ANOVA table and APA-style summaries to the console. Default is TRUE.}
+
+\item{dv_var}{A string. The name of the dependent variable (DV) to be used in the ANOVA.}
+
+\item{iv_vars}{A character vector. The names of the independent variables (IVs) to be included in the ANOVA.}
 }
 \value{
-report
+Prints APA-style one-way ANOVA summaries for each IV, and (invisibly) returns the input data frame.
 }
 \description{
-total anova report
+APA style ANOVA summary
 }
 \examples{
 \dontrun{
-aov_table(data = mtcars, dv_var = "mpg",
-iv_vars = c("cyl", "gear", "carb"),
-grp_mean = FALSE)\%>\% apa_aov_df()
+# Example 1: Analyze raw data
+apa_aov_df(data = mtcars, dv_var = "mpg", iv_vars = c("cyl", "gear"))
 
-apa_aov_df(data = mtcars, dv_var = "mpg",
- iv_vars = c("cyl", "gear", "carb"))
+# Example 2: Pipe analysis results into APA report
+mtcars \%>\%
+  aov_df(dv_var = "mpg", iv_vars = c("cyl", "gear")) \%>\%
+  apa_aov_df()
+
+
+
+
 }
-
-
 }
