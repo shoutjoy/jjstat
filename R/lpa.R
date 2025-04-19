@@ -139,9 +139,9 @@ lpa <- function(df, profile = 4, model = c("EII", "VII", "EEI", "VEI", "EVI", "V
 
   # Create combined data output
   if (md) {
-    combined_data_md <- md(combined_data %>% select(-prop))
+    combined_data_md <- md(combined_data %>% dplyr::select(-prop))
   } else {
-    combined_data_md <- tibble(combined_data %>% select(-prop))
+    combined_data_md <- tibble(combined_data %>% dplyr::select(-prop))
   }
 
   # Return results as a list
