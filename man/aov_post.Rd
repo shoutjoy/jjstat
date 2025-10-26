@@ -2,45 +2,44 @@
 % Please edit documentation in R/aov_post.R
 \name{aov_post}
 \alias{aov_post}
-\title{Perform ANOVA and emmeans-based posthoc comparisons (data frame or aov object)}
+\title{ANOVA posthoc and plot, Contrast data}
 \usage{
-aov_post(
-  data,
-  dv_var = NULL,
-  iv_vars = NULL,
-  posthoc = "none",
-  alpha = 0.05,
-  digits = 2,
-  show_group_letter = TRUE,
-  adjust_only = TRUE
-)
+aov_post(aov_data, type = "df", adjust = "none", lsd = FALSE)
 }
 \arguments{
-\item{data}{a data.frame or an `aov` object.}
+\item{aov_data}{aov data}
 
-\item{dv_var}{(optional) dependent variable name as character.}
+\item{type}{type is all, res, contras, df, raq(plotdata), g(plot), aov, anova}
 
-\item{iv_vars}{(optional) independent variable names as character vector.}
+\item{adjust}{adjust ="none", bonferroni, sidak etc}
 
-\item{alpha}{significance level for group lettering. Default 0.05.}
-
-\item{digits}{numeric rounding digits. Default is 2.}
-
-\item{show_group_letter}{logical, show grouping letters. Default TRUE.}
-
-\item{adjust_only}{logical, if TRUE show only adjusted p-values. Default TRUE.}
-
-\item{adjust}{method for p-value adjustment. Options: "none", "tukey", "bonferroni", "holm", "sidak", "fdr".}
+\item{lsd}{plosthoc LSD}
 }
 \value{
-A tibble containing ANOVA and posthoc results.
+contrast and g
 }
 \description{
-This function supports either a data.frame with specified dv/iv variables, or an `aov` model object via piping.
+ANOVA posthoc and plot, Contrast data
 }
 \examples{
+
 \dontrun{
-aov_post3(data = iris, dv_var = "Sepal.Length", iv_vars = "Species")
-aov(Sepal.Length ~ Species, data = iris) \%>\% aov_post3()
+Mtcars <- mtcars\%>\%as_trt("cyl")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post()
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="all")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="res")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="df")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="call")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="formula")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="g")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="contrast")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="aov")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="anova")
+aov(mpg ~ cyl , data=Mtcars)\%>\% aov_post(type="posthoc", lsd=TRUE)
+
+#report
+aov(mpg ~ cyl , data=Mtcars)\%>\%aov_post()\%>\% anova_apa()
 }
+
+
 }

@@ -34,7 +34,7 @@
 #' print(result$graph)
 #' }
 plot_lpa <- function(data, n_profiles = 3,
-                             model_name = "EII",
+                             model_name = "EEE",
                              view = "pair", alpha = 0.6,
                              gtype = "normal", angle = 90,
                              size.x = 13, size.p = 5, ncol = 2,

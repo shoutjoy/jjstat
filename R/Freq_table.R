@@ -100,8 +100,6 @@
 #'            plot=T, size_axis = 14, flip=FALSE, yadd=130, xlab="Eduteck Time", size_text = 6) #'
 #' }
 
-
-
 Freq_table <- function(data, ...,
                        prop = FALSE,
                        plot = FALSE,
@@ -169,22 +167,15 @@ Freq_table <- function(data, ...,
   # 빈도표 생성
   res <- data %>%
     dplyr::count(term) %>%
-    dplyr::rename(Freq = n)
-
-  # prop 값 처리
-  if (prop) {
-    res <- res %>%
-      dplyr::mutate("prop(%)" = Freq / sum(Freq) * 100)
-  }
+    dplyr::rename(Freq = n) %>%
+    dplyr::mutate("prop(%)" = Freq / sum(Freq) * 100)
 
   # 선택된 행 제거
   if (!is.null(remove_rows)) {
     res <- res[-remove_rows, ]
     total_freq <- sum(res$Freq)
-    if (prop) {
-      res <- res %>%
-        dplyr::mutate("prop(%)" = Freq / total_freq * 100)
-    }
+    res <- res %>%
+      dplyr::mutate("prop(%)" = Freq / total_freq * 100)
   }
 
   # 그래프 데이터 저장 (add_row_sum 이전 상태)
@@ -194,16 +185,12 @@ Freq_table <- function(data, ...,
   if (add_row_sum) {
     total_freq <- sum(res$Freq)
     res <- res %>%
-      tibble::add_row(term = "합계", Freq = total_freq)
-    if (prop) {
-      res <- res %>%
-        mutate(`prop(%)` = ifelse(term == "합계", 100, `prop(%)`))
-    }
+      tibble::add_row(term = "합계", Freq = total_freq, `prop(%)` = 100)
   }
 
   # 그래프용 데이터 생성
   if (!prop) {
-    graph_data <- graph_data %>% dplyr::select(term, Freq) # prop(%) 제외
+    graph_data <- graph_data %>% dplyr::select(-`prop(%)`)
     graph_data <- graph_data %>%
       dplyr::mutate(LABEL = paste0("n=", Freq))
   } else {

@@ -96,10 +96,3 @@ table_df_bar <- function(df, size.x = 20, size.text = 6, add_range = 100,
   x11(width = x11_width, height = x11_height)
   print(p)
 }
-
-
-
-
-
-
-

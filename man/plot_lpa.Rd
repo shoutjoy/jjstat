@@ -7,7 +7,7 @@
 plot_lpa(
   data,
   n_profiles = 3,
-  model_name = "EII",
+  model_name = "EEE",
   view = "pair",
   alpha = 0.6,
   gtype = "normal",

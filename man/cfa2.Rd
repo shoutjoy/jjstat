@@ -15,7 +15,7 @@ cfa2(
   hjust = 0.9,
   val.size = 4,
   dis.sort = TRUE,
-  rename = F,
+  rename = FALSE,
   var_name = NA,
   digits = 3,
   type = "all"
