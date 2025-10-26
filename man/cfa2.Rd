@@ -59,99 +59,75 @@ if you want roburst option htmt_cut =0.9}
 Create CFA result summary by lavaan sem estimated result By Park Joonghee Ph.D
 }
 \examples{
-# example code
 \dontrun{
-
 library(lavaan)
 data(PoliticalDemocracy)
 
- model1 <- "
- # measurement model
-   ind60 =~ x1 + x2 + x3
-   dem60 =~ y1 + y2 + y3 + y4
-   dem65 =~ y5 + y6 + y7 + y8
- # regressions
-   dem60 ~ ind60
-   dem65 ~ ind60 + dem60
- # residual correlations
-   y1 ~~ y5
-   y2 ~~ y4 + y6
-   y3 ~~ y7
-   y4 ~~ y8
-   y6 ~~ y8"
+model1 <- "
+  ind60 =~ x1 + x2 + x3
+  dem60 =~ y1 + y2 + y3 + y4
+  dem65 =~ y5 + y6 + y7 + y8
+  dem60 ~ ind60
+  dem65 ~ ind60 + dem60
+"
 
+fit1 <- sem(model1, data = PoliticalDemocracy)
 
-#' fit1 <- lavaan::sem(model1, data = PoliticalDemocracy)
-## summary(fit2, standardized = TRUE)
+# 기본 사용법: 전체 결과 출력
+cfa2(fit1)
 
-## model 2 generate
+# 특정 결과(res)만 출력 예시
+cfa2(fit1, res = "modelfit")        # 모델 적합도
+cfa2(fit1, res = "loadings")        # 요인적재량 테이블
+cfa2(fit1, res = "alpha")           # 신뢰도(Cronbach alpha)
+cfa2(fit1, res = "CR_AVE")          # 수렴타당도(CR, AVE)
+cfa2(fit1, res = "Discriminant")    # 판별타당도 (Fornell-Larcker 기준)
+cfa2(fit1, res = "htmt", dataset = PoliticalDemocracy, model = model1)  # HTMT 지표
+cfa2(fit1, res = "str_cor")         # 잠재변수 간 경로 유의성
+
+# 시각화 결과: 요인적재량 바그래프 출력
+cfa2(fit1, res = "loadings_bar")
+
+# 사용자 정의 변수명 적용(rename + var_name)
+new_names <- c("Indicator1", "Indicator2", "Indicator3",
+               "Democracy1", "Democracy2", "Democracy3", "Democracy4",
+               "Democracy5", "Democracy6", "Democracy7", "Democracy8")
+
+# 그래프의 색을 바꾸고 싶은 경우
+cfa2(fit, type = "loadings_bar") +
+scale_fill_grey()
+# rename = TRUE일 경우에만 var_name이 반영됨
+cfa2(fit1, rename = TRUE, var_name = new_names)
+
+# rename = FALSE일 경우 var_name은 무시됨
+cfa2(fit1, rename = FALSE, var_name = new_names)
+
+# 다양한 출력 포맷 지정
+cfa2(fit1, format = "markdown")
+cfa2(fit1, format = "html") \%>\% kableExtra::kable_minimal(full_width = FALSE)
+
+# 모델 간 비교
 model2 <- "
- ## measurement model
-   ind60 =~ x1 + x2 + x3
-   dem60 =~ y1 + y2 + y3 + y4
-   dem65 =~ y5 + y6 + y7 + y8
- ## regressions
-   dem60 ~ ind60
-   dem65 ~ ind60 + dem60 "
-
-
+  ind60 =~ x1 + x2 + x3
+  dem60 =~ y1 + y2 + y3 + y4
+  dem65 =~ y5 + y6 + y7 + y8
+  dem60 ~ ind60
+  dem65 ~ ind60 + dem60
+"
 fit2 <- sem(model2, data = PoliticalDemocracy)
-## summary(fit2, standardized = TRUE)
-##
- cfa2(fit1)
-## if you wnat HTMT value, input model and dataset
-cfa2(fit1, dataset = PoliticalDemocracy, model = model )
-
- cfa2(fit2)
-## if you wnat HTMT value, input model and dataset
-cfa2(fit2, dataset = PoliticalDemocracy, model = model )
-
-#compare model fit and different values
 CompareFit_diff(fit1, fit2)
 
-# AVE calculatin by hand
+# AVE 직접 확인
 AVE(fit1)
 AVE(fit2)
-# model fit
-cfa2(fit1, dataset = PoliticalDemocracy, model = model,
-     res =  "modelfit")
 
-# item validattiy
-cfa2(fit1, dataset = PoliticalDemocracy, model = model,
-     res =  "loadings")
-
-# Internal consistency
-cfa2(fit1, dataset = PoliticalDemocracy, model = model,
-     res =  "alpha")
-
-cfa2(fit1, dataset = PoliticalDemocracy, model = model,
-     res =  "CR_AVE")
-
-# Discriminant
-cfa2(fit1, dataset = PoliticalDemocracy, model = model,
-     res =  "Discriminant")
-
-# HTMT
-
-cfa2(fit1, dataset = PoliticalDemocracy, model = model,
-     format="markdown",
-     res =  "htmt")
-
-cfa2(fit, dataset = PoliticalDemocracy, model = model,
-     format="html",
-     res =  "htmt")\%>\%
-  kable_minimal(full_width =F)
-
-# structure correlation
-cfa2(fit1, dataset = PoliticalDemocracy, model = model,
-      res =  "str_cor")
-#'
-library(jjstat)
-example(sem)
-fit\%>\%cfa2()
-fit\%>\%sem_effect()
-
-
-
+# 통합 요약 테이블 출력 (CR, AVE 포함)
+library(dplyr)
+full_join(
+  cfa2(fit1, type = "item") \%>\% dplyr::select(-Accept, -p),
+  cfa2(fit1, type = "Convergent") \%>\% row2col("Latent") \%>\%
+    dplyr::select(-Cronbach) \%>\% Round(3),
+  by = "Latent"
+) \%>\% nice_table()
 }
 }

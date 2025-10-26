@@ -53,38 +53,36 @@
 #' fits2 %>% sem_effect_ie()
 #' }
 #'
-sem_effect_ie = function(model_sem,
-                     effect1 ="IE", effect2="IE", label=FALSE, ci= TRUE ){
-
+sem_effect_ie <- function(model_sem,
+                          effect1 = "IE",
+                          effect2 = "IE",
+                          label = FALSE,
+                          ci = TRUE) {
   library(dplyr)
   library(tidyr)
+  library(stringr)
 
-  res = parameterEstimates(model_sem, ci=ci, stand=T)%>%
-    filter(op==":=" & str_detect(lhs, effect1) |str_detect(lhs, effect2))
+  res <- parameterEstimates(model_sem, ci = ci, standardized = TRUE) %>%
+    filter(op == ":=" & (str_detect(lhs, effect1) | str_detect(lhs, effect2)))
 
-  if(ci){
-    res = res%>%select("Path"=lhs, rhs, est, "std"= std.all,
-                       se, z, pvalue, ci.lower, ci.upper)%>%
-      p_mark_sig("pvalue" )%>%select(-vars,-se, -pvalue)%>%
-      Round(3)%>%
-      unite(CI_95, ci.lower, ci.upper, sep=", ")%>%
-      unite(z, z, sig, sep=" ")%>%
-      mutate(CI_95p = paste0("[", CI_95,"]"))%>%select(-CI_95)
-
-
-  }else{
-    res = res%>%select("Path"=lhs, rhs, est, "std"= std.all, se, z, pvalue)%>%
-      p_mark_sig("pvalue") %>%select(-vars)
+  if (ci) {
+    res <- res %>%
+      select("Path" = lhs, rhs, est, "std" = std.all, se, z, pvalue, ci.lower, ci.upper) %>%
+      mutate(sig = ifelse(pvalue < .001, "***",
+                          ifelse(pvalue < .01, "**",
+                                 ifelse(pvalue < .05, "*", "")))) %>%
+      mutate(z = paste0(round(z, 2), " ", sig)) %>%
+      mutate(CI_95 = paste0("[", round(ci.lower, 3), ", ", round(ci.upper, 3), "]")) %>%
+      select(-se, -pvalue)
+  } else {
+    res <- res %>%
+      select("Path" = lhs, rhs, est, "std" = std.all, se, z, pvalue)
   }
 
-
-  if(label){
-    res = res
-  }else{
-    res = res%>% select(-rhs)
-  }
+  if (!label) res <- res %>% select(-rhs)
   return(res)
 }
+
 
 
 
@@ -144,33 +142,32 @@ sem_effect_ie = function(model_sem,
 #' }
 #'
 IE_effect = function(model_sem,
-                         effect1 ="IE", effect2="IE", label=FALSE, ci=F ){
+                     effect1 = "IE",
+                     effect2 = "IE",
+                     label = FALSE,
+                     ci = TRUE) {
   library(dplyr)
   library(tidyr)
-  res = parameterEstimates(model_sem, ci=ci, stand=T)%>%
-    filter(op==":=" & str_detect(lhs, effect1) |str_detect(lhs, effect2))
+  library(stringr)
 
-  if(ci){
-    res = res%>%select("Path"=lhs, rhs, est, "std"= std.all,
-                       se, z, pvalue, ci.lower, ci.upper)%>%
-      p_mark_sig("pvalue" )%>%select(-vars,-se, -pvalue)%>%
-      Round(3)%>%
-      unite(CI_95, ci.lower, ci.upper, sep=", ")%>%
-      unite(z, z, sig, sep=" ")%>%
-      mutate(CI_95p = paste0("[", CI_95,"]"))%>%select(-CI_95)
+  res <- parameterEstimates(model_sem, ci = ci, standardized = TRUE) %>%
+    filter(op == ":=" & (str_detect(lhs, effect1) | str_detect(lhs, effect2)))
 
-
-  }else{
-    res = res%>%select("Path"=lhs, rhs, est, "std"= std.all, se, z, pvalue)%>%
-      p_mark_sig("pvalue") %>%select(-vars)
+  if (ci) {
+    res <- res %>%
+      select("Path" = lhs, rhs, est, "std" = std.all, se, z, pvalue, ci.lower, ci.upper) %>%
+      mutate(sig = ifelse(pvalue < .001, "***",
+                          ifelse(pvalue < .01, "**",
+                                 ifelse(pvalue < .05, "*", "")))) %>%
+      mutate(z = paste0(round(z, 2), " ", sig)) %>%
+      mutate(CI_95 = paste0("[", round(ci.lower, 3), ", ", round(ci.upper, 3), "]")) %>%
+      select(-se, -pvalue)
+  } else {
+    res <- res %>%
+      select("Path" = lhs, rhs, est, "std" = std.all, se, z, pvalue)
   }
 
-
-  if(label){
-    res = res
-  }else{
-    res = res%>% select(-rhs)
-  }
+  if (!label) res <- res %>% select(-rhs)
   return(res)
 }
 

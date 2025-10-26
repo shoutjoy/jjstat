@@ -4,7 +4,7 @@
 \alias{IE_effect}
 \title{SEM indirect effect}
 \usage{
-IE_effect(model_sem, effect1 = "IE", effect2 = "IE", label = FALSE, ci = F)
+IE_effect(model_sem, effect1 = "IE", effect2 = "IE", label = FALSE, ci = TRUE)
 }
 \arguments{
 \item{model_sem}{lavaan objgect}

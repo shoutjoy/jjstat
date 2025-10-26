@@ -72,7 +72,7 @@
 #' y2 =~ x3 + x4 +x6
 #' y1 ~~ y2"
 #'
-#' diagram_model(model= HSmodel, groups=F,  residuals=F)
+#' diagram_model(model= HSmodel, Goups=F,  residuals=F)
 #'
 #' diagram_model(model= model_test, style="ram", groups=F)
 #' diagram_model(model= model_test, residuals=T)
