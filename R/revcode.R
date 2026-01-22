@@ -97,30 +97,3 @@ revcode <- function(data, n = 8, ..., postfix = "_r", replace = FALSE) {
 
   return(data)
 }
-
-# revcode <- function(data, n = 8, ..., postfix="_r") {
-#   # Arguments:
-#   #   data: Data frame containing the variables
-#   #   n: Vector of maximum scale values (one for each variable)
-#   #   ...: Variable names to be reverse coded
-#   if(length(n)==1){
-#     # Loop through each variable
-#     for (var in c(...)) {
-#       # Reverse code the variable
-#       data[[paste0(var, postfix)]] <- n - data[[var]]
-#     }
-#   }else{
-#     # Loop through each variable
-#     for (i in seq_along(c(...))) {
-#       var <- c(...)[i]
-#       n_val <- n[i]
-#
-#       # Reverse code the variable
-#       data[[paste0(var, postfix)]] <- n_val - data[[var]]
-#     }
-#
-#   }
-#   return(data)
-# }
-
-

@@ -2,36 +2,71 @@
 % Please edit documentation in R/ave_raise_candidates.R
 \name{ave_raise_candidates}
 \alias{ave_raise_candidates}
-\title{ave_raise_candidates: Check AVE change by removing each indicator}
+\title{ave_raise_candidates: 잠재변수별 AVE 향상 후보 문항 탐색}
 \usage{
-ave_raise_candidates(fit, latent)
+ave_raise_candidates(fit, latent = NULL, cutoff = -Inf, print_result = TRUE)
 }
 \arguments{
-\item{fit}{A fitted lavaan object.}
+\item{fit}{lavaan::cfa 또는 lavaan::sem 결과 객체}
 
-\item{latent}{A character string specifying the name of the latent variable to assess.}
+\item{latent}{분석 대상 잠재변수 이름(문자열 벡터).
+NULL이면 모델 내 모든 잠재변수를 자동 분석합니다.}
+
+\item{cutoff}{AVE 변화량(delta)의 최소 기준. 기본값은 -Inf.}
+
+\item{print_result}{논리값. TRUE이면 잠재변수별 요약 메시지를 출력합니다.}
 }
 \value{
-A tibble containing:
+tibble
 \describe{
-  \item{Item}{The name of the observed variable (indicator).}
-  \item{lambda}{The standardized loading of the item.}
-  \item{ave_current}{The current AVE with all items.}
-  \item{ave_if_dropped}{The AVE if the current item is removed.}
-  \item{delta}{Change in AVE (dropped - current).}
-  \item{recommand}{Recommendation based on AVE change: "Recommended Removal", "Slight Improvement", or "Keep".}
+  \item{latent}{잠재변수 이름}
+  \item{Item}{문항 이름}
+  \item{lambda}{표준화 요인적재량}
+  \item{ave_current}{현재 AVE}
+  \item{ave_if_dropped}{문항 제거 시 AVE}
+  \item{delta}{AVE 변화량 (제거 후 - 제거 전)}
 }
 }
 \description{
-This function calculates how much the Average Variance Extracted (AVE) would change
-if each indicator (item) is removed from a given latent variable. It also provides
-recommendations for item removal based on AVE improvement.
+lavaan 모형 결과를 기반으로 각 잠재변수별로 문항 제거 시
+AVE(Average Variance Extracted)의 변화량을 계산합니다.
+모든 잠재변수를 자동으로 분석하거나, 특정 잠재변수만 선택할 수 있습니다.
 }
 \examples{
 \dontrun{
 library(lavaan)
-model <- 'F1 =~ x1 + x2 + x3 + x4 + x5'
-fit <- cfa(model, data = HolzingerSwineford1939)
-ave_raise_candidates(fit, "F1")
+library(dplyr)
+library(purrr)
+library(magrittr)
+
+#----------------------------------------
+# 1. CFA 모델 적합
+#----------------------------------------
+model <- '
+  Visual  =~ x1 + x2 + x3
+  Textual =~ x4 + x5 + x6
+  Speed   =~ x7 + x8 + x9
+'
+fit <- cfa(model, data = HolzingerSwineford1939, std.lv = TRUE)
+
+#----------------------------------------
+# 2. 모든 잠재변수 자동 분석
+#----------------------------------------
+ave_raise_candidates(fit)
+
+#----------------------------------------
+# 3. 특정 잠재변수만 분석
+#----------------------------------------
+ave_raise_candidates(fit, latent = "Visual")
+
+#----------------------------------------
+# 4. AVE가 0.02 이상 증가하는 경우만 필터링
+#----------------------------------------
+ave_raise_candidates(fit, cutoff = 0.02)
+
+#----------------------------------------
+# 5. 여러 잠재변수 선택 분석
+#----------------------------------------
+ave_raise_candidates(fit, latent = c("Visual", "Textual"))
 }
 }
