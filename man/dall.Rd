@@ -2,20 +2,50 @@
 % Please edit documentation in R/dall.R
 \name{dall}
 \alias{dall}
-\title{view data.frame}
+\title{Quick View Utility for data.frame or tibble}
 \usage{
-dall(data, type = "all", n = 10)
+dall(data, n = 10, type = NULL)
 }
 \arguments{
-\item{data}{tibble}
+\item{data}{A data.frame or tibble object.}
 
-\item{type}{all, head}
+\item{n}{Integer. Number of rows to display when previewing. Default is 10.}
 
-\item{n}{rows n = 10 (default)}
+\item{type}{Character. One of \code{NULL}, \code{"head"}, or \code{"all"}.
+If NULL (default), the first \code{n} rows are returned.
+If \code{"all"}, the full data.frame is returned.
+If \code{"head"}, the first \code{n} rows are returned explicitly.}
 }
 \value{
-data.frame
+A data.frame.
 }
 \description{
-view data.frame
+This function provides a convenient way to preview or fully display
+a data.frame or tibble object in a pipe-friendly workflow.
+By default, it returns the first \code{n} rows of the data.
+}
+\details{
+This function is designed as a lightweight alternative to \code{View()},
+optimized for console-based inspection and pipe \verb|%>%| workflows.
+The default behavior (type = NULL) prioritizes safe data previewing.
+}
+\examples{
+## Example 1: Basic preview (default n = 10)
+dall(mtcars)
+
+## Example 2: Preview first 5 rows
+dall(mtcars, n = 5)
+
+## Example 3: Explicit head option
+dall(mtcars, type = "head", n = 3)
+
+## Example 4: Return full data
+dall(mtcars, type = "all")
+
+## Example 5: Pipe-friendly usage
+library(dplyr)
+mtcars \%>\%
+  dplyr::select(mpg, cyl, hp) \%>\%
+  dall(n = 6)
+
 }
