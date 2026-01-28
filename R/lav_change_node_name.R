@@ -1,0 +1,322 @@
+#' Change node names in semPlot / qgraph object
+#'
+#' @description
+#' semPlot::semPaths()로 생성된 구조방정식 시각화 객체에서
+#' 노드 이름을 사용자가 지정한 (원래이름, 변경라벨) 쌍에 따라
+#' 일괄적으로 변경한다.
+#' 본 함수는 pipe(%>%) 사용을 전제로 설계되었다.
+#'
+#' @param plot_obj semPlot 또는 qgraph 객체
+#' @param var_named character vector.
+#'   c(old1, new1, old2, new2, ...)
+#'
+#' @return 노드 명칭이 변경된 semPlot 객체
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'
+#' #################################
+#' # 1. SCCT 구조방정식 모형 정의
+#' #################################
+#'
+#' model_scct_indirect <- '
+#'
+#' REFF =~ efficacy2 + efficacy3 + efficacy4
+#' OEXP =~ Outcome1 + Outcome2 + Outcome3 + Outcome4 + Outcome5 + Outcome8
+#' INTR =~ Interest1 + Interest2 + Interest3 + Interest4
+#'
+#' REFF ~ e1*grade + e2*experience0
+#' OEXP ~ a1*REFF + d1*grade + d2*experience0
+#' INTR ~ b1*REFF + b2*OEXP
+#'
+#' intention ~ c1*INTR + c2*OEXP + c3*REFF
+#'
+#' grade ~~ experience0
+#'
+#' # 간접효과
+#' ind_grade_REFF        := e1 * c3
+#' ind_grade_REFF_INTR   := e1 * b1 * c1
+#' ind_grade_REFF_OEXP   := e1 * a1 * c2
+#' ind_grade_REFF_OEXP_INTR := e1 * a1 * b2 * c1
+#'
+#' ind_exp_REFF          := e2 * c3
+#' ind_exp_REFF_INTR     := e2 * b1 * c1
+#' ind_exp_REFF_OEXP     := e2 * a1 * c2
+#' ind_exp_REFF_OEXP_INTR := e2 * a1 * b2 * c1
+#' '
+#'
+#' #################################
+#' # 2. 모형 추정
+#' #################################
+#'
+#' library(lavaan)
+#' fit_scct_indirect <- sem(
+#'   model = model_scct_indirect,
+#'   data  = shindata,
+#'   se = "bootstrap",
+#'   bootstrap = 2000
+#' )
+#'
+#' #################################
+#' # 3. 노드 명칭 매핑 벡터
+#' #################################
+#'
+#' var_named1 <- c(
+#'   "REFF", "연구효능감",
+#'   "efficacy2","연구효능2",
+#'   "efficacy3","연구효능3",
+#'   "efficacy4","연구효능4",
+#'
+#'   "INTR", "진로흥미",
+#'   "Interest1","진로흥미1",
+#'   "Interest2","진로흥미2",
+#'   "Interest3","진로흥미3",
+#'   "Interest4","진로흥미4",
+#'
+#'   "OEXP", "결과기대",
+#'   "Outcome1","결과기대1",
+#'   "Outcome2","결과기대2",
+#'   "Outcome3","결과기대3",
+#'   "Outcome4","결과기대4",
+#'   "Outcome5","결과기대5",
+#'   "Outcome8","결과기대8",
+#'
+#'   "grade","학년",
+#'   "experience0","연구경험",
+#'   "intention","진로의지"
+#' )
+#'
+#' #################################
+#' # 4. SCCT 전용 layout 행렬
+#' #################################
+#'
+#' layout_scct <- matrix(
+#'   c(
+#'     NA, "efficacy2", "efficacy3", "efficacy4", NA,
+#'         "Interest1", "Interest2", "Interest3", "Interest4", NA,
+#'
+#'     "experience0", NA, "REFF", NA, NA,
+#'         NA, "INTR", NA, NA, NA,
+#'
+#'     "grade", NA, "OEXP", NA, NA,
+#'         NA, NA, "intention", NA, NA,
+#'
+#'     NA, "Outcome1", "Outcome2", "Outcome3", "Outcome4",
+#'         "Outcome5", "Outcome8", NA, NA, NA
+#'   ),
+#'   nrow = 4,
+#'   byrow = TRUE
+#' )
+#'
+#' #################################
+#' # 5. 구조방정식 그림 + 노드명 변경
+#' #################################
+#'
+#' library(semPlot)
+#' library(semptools)
+#'
+#' semPlot::semPaths(
+#'   fit_scct_indirect,
+#'   layout        = layout_scct,
+#'   whatLabels    = "std",
+#'   style         = "ram",
+#'   residuals     = FALSE,
+#'   intercepts    = FALSE,
+#'   nCharNodes    = 0,
+#'   sizeLat       = 9,
+#'   sizeMan       = 9,
+#'   edge.label.cex = 0.85,
+#'   edge.label.position = 0.65
+#' ) %>%
+#'   semptools::mark_sig(fit_scct_indirect) %>%
+#'   change_node_name(var_named1) %>%  ##### 이것을 이용하여 이름 변경
+#'   plot()
+#'
+#' }
+change_node_name <- function(plot_obj, var_named) {
+
+  if (length(var_named) %% 2 != 0) {
+    stop("var_named는 (원래이름, 변경라벨) 쌍으로 구성되어야 합니다.")
+  }
+
+  # (1) (원래이름, 변경라벨) 쌍 분리
+  split_x <- split(
+    var_named,
+    rep(seq_len(length(var_named) / 2), each = 2)
+  )
+
+  # (2) semptools::change_node_label 형식으로 변환
+  label_list <- lapply(split_x, function(v) {
+    list(
+      node = v[1],
+      to   = v[2]
+    )
+  })
+
+  # (3) 노드명 변경 적용
+  semptools::change_node_label(plot_obj, label_list)
+}
+
+
+
+#' Change node names in semPlot / qgraph object
+#'
+#' @description
+#' semPlot::semPaths()로 생성된 구조방정식 시각화 객체에서
+#' 노드 이름을 사용자가 지정한 (원래이름, 변경라벨) 쌍에 따라
+#' 일괄적으로 변경한다.
+#' 본 함수는 pipe(%>%) 사용을 전제로 설계되었다.
+#'
+#' @param plot_obj semPlot 또는 qgraph 객체
+#' @param var_named character vector.
+#'   c(old1, new1, old2, new2, ...)
+#'
+#' @return 노드 명칭이 변경된 semPlot 객체
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'
+#' #################################
+#' # 1. SCCT 구조방정식 모형 정의
+#' #################################
+#'
+#' model_scct_indirect <- '
+#'
+#' REFF =~ efficacy2 + efficacy3 + efficacy4
+#' OEXP =~ Outcome1 + Outcome2 + Outcome3 + Outcome4 + Outcome5 + Outcome8
+#' INTR =~ Interest1 + Interest2 + Interest3 + Interest4
+#'
+#' REFF ~ e1*grade + e2*experience0
+#' OEXP ~ a1*REFF + d1*grade + d2*experience0
+#' INTR ~ b1*REFF + b2*OEXP
+#'
+#' intention ~ c1*INTR + c2*OEXP + c3*REFF
+#'
+#' grade ~~ experience0
+#'
+#' # 간접효과
+#' ind_grade_REFF        := e1 * c3
+#' ind_grade_REFF_INTR   := e1 * b1 * c1
+#' ind_grade_REFF_OEXP   := e1 * a1 * c2
+#' ind_grade_REFF_OEXP_INTR := e1 * a1 * b2 * c1
+#'
+#' ind_exp_REFF          := e2 * c3
+#' ind_exp_REFF_INTR     := e2 * b1 * c1
+#' ind_exp_REFF_OEXP     := e2 * a1 * c2
+#' ind_exp_REFF_OEXP_INTR := e2 * a1 * b2 * c1
+#' '
+#'
+#' #################################
+#' # 2. 모형 추정
+#' #################################
+#'
+#' library(lavaan)
+#' fit_scct_indirect <- sem(
+#'   model = model_scct_indirect,
+#'   data  = shindata,
+#'   se = "bootstrap",
+#'   bootstrap = 2000
+#' )
+#'
+#' #################################
+#' # 3. 노드 명칭 매핑 벡터
+#' #################################
+#'
+#' var_named1 <- c(
+#'   "REFF", "연구효능감",
+#'   "efficacy2","연구효능2",
+#'   "efficacy3","연구효능3",
+#'   "efficacy4","연구효능4",
+#'
+#'   "INTR", "진로흥미",
+#'   "Interest1","진로흥미1",
+#'   "Interest2","진로흥미2",
+#'   "Interest3","진로흥미3",
+#'   "Interest4","진로흥미4",
+#'
+#'   "OEXP", "결과기대",
+#'   "Outcome1","결과기대1",
+#'   "Outcome2","결과기대2",
+#'   "Outcome3","결과기대3",
+#'   "Outcome4","결과기대4",
+#'   "Outcome5","결과기대5",
+#'   "Outcome8","결과기대8",
+#'
+#'   "grade","학년",
+#'   "experience0","연구경험",
+#'   "intention","진로의지"
+#' )
+#'
+#' #################################
+#' # 4. SCCT 전용 layout 행렬
+#' #################################
+#'
+#' layout_scct <- matrix(
+#'   c(
+#'     NA, "efficacy2", "efficacy3", "efficacy4", NA,
+#'         "Interest1", "Interest2", "Interest3", "Interest4", NA,
+#'
+#'     "experience0", NA, "REFF", NA, NA,
+#'         NA, "INTR", NA, NA, NA,
+#'
+#'     "grade", NA, "OEXP", NA, NA,
+#'         NA, NA, "intention", NA, NA,
+#'
+#'     NA, "Outcome1", "Outcome2", "Outcome3", "Outcome4",
+#'         "Outcome5", "Outcome8", NA, NA, NA
+#'   ),
+#'   nrow = 4,
+#'   byrow = TRUE
+#' )
+#'
+#' #################################
+#' # 5. 구조방정식 그림 + 노드명 변경
+#' #################################
+#'
+#' library(semPlot)
+#' library(semptools)
+#'
+#' semPlot::semPaths(
+#'   fit_scct_indirect,
+#'   layout        = layout_scct,
+#'   whatLabels    = "std",
+#'   style         = "ram",
+#'   residuals     = FALSE,
+#'   intercepts    = FALSE,
+#'   nCharNodes    = 0,
+#'   sizeLat       = 9,
+#'   sizeMan       = 9,
+#'   edge.label.cex = 0.85,
+#'   edge.label.position = 0.65
+#' ) %>%
+#'   semptools::mark_sig(fit_scct_indirect) %>%
+#'   change_node_name(var_named1) %>%  ##### 이것을 이용하여 이름 변경
+#'   plot()
+#'
+#' }
+lav_change_node_name <- function(plot_obj, var_named) {
+
+  if (length(var_named) %% 2 != 0) {
+    stop("var_named는 (원래이름, 변경라벨) 쌍으로 구성되어야 합니다.")
+  }
+
+  # (1) (원래이름, 변경라벨) 쌍 분리
+  split_x <- split(
+    var_named,
+    rep(seq_len(length(var_named) / 2), each = 2)
+  )
+
+  # (2) semptools::change_node_label 형식으로 변환
+  label_list <- lapply(split_x, function(v) {
+    list(
+      node = v[1],
+      to   = v[2]
+    )
+  })
+
+  # (3) 노드명 변경 적용
+  semptools::change_node_label(plot_obj, label_list)
+}
+

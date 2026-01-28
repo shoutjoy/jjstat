@@ -15,7 +15,7 @@
 #'
 #' @details
 #' This function is designed as a lightweight alternative to \code{View()},
-#' optimized for console-based inspection and pipe \verb|%>%| workflows.
+#' optimized for console-based inspection and pipe  workflows.
 #' The default behavior (type = NULL) prioritizes safe data previewing.
 #'
 #' @export

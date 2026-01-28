@@ -45,6 +45,7 @@
 #' # HTML table for Viewer or browser
 #' modelfit_paper(modelfitdata, type = "kable", format = "html")
 #' }
+
 modelfit_paper <- function(x,
                            type   = c("kable", "data"),
                            format = c("markdown", "raw", "html"),
@@ -53,24 +54,28 @@ modelfit_paper <- function(x,
   type   <- match.arg(type)
   format <- match.arg(format)
 
-  # -------------------------
-  # 1. 구조 고정 (raw 데이터 생성)
-  # -------------------------
   mf <- x |>
     t() |>
     as.data.frame(stringsAsFactors = FALSE)
 
   mf[] <- lapply(mf, function(v) trimws(as.character(v)))
 
-  # df 정수화
   df_int <- function(v) {
     if (is.na(v) || v == "") return(NA_character_)
     as.character(as.integer(as.numeric(v)))
   }
 
-  # -------------------------
-  # 2. 순수 raw data.frame
-  # -------------------------
+  # ★ p-value formatter 추가
+  p_fmt <- function(v) {
+    if (is.na(v) || v == "") return(NA_character_)
+    num <- suppressWarnings(as.numeric(v))
+    if (!is.na(num) && num < 0.001) {
+      "< .001"
+    } else {
+      as.character(v)
+    }
+  }
+
   out_data <- data.frame(
     term = c("criterian", "Value"),
 
@@ -86,7 +91,7 @@ modelfit_paper <- function(x,
 
     pvalue = c(
       mf["criterian","pvalue"],
-      mf["Value","pvalue"]
+      p_fmt(mf["Value","pvalue"])
     ),
 
     RMSEA = c(
@@ -112,16 +117,10 @@ modelfit_paper <- function(x,
     stringsAsFactors = FALSE
   )
 
-  # -------------------------
-  # 3. type 분기
-  # -------------------------
   if (type == "data") {
     return(out_data)
   }
 
-  # -------------------------
-  # 4. kable 출력 분기 (format 유지)
-  # -------------------------
   if (type == "kable") {
 
     if (format == "raw") {
@@ -150,3 +149,4 @@ modelfit_paper <- function(x,
     }
   }
 }
+

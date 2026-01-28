@@ -26,7 +26,7 @@ By default, it returns the first \code{n} rows of the data.
 }
 \details{
 This function is designed as a lightweight alternative to \code{View()},
-optimized for console-based inspection and pipe \verb|%>%| workflows.
+optimized for console-based inspection and pipe  workflows.
 The default behavior (type = NULL) prioritizes safe data previewing.
 }
 \examples{
