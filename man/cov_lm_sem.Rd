@@ -23,6 +23,8 @@ cov_lm_sem(
 
 \item{n}{sample}
 
+\item{sds}{standard deviations used to convert a correlation matrix}
+
 \item{dv}{dv}
 
 \item{ivs}{iv variales}
@@ -100,7 +102,7 @@ songki2024_stat=  data.frame(
 
 );songki2024_stat
 
-Songkj2024_cov = cor2cov(Songkj2024, sds= songki2024_stat$sd)
+Songkj2024_cov = Cor2cov(Songkj2024, sds = songki2024_stat$sd)
 # Songkj2024_cov
 # original
 Songkj2024_model_1="

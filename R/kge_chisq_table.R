@@ -108,7 +108,7 @@ kge_chisq_table = function(dataset,
                         SUM=data_colsum )
   #Cramer boss
   cramer_cor = cramers_v(data, type = cramer)
-  cramer_cor_v = cramers_v(data, type = "cramer", digit = digits)
+  cramer_cor_v = cramers_v(data, type = "cramer", digits = digits)
   cramer_cor_v_table = cramers_v(data, type = "data1", digits = 2)
 
   # data_margin = cbind(data_margin, data_margin0[, ncol(data_margin0)])

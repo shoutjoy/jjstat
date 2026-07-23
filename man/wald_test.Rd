@@ -69,7 +69,7 @@ wald_test <- function(b1, se1, b2, se2, est1=NULL, est2=NULL){
   res = broom::tidy(c(z.value = z,  pvalue = p))
   colnames(res)=c("statistics","value")
 
-  res = res\%>\% dplry::mutate(coef=c(var1, var2))
+  res = res\%>\% dplyr::mutate(coef=c(var1, var2))
   res
   # list(res, var1, var2)
 }

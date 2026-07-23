@@ -12,7 +12,6 @@
 #' \dontrun{
 #' lm(mpg ~ hp + wt + disp + qsec, data = mtcars) %>% reg_apa()
 #' }
-#' reg1
 reg_apa <- function(model, digits= 3, md=FALSE) {
   # Extracting coefficients
   coeffs <- coef(model)

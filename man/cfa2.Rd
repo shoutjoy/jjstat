@@ -15,7 +15,7 @@ cfa2(
   hjust = 0.9,
   val.size = 4,
   dis.sort = TRUE,
-  rename = F,
+  rename = FALSE,
   var_name = NA,
   digits = 3,
   type = "all"
@@ -49,11 +49,7 @@ if you want roburst option htmt_cut =0.9}
 
 \item{digits}{value rounding}
 
-\item{dataset}{this is import name that dataset column name}
-
-\item{model}{lavaan model need indices validation name}
-
-\item{res}{result type}
+\item{type}{result type}
 }
 \description{
 Create CFA result summary by lavaan sem estimated result By Park Joonghee Ph.D

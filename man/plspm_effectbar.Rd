@@ -52,11 +52,10 @@ This function creates a bar graph visualizing direct, indirect, and total effect
 using plspm result data. Users can input plspm results directly or provide custom data.
 }
 \examples{
-# Basic usage with plspm results
-edt_pls \%>\% plspm_effectbar()
-
-# Directly specifying data with variable renaming
-edt_pls$effects \%>\% select(1:3) \%>\%
-    replace_df_rep(var_named) \%>\%
-    plspm_effectbar(axis_x = 1.6, legend.position = "bottom")
+effect_data <- data.frame(
+  relationships = c("A -> B", "B -> C"),
+  direct = c(0.4, 0.3),
+  indirect = c(0.1, 0.2)
+)
+plspm_effectbar(effect_data)
 }

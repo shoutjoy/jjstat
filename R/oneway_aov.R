@@ -21,7 +21,7 @@ oneway_aov <- function(formula,
   options(knitr.kable.NA = '')
   anova_table <- broom::tidy(aov(formula, data = data)) %>%
     p_mark_sig() %>%
-    knitr:::kable(format = format, digits = 2)
+    knitr::kable(format = format, digits = 2)
 
   # extraction variable name
   sy <- as.character(formula)[1]  # ~

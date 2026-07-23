@@ -19,18 +19,11 @@ FA,PCA result summary
 }
 \examples{
 
-library(MVT)
-
-#  Mardia, K.V., Kent, J.T., and Bibby, J.M. (1979).  _Multivariate
-#  Analysis_. Academic Press, London.
-data(examScor)
-factanal(scale(examScor), factors = 2, rotation = "varimax")\%>\% summary_fa()
-
-#
-psych::principal(cor(examScor), nfactor = 2) \%>\%summary_fa()
-
-psych::prcomp(cor(examScor), nfactor = 2) \%>\%summary_fa()
-
-factanal(scale(examScor), factors = 2) \%>\%summary_fa()
+result <- stats::factanal(
+  scale(datasets::USArrests),
+  factors = 1,
+  rotation = "varimax"
+)
+summary_fa(result)
 
 }

@@ -4,13 +4,7 @@
 \alias{GetCov}
 \title{text to get covariance matrix}
 \usage{
-GetCov(
-  x,
-  lower = TRUE,
-  diagonal = TRUE,
-  sds = NULL,
-  names = paste("V", 1:nvar, sep = "")
-)
+GetCov(x, lower = TRUE, diagonal = TRUE, sds = NULL, names = NULL)
 }
 \arguments{
 \item{x}{text}

@@ -24,7 +24,7 @@ cor2cov
 mtcars[1:6] \%>\%cor()
 
 #change cor to cov
-mtcars[1:6] \%>\%cor() \%>\% cor2cov(sds = mtcars[1:6] \%>\% sapply(sd))
+mtcars[1:6] \%>\%cor() \%>\% Cor2cov(sds = mtcars[1:6] \%>\% sapply(sd))
 
 #real cov matrix
 mtcars[1:6] \%>\%cov()
