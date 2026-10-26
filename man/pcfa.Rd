@@ -62,14 +62,11 @@ rownames(R)=subject
 R
 pcfa(R, nfactor = 2)
 
-library(MVT)
-data(examScor)
+# If you want to input a correlation matrix
+pcfa(cor(mtcars), nfactor = 2)
 
-#if you when input cor
-pcfa(cor(examScor), nfactor = 2)
-
-## if you When input data
-pcfa( examScor, nfactor = 2)
+# If you want to input data
+pcfa(mtcars, nfactor = 2)
 
 }
 

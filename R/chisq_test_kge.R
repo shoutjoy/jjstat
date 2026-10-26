@@ -169,7 +169,7 @@ chisq_test_kge = function(dataset,
 
   #Cramer boss----------------------
   cramer_cor = cramers_v(data, type = cramer) %>%suppressWarnings()
-  cramer_cor_v = cramers_v(data, type = "cramer", digit = digits)%>%suppressWarnings()
+  cramer_cor_v = cramers_v(data, type = "cramer", digits = digits)%>%suppressWarnings()
   cramer_cor_v_table = cramers_v(data, type = "datvar1", digits = 2)%>%suppressWarnings()
 
   # data_margin = cbind(data_margin, data_margin0[, ncol(data_margin0)])

@@ -38,14 +38,20 @@
 #'
 #' fit <- lavaan::sem(model, data = PoliticalDemocracy)
 #'  ## summary
-#' summary(fit, fit.measures = TRUE, stand=T)
+#' summary(fit, fit.measures = TRUE, standardized = TRUE)
 #' ##
-#' LavaanPlot(fit, cov=F)
+#' if (requireNamespace("lavaanPlot", quietly = TRUE)) {
+#'   LavaanPlot(fit, covs = FALSE)
 ## change layout
-#' LavaanPlot(fit, cov=F, layout="circo")
+#'   LavaanPlot(fit, covs = FALSE, layout = "circo")
 #'
-#' LavaanPlot(fit, cov=F, layout="dot",
-#'            label=c(x1="ind1",ind60="IND60"))
+#'   LavaanPlot(
+#'     fit,
+#'     covs = FALSE,
+#'     layout = "dot",
+#'     label = c(x1 = "ind1", ind60 = "IND60")
+#'   )
+#' }
 #'
 #'
 LavaanPlot <- function(x,
@@ -60,7 +66,12 @@ LavaanPlot <- function(x,
                      layout = "dot",
                      digits = 3
 ){
-  # library(lavaanPlot)
+  if (!requireNamespace("lavaanPlot", quietly = TRUE)) {
+    stop(
+      "`LavaanPlot()`을 사용하려면 `lavaanPlot` 패키지가 필요합니다.",
+      call. = FALSE
+    )
+  }
   lavaanPlot::lavaanPlot(model = x,
              edge_options = list(color = c(col), digits = digits),
              coefs = coefs,

@@ -11,10 +11,6 @@
 #'
 #' @return A data frame with missing values imputed.
 #' @export
-#' @import VIM
-#' @import Hmisc
-#' @import mice
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -44,36 +40,49 @@
 #' print(result)
 #' }
 missfillin <- function(data, fn = mean, method = NULL) {
-  library(VIM)
-  library(Hmisc)
-  library(mice)
-
-  # 데이터 프레임으로 변환
   data <- as.data.frame(data)
+  if (!is.function(fn)) {
+    stop("`fn` must be a function.", call. = FALSE)
+  }
 
-  # 결측치 확인
-  missing_info <- aggr(data, prop = FALSE, numbers = TRUE, plot = FALSE)$missings
+  missing_info <- colSums(is.na(data))
 
-  # 결측치가 있을 경우
   if (any(missing_info > 0)) {
     if (!is.null(method)) {
       if (method == "pmm") {
-        # fn 무시하고 pmm 방식 적용
+        if (!requireNamespace("mice", quietly = TRUE)) {
+          stop(
+            "PMM 결측치 대치를 사용하려면 `mice` 패키지가 필요합니다.",
+            call. = FALSE
+          )
+        }
         if (ncol(data) < 2) {
           stop("mice는 최소 두 개 이상의 열이 필요합니다.")
         }
-        mice_result <- mice(data, m = 5, method = "pmm", maxit = 10, seed = 123)
-        data <- complete(mice_result, 1)
+        mice_result <- mice::mice(
+          data,
+          m = 5,
+          method = "pmm",
+          maxit = 10,
+          seed = 123,
+          printFlag = FALSE
+        )
+        data <- mice::complete(mice_result, 1)
       } else {
         stop("지원하지 않는 방법입니다. method = NULL 또는 'pmm' 중에서 선택하세요.")
       }
     } else {
-      # mean 또는 median 함수로 채우기
-      data <- Hmisc::impute(unlist(data), fn(unlist(data), na.rm = TRUE))
+      data[] <- lapply(data, function(column) {
+        missing <- is.na(column)
+        if (any(missing)) {
+          column[missing] <- fn(column, na.rm = TRUE)
+        }
+        column
+      })
     }
   }
 
-  return(data)
+  data
 }
 
 

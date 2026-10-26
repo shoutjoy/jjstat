@@ -19,6 +19,7 @@
 #'   \item{ave_current}{현재 AVE}
 #'   \item{ave_if_dropped}{문항 제거 시 AVE}
 #'   \item{delta}{AVE 변화량 (제거 후 - 제거 전)}
+#'   \item{recommand}{Removal recommendation based on AVE change.}
 #' }
 #'
 #' @export
@@ -199,6 +200,11 @@ ave_raise_candidates <- function(fit,
   # - cutoff 이상인 후보만 필터링
   # ---------------------------------------------------------------------------
   results <- results %>%
+    dplyr::mutate(recommand = dplyr::case_when(
+      delta > 0.005 ~ "Recommended Removal",
+      delta > 0 ~ "Slight Improvement",
+      TRUE ~ "Keep"
+    )) %>%
     dplyr::arrange(latent, dplyr::desc(delta)) %>%
     dplyr::filter(delta >= cutoff)
 
@@ -249,6 +255,7 @@ ave_raise_candidates <- function(fit,
 #' #'   \item{ave_current}{현재 AVE}
 #' #'   \item{ave_if_dropped}{문항 제거 시 AVE}
 #' #'   \item{delta}{AVE 변화량 (제거 후 - 제거 전)}
+#'   \item{recommand}{Removal recommendation based on AVE change.}
 #' #' }
 #' #'
 #' #' @export
@@ -355,6 +362,11 @@ ave_raise_candidates <- function(fit,
 #'   })
 #'
 #'   results <- results %>%
+#'     dplyr::mutate(recommand = dplyr::case_when(
+#'       delta > 0.005 ~ "Recommended Removal",
+#'       delta > 0 ~ "Slight Improvement",
+#'       TRUE ~ "Keep"
+#'     )) %>%
 #'     dplyr::arrange(latent, dplyr::desc(delta)) %>%
 #'     dplyr::filter(delta >= cutoff)
 #'

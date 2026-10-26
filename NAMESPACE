@@ -549,9 +549,6 @@ export(wide_df)
 export(write_text)
 export(ztest)
 export(ztest_df)
-import(Hmisc)
-import(VIM)
-import(mice)
 importFrom(broom,tidy)
 importFrom(dplyr,
   filter,
@@ -588,7 +585,6 @@ importFrom(stats,
   cor,
   density,
   df,
-  filter,
   fisher.test,
   formula,
   na.omit,

@@ -25,6 +25,7 @@ tibble
   \item{ave_current}{현재 AVE}
   \item{ave_if_dropped}{문항 제거 시 AVE}
   \item{delta}{AVE 변화량 (제거 후 - 제거 전)}
+  \item{recommand}{Removal recommendation based on AVE change.}
 }
 }
 \description{

@@ -52,30 +52,33 @@
 #' }
 #'
 #'
-GetCov = function (x, lower = TRUE, diagonal = TRUE,
-                   sds = NULL, names = paste("V", 1:nvar, sep = "")){
-  if (is.character(x))
-    x <- char2num(x)
-  if (is.character(sds))
-    sds <- char2num(sds)
-
-  nels <- length(x)
+GetCov <- function(x, lower = TRUE, diagonal = TRUE,
+                   sds = NULL, names = NULL) {
+  if (is.character(x)) {
+    x <- scan(text = paste(x, collapse = " "), what = numeric(), quiet = TRUE)
+  }
+  if (is.character(sds)) {
+    sds <- scan(text = paste(sds, collapse = " "), what = numeric(), quiet = TRUE)
+  }
 
   if (lower) {
-    COV <- lav_matrix_lower2full(x, diagonal = diagonal)
+    COV <- lavaan::lav_matrix_lower2full(x, diagonal = diagonal)
   }
   else {
-    COV <- lav_matrix_upper2full(x, diagonal = diagonal)
+    COV <- lavaan::lav_matrix_upper2full(x, diagonal = diagonal)
   }
 
   nvar <- ncol(COV)
+  if (is.null(names)) {
+    names <- paste0("V", seq_len(nvar))
+  }
 
   if (!diagonal)
     diag(COV) <- 1
 
   if (!is.null(sds)) {
     stopifnot(length(sds) == nvar)
-    COV <- cor2cov(COV, sds)
+    COV <- Cor2cov(COV, sds)
   }
 
   stopifnot(length(names) == nvar)

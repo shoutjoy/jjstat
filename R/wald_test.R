@@ -44,7 +44,7 @@
 #'   res = broom::tidy(c(z.value = z,  pvalue = p))
 #'   colnames(res)=c("statistics","value")
 #'
-#'   res = res%>% dplry::mutate(coef=c(var1, var2))
+#'   res = res%>% dplyr::mutate(coef=c(var1, var2))
 #'   res
 #'   # list(res, var1, var2)
 #' }

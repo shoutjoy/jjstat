@@ -4,6 +4,7 @@
 #' @param formula regression formula
 #' @param cov cov matrix if your data cor, then you must sds
 #' @param n sample
+#' @param sds standard deviations used to convert a correlation matrix
 #' @param dv dv
 #' @param ivs iv variales
 #' @param method c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY")
@@ -74,7 +75,7 @@
 #'
 #' );songki2024_stat
 #'
-#' Songkj2024_cov = cor2cov(Songkj2024, sds= songki2024_stat$sd)
+#' Songkj2024_cov = Cor2cov(Songkj2024, sds = songki2024_stat$sd)
 #' # Songkj2024_cov
 #' # original
 #' Songkj2024_model_1="
@@ -116,40 +117,39 @@ cov_lm_sem <- function(formula=NULL, cov, n, sds=NULL,
   #      list with lavaan model fit
   #      and various other features of the model
 
-  if(is.null(sds)){
-    cov = cor2cov(cov)
-  }else{
-    cov = jjstat::cor2cov(cov, sds = sds)
+  if (!is.null(sds)) {
+    cov <- Cor2cov(cov, sds = sds)
   }
+
+  results <- list()
 
   #regression
   if(lm){
-    results <- list()
     if(is.null(formula)){
       eq <- paste(dv, "~", paste(ivs, collapse = " + "))
     }else{
-      eq = formula
-      form = formula(formula)%>%as.character()
-      dv = form[2]
-      ivs = strsplit(form[3] , "\\s*\\+\\s*" )[[1]]
+      eq <- formula
+      formula_vars <- all.vars(stats::as.formula(formula))
+      dv <- formula_vars[1]
+      ivs <- formula_vars[-1]
     }
 
     # estimate
     results$fit <- lavaan::sem(eq, sample.cov = cov, sample.nobs = n)
 
     # coefficients
-    ufit <- parameterEstimates(results$fit, ci=TRUE)
+    ufit <- lavaan::parameterEstimates(results$fit, ci = TRUE)
     ufit <- ufit[ufit$op == "~", ]
     results$coef <- ufit$est
     results$p.value <- ufit$pvalue  # p
     results$z <- ufit$z  # p
     names(results$coef) <- ufit$rhs
 
-    AIC = fitMeasures( results$fit, fit.measures=c("aic"))
-    BIC = fitMeasures( results$fit, fit.measures=c("bic"))
+    AIC <- lavaan::fitMeasures(results$fit, fit.measures = "aic")
+    BIC <- lavaan::fitMeasures(results$fit, fit.measures = "bic")
 
     #std
-    sfit <- standardizedsolution(results$fit)
+    sfit <- lavaan::standardizedSolution(results$fit)
     sfit <- sfit[sfit$op == "~", ]
     results$std <- sfit$est.std
     names(results$std) <- sfit$rhs
@@ -158,66 +158,79 @@ cov_lm_sem <- function(formula=NULL, cov, n, sds=NULL,
     names(results$se) <- ufit$rhs
 
     # use unclass to not limit r2 to 3 decimals
-    results$r.squared <- unclass(inspect(results$fit, 'r2')) # r-squared
+    results$r.squared <- unclass(lavaan::inspect(results$fit, "r2"))
 
     # adjusted r-squared
     adjr2 <- function(rsquared, n, p) 1 - (1-rsquared)  * ((n-1)/(n-p-1))
-    results$adj.r.squared <- adjr2(unclass(inspect(results$fit, 'r2')),
+    results$adj.r.squared <- adjr2(unclass(lavaan::inspect(results$fit, "r2")),
                                    n = n,
                                    p = length(ivs))
     #ressult
-    reg = cbind.data.frame(
+    reg <- cbind.data.frame(
       DV = dv,
       estimate = results$coef,
       std = results$std,
       se = results$se,
       t =  results$z
-    )%>%
-      mutate(
-        p.value =  p.adjust( 2 * pnorm(-abs(t)),
-                             method= method))%>% p_mark_sig()
+    ) |>
+      dplyr::mutate(
+        p.value = stats::p.adjust(
+          2 * stats::pnorm(-abs(t)),
+          method = method
+        )
+      ) |>
+      p_mark_sig()
     # p.value =  p.adjust( results$p.value ,
     #                     method= method))%>% p_mark_sig()
 
-    R2 = cbind.data.frame(  R2 = results$r.squared,
-                            adj.R2 = results$adj.r.squared ,
-                            AIC,BIC)%>%
+    R2 <- cbind.data.frame(R2 = results$r.squared,
+                            adj.R2 = results$adj.r.squared,
+                            AIC, BIC) |>
       tibble::tibble()
 
   }else{
     # estimate SEM-------------------------------------------
-    eq = formula
-    # Fit <- lavaan::sem(eq, sample.cov = cov, sample.nobs = n)
+    eq <- formula
     results$fit <- lavaan::sem(eq, sample.cov = cov, sample.nobs = n)
-    # coefficients
-    reg = parameterEstimates(results$fit, stand = TRUE, ci=TRUE) %>%
-      filter(op == "~") %>%
+    reg <- lavaan::parameterEstimates(
+      results$fit,
+      standardized = TRUE,
+      ci = TRUE
+    ) |>
+      dplyr::filter(op == "~") |>
       p_mark_sig("pvalue")
 
-    R2 = NULL
+    R2 <- NULL
 
   }
 
-  # diagram
-  x11()
-  diagram = jjstat::sem_plot(results$fit,
-                             sizeMan = 15,
-                             mar = c(1,10,1,5),
-                             curve = 3)
-
-
-  x11()
-  diagram_sig = jjstat::confint_plot_sem(results$fit)
+  diagram <- NULL
+  diagram_sig <- NULL
+  if (requireNamespace("semPlot", quietly = TRUE) &&
+      requireNamespace("semptools", quietly = TRUE)) {
+    diagram <- jjstat::sem_plot(
+      results$fit,
+      sizeMan = 15,
+      mar = c(1, 10, 1, 5),
+      curve = 3
+    )
+    diagram_sig <- jjstat::confint_plot_sem(results$fit)
+  } else {
+    warning(
+      "SEM 그래프를 만들려면 `semPlot`과 `semptools` 패키지가 필요합니다.",
+      call. = FALSE
+    )
+  }
 
 
   # markdown
   if(md){
-    reg_md = md(reg, caption = "회귀분석결과")
+    reg_md <- jjstat::md(reg, caption = "회귀분석결과")
   }else{
-    reg_md = NULL
+    reg_md <- NULL
   }
   #result
-  res = list(Cov_to_regression = reg,
+  res <- list(Cov_to_regression = reg,
              Rsquare = R2,
              plot = diagram,
              confint = diagram_sig,

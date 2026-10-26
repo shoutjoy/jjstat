@@ -121,7 +121,7 @@ effect1 <-function(x,format="markdown",op1="~",op2=":=",
                                  nDigits = digits, border.width=2,
                                  label.cex = label.cex, asize=asize,
                                  mar = mar) %>%
-      sempltools::mark_sig(x) %>%
+      semptools::mark_sig(x) %>%
       semptools::mark_se(x,"\n") %>%
       semptools::change_node_label(
         label_list=label_list

@@ -10,7 +10,6 @@
 #' If `NULL`, all columns are considered.
 #'
 #' @return A data frame with missing values imputed in the specified range of columns.
-#' @import mice
 #' @export
 #'
 #' @examples
@@ -41,12 +40,16 @@
 #' print(result)
 #' }
 missfillinFor <- function(data, fn = mean, method = NULL, range = NULL) {
+  data <- as.data.frame(data)
+
   if (is.null(range)) {
-    range <- 1:ncol(data)
+    range <- seq_len(ncol(data))
   } else if (is.character(range)) {
-    # 열 이름 범위 처리
     col_names <- colnames(data)
     range_split <- strsplit(range, ":")[[1]]
+    if (length(range_split) != 2L) {
+      stop("문자열 범위는 '시작열:끝열' 형식이어야 합니다.", call. = FALSE)
+    }
     start_col <- which(col_names == range_split[1])
     end_col <- which(col_names == range_split[2])
     if (length(start_col) == 0 || length(end_col) == 0) {
@@ -55,20 +58,37 @@ missfillinFor <- function(data, fn = mean, method = NULL, range = NULL) {
     range <- seq(start_col, end_col)
   }
 
-  # method가 "pmm"인 경우 한 번에 처리
+  if (!is.numeric(range) || anyNA(range) ||
+      any(range < 1L | range > ncol(data))) {
+    stop("`range`에는 존재하는 열의 위치를 지정해야 합니다.", call. = FALSE)
+  }
+  range <- unique(as.integer(range))
+
   if (!is.null(method) && method == "pmm") {
+    if (!requireNamespace("mice", quietly = TRUE)) {
+      stop(
+        "PMM 결측치 대치를 사용하려면 `mice` 패키지가 필요합니다.",
+        call. = FALSE
+      )
+    }
     selected_data <- data[, range, drop = FALSE]
     if (ncol(selected_data) < 2) {
       stop("mice는 최소 두 개 이상의 열이 필요합니다.")
     }
-    mice_result <- mice(selected_data, m = 5, method = "pmm", maxit = 10, seed = 123)
-    data[, range] <- complete(mice_result, 1)
+    mice_result <- mice::mice(
+      selected_data,
+      m = 5,
+      method = "pmm",
+      maxit = 10,
+      seed = 123,
+      printFlag = FALSE
+    )
+    data[, range] <- mice::complete(mice_result, 1)
   } else {
-    # 다른 method 또는 fn 적용을 위해 반복 처리
     for (i in range) {
       data[, i] <- missfillin(data[, i, drop = FALSE], fn = fn, method = method)
     }
   }
 
-  return(data)
+  data
 }

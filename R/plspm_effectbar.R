@@ -20,13 +20,12 @@
 #' @export
 #'
 #' @examples
-#' # Basic usage with plspm results
-#' edt_pls %>% plspm_effectbar()
-#'
-#' # Directly specifying data with variable renaming
-#' edt_pls$effects %>% select(1:3) %>%
-#'     replace_df_rep(var_named) %>%
-#'     plspm_effectbar(axis_x = 1.6, legend.position = "bottom")
+#' effect_data <- data.frame(
+#'   relationships = c("A -> B", "B -> C"),
+#'   direct = c(0.4, 0.3),
+#'   indirect = c(0.1, 0.2)
+#' )
+#' plspm_effectbar(effect_data)
 plspm_effectbar <- function(x_pls,
                             axis_x = 1.3,
                             axis_y = 1.3,

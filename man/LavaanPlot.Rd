@@ -71,13 +71,19 @@ model <- '
 
 fit <- lavaan::sem(model, data = PoliticalDemocracy)
  ## summary
-summary(fit, fit.measures = TRUE, stand=T)
+summary(fit, fit.measures = TRUE, standardized = TRUE)
 ##
-LavaanPlot(fit, cov=F)
-LavaanPlot(fit, cov=F, layout="circo")
+if (requireNamespace("lavaanPlot", quietly = TRUE)) {
+  LavaanPlot(fit, covs = FALSE)
+  LavaanPlot(fit, covs = FALSE, layout = "circo")
 
-LavaanPlot(fit, cov=F, layout="dot",
-           label=c(x1="ind1",ind60="IND60"))
+  LavaanPlot(
+    fit,
+    covs = FALSE,
+    layout = "dot",
+    label = c(x1 = "ind1", ind60 = "IND60")
+  )
+}
 
 
 }
