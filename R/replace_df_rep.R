@@ -4,6 +4,7 @@
 #' @param ... pattern and imputation
 #' @param detect detect TRUE in data, FALSE data
 #' @param chr transformation fac  to chr
+#' @param col A feature for selecting the column to apply, select col
 #'
 #' @return data
 #' @export
@@ -51,6 +52,7 @@
 #'
 #'
 #' }
+#'
 #'
 #'
 #'

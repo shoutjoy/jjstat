@@ -1,0 +1,1026 @@
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.10.21)  21 OCT 2026 00:26
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**./Rd2.tex
+(Rd2.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-09-09>
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\book.cls
+Document Class: book 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\bk10.clo
+File: bk10.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count273
+\c@chapter=\count274
+\c@section=\count275
+\c@subsection=\count276
+\c@subsubsection=\count277
+\c@paragraph=\count278
+\c@subparagraph=\count279
+\c@figure=\count280
+\c@table=\count281
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen150
+)
+(C:/Program Files/R/R-4.3.3/share/texmf/tex/latex\Rd.sty
+Package: Rd 
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
+Package: longtable 2026-01-28 v4.27 Multi-page Table package (DPC)
+\LTleft=\skip51
+\LTright=\skip52
+\LTpre=\skip53
+\LTpost=\skip54
+\LTchunksize=\count282
+\LTcapwidth=\dimen151
+\LT@head=\box53
+\LT@firsthead=\box54
+\LT@foot=\box55
+\LT@lastfoot=\box56
+\LT@gbox=\box57
+\LT@cols=\count283
+\LT@rows=\count284
+\c@LT@tables=\count285
+\c@LT@chunks=\count286
+\LT@p@ftn=\toks17
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/tools\bm.sty
+Package: bm 2025/10/21 v1.2g Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup4
+\symboldletters=\mathgroup5
+\symboldsymbols=\mathgroup6
+Package bm Info: No bold for \OMX/cmex/m/n, using \pmb.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 149.
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\alltt.sty
+Package: alltt 2024/07/07 v2.0g defines alltt environment
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbatim.sty
+Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks18
+\verbatim@line=\toks19
+\verbatim@in@stream=\read2
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\textcomp.sty
+Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2026/05/19 v2.18d AMS math features
+\@mathmargin=\skip55
+
+For additional information on amsmath, use the `?' option.
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks20
+\ex@=\dimen152
+))
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+LaTeX Info: Redefining \boldsymbol on input line 28.
+\pmbraise@=\dimen153
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count287
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count288
+\leftroot@=\count289
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count290
+\DOTSCASE@=\count291
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box58
+\strutbox@=\box59
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen154
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count292
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count293
+\dotsspace@=\muskip18
+\c@parentequation=\count294
+\dspbrk@lvl=\count295
+\tag@help=\toks21
+\row@=\count296
+\column@=\count297
+\maxfields@=\count298
+\andhelp@=\toks22
+\eqnshift@=\dimen155
+\alignsep@=\dimen156
+\tagshift@=\dimen157
+\tagwidth@=\dimen158
+\totwidth@=\dimen159
+\lineht@=\dimen160
+\@envbody=\toks23
+\multlinegap=\skip56
+\multlinetaggap=\skip57
+\mathdisplay@stack=\toks24
+LaTeX Info: Redefining \[ on input line 2965.
+LaTeX Info: Redefining \] on input line 2966.
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup7
+\symAMSb=\mathgroup8
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/jknappen\mathrsfs.sty
+Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
+\symrsfs=\mathgroup9
+)
+\ldescriptionwidth=\skip58
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\times.sty
+Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\zi4.sty
+Package: zi4 2019/05/17 v1.12
+
+`inconsolata-zi4' v1.12, 2019/05/17 Text macros for Inconsolata (msharpe)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
+\XKV@toks=\toks25
+\XKV@tempa@toks=\toks26
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\keyval.tex))
+\XKV@depth=\count299
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+\zifour@ocount=\count300
+) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/graphics\color.sty
+Package: color 2026-05-17 v1.3f Standard LaTeX Color (DPC)
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: xetex.def on input line 149.
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\xetex.def
+File: xetex.def 2025/11/01 v5.0p Graphics/color driver for xetex
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx))
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+Package: hyperref 2026-10-09 v7.01s Hypertext links for LaTeX
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefinek
+eys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.st
+y
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+ (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.
+sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.st
+y
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode not found.
+)) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettitl
+estring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count301
+) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count302
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.st
+y
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen161
+\Hy@linkcounter=\count303
+\Hy@pagecounter=\count304
+ (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+File: pd1enc.def 2026-10-09 v7.01s Hyperref: PDFDocEncoding definition (HO)
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count305
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
+File: puenc.def 2026-10-09 v7.01s Hyperref: PDF Unicode definition (HO)
+)
+Package hyperref Info: Hyper figures OFF on input line 4199.
+Package hyperref Info: Link nesting OFF on input line 4204.
+Package hyperref Info: Hyper index ON on input line 4207.
+Package hyperref Info: Plain pages OFF on input line 4214.
+Package hyperref Info: Backreferencing OFF on input line 4219.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4466.
+\c@Hy@tempcnt=\count306
+LaTeX Info: Redefining \url on input line 4805.
+\XeTeXLinkMargin=\dimen162
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc.
+sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count307
+\Field@Width=\dimen163
+\Fld@charsize=\dimen164
+Package hyperref Info: Hyper figures OFF on input line 6091.
+Package hyperref Info: Link nesting OFF on input line 6096.
+Package hyperref Info: Hyper index ON on input line 6099.
+Package hyperref Info: backreferencing OFF on input line 6106.
+Package hyperref Info: Link coloring OFF on input line 6111.
+Package hyperref Info: Link coloring with OCG OFF on input line 6116.
+Package hyperref Info: PDF/A mode OFF on input line 6121.
+\Hy@abspage=\count308
+\c@Item=\count309
+\c@Hfootnote=\count310
+)
+Package hyperref Info: Driver (autodetected): hxetex.
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hxetex.def
+File: hxetex.def 2026-10-09 v7.01s Hyperref driver for XeTeX
+\pdfm@box=\box60
+\c@Hy@AnnotLevel=\count311
+\HyField@AnnotCount=\count312
+\Fld@listcount=\count313
+\c@bookmark@seq@number=\count314
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfile
+check.sty
+Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniqueco
+unter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+84.
+)
+\Hy@SectionHShift=\skip59
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 390.
+Package hyperref Info: Option `linktocpage' set `true' on input line 390.
+Package hyperref Info: Option `plainpages' set `false' on input line 390.
+LaTeX Encoding Info:    Ignoring declaration for text command \textdegree (enco
+ding ?) on input line 436.
+LaTeX Encoding Info:    Ignoring declaration for text command \textonehalf (enc
+oding ?) on input line 437.
+LaTeX Encoding Info:    Ignoring declaration for text command \textonequarter (
+encoding ?) on input line 438.
+LaTeX Encoding Info:    Ignoring declaration for text command \textthreequarter
+s (encoding ?) on input line 439.
+LaTeX Encoding Info:    Ignoring declaration for text command \textcent (encodi
+ng ?) on input line 440.
+LaTeX Encoding Info:    Ignoring declaration for text command \textyen (encodin
+g ?) on input line 441.
+LaTeX Encoding Info:    Ignoring declaration for text command \textcurrency (en
+coding ?) on input line 442.
+LaTeX Encoding Info:    Ignoring declaration for text command \textbrokenbar (e
+ncoding ?) on input line 443.
+LaTeX Encoding Info:    Ignoring declaration for text command \texteuro (encodi
+ng ?) on input line 444.
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.sty
+Package: fontspec 2026/08/11 v2.9h Font selection for XeLaTeX and LuaLaTeX
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec-xetex.
+sty
+Package: fontspec-xetex 2026/08/11 v2.9h Font selection for XeLaTeX and LuaLaTe
+X
+\l__fontspec_script_int=\count315
+\l__fontspec_language_int=\count316
+\l__fontspec_strnum_int=\count317
+\l__fontspec_tmp_int=\count318
+\l__fontspec_tmpa_int=\count319
+\l__fontspec_tmpb_int=\count320
+\l__fontspec_tmpc_int=\count321
+\l__fontspec_em_int=\count322
+\l__fontspec_emdef_int=\count323
+\l__fontspec_strong_int=\count324
+\l__fontspec_strongdef_int=\count325
+\l__fontspec_tmpa_dim=\dimen165
+\l__fontspec_tmpb_dim=\dimen166
+\l__fontspec_tmpc_dim=\dimen167
+ (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.cfg)
+LaTeX Info: Redefining \strong on input line 4215.
+)) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/xelatex/xecjk\xeCJK.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2026-09-09 L3 programming layer (loader) 
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\l3backend-xetex
+.def
+File: l3backend-xetex.def 2026-09-09 L3 backend support: XeTeX
+\g__graphics_track_int=\count326
+\g__pdfannot_backend_int=\count327
+\g__pdfannot_backend_link_int=\count328
+))
+Package: xeCJK 2026/08/21 v3.10.6 Typesetting CJK scripts with XeLaTeX
+ (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/ctex\ctexhook.sty
+Package: ctexhook 2026/08/11 v2.6.5 Document and package hooks (CTEX)
+) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/ctex\ctexpatch.sty
+Package: ctexpatch 2026/08/11 v2.6.5 Patching commands (CTEX)
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xtemplate\xte
+mplate.sty
+Package: xtemplate 2025-10-09 L3 Experimental prototype document functions
+)
+\l__xeCJK_tmp_int=\count329
+\l__xeCJK_tmp_box=\box61
+\l__xeCJK_tmp_dim=\dimen168
+\l__xeCJK_tmp_skip=\skip60
+\g__xeCJK_space_factor_int=\count330
+\l__xeCJK_begin_int=\count331
+\l__xeCJK_end_int=\count332
+\c__xeCJK_CJK_class_int=\XeTeXcharclass1
+\c__xeCJK_FullLeft_class_int=\XeTeXcharclass2
+\c__xeCJK_FullRight_class_int=\XeTeXcharclass3
+\c__xeCJK_HalfLeft_class_int=\XeTeXcharclass4
+\c__xeCJK_HalfRight_class_int=\XeTeXcharclass5
+\c__xeCJK_NormalSpace_class_int=\XeTeXcharclass6
+\c__xeCJK_CM_class_int=\XeTeXcharclass7
+\c__xeCJK_HangulJamo_class_int=\XeTeXcharclass8
+\c__xeCJK_HangulJamoL_class_int=\XeTeXcharclass9
+\c__xeCJK_HangulJamoV_class_int=\XeTeXcharclass10
+\c__xeCJK_HangulJamoT_class_int=\XeTeXcharclass11
+\c__xeCJK_CJStarter_class_int=\XeTeXcharclass12
+\c__xeCJK_PoZheHao_class_int=\XeTeXcharclass13
+\l__xeCJK_interword_dim=\dimen169
+\l__xeCJK_last_skip=\skip61
+\c__xeCJK_none_node=\count333
+\g__xeCJK_node_int=\count334
+\c__xeCJK_CJK_node_dim=\dimen170
+\c__xeCJK_CJK-space_node_dim=\dimen171
+\c__xeCJK_default_node_dim=\dimen172
+\c__xeCJK_CJK-widow_node_dim=\dimen173
+\c__xeCJK_normalspace_node_dim=\dimen174
+\c__xeCJK_default-space_node_skip=\skip62
+\c__xeCJK_math_node_dim=\dimen175
+\c__xeCJK_math-space_node_dim=\dimen176
+\c__xeCJK_math-space-frozen_node_dim=\dimen177
+\g__xeCJK_boundary_capture_depth_int=\count335
+\g__xeCJK_boundary_suspend_depth_int=\count336
+\g__xeCJK_boundary_capture_1_box=\box62
+\g__xeCJK_boundary_capture_2_box=\box63
+\g__xeCJK_boundary_capture_3_box=\box64
+\l__xeCJK_boundary_post_box=\box65
+\l__xeCJK_boundary_math_skip=\skip63
+\l__xeCJK_boundary_math_actual_skip=\skip64
+\l__xeCJK_boundary_math_ecglue_skip=\skip65
+\l__xeCJK_boundary_math_delta_skip=\skip66
+\l__xeCJK_boundary_math_space_dim=\dimen178
+\l__xeCJK_boundary_math_ecglue_dim=\dimen179
+\l__xeCJK_boundary_math_stretch_dim=\dimen180
+\l__xeCJK_boundary_math_shrink_dim=\dimen181
+\g__xeCJK_boundary_probe_type_int=\count337
+\l__xeCJK_boundary_probe_box=\box66
+\l__xeCJK_ccglue_skip=\skip67
+\l__xeCJK_ecglue_skip=\skip68
+\g__xeCJK_par_guard_dim=\dimen182
+\l__xeCJK_punct_kern_skip=\skip69
+\l__xeCJK_indent_box=\box67
+\l__xeCJK_last_penalty_int=\count338
+\l__xeCJK_last_bound_dim=\dimen183
+\l__xeCJK_last_kern_dim=\dimen184
+\l__xeCJK_widow_penalty_int=\count339
+
+LaTeX template Info: Declaring template type 'xeCJK/punctuation' taking 0
+(template)           argument(s) on line 4902.
+
+\l__xeCJK_fixed_punct_width_dim=\dimen185
+\l__xeCJK_mixed_punct_width_dim=\dimen186
+\l__xeCJK_middle_punct_width_dim=\dimen187
+\l__xeCJK_fixed_margin_width_dim=\dimen188
+\l__xeCJK_mixed_margin_width_dim=\dimen189
+\l__xeCJK_middle_margin_width_dim=\dimen190
+\l__xeCJK_bound_punct_width_dim=\dimen191
+\l__xeCJK_bound_margin_width_dim=\dimen192
+\l__xeCJK_margin_minimum_dim=\dimen193
+\l__xeCJK_kerning_total_width_dim=\dimen194
+\l__xeCJK_same_align_margin_dim=\dimen195
+\l__xeCJK_different_align_margin_dim=\dimen196
+\l__xeCJK_kerning_margin_width_dim=\dimen197
+\l__xeCJK_kerning_margin_minimum_dim=\dimen198
+\l__xeCJK_bound_dim=\dimen199
+\l__xeCJK_reverse_bound_dim=\dimen256
+\l__xeCJK_margin_dim=\dimen257
+\l__xeCJK_minimum_bound_dim=\dimen258
+\l__xeCJK_kerning_margin_dim=\dimen259
+\g__xeCJK_family_int=\count340
+\l__xeCJK_fam_int=\count341
+\g__xeCJK_fam_allocation_int=\count342
+\l__xeCJK_verb_case_int=\count343
+\l__xeCJK_verb_exspace_skip=\skip70
+\l__xeCJK_default_char_int=\count344
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/xelatex/xecjk\xeCJK.cfg
+File: xeCJK.cfg 2026/08/21 v3.10.6 Configuration file for xeCJK package
+))
+
+Package fontspec Info: 
+(fontspec)             Script 'CJK' not explicitly supported within font
+(fontspec)             'Malgun Gothic'. Check the typeset output, and if it is
+(fontspec)             okay then ignore this warning. Otherwise a different
+(fontspec)             font should be chosen.
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "Malgun Gothic/I" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: 
+(fontspec)             Font family 'MalgunGothic(0)' created for font 'Malgun
+(fontspec)             Gothic' with options [Script={CJK}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"Malgun
+(fontspec)             Gothic/OT:script=hani;language=dflt;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.: <->"Malgun
+(fontspec)             Gothic/B/OT:script=hani;language=dflt;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.: <->"Malgun
+(fontspec)             Gothic/BI/OT:script=hani;language=dflt;"
+
+
+(Rd2.aux)
+\openout1 = `Rd2.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+Package hyperref Info: Link coloring ON on input line 8.
+ (Rd2.out) (Rd2.out)
+\@outlinefile=\write3
+\openout3 = `Rd2.out'.
+
+
+Package fontspec Info: 
+(fontspec)             Adjusting the maths setup (use [no-math] to avoid
+(fontspec)             this).
+
+\symlegacymaths=\mathgroup10
+LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 8.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 8.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 8.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 8.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 8.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 8.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 8.
+LaTeX Font Info:    Redeclaring math accent \check on input line 8.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 8.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 8.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 8.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 8.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 8.
+LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
+(Font)              `operators' in the math version `normal' on input line 8.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 8.
+LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
+(Font)              `operators' in the math version `bold' on input line 8.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> TU/lmr/m/n on input line 8.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  TU/lmr/m/n --> TU/lmr/m/n on input line 8.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 8.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> TU/lmr/b/n on input line 8.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 8.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 8.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 8.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> TU/lmr/b/it on input line 8.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 8.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 8.
+
+
+Package xeCJK Warning: Unknown CJK family `\CJKttdefault' is being ignored.
+(xeCJK)                
+(xeCJK)                Try to use `\setCJKmonofont[<...>]{<...>}' to define
+(xeCJK)                it.
+
+
+Package xeCJK Warning: Unknown CJK family `\CJKsfdefault' is being ignored.
+(xeCJK)                
+(xeCJK)                Try to use `\setCJKsansfont[<...>]{<...>}' to define
+(xeCJK)                it.
+
+(Rd2.toc)
+\tf@toc=\write4
+\openout4 = `Rd2.toc'.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 51.
+
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 51.
+
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 51
+.
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/jknappen\ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+)
+[1
+
+
+] [2]
+Overfull \hbox (48.93102pt too wide) in paragraph at lines 120--120
+ []\TU/lmtt/m/n/9 mtcars %>% select(am, vs) %>% table() %>% accent_table("am","
+vs", plot=TRUE, title = "Mtcars")[] 
+ []
+
+[3]
+
+LaTeX Font Warning: Font shape `TU/MalgunGothic(0)/m/it' undefined
+(Font)              using `TU/MalgunGothic(0)/m/n' instead on input line 196.
+
+[4] [5] [6] [7] [8] [9]
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 580--580
+ []                           \TU/lmtt/m/n/9 pass1 = c("YardsPassComp", "PassYa
+rds", "PassFirstDown"))[] 
+ []
+
+
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 587--587
+ []                           \TU/lmtt/m/n/9 pass1 = c("YardsPassComp", "PassYa
+rds", "PassFirstDown"))[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [10]
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 594--594
+ []                           \TU/lmtt/m/n/9 pass1 = c("YardsPassComp", "PassYa
+rds", "PassFirstDown"))[] 
+ []
+
+[11] [12] [13] [14]
+Overfull \hbox (77.28131pt too wide) in paragraph at lines 855--855
+ []   \TU/MalgunGothic(0)/m/n/9 측 정 변 수  \TU/lmtt/m/n/9 = c(" \TU/MalgunGothic(
+0)/m/n/9 진 로 목 표 \TU/lmtt/m/n/9 (L01)", " \TU/MalgunGothic(0)/m/n/9 준 비 여 부 \TU
+/lmtt/m/n/9 (L02)", " \TU/MalgunGothic(0)/m/n/9 직 업 결 정 \TU/lmtt/m/n/9 (L03)", 
+" \TU/MalgunGothic(0)/m/n/9 부 모 추 천 \TU/lmtt/m/n/9 (L04)", " \TU/MalgunGothic(0
+)/m/n/9 학 업 성 적 \TU/lmtt/m/n/9 (L05)"),[] 
+ []
+
+
+Overfull \hbox (129.25635pt too wide) in paragraph at lines 862--862
+ []\TU/lmtt/m/n/9 new_df <- add_rows(df, c("class name", " \TU/MalgunGothic(0)/
+m/n/9 불 명 확   진 로 인 식 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 적 극 적   진
+ 로 준 비 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 조 건 분   진 로 지 향 형 \TU/lm
+tt/m/n/9 "), row = 1)[] 
+ []
+
+
+Overfull \hbox (77.28131pt too wide) in paragraph at lines 868--868
+ []   \TU/MalgunGothic(0)/m/n/9 측 정 변 수  \TU/lmtt/m/n/9 = c(" \TU/MalgunGothic(
+0)/m/n/9 진 로 목 표 \TU/lmtt/m/n/9 (L01)", " \TU/MalgunGothic(0)/m/n/9 준 비 여 부 \TU
+/lmtt/m/n/9 (L02)", " \TU/MalgunGothic(0)/m/n/9 직 업 결 정 \TU/lmtt/m/n/9 (L03)", 
+" \TU/MalgunGothic(0)/m/n/9 부 모 추 천 \TU/lmtt/m/n/9 (L04)", " \TU/MalgunGothic(0
+)/m/n/9 학 업 성 적 \TU/lmtt/m/n/9 (L05)"),[] 
+ []
+
+
+Overfull \hbox (200.13138pt too wide) in paragraph at lines 875--875
+ []\TU/lmtt/m/n/9 new_df_1 <- add_rows(df, c("class name", " \TU/MalgunGothic(0
+)/m/n/9 불 명 확   진 로 인 식 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 적 극 적  
+ 진 로 준 비 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 조 건 분   진 로 지 향 형 \TU/
+lmtt/m/n/9 "), row = 1, char = TRUE)[] 
+ []
+
+
+Overfull \hbox (204.85638pt too wide) in paragraph at lines 880--880
+ []\TU/lmtt/m/n/9 new_df_2 <- add_rows(df, c("class name", " \TU/MalgunGothic(0
+)/m/n/9 불 명 확   진 로 인 식 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 적 극 적  
+ 진 로 준 비 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 조 건 분   진 로 지 향 형 \TU/
+lmtt/m/n/9 "), row = 7, char = FALSE)[] 
+ []
+
+[15] [16] [17] [18]
+Overfull \hbox (39.48134pt too wide) in paragraph at lines 1074--1074
+ []                  \TU/lmtt/m/n/9 dimnames = list(c(" \TU/MalgunGothic(0)/m/n
+/9 공 명 음 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 마 찰 음 \TU/lmtt/m/n/9 ", 
+" \TU/MalgunGothic(0)/m/n/9 유 기 음 \TU/lmtt/m/n/9 _ \TU/MalgunGothic(0)/m/n/9 경 
+음 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 평 파 열 음 \TU/lmtt/m/n/9 _ \TU/Ma
+lgunGothic(0)/m/n/9 평 파 찰 음 \TU/lmtt/m/n/9 "),[] 
+ []
+
+[19]
+Overfull \hbox (39.48134pt too wide) in paragraph at lines 1131--1131
+ []                  \TU/lmtt/m/n/9 dimnames = list(c(" \TU/MalgunGothic(0)/m/n
+/9 공 명 음 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 마 찰 음 \TU/lmtt/m/n/9 ", 
+" \TU/MalgunGothic(0)/m/n/9 유 기 음 \TU/lmtt/m/n/9 _ \TU/MalgunGothic(0)/m/n/9 경 
+음 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 평 파 열 음 \TU/lmtt/m/n/9 _ \TU/Ma
+lgunGothic(0)/m/n/9 평 파 찰 음 \TU/lmtt/m/n/9 "),[] 
+ []
+
+[20]
+Overfull \hbox (25.30617pt too wide) in paragraph at lines 1201--1201
+ []\TU/lmtt/m/n/9 df = data.frame(A = c(1, 2, 3, 4, 5), B = c(6, 7, NA, 9, 10),
+ C = c(11, 12, 13, 14, 15) )[] 
+ []
+
+[21] [22] [23]
+Overfull \hbox (53.6561pt too wide) in paragraph at lines 1370--1370
+ []\TU/lmtt/m/n/9 New_df = data.frame(rownames = c([]IMAG -> EXPE[], []IMAG -> 
+QUAL[], []IMAG -> VAL[], []IMAG -> SAT[]),[] 
+ []
+
+
+Overfull \hbox (34.75597pt too wide) in paragraph at lines 1371--1371
+ []  \TU/lmtt/m/n/9 Original = c(0.578959128452789, 0.491156739303251, 0.393411
+171344413, 0.490971137879492),[] 
+ []
+
+
+Overfull \hbox (25.30597pt too wide) in paragraph at lines 1372--1372
+ [] \TU/lmtt/m/n/9 Mean.Boot = c(0.584251828061525, 0.495822941940513, 0.400070
+801457516, 0.5022633230577),[] 
+ []
+
+
+Overfull \hbox (53.65598pt too wide) in paragraph at lines 1373--1373
+ [] \TU/lmtt/m/n/9 Std.Error = c(0.0518709126012371, 0.0510037451930923, 0.0528
+454527326974, 0.0681551639743143),[] 
+ []
+
+
+Overfull \hbox (30.03096pt too wide) in paragraph at lines 1374--1374
+ [] \TU/lmtt/m/n/9 perc.025 = c(0.477709787839589, 0.391876781940297, 0.3081960
+19466015, 0.369649328752085),[] 
+ []
+
+
+Overfull \hbox (25.30597pt too wide) in paragraph at lines 1375--1375
+ []  \TU/lmtt/m/n/9 perc.975 = c(0.664779330969341, 0.58560953201285, 0.4957172
+52789497, 0.614490783702303)[] 
+ []
+
+
+Overfull \hbox (15.85599pt too wide) in paragraph at lines 1377--1377
+ []\TU/lmtt/m/n/9 #Auto-create a separate T without creating a SIG and combine 
+it with the SIG to move it[] 
+ []
+
+[24]
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 1471--1471
+ []                         \TU/lmtt/m/n/9 c(1:5), c(6:10), c(11:15)) %>%nice_V
+ar()%>% nice_table()%>%[] 
+ []
+
+[25] [26] [27] [28]
+Overfull \hbox (5.81888pt too wide) in paragraph at lines 1709--1710
+[]\TU/lmr/m/n/10 p.adj=c(”none”,”holm”,”hommel”, ”hochberg”, ”bonferroni”, ”BH”
+, ”BY”,
+ []
+
+[29] [30]
+Missing character: There is no ⚠ in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no ️ in font Malgun Gothic/OT:script=hani;language=
+dflt;!
+[31]
+Missing character: There is no ⚠ in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no ️ in font Malgun Gothic/OT:script=hani;language=
+dflt;!
+[32] [33] [34]
+Overfull \hbox (15.06387pt too wide) in paragraph at lines 2042--2044
+[]\TU/lmr/m/n/10 Posthoc method: one of []\TU/lmtt/m/n/10 "LSD"[]\TU/lmr/m/n/10
+ , []\TU/lmtt/m/n/10 "BONFERRONI"[]\TU/lmr/m/n/10 , []\TU/lmtt/m/n/10 "FDR"[]\T
+U/lmr/m/n/10 , []\TU/lmtt/m/n/10 "SCHEFFE"[]\TU/lmr/m/n/10 , []\TU/lmtt/m/n/10 
+"DUNCAN"[]\TU/lmr/m/n/10 ,
+ []
+
+[35] [36]
+Overfull \hbox (5.81888pt too wide) in paragraph at lines 2166--2167
+[]\TU/lmr/m/n/10 p.adj=c(”none”,”holm”,”hommel”, ”hochberg”, ”bonferroni”, ”BH”
+, ”BY”,
+ []
+
+[37] [38] [39] [40] [41] [42] [43] [44]
+Overfull \hbox (20.58133pt too wide) in paragraph at lines 2652--2652
+ []\TU/lmtt/m/n/9 jut1_custom <- c(" \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmtt/m
+/n/9 ", " \TU/MalgunGothic(0)/m/n/9 매 우   그 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunG
+othic(0)/m/n/9 보 통 이 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 그 렇 지   않 
+다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 전 혀   그 렇 지   않 다 \TU/lmtt/m/n/
+9 ")[] 
+ []
+
+
+Overfull \hbox (1.68135pt too wide) in paragraph at lines 2659--2659
+ []\TU/lmtt/m/n/9 vec1 <- c(" \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmtt/m/n/9 ",
+ " \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/
+9 매 우   그 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmtt/m/n/
+9 ", " \TU/MalgunGothic(0)/m/n/9 매 우   그 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGoth
+ic(0)/m/n/9 매 우   그 렇 다 \TU/lmtt/m/n/9 ",[] 
+ []
+
+
+Overfull \hbox (1.6814pt too wide) in paragraph at lines 2672--2672
+ []          \TU/lmtt/m/n/9 " \TU/MalgunGothic(0)/m/n/9 그 렇 지   않 다 \TU/lmtt/m/
+n/9 ", " \TU/MalgunGothic(0)/m/n/9 그 렇 지   않 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGo
+thic(0)/m/n/9 그 렇 지   않 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 매 우   그
+ 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 매 우   그 렇 다 \TU/lmtt/m/n/9 "
+,[] 
+ []
+
+[45]
+Overfull \hbox (67.83101pt too wide) in paragraph at lines 2732--2732
+ []\TU/lmtt/m/n/9 # jutr1 %>% auto_coding( range=91:95, custom=c(" \TU/MalgunGo
+thic(0)/m/n/9 아 니 다 \TU/lmtt/m/n/9 ."," \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmt
+t/m/n/9 ."),start_number=0)%>%dall("head")[] 
+ []
+
+
+Overfull \hbox (72.556pt too wide) in paragraph at lines 2733--2733
+ []\TU/lmtt/m/n/9 # jutr1 %>% auto_coding( range="L01:L05", custom=c(" \TU/Malg
+unGothic(0)/m/n/9 아 니 다 \TU/lmtt/m/n/9 ."," \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU
+/lmtt/m/n/9 ."),start_number=0)%>% head(30)[] 
+ []
+
+[46] [47]
+Overfull \hbox (3.78088pt too wide) in paragraph at lines 2826--2826
+ []\TU/lmtt/m/n/10 ave_raise_candidates(fit, latent = NULL, cutoff = -Inf, prin
+t_result = TRUE)[] 
+ []
+
+[48] [49]
+Overfull \hbox (11.13109pt too wide) in paragraph at lines 2955--2955
+ []                  \TU/lmtt/m/n/9 Mean = c([]10.0782306287367[], []11.5824600
+813951[], []14.764623393546[]),[] 
+ []
+
+
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 2956--2956
+ []                  \TU/lmtt/m/n/9 SD = c([]1.88743751774179[], []1.9951475292
+551[], []2.07862332265816[]),[] 
+ []
+
+[50] [51] [52] [53] [54] [55] [56]
+Overfull \hbox (3.90088pt too wide) in paragraph at lines 3387--3388
+\TU/lmr/m/n/10 which subtracts an adjustment factor to make the resulting stati
+stic asymp-
+ []
+
+[57]
+Overfull \hbox (51.63889pt too wide) in paragraph at lines 3445--3446
+[]\TU/lmr/m/n/10 data, Res(all), chisq_test, cramers v, observed_over_expected_
+ratios,cell_p_values,
+ []
+
+[58] [59] [60] [61]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [62]
+Overfull \hbox (66.78088pt too wide) in paragraph at lines 3714--3714
+ []  \TU/lmtt/m/n/10 type = c("all", "model_fit", "indicator_validity", "CR_AVE
+", "item_CR_AVE", "fornell",[] 
+ []
+
+[63] [64]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [65]
+[66]
+Overfull \hbox (30.03098pt too wide) in paragraph at lines 3950--3950
+ []\TU/lmtt/m/n/9 ## Set remove=TRUE if you only want to process the selected v
+ariable and output only that.[] 
+ []
+
+[67] [68] [69] [70]
+Overfull \hbox (30.03104pt too wide) in paragraph at lines 4195--4195
+ []            \TU/lmtt/m/n/9 dimnames = list(c("kangnam", "Moksdong", "nowon",
+ "dongtan"), c("Yes", "No")))[] 
+ []
+
+[71]
+Overfull \hbox (3.78088pt too wide) in paragraph at lines 4245--4245
+ []\TU/lmtt/m/n/10 chisq_gof_posthoc(vector, type = "res", method = "bonferroni
+", names = TRUE)[] 
+ []
+
+[72] [73] [74]
+Overfull \hbox (9.03088pt too wide) in paragraph at lines 4472--4472
+ []  \TU/lmtt/m/n/10 control = c("bonferroni", "fdr", "BH", "BY", "holm", "hoch
+berg", "hommel"),[] 
+ []
+
+[75] [76] [77] [78]
+Missing character: There is no ∣ in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no ∣ in font [lmroman10-regular]:mapping=tex-text;!
+[79]
+Overfull \hbox (14.28088pt too wide) in paragraph at lines 4757--4757
+ []\TU/lmtt/m/n/10 chisq_test_By1(dataset, sel = NULL, correct = FALSE, simulat
+e.p.value = FALSE)[] 
+ []
+
+[80] [81] [82] [83] [84]
+Overfull \hbox (304.08156pt too wide) in paragraph at lines 5066--5066
+ []\TU/lmtt/m/n/9 # colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 
+수 가 높 다 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 가 높 다 \TU/lmtt/m
+/n/9 "," \TU/MalgunGothic(0)/m/n/9 창 의 적 사 고 를 한 다 \TU/lmtt/m/n/9 "," \TU/Malgu
+nGothic(0)/m/n/9 특 정 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 "," \TU/MalgunGot
+hic(0)/m/n/9 모 든 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 ")[] 
+ []
+
+
+Overfull \hbox (1.68117pt too wide) in paragraph at lines 5067--5067
+ []\TU/lmtt/m/n/9 colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 수 
+\TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 \TU/lmtt/m/n/9 "," \TU/M
+algunGothic(0)/m/n/9 창 의 적 사 고 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 특 정
+ 분 야 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 모 든 분 야 \TU/lmtt/m/n/9 ")[] 
+ []
+
+[85] [86]
+Overfull \hbox (304.08156pt too wide) in paragraph at lines 5197--5197
+ []\TU/lmtt/m/n/9 # colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 
+수 가 높 다 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 가 높 다 \TU/lmtt/m
+/n/9 "," \TU/MalgunGothic(0)/m/n/9 창 의 적 사 고 를 한 다 \TU/lmtt/m/n/9 "," \TU/Malgu
+nGothic(0)/m/n/9 특 정 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 "," \TU/MalgunGot
+hic(0)/m/n/9 모 든 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 ")[] 
+ []
+
+
+Overfull \hbox (1.68117pt too wide) in paragraph at lines 5198--5198
+ []\TU/lmtt/m/n/9 colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 수 
+\TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 \TU/lmtt/m/n/9 "," \TU/M
+algunGothic(0)/m/n/9 창 의 적 사 고 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 특 정
+ 분 야 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 모 든 분 야 \TU/lmtt/m/n/9 ")[] 
+ []
+
+[87] [88] [89] [90] [91]
+Overfull \hbox (20.58101pt too wide) in paragraph at lines 5490--5490
+ []\TU/lmtt/m/n/9 collapse_path2(satpls_boot, path_string= "IMAG -> EXPE -> VAL
+ -> SAT -> LOY", show=TRUE)[] 
+ []
+
+[92]
+Overfull \hbox (1.68103pt too wide) in paragraph at lines 5501--5501
+ []\TU/lmtt/m/n/9 Resdata  =   collapse_path2(sdata, path_string= "IMAG -> EXPE
+ -> VAL -> SAT -> LOY")[] 
+ []
+
+
+Overfull \hbox (15.85606pt too wide) in paragraph at lines 5515--5515
+ []         \TU/lmtt/m/n/9 se_values =  collapse_path2(sdata, path_string= "IMA
+G -> EXPE -> SAT -> LOY")$[] 
+ []
+
+[93] [94] [95] [96]
+Overfull \hbox (15.85638pt too wide) in paragraph at lines 5777--5777
+ []   \TU/MalgunGothic(0)/m/n/9 요 인  \TU/lmtt/m/n/9 = c(" \TU/MalgunGothic(0)/m
+/n/9 에 듀 테 크 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 학 습 몰 입 \TU/lmtt/m/n
+/9 ", " \TU/MalgunGothic(0)/m/n/9 지 각 된 편 리 성 \TU/lmtt/m/n/9 ", " \TU/MalgunGot
+hic(0)/m/n/9 지 각 된 유 용 성 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 태 도 \TU/
+lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 지 속 사 용 \TU/lmtt/m/n/9 "),[] 
+ []
+
+[97] [98]
+Overfull \hbox (16.58382pt too wide) in paragraph at lines 5866--5867
+[]\TU/lmr/m/n/10 A function that combines two matrices of data, for example, to
+ combine observation/expectation
+ []
+
+
+Overfull \hbox (12.6469pt too wide) in paragraph at lines 5893--5901
+[]\TU/lmr/m/n/10 # Example data observed_expected <- matrix(c(1.0587162, 1.1477
+347, 0.50877193, 1.1269248,
+ []
+
+
+Overfull \hbox (5.24487pt too wide) in paragraph at lines 5893--5901
+\TU/lmr/m/n/10 0.5743712, 1.94957983, 0.9163776, 1.4060606, 0.03515152, 0.95302
+37, 0.8624314, 1.44531611),
+ []
+
+[99]
+Overfull \hbox (44.53287pt too wide) in paragraph at lines 5923--5928
+[]\TU/lmr/m/n/10 combine_data(iris_cor$r iris_cor$p left=”(”, right=”)”) sig = 
+add_significance_symbols(iris_cor$p)
+ []
+
+Rd2.tex:5934: You can't use `macro parameter character #' in vertical mode.
+l.5934 #
+        # End(Not run)
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+ 
+Here is how much of TeX's memory you used:
+ 14497 strings out of 402511
+ 304952 string characters out of 5436184
+ 818254 words of memory out of 5000000
+ 43499 multiletter control sequences out of 15000+600000
+ 634542 words of font info for 86 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 88i,6n,95p,534b,1142s stack positions out of 10000i,1000n,20000p,200000b,200000s
+Output written on Rd2.pdf (99 pages).

@@ -1,0 +1,618 @@
+\begin{theindex}
+
+  \item \texttt  {accent\_table}, \hyperpage{2}
+  \item \texttt  {add\_bind\_stat}, \hyperpage{3}
+  \item \texttt  {add\_col\_ratio}, \hyperpage{4}
+  \item \texttt  {add\_cor}, \hyperpage{5}
+  \item \texttt  {add\_id}, \hyperpage{6}
+  \item \texttt  {add\_normality}, \hyperpage{6}
+  \item \texttt  {add\_normality\_kline}, \hyperpage{7}
+  \item \texttt  {add\_partial\_sum}, \hyperpage{8}
+  \item \texttt  {add\_pca\_scores}, \hyperpage{9}
+  \item \texttt  {add\_prop}, \hyperpage{11}
+  \item \texttt  {add\_ratio}, \hyperpage{12}
+  \item \texttt  {add\_ratio\_df}, \hyperpage{13}
+  \item \texttt  {add\_rep\_id}, \hyperpage{13}
+  \item \texttt  {add\_row\_sum}, \hyperpage{17}
+  \item \texttt  {add\_rows}, \hyperpage{14}
+  \item \texttt  {add\_rows\_freq}, \hyperpage{16}
+  \item \texttt  {add\_sig}, \hyperpage{18}
+  \item \texttt  {add\_sig\_star}, \hyperpage{19}
+  \item \texttt  {add\_significance\_symbols}, \hyperpage{18}
+  \item \texttt  {add\_stat}, \hyperpage{20}
+  \item \texttt  {add\_sum}, \hyperpage{21}
+  \item \texttt  {add\_t\_sig}, \hyperpage{23}
+  \item \texttt  {all\_na\_zero}, \hyperpage{24}
+  \item \texttt  {all\_na\_zero1}, \hyperpage{25}
+  \item \texttt  {alpha\_apa}, \hyperpage{25}
+  \item \texttt  {alpha\_table}, \hyperpage{26}
+  \item \texttt  {anova\_apa}, \hyperpage{27}
+  \item \texttt  {aov\_apa}, \hyperpage{28}
+  \item \texttt  {aov\_df}, \hyperpage{29}
+  \item \texttt  {aov\_df2}, \hyperpage{30}
+  \item \texttt  {aov\_df\_emmeans}, \hyperpage{32}
+  \item \texttt  {aov\_post}, \hyperpage{34}
+  \item \texttt  {aov\_post2}, \hyperpage{35}
+  \item \texttt  {aov\_rename}, \hyperpage{36}
+  \item \texttt  {aov\_table}, \hyperpage{36}
+  \item \texttt  {apa\_aov\_df}, \hyperpage{38}
+  \item \texttt  {apa\_aov\_df\_res}, \hyperpage{39}
+  \item \texttt  {aroian\_sobel\_test\_general}, \hyperpage{40}
+  \item \texttt  {arrange\_by\_mind}, \hyperpage{42}
+  \item \texttt  {as\_trt}, \hyperpage{43}
+  \item \texttt  {as\_trt2}, \hyperpage{44}
+  \item \texttt  {auto\_coding}, \hyperpage{45}
+  \item \texttt  {ave\_candidates\_plot}, \hyperpage{47}
+  \item \texttt  {ave\_raise\_candidates}, \hyperpage{48}
+
+  \indexspace
+
+  \item \texttt  {bartlett\_test}, \hyperpage{50}
+  \item \texttt  {binary\_recode}, \hyperpage{51}
+  \item \texttt  {binary\_recode\_sep}, \hyperpage{52}
+  \item \texttt  {bind\_alpha\_table}, \hyperpage{53}
+  \item \texttt  {bind\_compare\_data}, \hyperpage{54}
+  \item \texttt  {bind\_lme\_model}, \hyperpage{54}
+  \item \texttt  {bind\_mysummaryBy}, \hyperpage{55}
+  \item \texttt  {box\_cox}, \hyperpage{56}
+  \item \texttt  {breslowdata\_test}, \hyperpage{57}
+
+  \indexspace
+
+  \item \texttt  {cal\_vif}, \hyperpage{60}
+  \item \texttt  {calculate\_chi\_sig}, \hyperpage{58}
+  \item \texttt  {centering}, \hyperpage{60}
+  \item \texttt  {cfa2}, \hyperpage{61}
+  \item \texttt  {cfa\_ml}, \hyperpage{63}
+  \item \texttt  {change\_node\_name}, \hyperpage{64}
+  \item \texttt  {Char2num}, \hyperpage{66}
+  \item \texttt  {Char2num\_fct}, \hyperpage{68}
+  \item \texttt  {chisq.multcomp}, \hyperpage{68}
+  \item \texttt  {chisq\_apa}, \hyperpage{70}
+  \item \texttt  {chisq\_contrast}, \hyperpage{70}
+  \item \texttt  {chisq\_gof\_posthoc}, \hyperpage{72}
+  \item \texttt  {chisq\_gof\_posthoc\_apa}, \hyperpage{73}
+  \item \texttt  {chisq\_multcomp2}, \hyperpage{73}
+  \item \texttt  {chisq\_pivot\_table}, \hyperpage{74}
+  \item \texttt  {chisq\_posthoc}, \hyperpage{75}
+  \item \texttt  {chisq\_retest}, \hyperpage{76}
+  \item \texttt  {chisq\_table\_sum}, \hyperpage{78}
+  \item \texttt  {chisq\_test}, \hyperpage{79}
+  \item \texttt  {chisq\_test\_By1}, \hyperpage{80}
+  \item \texttt  {chisq\_test\_By2}, \hyperpage{81}
+  \item \texttt  {chisq\_test\_By3}, \hyperpage{82}
+  \item \texttt  {chisq\_test\_cell}, \hyperpage{83}
+  \item \texttt  {chisq\_test\_cor}, \hyperpage{84}
+  \item \texttt  {chisq\_test\_kge}, \hyperpage{86}
+  \item \texttt  {chisqTest}, \hyperpage{69}
+  \item \texttt  {cmh\_test}, \hyperpage{88}
+  \item \texttt  {col2row}, \hyperpage{89}
+  \item \texttt  {col\_capital}, \hyperpage{96}
+  \item \texttt  {col\_to\_colnames}, \hyperpage{97}
+  \item \texttt  {col\_to\_rownames}, \hyperpage{98}
+  \item \texttt  {collapse\_path}, \hyperpage{90}
+  \item \texttt  {collapse\_path2}, \hyperpage{91}
+  \item \texttt  {colnames\_by\_dict}, \hyperpage{93}
+  \item \texttt  {colnames\_change}, \hyperpage{94}
+  \item \texttt  {colnames\_change\_df}, \hyperpage{94}
+  \item \texttt  {colnames\_to\_row}, \hyperpage{95}
+  \item \texttt  {combine\_data}, \hyperpage{99}
+  \item \texttt  {combine\_rows}, \hyperpage{100}
+  \item \texttt  {comma}, \hyperpage{101}
+  \item \texttt  {compare\_bar}, \hyperpage{101}
+  \item \texttt  {compare\_bind\_data}, \hyperpage{103}
+  \item \texttt  {confint\_mark\_sig}, \hyperpage{103}
+  \item \texttt  {confint\_plot\_data}, \hyperpage{104}
+  \item \texttt  {confint\_plot\_lm}, \hyperpage{105}
+  \item \texttt  {confint\_plot\_sem}, \hyperpage{106}
+  \item \texttt  {contrast\_msdn}, \hyperpage{107}
+  \item \texttt  {convert\_min\_max\_scaler}, \hyperpage{109}
+  \item \texttt  {convert\_scale\_df}, \hyperpage{109}
+  \item \texttt  {Cor2cov}, \hyperpage{110}
+  \item \texttt  {count\_ne}, \hyperpage{111}
+  \item \texttt  {Cov2cor}, \hyperpage{112}
+  \item \texttt  {cov\_lm\_sem}, \hyperpage{113}
+  \item \texttt  {cov\_simdata}, \hyperpage{115}
+  \item \texttt  {cr\_ave\_from\_lambda}, \hyperpage{119}
+  \item \texttt  {cr\_candidates\_plot}, \hyperpage{120}
+  \item \texttt  {cr\_raise\_candidates}, \hyperpage{121}
+  \item \texttt  {cramers\_v}, \hyperpage{117}
+  \item \texttt  {cronbach\_alpha}, \hyperpage{117}
+  \item \texttt  {cronbach\_from\_cor}, \hyperpage{118}
+  \item \texttt  {cut\_print}, \hyperpage{122}
+  \item \texttt  {cut\_print\_all}, \hyperpage{123}
+
+  \indexspace
+
+  \item \texttt  {dall}, \hyperpage{124}
+  \item \texttt  {datapaste}, \hyperpage{125}
+  \item \texttt  {datapaste\_text}, \hyperpage{126}
+  \item \texttt  {DE\_effect}, \hyperpage{128}
+  \item \texttt  {DescribeBy}, \hyperpage{127}
+  \item \texttt  {diagram}, \hyperpage{130}
+  \item \texttt  {diagram2}, \hyperpage{131}
+  \item \texttt  {diagram\_model}, \hyperpage{133}
+  \item \texttt  {Diff\_effect}, \hyperpage{136}
+
+  \indexspace
+
+  \item \texttt  {e}, \hyperpage{137}
+  \item \texttt  {EAI\_index}, \hyperpage{138}
+  \item \texttt  {edit\_layout}, \hyperpage{140}
+  \item \texttt  {effect1}, \hyperpage{140}
+
+  \indexspace
+
+  \item \texttt  {fa\_print}, \hyperpage{144}
+  \item \texttt  {factor\_layout}, \hyperpage{142}
+  \item \texttt  {factor\_scores}, \hyperpage{143}
+  \item \texttt  {fei\_Chisq\_test}, \hyperpage{145}
+  \item \texttt  {fei\_dv\_res}, \hyperpage{146}
+  \item \texttt  {filter\_rows}, \hyperpage{147}
+  \item \texttt  {find\_paths}, \hyperpage{148}
+  \item \texttt  {find\_paths\_cal}, \hyperpage{149}
+  \item \texttt  {format\_col}, \hyperpage{150}
+  \item \texttt  {format\_number}, \hyperpage{151}
+  \item \texttt  {Freq\_rowcounter}, \hyperpage{152}
+  \item \texttt  {Freq\_table}, \hyperpage{153}
+  \item \texttt  {Freq\_table\_apa}, \hyperpage{155}
+  \item \texttt  {Freq\_table\_colnames}, \hyperpage{156}
+  \item \texttt  {Freq\_table\_multi}, \hyperpage{157}
+  \item \texttt  {fs}, \hyperpage{158}
+
+  \indexspace
+
+  \item \texttt  {g}, \hyperpage{159}
+  \item \texttt  {general\_Sobel\_test}, \hyperpage{159}
+  \item \texttt  {GetCov}, \hyperpage{160}
+  \item \texttt  {goodman\_sobel\_test\_general}, \hyperpage{162}
+  \item \texttt  {gtl}, \hyperpage{163}
+  \item \texttt  {gtl\_df}, \hyperpage{164}
+
+  \indexspace
+
+  \item \texttt  {hist2}, \hyperpage{165}
+  \item \texttt  {histogram}, \hyperpage{165}
+  \item \texttt  {HTMT}, \hyperpage{166}
+  \item \texttt  {htmt\_mlsem}, \hyperpage{167}
+  \item \texttt  {htmt\_sem}, \hyperpage{168}
+
+  \indexspace
+
+  \item \texttt  {ICC}, \hyperpage{169}
+  \item \texttt  {icc\_batch}, \hyperpage{170}
+  \item \texttt  {icc\_lme4}, \hyperpage{171}
+  \item \texttt  {IE\_effect}, \hyperpage{172}
+  \item \texttt  {indicator\_validity\_ml}, \hyperpage{173}
+  \item \texttt  {interlist}, \hyperpage{174}
+  \item \texttt  {interplot}, \hyperpage{175}
+  \item \texttt  {interplot\_data}, \hyperpage{177}
+  \item \texttt  {interpretation\_de}, \hyperpage{178}
+  \item \texttt  {interpretation\_ie}, \hyperpage{179}
+  \item \texttt  {interpretation\_ie\_CI}, \hyperpage{180}
+  \item \texttt  {item}, \hyperpage{181}
+  \item \texttt  {item\_CR\_AVE}, \hyperpage{182}
+  \item \texttt  {item\_parceling}, \hyperpage{182}
+
+  \indexspace
+
+  \item \texttt  {jjstat\_plot\_path}, \hyperpage{185}
+  \item \texttt  {jjstat\_SEM}, \hyperpage{187}
+  \item \texttt  {jtl}, \hyperpage{189}
+
+  \indexspace
+
+  \item \texttt  {k}, \hyperpage{190}
+  \item \texttt  {k\_df}, \hyperpage{197}
+  \item \texttt  {kakaoi}, \hyperpage{190}
+  \item \texttt  {kge\_ca\_analysis}, \hyperpage{191}
+  \item \texttt  {kge\_chisq\_table}, \hyperpage{192}
+  \item \texttt  {kge\_weigth}, \hyperpage{193}
+  \item \texttt  {kge\_weigth\_add\_ca}, \hyperpage{195}
+  \item \texttt  {kge\_weigth\_ko}, \hyperpage{196}
+  \item \texttt  {KURT}, \hyperpage{197}
+
+  \indexspace
+
+  \item \texttt  {lav\_change\_node\_name}, \hyperpage{200}
+  \item \texttt  {lav\_de\_hypo}, \hyperpage{203}
+  \item \texttt  {lav\_edge\_value}, \hyperpage{204}
+  \item \texttt  {lav\_extract\_imlist}, \hyperpage{207}
+  \item \texttt  {lav\_extract\_ind}, \hyperpage{208}
+  \item \texttt  {lav\_extract\_ind\_paths}, \hyperpage{210}
+  \item \texttt  {lav\_extract\_int}, \hyperpage{212}
+  \item \texttt  {lav\_extract\_mm}, \hyperpage{213}
+  \item \texttt  {lav\_extract\_mm2}, \hyperpage{215}
+  \item \texttt  {lav\_extract\_path}, \hyperpage{217}
+  \item \texttt  {lav\_extract\_sm}, \hyperpage{218}
+  \item \texttt  {lav\_factor\_layout}, \hyperpage{219}
+  \item \texttt  {lav\_htmt}, \hyperpage{220}
+  \item \texttt  {lav\_ind\_hypo}, \hyperpage{222}
+  \item \texttt  {lav\_interact\_model}, \hyperpage{223}
+  \item \texttt  {lav\_latentProd}, \hyperpage{224}
+  \item \texttt  {lav\_matrix}, \hyperpage{226}
+  \item \texttt  {lav\_modelfit}, \hyperpage{228}
+  \item \texttt  {lav\_new\_model}, \hyperpage{228}
+  \item \texttt  {lav\_Pattern}, \hyperpage{230}
+  \item \texttt  {lav\_remodel}, \hyperpage{231}
+  \item \texttt  {lav\_return\_blocks}, \hyperpage{232}
+  \item \texttt  {lav\_return\_data}, \hyperpage{233}
+  \item \texttt  {lav\_return\_model}, \hyperpage{234}
+  \item \texttt  {lav\_rotate\_resid}, \hyperpage{235}
+  \item \texttt  {lav\_semPaths}, \hyperpage{236}
+  \item \texttt  {lav\_semPaths2}, \hyperpage{240}
+  \item \texttt  {LavaanPlot}, \hyperpage{199}
+  \item \texttt  {layout\_mat}, \hyperpage{243}
+  \item \texttt  {lca\_class\_add}, \hyperpage{245}
+  \item \texttt  {lca\_class\_freq}, \hyperpage{246}
+  \item \texttt  {lca\_class\_plot}, \hyperpage{246}
+  \item \texttt  {lca\_freq\_plot}, \hyperpage{247}
+  \item \texttt  {lca\_gamma}, \hyperpage{248}
+  \item \texttt  {lca\_gof}, \hyperpage{248}
+  \item \texttt  {lca\_GraphData}, \hyperpage{249}
+  \item \texttt  {lca\_result}, \hyperpage{250}
+  \item \texttt  {lcaGraphData}, \hyperpage{244}
+  \item \texttt  {lme\_report}, \hyperpage{251}
+  \item \texttt  {long\_df}, \hyperpage{252}
+  \item \texttt  {lowerdf}, \hyperpage{253}
+  \item \texttt  {lowerMat}, \hyperpage{253}
+  \item \texttt  {lowerMat\_na}, \hyperpage{254}
+  \item \texttt  {lpa}, \hyperpage{255}
+  \item \texttt  {lpa\_BIC\_plot}, \hyperpage{256}
+  \item \texttt  {lpa\_bind\_classdata}, \hyperpage{257}
+  \item \texttt  {lpa\_bind\_classdata\_tidyLPA}, \hyperpage{258}
+  \item \texttt  {lpa\_create\_profiles}, \hyperpage{260}
+  \item \texttt  {lpa\_create\_profiles2}, \hyperpage{261}
+  \item \texttt  {lpa\_explore\_modelfit}, \hyperpage{262}
+  \item \texttt  {lpa\_gmm}, \hyperpage{263}
+  \item \texttt  {lpa\_plot}, \hyperpage{264}
+  \item \texttt  {lpa\_profile\_plot}, \hyperpage{265}
+  \item \texttt  {lpa\_profile\_plot2}, \hyperpage{267}
+  \item \texttt  {lpa\_profile\_plot\_summary}, \hyperpage{268}
+  \item \texttt  {LRT\_apa}, \hyperpage{268}
+  \item \texttt  {LRT\_apa2}, \hyperpage{269}
+
+  \indexspace
+
+  \item \texttt  {make\_c\_text}, \hyperpage{270}
+  \item \texttt  {make\_df\_text}, \hyperpage{271}
+  \item \texttt  {make\_label\_list}, \hyperpage{272}
+  \item \texttt  {make\_layout}, \hyperpage{273}
+  \item \texttt  {make\_list\_text}, \hyperpage{273}
+  \item \texttt  {make\_mat\_text}, \hyperpage{274}
+  \item \texttt  {make\_mat\_text2}, \hyperpage{276}
+  \item \texttt  {make\_mat\_text\_col}, \hyperpage{278}
+  \item \texttt  {make\_text\_df}, \hyperpage{278}
+  \item \texttt  {markdown\_table}, \hyperpage{281}
+  \item \texttt  {mat\_text\_arrange}, \hyperpage{283}
+  \item \texttt  {mcnemar\_test}, \hyperpage{284}
+  \item \texttt  {md}, \hyperpage{285}
+  \item \texttt  {mean\_apa}, \hyperpage{288}
+  \item \texttt  {mean\_bar}, \hyperpage{289}
+  \item \texttt  {meanCentering}, \hyperpage{287}
+  \item \texttt  {meanCentering\_df}, \hyperpage{288}
+  \item \texttt  {med\_effect}, \hyperpage{290}
+  \item \texttt  {metacorMat}, \hyperpage{290}
+  \item \texttt  {min\_max\_scaler}, \hyperpage{294}
+  \item \texttt  {missCheck}, \hyperpage{294}
+  \item \texttt  {missfillin}, \hyperpage{295}
+  \item \texttt  {missfillinFor}, \hyperpage{296}
+  \item \texttt  {mlsem\_fit\_indices}, \hyperpage{297}
+  \item \texttt  {mlsem\_fornell\_larcker}, \hyperpage{299}
+  \item \texttt  {mlsem\_htmt}, \hyperpage{299}
+  \item \texttt  {mlsem\_modelfit\_paper}, \hyperpage{300}
+  \item \texttt  {mlsem\_reliability}, \hyperpage{302}
+  \item \texttt  {modelfit\_paper}, \hyperpage{303}
+  \item \texttt  {Modindices}, \hyperpage{304}
+  \item \texttt  {ModSEM}, \hyperpage{305}
+  \item \texttt  {move\_col}, \hyperpage{309}
+  \item \texttt  {move\_cols}, \hyperpage{310}
+  \item \texttt  {move\_mat}, \hyperpage{310}
+  \item \texttt  {move\_mat\_change}, \hyperpage{313}
+  \item \texttt  {move\_mat\_cut}, \hyperpage{314}
+  \item \texttt  {move\_mat\_nc}, \hyperpage{314}
+  \item \texttt  {move\_mat\_ori}, \hyperpage{315}
+  \item \texttt  {move\_mat\_substr}, \hyperpage{316}
+  \item \texttt  {move\_matpos}, \hyperpage{311}
+  \item \texttt  {move\_row}, \hyperpage{317}
+  \item \texttt  {move\_rows}, \hyperpage{318}
+  \item \texttt  {mplus\_est\_df}, \hyperpage{320}
+  \item \texttt  {mplus\_fit\_df}, \hyperpage{321}
+  \item \texttt  {mr}, \hyperpage{322}
+  \item \texttt  {mrs}, \hyperpage{324}
+  \item \texttt  {msdn\_contrast}, \hyperpage{325}
+  \item \texttt  {msdn\_ttest}, \hyperpage{327}
+  \item \texttt  {mutate\_col}, \hyperpage{328}
+  \item \texttt  {mydes}, \hyperpage{330}
+  \item \texttt  {mysummary}, \hyperpage{330}
+  \item \texttt  {mysummary\_apa}, \hyperpage{333}
+  \item \texttt  {mysummaryBy}, \hyperpage{331}
+
+  \indexspace
+
+  \item \texttt  {na2zero}, \hyperpage{334}
+  \item \texttt  {na\_remover}, \hyperpage{335}
+  \item \texttt  {nice\_aov\_df}, \hyperpage{335}
+  \item \texttt  {nice\_table}, \hyperpage{336}
+  \item \texttt  {nice\_Var}, \hyperpage{337}
+  \item \texttt  {Normality\_test}, \hyperpage{338}
+
+  \indexspace
+
+  \item \texttt  {obs\_exp\_table}, \hyperpage{339}
+  \item \texttt  {oneway\_aov}, \hyperpage{339}
+
+  \indexspace
+
+  \item \texttt  {p\_mark\_sig}, \hyperpage{490}
+  \item \texttt  {p\_sig\_cal}, \hyperpage{492}
+  \item \texttt  {p\_to\_001}, \hyperpage{492}
+  \item \texttt  {p\_value\_cal}, \hyperpage{493}
+  \item \texttt  {pall}, \hyperpage{340}
+  \item \texttt  {path}, \hyperpage{341}
+  \item \texttt  {pattern\_detector}, \hyperpage{348}
+  \item \texttt  {patternGraph}, \hyperpage{341}
+  \item \texttt  {patternGraph2}, \hyperpage{343}
+  \item \texttt  {patternGraph\_obs\_exp}, \hyperpage{344}
+  \item \texttt  {patternGraph\_obs\_exp\_ko}, \hyperpage{346}
+  \item \texttt  {pcfa}, \hyperpage{349}
+  \item \texttt  {pcfa\_porp\_plot}, \hyperpage{350}
+  \item \texttt  {pdata}, \hyperpage{351}
+  \item \texttt  {perform\_chi\_square\_test}, \hyperpage{352}
+  \item \texttt  {pivot\_table}, \hyperpage{353}
+  \item \texttt  {plot\_lpa}, \hyperpage{354}
+  \item \texttt  {plot\_pie\_chart}, \hyperpage{356}
+  \item \texttt  {pls\_modelfit\_apa}, \hyperpage{484}
+  \item \texttt  {plspm\_add\_blocks}, \hyperpage{357}
+  \item \texttt  {plspm\_add\_inter\_paths}, \hyperpage{357}
+  \item \texttt  {plspm\_apa\_boot\_paths}, \hyperpage{358}
+  \item \texttt  {plspm\_apa\_grp}, \hyperpage{359}
+  \item \texttt  {plspm\_apa\_ind}, \hyperpage{360}
+  \item \texttt  {plspm\_apa\_paths}, \hyperpage{361}
+  \item \texttt  {plspm\_auto\_blocks}, \hyperpage{362}
+  \item \texttt  {plspm\_auto\_genData}, \hyperpage{363}
+  \item \texttt  {plspm\_blocks}, \hyperpage{364}
+  \item \texttt  {plspm\_blocks2lav}, \hyperpage{367}
+  \item \texttt  {plspm\_blocks\_match}, \hyperpage{368}
+  \item \texttt  {plspm\_boot\_effect}, \hyperpage{369}
+  \item \texttt  {plspm\_boot\_factor\_layout}, \hyperpage{370}
+  \item \texttt  {plspm\_boot\_factor\_point\_to}, \hyperpage{371}
+  \item \texttt  {plspm\_boot\_ind\_factor}, \hyperpage{372}
+  \item \texttt  {plspm\_boot\_ind\_order}, \hyperpage{373}
+  \item \texttt  {plspm\_boot\_ind\_push}, \hyperpage{373}
+  \item \texttt  {plspm\_boot\_paths\_sig}, \hyperpage{374}
+  \item \texttt  {plspm\_boot\_paths\_sig\_vec}, \hyperpage{375}
+  \item \texttt  {plspm\_boot\_summary}, \hyperpage{375}
+  \item \texttt  {plspm\_cfa}, \hyperpage{376}
+  \item \texttt  {plspm\_change\_nodeLabels}, \hyperpage{377}
+  \item \texttt  {plspm\_col2lav}, \hyperpage{379}
+  \item \texttt  {plspm\_cor}, \hyperpage{380}
+  \item \texttt  {plspm\_CRAVE}, \hyperpage{380}
+  \item \texttt  {plspm\_crossloadings}, \hyperpage{382}
+  \item \texttt  {plspm\_crossloadings\_plot}, \hyperpage{382}
+  \item \texttt  {plspm\_curve}, \hyperpage{384}
+  \item \texttt  {plspm\_diagram\_model}, \hyperpage{385}
+  \item \texttt  {plspm\_dULS\_modelfit}, \hyperpage{388}
+  \item \texttt  {plspm\_edge\_position}, \hyperpage{395}
+  \item \texttt  {plspm\_edge\_values}, \hyperpage{396}
+  \item \texttt  {plspm\_edges\_coefs}, \hyperpage{389}
+  \item \texttt  {plspm\_edges\_loadings}, \hyperpage{392}
+  \item \texttt  {plspm\_edges\_values}, \hyperpage{393}
+  \item \texttt  {plspm\_effect}, \hyperpage{397}
+  \item \texttt  {plspm\_effect\_bar}, \hyperpage{399}
+  \item \texttt  {plspm\_effectbar}, \hyperpage{397}
+  \item \texttt  {plspm\_extract\_blocks}, \hyperpage{400}
+  \item \texttt  {plspm\_f2}, \hyperpage{401}
+  \item \texttt  {plspm\_f2\_plot}, \hyperpage{402}
+  \item \texttt  {plspm\_factor\_layout}, \hyperpage{403}
+  \item \texttt  {plspm\_fl}, \hyperpage{404}
+  \item \texttt  {plspm\_grp\_comp}, \hyperpage{405}
+  \item \texttt  {plspm\_grp\_comp\_apa}, \hyperpage{407}
+  \item \texttt  {plspm\_grp\_compare\_bar}, \hyperpage{406}
+  \item \texttt  {plspm\_grp\_summary}, \hyperpage{408}
+  \item \texttt  {plspm\_htmt}, \hyperpage{409}
+  \item \texttt  {plspm\_htmt2}, \hyperpage{411}
+  \item \texttt  {plspm\_ind\_effect}, \hyperpage{416}
+  \item \texttt  {plspm\_ind\_effect\_boot}, \hyperpage{417}
+  \item \texttt  {plspm\_ind\_effect\_sig}, \hyperpage{419}
+  \item \texttt  {plspm\_ind\_effect\_test}, \hyperpage{420}
+  \item \texttt  {plspm\_ind\_factor}, \hyperpage{422}
+  \item \texttt  {plspm\_ind\_order}, \hyperpage{423}
+  \item \texttt  {plspm\_ind\_order2}, \hyperpage{424}
+  \item \texttt  {plspm\_ind\_push}, \hyperpage{425}
+  \item \texttt  {plspm\_ind\_spread}, \hyperpage{426}
+  \item \texttt  {plspm\_indicator\_factor}, \hyperpage{412}
+  \item \texttt  {plspm\_indicator\_order}, \hyperpage{413}
+  \item \texttt  {plspm\_indicator\_test}, \hyperpage{414}
+  \item \texttt  {plspm\_indicator\_test\_multi}, \hyperpage{415}
+  \item \texttt  {plspm\_inner\_model\_sig}, \hyperpage{429}
+  \item \texttt  {plspm\_innerplot}, \hyperpage{427}
+  \item \texttt  {plspm\_interaction}, \hyperpage{431}
+  \item \texttt  {plspm\_lav2blocks}, \hyperpage{434}
+  \item \texttt  {plspm\_lav2paths}, \hyperpage{434}
+  \item \texttt  {plspm\_layout\_mat}, \hyperpage{435}
+  \item \texttt  {plspm\_loading\_lav}, \hyperpage{440}
+  \item \texttt  {plspm\_loadings}, \hyperpage{437}
+  \item \texttt  {plspm\_loadings\_plot}, \hyperpage{437}
+  \item \texttt  {plspm\_loadings\_values}, \hyperpage{439}
+  \item \texttt  {plspm\_make\_layout\_mat}, \hyperpage{442}
+  \item \texttt  {plspm\_make\_prod}, \hyperpage{443}
+  \item \texttt  {plspm\_mat\_lav}, \hyperpage{443}
+  \item \texttt  {plspm\_model\_lav}, \hyperpage{447}
+  \item \texttt  {plspm\_model\_plot}, \hyperpage{448}
+  \item \texttt  {plspm\_modelfit}, \hyperpage{446}
+  \item \texttt  {plspm\_multigroups}, \hyperpage{451}
+  \item \texttt  {plspm\_path\_coefs\_plot}, \hyperpage{464}
+  \item \texttt  {plspm\_paths}, \hyperpage{453}
+  \item \texttt  {plspm\_paths2lav}, \hyperpage{455}
+  \item \texttt  {plspm\_paths\_coefs\_plot}, \hyperpage{456}
+  \item \texttt  {plspm\_paths\_sig}, \hyperpage{460}
+  \item \texttt  {plspm\_paths\_sig\_plot}, \hyperpage{461}
+  \item \texttt  {plspm\_permutation\_test}, \hyperpage{468}
+  \item \texttt  {plspm\_permutation\_test\_multi}, \hyperpage{469}
+  \item \texttt  {plspm\_prod}, \hyperpage{470}
+  \item \texttt  {plspm\_rotate\_resid}, \hyperpage{471}
+  \item \texttt  {plspm\_sem}, \hyperpage{472}
+  \item \texttt  {plspm\_semPaths}, \hyperpage{476}
+  \item \texttt  {plspm\_semPaths2}, \hyperpage{478}
+  \item \texttt  {plspm\_semPaths\_lav}, \hyperpage{480}
+  \item \texttt  {plspm\_semptools}, \hyperpage{481}
+  \item \texttt  {poolcor\_comment}, \hyperpage{485}
+  \item \texttt  {posthoc\_duncan}, \hyperpage{487}
+  \item \texttt  {posthoc\_plot}, \hyperpage{488}
+  \item \texttt  {PRE}, \hyperpage{488}
+  \item \texttt  {Pull}, \hyperpage{489}
+  \item \texttt  {Pull\_to\_text}, \hyperpage{490}
+
+  \indexspace
+
+  \item \texttt  {read\_text}, \hyperpage{494}
+  \item \texttt  {recode\_sep\_vec}, \hyperpage{494}
+  \item \texttt  {reg\_apa}, \hyperpage{495}
+  \item \texttt  {remove\_all\_attr}, \hyperpage{496}
+  \item \texttt  {remove\_attr}, \hyperpage{496}
+  \item \texttt  {remove\_blank}, \hyperpage{497}
+  \item \texttt  {remove\_cols}, \hyperpage{498}
+  \item \texttt  {remove\_filter}, \hyperpage{499}
+  \item \texttt  {remove\_rows}, \hyperpage{500}
+  \item \texttt  {rename\_by\_dict}, \hyperpage{501}
+  \item \texttt  {reorder\_row}, \hyperpage{501}
+  \item \texttt  {Replace}, \hyperpage{502}
+  \item \texttt  {replace\_dataframe}, \hyperpage{503}
+  \item \texttt  {replace\_df}, \hyperpage{504}
+  \item \texttt  {replace\_df2}, \hyperpage{505}
+  \item \texttt  {replace\_df\_rep}, \hyperpage{505}
+  \item \texttt  {replace\_in\_dataframe}, \hyperpage{507}
+  \item \texttt  {replace\_in\_df}, \hyperpage{507}
+  \item \texttt  {Replace\_na}, \hyperpage{508}
+  \item \texttt  {report\_aov}, \hyperpage{509}
+  \item \texttt  {report\_aov\_ko}, \hyperpage{509}
+  \item \texttt  {report\_lme}, \hyperpage{510}
+  \item \texttt  {report\_manova}, \hyperpage{511}
+  \item \texttt  {report\_stat}, \hyperpage{513}
+  \item \texttt  {report\_ttest}, \hyperpage{514}
+  \item \texttt  {report\_vartest}, \hyperpage{515}
+  \item \texttt  {rev\_coding}, \hyperpage{517}
+  \item \texttt  {rev\_coding\_extract\_only}, \hyperpage{518}
+  \item \texttt  {rev\_coding\_map}, \hyperpage{519}
+  \item \texttt  {rev\_coding\_plot\_var}, \hyperpage{519}
+  \item \texttt  {rev\_coding\_rep}, \hyperpage{520}
+  \item \texttt  {rev\_coding\_restore\_original}, \hyperpage{522}
+  \item \texttt  {rev\_coding\_validate\_scale}, \hyperpage{523}
+  \item \texttt  {revcode}, \hyperpage{515}
+  \item \texttt  {Rload}, \hyperpage{523}
+  \item \texttt  {Round}, \hyperpage{524}
+  \item \texttt  {round2}, \hyperpage{525}
+  \item \texttt  {round\_col}, \hyperpage{526}
+  \item \texttt  {row2col}, \hyperpage{526}
+  \item \texttt  {row2cols}, \hyperpage{527}
+  \item \texttt  {row\_filter}, \hyperpage{530}
+  \item \texttt  {rowdata2col}, \hyperpage{528}
+  \item \texttt  {rownames2colnames}, \hyperpage{528}
+  \item \texttt  {rows\_to\_colnames}, \hyperpage{529}
+  \item \texttt  {Rsave}, \hyperpage{531}
+  \item \texttt  {Rsave\_xlsx}, \hyperpage{531}
+
+  \indexspace
+
+  \item \texttt  {save\_xlsx}, \hyperpage{532}
+  \item \texttt  {select\_format}, \hyperpage{533}
+  \item \texttt  {SEM}, \hyperpage{533}
+  \item \texttt  {sem\_apa}, \hyperpage{539}
+  \item \texttt  {sem\_apa\_ie}, \hyperpage{540}
+  \item \texttt  {sem\_apa\_ie\_CI}, \hyperpage{541}
+  \item \texttt  {sem\_APA\_path\_table}, \hyperpage{542}
+  \item \texttt  {sem\_count\_df}, \hyperpage{543}
+  \item \texttt  {sem\_effect}, \hyperpage{545}
+  \item \texttt  {sem\_effect\_ci}, \hyperpage{547}
+  \item \texttt  {sem\_effect\_diff}, \hyperpage{548}
+  \item \texttt  {sem\_effect\_ie}, \hyperpage{549}
+  \item \texttt  {sem\_effect\_ind}, \hyperpage{551}
+  \item \texttt  {sem\_effect\_te}, \hyperpage{552}
+  \item \texttt  {sem\_fit}, \hyperpage{554}
+  \item \texttt  {sem\_lav\_hypo}, \hyperpage{555}
+  \item \texttt  {sem\_lav\_ind\_hypo}, \hyperpage{556}
+  \item \texttt  {sem\_model}, \hyperpage{557}
+  \item \texttt  {sem\_plot}, \hyperpage{559}
+  \item \texttt  {semPaths2}, \hyperpage{537}
+  \item \texttt  {shapiro\_test\_all}, \hyperpage{561}
+  \item \texttt  {shapiro\_test\_df}, \hyperpage{562}
+  \item \texttt  {simdata\_cov}, \hyperpage{563}
+  \item \texttt  {simdata\_sem}, \hyperpage{564}
+  \item \texttt  {simple\_bar}, \hyperpage{566}
+  \item \texttt  {SKEW}, \hyperpage{567}
+  \item \texttt  {Sobel\_test}, \hyperpage{567}
+  \item \texttt  {sobel\_test\_extend}, \hyperpage{568}
+  \item \texttt  {sobel\_test\_general}, \hyperpage{570}
+  \item \texttt  {sobel\_test\_serial}, \hyperpage{572}
+  \item \texttt  {split\_korean\_word}, \hyperpage{573}
+  \item \texttt  {split\_korean\_word\_check}, \hyperpage{574}
+  \item \texttt  {split\_kw\_df}, \hyperpage{575}
+  \item \texttt  {split\_kw\_df\_match}, \hyperpage{575}
+  \item \texttt  {split\_word}, \hyperpage{576}
+  \item \texttt  {str\_cut}, \hyperpage{577}
+  \item \texttt  {summary.jjstat\_sem}, \hyperpage{578}
+  \item \texttt  {summary\_bartlett}, \hyperpage{579}
+  \item \texttt  {summary\_fa}, \hyperpage{580}
+  \item \texttt  {summary\_kmo}, \hyperpage{580}
+  \item \texttt  {summary\_sem}, \hyperpage{581}
+
+  \indexspace
+
+  \item \texttt  {t\_sep}, \hyperpage{601}
+  \item \texttt  {t\_test\_report}, \hyperpage{602}
+  \item \texttt  {table\_apa}, \hyperpage{582}
+  \item \texttt  {table\_df}, \hyperpage{583}
+  \item \texttt  {table\_df\_bar}, \hyperpage{584}
+  \item \texttt  {table\_df\_bar2}, \hyperpage{585}
+  \item \texttt  {table\_df\_colnames}, \hyperpage{586}
+  \item \texttt  {table\_df\_multi}, \hyperpage{587}
+  \item \texttt  {table\_freq}, \hyperpage{588}
+  \item \texttt  {table\_reorder}, \hyperpage{589}
+  \item \texttt  {table\_sum}, \hyperpage{590}
+  \item \texttt  {TE\_effect}, \hyperpage{594}
+  \item \texttt  {text2df}, \hyperpage{591}
+  \item \texttt  {to\_long}, \hyperpage{595}
+  \item \texttt  {to\_table}, \hyperpage{596}
+  \item \texttt  {to\_wide}, \hyperpage{598}
+  \item \texttt  {ttest\_df}, \hyperpage{600}
+
+  \indexspace
+
+  \item \texttt  {unCombine}, \hyperpage{603}
+  \item \texttt  {uncombine\_data}, \hyperpage{605}
+  \item \texttt  {unCount}, \hyperpage{606}
+  \item \texttt  {Unite}, \hyperpage{607}
+  \item \texttt  {unite\_ci}, \hyperpage{608}
+  \item \texttt  {Unite\_col}, \hyperpage{610}
+  \item \texttt  {Unite\_confint}, \hyperpage{611}
+  \item \texttt  {unite\_rows}, \hyperpage{612}
+
+  \indexspace
+
+  \item \texttt  {validate\_residual\_cov}, \hyperpage{613}
+  \item \texttt  {validate\_variance}, \hyperpage{614}
+
+  \indexspace
+
+  \item \texttt  {wald\_test}, \hyperpage{614}
+  \item \texttt  {wald\_test2}, \hyperpage{615}
+  \item \texttt  {wald\_test\_df}, \hyperpage{617}
+  \item \texttt  {wald\_test\_gender}, \hyperpage{618}
+  \item \texttt  {wald\_test\_general}, \hyperpage{619}
+  \item \texttt  {wald\_test\_general\_df}, \hyperpage{620}
+  \item \texttt  {wald\_test\_general\_mat}, \hyperpage{621}
+  \item \texttt  {wald\_test\_general\_str}, \hyperpage{622}
+  \item \texttt  {wald\_test\_lm}, \hyperpage{623}
+  \item \texttt  {web}, \hyperpage{624}
+  \item \texttt  {webr}, \hyperpage{625}
+  \item \texttt  {white\_se}, \hyperpage{626}
+  \item \texttt  {wide\_df}, \hyperpage{626}
+  \item \texttt  {write\_text}, \hyperpage{629}
+
+  \indexspace
+
+  \item \texttt  {ztest}, \hyperpage{630}
+  \item \texttt  {ztest\_df}, \hyperpage{630}
+
+\end{theindex}

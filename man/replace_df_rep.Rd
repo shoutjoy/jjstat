@@ -14,6 +14,8 @@ replace_df_rep(data, ..., detect = TRUE, chr = TRUE)
 \item{detect}{detect TRUE in data, FALSE data}
 
 \item{chr}{transformation fac  to chr}
+
+\item{col}{A feature for selecting the column to apply, select col}
 }
 \value{
 data
@@ -64,6 +66,7 @@ replace_df_rep(data, "약점",
 
 
 }
+
 
 
 

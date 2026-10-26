@@ -1,0 +1,447 @@
+Converting Rd files to LaTeX .Creating pdf output from LaTeX ...
+You may want to clean up by 'rm -Rf .Rd2pdf28180'
+(texi2dvi), if (quiet) "--quiet" else "",  :
+  running command '"C:\Users\USER\AppData\Local\Programs\MiKTeX\miktex\bin\x64\texify.exe"  --pdf "Rd2.tex" --max-iterations=20 -I "C:/PROGRA~1/R/R-43~1.3/share/texmf/tex/latex" -I "C:/PROGRA~1/R/R-43~1.3/share/texmf/bibtex/bst"' had status 1
+Error : running 'texi2dvi' on 'Rd2.tex' failed
+
+LaTeX errors:
+! LaTeX Error: Unicode character 성 (U+C131)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 조 (U+C870)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 그 (U+ADF8)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 룹 (U+B8F9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 합 (U+D569)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 에 (U+C5D0)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 비 (U+BE44)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 율 (U+C728)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 을 (U+C744)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 만 (U+B9CC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 들 (U+B4E4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 어 (U+C5B4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 주 (U+C8FC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 는 (U+B294)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 함 (U+D568)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 수 (U+C218)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 그 (U+ADF8)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 룹 (U+B8F9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 합 (U+D569)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 에 (U+C5D0)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 비 (U+BE44)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 율 (U+C728)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 을 (U+C744)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 만 (U+B9CC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 들 (U+B4E4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 어 (U+C5B4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 주 (U+C8FC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 는 (U+B294)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 함 (U+D568)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 수 (U+C218)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 기 (U+AE30)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 준 (U+C900)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 이 (U+C774)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 되 (U+B418)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 는 (U+B294)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 열 (U+C5F4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 빈 (U+BE48)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 도 (U+B3C4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 를 (U+B97C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 나 (U+B098)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 타 (U+D0C0)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 내 (U+B0B4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 는 (U+B294)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 열 (U+C5F4)
+      
+Warning in system(paste(shQuote(texi2dvi), if (quiet) "--quiet" else "",  :
+  running command '"C:\Users\USER\AppData\Local\Programs\MiKTeX\miktex\bin\x64\texify.exe"  --pdf "Rd2.tex" --max-iterations=20 -I "C:/PROGRA~1/R/R-43~1.3/share/texmf/tex/latex" -I "C:/PROGRA~1/R/R-43~1.3/share/texmf/bibtex/bst"' had status 1
+Error : running 'texi2dvi' on 'Rd2.tex' failed
+
+LaTeX errors:
+! LaTeX Error: Unicode character 성 (U+C131)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 조 (U+C870)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 그 (U+ADF8)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 룹 (U+B8F9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 합 (U+D569)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 에 (U+C5D0)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 비 (U+BE44)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 율 (U+C728)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 을 (U+C744)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 만 (U+B9CC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 들 (U+B4E4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 어 (U+C5B4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 주 (U+C8FC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 는 (U+B294)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 함 (U+D568)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 수 (U+C218)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 그 (U+ADF8)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 룹 (U+B8F9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 합 (U+D569)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 에 (U+C5D0)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 비 (U+BE44)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 율 (U+C728)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 을 (U+C744)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 만 (U+B9CC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 들 (U+B4E4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 어 (U+C5B4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 주 (U+C8FC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 는 (U+B294)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 함 (U+D568)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 수 (U+C218)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 기 (U+AE30)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 준 (U+C900)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 이 (U+C774)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 되 (U+B418)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 는 (U+B294)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 열 (U+C5F4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 빈 (U+BE48)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 도 (U+B3C4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 를 (U+B97C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 나 (U+B098)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 타 (U+D0C0)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 내 (U+B0B4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 는 (U+B294)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+! LaTeX Error: Unicode character 열 (U+C5F4)
+      
+Error in running tools::texi2pdf()

@@ -1,0 +1,1014 @@
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(Rd2.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-09-09>
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\book.cls
+Document Class: book 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\bk10.clo))
+(C:/Program Files/R/R-4.3.3/share/texmf/tex/latex\Rd.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/tools\bm.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\alltt.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbatim.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\textcomp.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/jknappen\mathrsfs.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\times.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\zi4.sty
+`inconsolata-zi4' v1.12, 2019/05/17 Text macros for Inconsolata (msharpe)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\keyval.tex))))
+) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/graphics\color.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\xetex.def)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx))
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty)
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefinek
+eys.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.st
+y (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.
+sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.st
+y))) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
+) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettitl
+estring.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty)
+)) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.st
+y) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc.
+sty)))
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hxetex.def
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfile
+check.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniqueco
+unter.sty))))
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec-xetex.
+sty (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.cfg)))
+ (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/xelatex/xecjk\xeCJK.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\l3backend-xetex
+.def)) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/ctex\ctexhook.sty
+) (C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/ctex\ctexpatch.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xtemplate\xte
+mplate.sty)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/xelatex/xecjk\xeCJK.cfg))
+(Rd2.aux) (Rd2.out) (Rd2.out)
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+
+Package xeCJK Warning: Unknown CJK family `\CJKttdefault' is being ignored.
+(xeCJK)                
+(xeCJK)                Try to use `\setCJKmonofont[<...>]{<...>}' to define
+(xeCJK)                it.
+
+
+Package xeCJK Warning: Unknown CJK family `\CJKsfdefault' is being ignored.
+(xeCJK)                
+(xeCJK)                Try to use `\setCJKsansfont[<...>]{<...>}' to define
+(xeCJK)                it.
+
+(Rd2.toc
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+(C:\Users\USER\AppData\Local\Programs\MiKTeX\tex/latex/jknappen\ursfs.fd)
+[1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11]) [12]
+Overfull \hbox (48.93102pt too wide) in paragraph at lines 120--120
+ []\TU/lmtt/m/n/9 mtcars %>% select(am, vs) %>% table() %>% accent_table("am","
+vs", plot=TRUE, title = "Mtcars")[] 
+[13]
+
+LaTeX Font Warning: Font shape `TU/MalgunGothic(0)/m/it' undefined
+(Font)              using `TU/MalgunGothic(0)/m/n' instead on input line 196.
+
+[14] [15] [16] [17] [18] [19] [20]
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 580--580
+ []                           \TU/lmtt/m/n/9 pass1 = c("YardsPassComp", "PassYa
+rds", "PassFirstDown"))[] 
+
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 587--587
+ []                           \TU/lmtt/m/n/9 pass1 = c("YardsPassComp", "PassYa
+rds", "PassFirstDown"))[] 
+
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 594--594
+ []                           \TU/lmtt/m/n/9 pass1 = c("YardsPassComp", "PassYa
+rds", "PassFirstDown"))[] 
+[21] [22] [23] [24]
+Overfull \hbox (77.28131pt too wide) in paragraph at lines 855--855
+ []   \TU/MalgunGothic(0)/m/n/9 측 정 변 수  \TU/lmtt/m/n/9 = c(" \TU/MalgunGothic(
+0)/m/n/9 진 로 목 표 \TU/lmtt/m/n/9 (L01)", " \TU/MalgunGothic(0)/m/n/9 준 비 여 부 \TU
+/lmtt/m/n/9 (L02)", " \TU/MalgunGothic(0)/m/n/9 직 업 결 정 \TU/lmtt/m/n/9 (L03)", 
+" \TU/MalgunGothic(0)/m/n/9 부 모 추 천 \TU/lmtt/m/n/9 (L04)", " \TU/MalgunGothic(0
+)/m/n/9 학 업 성 적 \TU/lmtt/m/n/9 (L05)"),[] 
+[25]
+Overfull \hbox (129.25635pt too wide) in paragraph at lines 862--862
+ []\TU/lmtt/m/n/9 new_df <- add_rows(df, c("class name", " \TU/MalgunGothic(0)/
+m/n/9 불 명 확   진 로 인 식 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 적 극 적   진
+ 로 준 비 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 조 건 분   진 로 지 향 형 \TU/lm
+tt/m/n/9 "), row = 1)[] 
+
+Overfull \hbox (77.28131pt too wide) in paragraph at lines 868--868
+ []   \TU/MalgunGothic(0)/m/n/9 측 정 변 수  \TU/lmtt/m/n/9 = c(" \TU/MalgunGothic(
+0)/m/n/9 진 로 목 표 \TU/lmtt/m/n/9 (L01)", " \TU/MalgunGothic(0)/m/n/9 준 비 여 부 \TU
+/lmtt/m/n/9 (L02)", " \TU/MalgunGothic(0)/m/n/9 직 업 결 정 \TU/lmtt/m/n/9 (L03)", 
+" \TU/MalgunGothic(0)/m/n/9 부 모 추 천 \TU/lmtt/m/n/9 (L04)", " \TU/MalgunGothic(0
+)/m/n/9 학 업 성 적 \TU/lmtt/m/n/9 (L05)"),[] 
+
+Overfull \hbox (200.13138pt too wide) in paragraph at lines 875--875
+ []\TU/lmtt/m/n/9 new_df_1 <- add_rows(df, c("class name", " \TU/MalgunGothic(0
+)/m/n/9 불 명 확   진 로 인 식 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 적 극 적  
+ 진 로 준 비 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 조 건 분   진 로 지 향 형 \TU/
+lmtt/m/n/9 "), row = 1, char = TRUE)[] 
+
+Overfull \hbox (204.85638pt too wide) in paragraph at lines 880--880
+ []\TU/lmtt/m/n/9 new_df_2 <- add_rows(df, c("class name", " \TU/MalgunGothic(0
+)/m/n/9 불 명 확   진 로 인 식 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 적 극 적  
+ 진 로 준 비 형 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 조 건 분   진 로 지 향 형 \TU/
+lmtt/m/n/9 "), row = 7, char = FALSE)[] 
+[26] [27] [28]
+Overfull \hbox (39.48134pt too wide) in paragraph at lines 1074--1074
+ []                  \TU/lmtt/m/n/9 dimnames = list(c(" \TU/MalgunGothic(0)/m/n
+/9 공 명 음 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 마 찰 음 \TU/lmtt/m/n/9 ", 
+" \TU/MalgunGothic(0)/m/n/9 유 기 음 \TU/lmtt/m/n/9 _ \TU/MalgunGothic(0)/m/n/9 경 
+음 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 평 파 열 음 \TU/lmtt/m/n/9 _ \TU/Ma
+lgunGothic(0)/m/n/9 평 파 찰 음 \TU/lmtt/m/n/9 "),[] 
+[29]
+Overfull \hbox (39.48134pt too wide) in paragraph at lines 1131--1131
+ []                  \TU/lmtt/m/n/9 dimnames = list(c(" \TU/MalgunGothic(0)/m/n
+/9 공 명 음 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 마 찰 음 \TU/lmtt/m/n/9 ", 
+" \TU/MalgunGothic(0)/m/n/9 유 기 음 \TU/lmtt/m/n/9 _ \TU/MalgunGothic(0)/m/n/9 경 
+음 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 평 파 열 음 \TU/lmtt/m/n/9 _ \TU/Ma
+lgunGothic(0)/m/n/9 평 파 찰 음 \TU/lmtt/m/n/9 "),[] 
+[30]
+Overfull \hbox (25.30617pt too wide) in paragraph at lines 1201--1201
+ []\TU/lmtt/m/n/9 df = data.frame(A = c(1, 2, 3, 4, 5), B = c(6, 7, NA, 9, 10),
+ C = c(11, 12, 13, 14, 15) )[] 
+[31] [32] [33]
+Overfull \hbox (53.6561pt too wide) in paragraph at lines 1370--1370
+ []\TU/lmtt/m/n/9 New_df = data.frame(rownames = c([]IMAG -> EXPE[], []IMAG -> 
+QUAL[], []IMAG -> VAL[], []IMAG -> SAT[]),[] 
+
+Overfull \hbox (34.75597pt too wide) in paragraph at lines 1371--1371
+ []  \TU/lmtt/m/n/9 Original = c(0.578959128452789, 0.491156739303251, 0.393411
+171344413, 0.490971137879492),[] 
+
+Overfull \hbox (25.30597pt too wide) in paragraph at lines 1372--1372
+ [] \TU/lmtt/m/n/9 Mean.Boot = c(0.584251828061525, 0.495822941940513, 0.400070
+801457516, 0.5022633230577),[] 
+
+Overfull \hbox (53.65598pt too wide) in paragraph at lines 1373--1373
+ [] \TU/lmtt/m/n/9 Std.Error = c(0.0518709126012371, 0.0510037451930923, 0.0528
+454527326974, 0.0681551639743143),[] 
+
+Overfull \hbox (30.03096pt too wide) in paragraph at lines 1374--1374
+ [] \TU/lmtt/m/n/9 perc.025 = c(0.477709787839589, 0.391876781940297, 0.3081960
+19466015, 0.369649328752085),[] 
+
+Overfull \hbox (25.30597pt too wide) in paragraph at lines 1375--1375
+ []  \TU/lmtt/m/n/9 perc.975 = c(0.664779330969341, 0.58560953201285, 0.4957172
+52789497, 0.614490783702303)[] 
+
+Overfull \hbox (15.85599pt too wide) in paragraph at lines 1377--1377
+ []\TU/lmtt/m/n/9 #Auto-create a separate T without creating a SIG and combine 
+it with the SIG to move it[] 
+[34] [35]
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 1471--1471
+ []                         \TU/lmtt/m/n/9 c(1:5), c(6:10), c(11:15)) %>%nice_V
+ar()%>% nice_table()%>%[] 
+[36] [37] [38] [39]
+Overfull \hbox (5.81888pt too wide) in paragraph at lines 1709--1710
+[]\TU/lmr/m/n/10 p.adj=c(”none”,”holm”,”hommel”, ”hochberg”, ”bonferroni”, ”BH”
+, ”BY”,
+[40]
+Missing character: There is no ⚠ in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no ️ in font Malgun Gothic/OT:script=hani;language=
+dflt;!
+[41] [42]
+Missing character: There is no ⚠ in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no ️ in font Malgun Gothic/OT:script=hani;language=
+dflt;!
+[43] [44]
+Overfull \hbox (15.06387pt too wide) in paragraph at lines 2042--2044
+[]\TU/lmr/m/n/10 Posthoc method: one of []\TU/lmtt/m/n/10 "LSD"[]\TU/lmr/m/n/10
+ , []\TU/lmtt/m/n/10 "BONFERRONI"[]\TU/lmr/m/n/10 , []\TU/lmtt/m/n/10 "FDR"[]\T
+U/lmr/m/n/10 , []\TU/lmtt/m/n/10 "SCHEFFE"[]\TU/lmr/m/n/10 , []\TU/lmtt/m/n/10 
+"DUNCAN"[]\TU/lmr/m/n/10 ,
+[45] [46]
+Overfull \hbox (5.81888pt too wide) in paragraph at lines 2166--2167
+[]\TU/lmr/m/n/10 p.adj=c(”none”,”holm”,”hommel”, ”hochberg”, ”bonferroni”, ”BH”
+, ”BY”,
+[47] [48] [49] [50] [51] [52] [53] [54] [55]
+Overfull \hbox (20.58133pt too wide) in paragraph at lines 2652--2652
+ []\TU/lmtt/m/n/9 jut1_custom <- c(" \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmtt/m
+/n/9 ", " \TU/MalgunGothic(0)/m/n/9 매 우   그 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunG
+othic(0)/m/n/9 보 통 이 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 그 렇 지   않 
+다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 전 혀   그 렇 지   않 다 \TU/lmtt/m/n/
+9 ")[] 
+
+Overfull \hbox (1.68135pt too wide) in paragraph at lines 2659--2659
+ []\TU/lmtt/m/n/9 vec1 <- c(" \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmtt/m/n/9 ",
+ " \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/
+9 매 우   그 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmtt/m/n/
+9 ", " \TU/MalgunGothic(0)/m/n/9 매 우   그 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGoth
+ic(0)/m/n/9 매 우   그 렇 다 \TU/lmtt/m/n/9 ",[] 
+
+Overfull \hbox (1.6814pt too wide) in paragraph at lines 2672--2672
+ []          \TU/lmtt/m/n/9 " \TU/MalgunGothic(0)/m/n/9 그 렇 지   않 다 \TU/lmtt/m/
+n/9 ", " \TU/MalgunGothic(0)/m/n/9 그 렇 지   않 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGo
+thic(0)/m/n/9 그 렇 지   않 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 매 우   그
+ 렇 다 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 매 우   그 렇 다 \TU/lmtt/m/n/9 "
+,[] 
+
+Underfull \vbox (badness 10000) has occurred while \output is active [56]
+Overfull \hbox (67.83101pt too wide) in paragraph at lines 2732--2732
+ []\TU/lmtt/m/n/9 # jutr1 %>% auto_coding( range=91:95, custom=c(" \TU/MalgunGo
+thic(0)/m/n/9 아 니 다 \TU/lmtt/m/n/9 ."," \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU/lmt
+t/m/n/9 ."),start_number=0)%>%dall("head")[] 
+
+Overfull \hbox (72.556pt too wide) in paragraph at lines 2733--2733
+ []\TU/lmtt/m/n/9 # jutr1 %>% auto_coding( range="L01:L05", custom=c(" \TU/Malg
+unGothic(0)/m/n/9 아 니 다 \TU/lmtt/m/n/9 ."," \TU/MalgunGothic(0)/m/n/9 그 렇 다 \TU
+/lmtt/m/n/9 ."),start_number=0)%>% head(30)[] 
+[57] [58]
+Overfull \hbox (3.78088pt too wide) in paragraph at lines 2826--2826
+ []\TU/lmtt/m/n/10 ave_raise_candidates(fit, latent = NULL, cutoff = -Inf, prin
+t_result = TRUE)[] 
+[59] [60]
+Overfull \hbox (11.13109pt too wide) in paragraph at lines 2955--2955
+ []                  \TU/lmtt/m/n/9 Mean = c([]10.0782306287367[], []11.5824600
+813951[], []14.764623393546[]),[] 
+
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 2956--2956
+ []                  \TU/lmtt/m/n/9 SD = c([]1.88743751774179[], []1.9951475292
+551[], []2.07862332265816[]),[] 
+[61] [62] [63] [64] [65] [66] [67]
+Overfull \hbox (3.90088pt too wide) in paragraph at lines 3387--3388
+\TU/lmr/m/n/10 which subtracts an adjustment factor to make the resulting stati
+stic asymp-
+[68]
+Overfull \hbox (51.63889pt too wide) in paragraph at lines 3445--3446
+[]\TU/lmr/m/n/10 data, Res(all), chisq_test, cramers v, observed_over_expected_
+ratios,cell_p_values,
+[69] [70] [71] [72]
+Overfull \hbox (66.78088pt too wide) in paragraph at lines 3714--3714
+ []  \TU/lmtt/m/n/10 type = c("all", "model_fit", "indicator_validity", "CR_AVE
+", "item_CR_AVE", "fornell",[] 
+[73] [74]
+Underfull \vbox (badness 10000) has occurred while \output is active [75]
+Underfull \vbox (badness 10000) has occurred while \output is active [76]
+Overfull \hbox (30.03098pt too wide) in paragraph at lines 3950--3950
+ []\TU/lmtt/m/n/9 ## Set remove=TRUE if you only want to process the selected v
+ariable and output only that.[] 
+[77] [78] [79] [80]
+Overfull \hbox (30.03104pt too wide) in paragraph at lines 4195--4195
+ []            \TU/lmtt/m/n/9 dimnames = list(c("kangnam", "Moksdong", "nowon",
+ "dongtan"), c("Yes", "No")))[] 
+[81]
+Overfull \hbox (3.78088pt too wide) in paragraph at lines 4245--4245
+ []\TU/lmtt/m/n/10 chisq_gof_posthoc(vector, type = "res", method = "bonferroni
+", names = TRUE)[] 
+[82] [83] [84] [85]
+Overfull \hbox (9.03088pt too wide) in paragraph at lines 4472--4472
+ []  \TU/lmtt/m/n/10 control = c("bonferroni", "fdr", "BH", "BY", "holm", "hoch
+berg", "hommel"),[] 
+[86] [87] [88] [89]
+Missing character: There is no ∣ in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no ∣ in font [lmroman10-regular]:mapping=tex-text;!
+[90]
+Overfull \hbox (14.28088pt too wide) in paragraph at lines 4757--4757
+ []\TU/lmtt/m/n/10 chisq_test_By1(dataset, sel = NULL, correct = FALSE, simulat
+e.p.value = FALSE)[] 
+[91] [92] [93] [94] [95]
+Overfull \hbox (304.08156pt too wide) in paragraph at lines 5066--5066
+ []\TU/lmtt/m/n/9 # colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 
+수 가 높 다 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 가 높 다 \TU/lmtt/m
+/n/9 "," \TU/MalgunGothic(0)/m/n/9 창 의 적 사 고 를 한 다 \TU/lmtt/m/n/9 "," \TU/Malgu
+nGothic(0)/m/n/9 특 정 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 "," \TU/MalgunGot
+hic(0)/m/n/9 모 든 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 ")[] 
+
+Overfull \hbox (1.68117pt too wide) in paragraph at lines 5067--5067
+ []\TU/lmtt/m/n/9 colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 수 
+\TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 \TU/lmtt/m/n/9 "," \TU/M
+algunGothic(0)/m/n/9 창 의 적 사 고 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 특 정
+ 분 야 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 모 든 분 야 \TU/lmtt/m/n/9 ")[] 
+[96] [97]
+Overfull \hbox (304.08156pt too wide) in paragraph at lines 5197--5197
+ []\TU/lmtt/m/n/9 # colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 
+수 가 높 다 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 가 높 다 \TU/lmtt/m
+/n/9 "," \TU/MalgunGothic(0)/m/n/9 창 의 적 사 고 를 한 다 \TU/lmtt/m/n/9 "," \TU/Malgu
+nGothic(0)/m/n/9 특 정 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 "," \TU/MalgunGot
+hic(0)/m/n/9 모 든 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 ")[] 
+
+Overfull \hbox (1.68117pt too wide) in paragraph at lines 5198--5198
+ []\TU/lmtt/m/n/9 colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 수 
+\TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 \TU/lmtt/m/n/9 "," \TU/M
+algunGothic(0)/m/n/9 창 의 적 사 고 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 특 정
+ 분 야 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 모 든 분 야 \TU/lmtt/m/n/9 ")[] 
+[98] [99] [100] [101] [102]
+Overfull \hbox (20.58101pt too wide) in paragraph at lines 5490--5490
+ []\TU/lmtt/m/n/9 collapse_path2(satpls_boot, path_string= "IMAG -> EXPE -> VAL
+ -> SAT -> LOY", show=TRUE)[] 
+[103]
+Overfull \hbox (1.68103pt too wide) in paragraph at lines 5501--5501
+ []\TU/lmtt/m/n/9 Resdata  =   collapse_path2(sdata, path_string= "IMAG -> EXPE
+ -> VAL -> SAT -> LOY")[] 
+
+Overfull \hbox (15.85606pt too wide) in paragraph at lines 5515--5515
+ []         \TU/lmtt/m/n/9 se_values =  collapse_path2(sdata, path_string= "IMA
+G -> EXPE -> SAT -> LOY")$[] 
+[104] [105] [106] [107]
+Overfull \hbox (15.85638pt too wide) in paragraph at lines 5777--5777
+ []   \TU/MalgunGothic(0)/m/n/9 요 인  \TU/lmtt/m/n/9 = c(" \TU/MalgunGothic(0)/m
+/n/9 에 듀 테 크 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 학 습 몰 입 \TU/lmtt/m/n
+/9 ", " \TU/MalgunGothic(0)/m/n/9 지 각 된 편 리 성 \TU/lmtt/m/n/9 ", " \TU/MalgunGot
+hic(0)/m/n/9 지 각 된 유 용 성 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 태 도 \TU/
+lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 지 속 사 용 \TU/lmtt/m/n/9 "),[] 
+[108] [109]
+Overfull \hbox (16.58382pt too wide) in paragraph at lines 5866--5867
+[]\TU/lmr/m/n/10 A function that combines two matrices of data, for example, to
+ combine observation/expectation
+[110] [111]
+Overfull \hbox (44.20604pt too wide) in paragraph at lines 5996--5996
+ []\TU/lmtt/m/n/9 result_named <- combine_rows(df, name_col = "term", value_col
+ = "Freq", score_col = "prop..")[] 
+[112] [113] [114] [115] [116]
+Overfull \hbox (6.50687pt too wide) in paragraph at lines 6303--6304
+[]\TU/lmr/m/n/10 Character, output type (’g’ for plot, ’res’ for results, ’df’ 
+for tidy dataframe). 
+[117] [118] [119]
+Underfull \vbox (badness 10000) has occurred while \output is active [120]
+[121]
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 6572--6572
+ []                 \TU/lmtt/m/n/9 select_col = contains("Q6_"), remove = FALSE
+, post_fix = "_re") %>%[] 
+[122] [123] [124] [125]
+Underfull \vbox (badness 10000) has occurred while \output is active [126]
+[127] [128] [129] [130]
+Missing character: There is no ≤ in font [lmroman10-regular]:mapping=tex-text;!
+[131] [132] [133] [134] [135] [136]
+Overfull \hbox (1.68129pt too wide) in paragraph at lines 7497--7497
+ []                    \TU/MalgunGothic(0)/m/n/9 응 답 자  \TU/lmtt/m/n/9 = c(" \T
+U/MalgunGothic(0)/m/n/9 응 답 \TU/lmtt/m/n/9 1", " \TU/MalgunGothic(0)/m/n/9 응 답 
+\TU/lmtt/m/n/9 2", " \TU/MalgunGothic(0)/m/n/9 응 답 \TU/lmtt/m/n/9 3", " \TU/Mal
+gunGothic(0)/m/n/9 응 답 \TU/lmtt/m/n/9 4", " \TU/MalgunGothic(0)/m/n/9 응 답 \TU/l
+mtt/m/n/9 5", " \TU/MalgunGothic(0)/m/n/9 응 답 \TU/lmtt/m/n/9 6"),[] 
+[137] [138] [139] [140] [141] [142] [143] [144] [145] [146] [147] [148]
+[149] [150] [151] [152] [153] [154] [155] [156]
+Overfull \hbox (9.03088pt too wide) in paragraph at lines 8694--8694
+ []\TU/lmtt/m/n/10 fei_Chisq_test(tabledf, col = " \TU/MalgunGothic(0)/m/n/10 빈
+ 도 \TU/lmtt/m/n/10 ", name = " \TU/MalgunGothic(0)/m/n/10 구 분 \TU/lmtt/m/n/10 "
+, ns = FALSE, sep = " / ")[] 
+[157] [158] [159] [160]
+Overfull \hbox (9.03088pt too wide) in paragraph at lines 8912--8912
+ []\TU/lmtt/m/n/10 find_paths_cal(paste_path_result, type = "all", digits = 3, 
+est = "Original")[] 
+[161] [162]
+Overfull \hbox (25.30609pt too wide) in paragraph at lines 9044--9044
+ []\TU/lmtt/m/n/9 data2 <- data.frame(a = rnorm(5), b = rnorm(5), c = rnorm(5),
+ d = rnorm(5), e = rnorm(5))[] 
+[163] [164] [165]
+Overfull \hbox (6.40594pt too wide) in paragraph at lines 9237--9237
+ []\TU/lmtt/m/n/9 Mtcars$cyl  = factor(Mtcars$cyl, levels=c(4,6,8), labels= c("
+cyl-4","cyl-6","cyl-8"))[] 
+[166]
+Overfull \hbox (6.40596pt too wide) in paragraph at lines 9262--9262
+ []\TU/lmtt/m/n/9 Mtcars %>% Freq_table("vs","am","cyl", angle=90, reorder = TR
+UE, type="g")+ylim(0,14)[] 
+
+Overfull \hbox (1.68102pt too wide) in paragraph at lines 9289--9289
+ []\TU/lmtt/m/n/9 Freq_table(df, term, prop = TRUE, remove_rows = 1, add_row_su
+m = FALSE, plot = TRUE)[] 
+
+Overfull \hbox (152.88112pt too wide) in paragraph at lines 9292--9292
+ []\TU/lmtt/m/n/9 Freq_table(df, term, prop = TRUE, remove_rows = 1, add_row_su
+m = TRUE, xlab = " \TU/MalgunGothic(0)/m/n/9 응 답   시 간 \TU/lmtt/m/n/9 ", flip =
+ TRUE, plot = TRUE)[] 
+
+Overfull \hbox (53.6561pt too wide) in paragraph at lines 9297--9297
+ []           \TU/lmtt/m/n/9 plot=T, size_axis = 14, flip=FALSE, yadd=130, xlab
+="Eduteck Time", size_text = 6) #[][] 
+[167]
+Overfull \hbox (6.40594pt too wide) in paragraph at lines 9340--9340
+ []\TU/lmtt/m/n/9 Mtcars$cyl  = factor(Mtcars$cyl, levels=c(4,6,8), labels= c("
+cyl-4","cyl-6","cyl-8"))[] 
+[168] [169]
+Overfull \hbox (19.53088pt too wide) in paragraph at lines 9444--9444
+ []\TU/lmtt/m/n/10 fs(data, range = 1:ncol(data), nfactor = NULL, prefix = "", 
+rotate = "varimax")[] 
+[170]
+Missing character: There is no 訳 in font Malgun Gothic/OT:script=hani;language=
+dflt;!
+Missing character: There is no ・ in font Malgun Gothic/OT:script=hani;language=
+dflt;!
+[171] [172]
+Overfull \hbox (77.28098pt too wide) in paragraph at lines 9659--9659
+ []\TU/lmtt/m/n/9 #[] GetCov(lower, names = c("anomia67", "powerless67", "anomi
+a71", "powerless71","education", "sei"))[] 
+[173] [174] [175]
+Missing character: There is no 訳 in font Malgun Gothic/OT:script=hani;language=
+dflt;!
+Missing character: There is no ・ in font Malgun Gothic/OT:script=hani;language=
+dflt;!
+[176] [177] [178] [179] [180] [181] [182] [183]
+Overfull \hbox (14.28088pt too wide) in paragraph at lines 10284--10284
+ []\TU/lmtt/m/n/10 IE_effect(model_sem, effect1 = "IE", effect2 = "IE", label =
+ FALSE, ci = TRUE)[] 
+[184] [185] [186] [187] [188] [189] [190] [191] [192] [193]
+Overfull \hbox (2.5909pt too wide) in paragraph at lines 10941--10945
+[]\TU/lmr/m/n/10 Logical or ”auto”. - TRUE: c(”ParcelName”,”item1”,”item2”,...)
+ - FALSE:
+[194] [195]
+Underfull \vbox (badness 10000) has occurred while \output is active [196]
+[197]
+Overfull \hbox (167.05612pt too wide) in paragraph at lines 11172--11172
+ []  \TU/lmtt/m/n/9 x1 = c( 1.730516,  1.159965, -0.648269, -0.593655,  1.21330
+6,  0.895361, -2.729817, -1.785706,  0.354516,  0.294027),[] 
+
+Overfull \hbox (167.05612pt too wide) in paragraph at lines 11173--11173
+ []  \TU/lmtt/m/n/9 x2 = c( 2.208429,  1.111993, -0.671010, -0.309758,  0.89375
+9,  1.354703, -2.800578, -1.492191,  0.510968,  0.176220),[] 
+
+Overfull \hbox (167.0561pt too wide) in paragraph at lines 11174--11174
+ []  \TU/lmtt/m/n/9 x3 = c( 1.791936,  0.665374, -0.004232, -0.253564,  0.83522
+0,  0.945070, -2.115333, -1.176772,  0.018319, -0.232088),[] 
+
+Overfull \hbox (167.0561pt too wide) in paragraph at lines 11175--11175
+ []  \TU/lmtt/m/n/9 y1 = c( 1.581619,  1.372783, -0.346918, -0.078805,  1.07646
+6,  1.521254, -1.682830, -1.047084,  1.098595, -0.667011),[] 
+
+Overfull \hbox (167.0561pt too wide) in paragraph at lines 11176--11176
+ []  \TU/lmtt/m/n/9 y2 = c( 2.393086,  1.230622, -0.902185, -0.714770,  1.50123
+1,  1.572681, -2.962813, -1.159968,  0.709137, -0.200424),[] 
+
+Overfull \hbox (162.33112pt too wide) in paragraph at lines 11177--11177
+ []  \TU/lmtt/m/n/9 y3 = c( 0.896092,  1.639311, -0.756823, -0.286587,  0.71771
+4,  1.296822, -1.155036, -1.229061,  0.482557,  0.030295)[] 
+[198]
+Overfull \hbox (15.856pt too wide) in paragraph at lines 11208--11208
+ []\TU/lmtt/m/n/9 # jjstat_plot_path(res, show_phi = TRUE, show_theta = TRUE, c
+urve = 2, layout="circle")[] 
+[199]
+Overfull \hbox (19.53088pt too wide) in paragraph at lines 11328--11328
+ []\TU/lmtt/m/n/10 jtl(text = "", slang = "ko", elang = "en", translator = "dee
+pl", print_url = F)[] 
+[200]
+Overfull \hbox (7.99089pt too wide) in paragraph at lines 11340--11341
+\TU/lmr/m/n/10 ”bing”,”caiyun”, ”cloudTranslation”, ”deepl”, ”elia”, ”google”,”
+iciba”, ”ifly-
+
+Overfull \hbox (22.55087pt too wide) in paragraph at lines 11340--11341
+\TU/lmr/m/n/10 lateCom”,”translateMe”, ”utibet”, ”volcEngine”, ”yandex”, ”yeeki
+t”, ”youdao” 
+[201] [202] [203] [204] [205] [206] [207] [208] [209] [210] [211] [212]
+Underfull \vbox (badness 10000) has occurred while \output is active [213]
+[214] [215] [216]
+Underfull \vbox (badness 10000) has occurred while \output is active [217]
+[218] [219] [220]
+Overfull \hbox (1.68097pt too wide) in paragraph at lines 12556--12556
+ []\TU/lmtt/m/n/9 # Extracting paths from the model with default start_node = N
+ULL and end_node = NULL[] 
+[221] [222]
+Underfull \vbox (badness 10000) has occurred while \output is active [223]
+[224] [225] [226] [227] [228] [229] [230] [231] [232]
+Overfull \hbox (1.68095pt too wide) in paragraph at lines 13273--13273
+ []\TU/lmtt/m/n/9 lav_htmt(data= satisfaction, blocks =  lav_extract_mm(model1)
+%>% plspm_lav2blocks())[] 
+[233] [234] [235] [236] [237]
+Underfull \vbox (badness 10000) has occurred while \output is active [238]
+Overfull \hbox (44.20598pt too wide) in paragraph at lines 13604--13604
+ [] \TU/MalgunGothic(0)/m/n/9 흥 미 동 기  \TU/lmtt/m/n/9 .357*** .358*** .113* .18
+2*** .062 .350*** .175*** .514*** .359*** .182*** .373*** 1[] 
+
+Overfull \hbox (96.18098pt too wide) in paragraph at lines 13605--13605
+ [] \TU/MalgunGothic(0)/m/n/9 학 습 자 세  \TU/lmtt/m/n/9 .257*** .441*** .177*** .
+193*** .101* .320*** .186*** .478*** .448*** .268*** .391*** .636*** 1[] 
+[239] [240] [241] [242] [243] [244] [245] [246] [247] [248] [249] [250]
+[251] [252] [253]
+Underfull \vbox (badness 10000) has occurred while \output is active [254]
+[255] [256] [257] [258] [259] [260] [261] [262]
+Overfull \hbox (171.94289pt too wide) in paragraph at lines 15062--15063
+[]\TU/lmr/m/n/10 = ’all’ is res, ’Fixed_effect’,’Random_effect’,’ICC’, ’Confide
+nceInterval_95’,’Satterthwaite_method’,’FIT’,’APA’ 
+[263]
+Overfull \hbox (15.85597pt too wide) in paragraph at lines 15104--15104
+ []\TU/lmtt/m/n/9 SEM212::lme_report(apa=TRUE, fit_more = F)  #default FALSE, i
+t is show that AIC and BIC[] 
+[264] [265]
+Overfull \hbox (66.78088pt too wide) in paragraph at lines 15266--15266
+ []  \TU/lmtt/m/n/10 model = c("EII", "VII", "EEI", "VEI", "EVI", "VVI", "EEE",
+ "EVE", "VEE", "VVE", "EEV",[] 
+[266] [267]
+Overfull \hbox (7.85689pt too wide) in paragraph at lines 15357--15358
+[]\TU/lmr/m/n/10 Type of output to return. Options include ”all”, ”res”, ”data”
+, ”long_data”,
+[268] [269] [270] [271] [272] [273]
+Overfull \hbox (2.7598pt too wide) in paragraph at lines 15731--15733
+[]\TU/lmr/m/n/10 This function performs latent profile analysis (LPA) using Gau
+ssian Mixture Models (GMM).
+[274] [275] [276] [277]
+Overfull \hbox (39.48103pt too wide) in paragraph at lines 15969--15969
+ []\TU/lmtt/m/n/9 result <- lpa_profile_plot(iris[, -5], n_profiles = 3, model_
+name = "EEE", gtype = "normal")[] 
+[278] [279] [280] [281] [282] [283] [284] [285] [286] [287] [288] [289]
+Overfull \hbox (1.6809pt too wide) in paragraph at lines 16657--16657
+ []\TU/lmtt/m/n/9 nt=data_text%>% text2df(header=T)%>%tibble::column_to_rowname
+s("Tobacco_Dependence")[] 
+[290]
+Underfull \vbox (badness 10000) has occurred while \output is active [291]
+[292] [293]
+Overfull \hbox (115.1129pt too wide) in paragraph at lines 16868--16869
+\TU/lmr/m/n/10 is a function, it must return a character string.latexhtmlpipesi
+mplerstformatknitr.table.formatformat 
+
+Overfull \hbox (30.95088pt too wide) in paragraph at lines 16894--16895
+[]\TU/lmr/m/n/10 Options to customize lightable. Similar with bootstrap_options
+ in kable_styling.
+[294] [295] [296]
+Overfull \hbox (6.40607pt too wide) in paragraph at lines 17053--17053
+ []    \TU/lmtt/m/n/9 mcnemar_test(Buying_car,exact=FALSE, correct=FALSE)#  \TU
+/MalgunGothic(0)/m/n/9 연 속 성   보 정 \TU/lmtt/m/n/9 ,  \TU/MalgunGothic(0)/m/n/9 
+정 확 도   중 지 \TU/lmtt/m/n/9 ,SAS[] 
+[297] [298]
+Overfull \hbox (2.40979pt too wide) in paragraph at lines 17152--17153
+[]\TU/lmr/m/n/10 A character vector specifying footnote alphabet markers. Defau
+lt is NULL. 
+[299]
+Overfull \hbox (20.58092pt too wide) in paragraph at lines 17223--17223
+ []\TU/lmtt/m/n/9 meanCentering_df(mtcars[,c("cyl","mpg","wt","hp")],"cyl","mpg
+","wt","hp")|> data.frame()[] 
+[300]
+Overfull \hbox (44.20602pt too wide) in paragraph at lines 17270--17270
+ []\TU/lmtt/m/n/9 # Variables ordered by mean are Q33_1 (M=1.9489, SD=0.84679) 
+> Q33_2 (M=1.9337, SD=0.86568) >[] 
+
+Overfull \hbox (63.10599pt too wide) in paragraph at lines 17271--17271
+ []\TU/lmtt/m/n/9 # Q33_3 (M=1.9243, SD=0.86960). Skewness ranged from 0.63900 
+to 0.72576, and kurtosis ranged from[] 
+
+Overfull \hbox (53.65602pt too wide) in paragraph at lines 17272--17272
+ []\TU/lmtt/m/n/9 # 0.087763 to 0.63369. Following Kline (2005), skewness value
+s exceeding an absolute value of 3[] 
+
+Overfull \hbox (58.38101pt too wide) in paragraph at lines 17273--17273
+ []\TU/lmtt/m/n/9 # and kurtosis values exceeding an absolute value of 8 or 10 
+are considered non-normal. Skewness[] 
+[301] [302] [303]
+Overfull \hbox (58.3812pt too wide) in paragraph at lines 17465--17465
+ []\TU/lmtt/m/n/9 ##  \TU/MalgunGothic(0)/m/n/9 출 처  \TU/lmtt/m/n/9 meta-analay
+sis  \TU/MalgunGothic(0)/m/n/9 경 로 분 석 모 델  \TU/lmtt/m/n/9 1 \TU/MalgunGothic(0
+)/m/n/9 단 계  \TU/lmtt/m/n/9 -  \TU/MalgunGothic(0)/m/n/9 상 관 행 렬 추 정  \TU/lmtt/
+m/n/9 correlation using metaSEM| \TU/MalgunGothic(0)/m/n/9 자 유 자 재 \TU/lmtt/m/n
+/9 Paper[] 
+
+Underfull \vbox (badness 10000) has occurred while \output is active [304]
+Underfull \vbox (badness 10000) has occurred while \output is active [305]
+[306] [307] [308]
+Overfull \hbox (25.30602pt too wide) in paragraph at lines 17748--17748
+ []\TU/lmtt/m/n/9 result <- tryCatch(missfillinFor(data, method = "pmm", range 
+= 1), error = function(e) e)[] 
+[309] [310] [311] [312] [313] [314] [315] [316] [317] [318] [319]
+Underfull \vbox (badness 10000) has occurred while \output is active [320]
+[321] [322]
+Overfull \hbox (20.58107pt too wide) in paragraph at lines 18641--18641
+ []\TU/lmtt/m/n/9 move_mat(data, list(10, 10, 1, 2), list(9, 10, 1, 3), list(8,
+ 10, 6,3), replace = FALSE)[] 
+
+Overfull \hbox (15.85606pt too wide) in paragraph at lines 18646--18646
+ []\TU/lmtt/m/n/9 move_mat(data, list(10, 10, 1, 2), list(9, 10, 1, 3), list(8,
+ 10, 6,3), replace = TRUE)[] 
+[323] [324] [325] [326] [327] [328] [329] [330]
+Underfull \vbox (badness 10000) has occurred while \output is active [331]
+[332] [333] [334] [335] [336]
+Underfull \vbox (badness 10000) has occurred while \output is active [337]
+[338] [339] [340] [341] [342] [343] [344] [345] [346] [347] [348] [349]
+[350] [351] [352] [353] [354] [355] [356] [357]
+Overfull \hbox (304.08156pt too wide) in paragraph at lines 20738--20738
+ []\TU/lmtt/m/n/9 # colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 
+수 가 높 다 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 가 높 다 \TU/lmtt/m
+/n/9 "," \TU/MalgunGothic(0)/m/n/9 창 의 적 사 고 를 한 다 \TU/lmtt/m/n/9 "," \TU/Malgu
+nGothic(0)/m/n/9 특 정 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 "," \TU/MalgunGot
+hic(0)/m/n/9 모 든 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 ")[] 
+[358]
+Overfull \hbox (1.68117pt too wide) in paragraph at lines 20739--20739
+ []\TU/lmtt/m/n/9 colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 수 
+\TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 \TU/lmtt/m/n/9 "," \TU/M
+algunGothic(0)/m/n/9 창 의 적 사 고 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 특 정
+ 분 야 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 모 든 분 야 \TU/lmtt/m/n/9 ")[] 
+[359]
+Overfull \hbox (304.08156pt too wide) in paragraph at lines 20846--20846
+ []\TU/lmtt/m/n/9 # colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 
+수 가 높 다 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 가 높 다 \TU/lmtt/m
+/n/9 "," \TU/MalgunGothic(0)/m/n/9 창 의 적 사 고 를 한 다 \TU/lmtt/m/n/9 "," \TU/Malgu
+nGothic(0)/m/n/9 특 정 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 "," \TU/MalgunGot
+hic(0)/m/n/9 모 든 분 야 에 서 뛰 어 난 능 력 을 보 인 다 \TU/lmtt/m/n/9 ")[] 
+
+Overfull \hbox (1.68117pt too wide) in paragraph at lines 20847--20847
+ []\TU/lmtt/m/n/9 colnames(shin2013_mat)=c(" \TU/MalgunGothic(0)/m/n/9 지 능 지 수 
+\TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 학 업 성 취 도 \TU/lmtt/m/n/9 "," \TU/M
+algunGothic(0)/m/n/9 창 의 적 사 고 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 특 정
+ 분 야 \TU/lmtt/m/n/9 "," \TU/MalgunGothic(0)/m/n/9 모 든 분 야 \TU/lmtt/m/n/9 ")[] 
+[360] [361] [362] [363] [364] [365] [366] [367] [368] [369] [370]
+Overfull \hbox (77.28108pt too wide) in paragraph at lines 21487--21487
+ []  \TU/lmtt/m/n/9 paths = c("Speical -> Scoring", "Rushing -> Offense", "Pass
+ing -> Offense", "Offense -> Scoring"),[] 
+
+Overfull \hbox (20.58104pt too wide) in paragraph at lines 21492--21492
+ []  []\TU/lmtt/m/n/9 95%CI[] = I(list(c(-0.484, 0.450), c(0.411, 0.592), c(0.5
+63, 0.948), c(0.587, 0.895)))[] 
+[371] [372] [373] [374]
+Overfull \hbox (15.85602pt too wide) in paragraph at lines 21695--21695
+ []\TU/lmtt/m/n/9 rownames(mat) <- c("IMAG", "EXPE", "QUAL", "VAL", "SAT", "LOY
+", "int_IMEX", "int_IMQU")[] 
+
+Overfull \hbox (15.85602pt too wide) in paragraph at lines 21696--21696
+ []\TU/lmtt/m/n/9 colnames(mat) <- c("IMAG", "EXPE", "QUAL", "VAL", "SAT", "LOY
+", "int_IMEX", "int_IMQU")[] 
+
+Overfull \hbox (1.68098pt too wide) in paragraph at lines 21745--21745
+ []  \TU/lmtt/m/n/9 IMAG = c(-0.06448267, 0.83858784, 0.47542512, 0.42690176, 1
+.04176442, 0.27894142),[] 
+
+Overfull \hbox (6.40599pt too wide) in paragraph at lines 21748--21748
+ []  \TU/lmtt/m/n/9 VAL = c(-0.07103969, 0.44321149, 0.56088128, -0.81127296, 1
+.21587873, -0.29482532),[] 
+
+Overfull \hbox (6.40599pt too wide) in paragraph at lines 21749--21749
+ []  \TU/lmtt/m/n/9 SAT = c(-0.20583024, 0.36908558, 0.83019100, -0.05045141, 0
+.53174538, -0.20212349),[] 
+[375] [376]
+Underfull \vbox (badness 10000) has occurred while \output is active [377]
+Underfull \vbox (badness 10000) has occurred while \output is active [378]
+[379] [380] [381] [382] [383] [384] [385]
+Overfull \hbox (129.25627pt too wide) in paragraph at lines 22377--22377
+ []\TU/lmtt/m/n/9 jutpls_boot <- list(model = list(gens = list(lvs_names = c(" 
+\TU/MalgunGothic(0)/m/n/9 자 기 효 능 감 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n
+/9 진 로 동 기 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 진 로 태 도 \TU/lmtt/m/n/9
+ ", " \TU/MalgunGothic(0)/m/n/9 진 로 준 비 \TU/lmtt/m/n/9 "))))[] 
+
+Overfull \hbox (105.63118pt too wide) in paragraph at lines 22384--22384
+ []\TU/lmtt/m/n/9 result_named <- plspm_ind_push(jutpls_boot, set = c( \TU/Malg
+unGothic(0)/m/n/9 진 로 동 기 \TU/lmtt/m/n/9 =2,  \TU/MalgunGothic(0)/m/n/9 자 기 효 능
+ 감 \TU/lmtt/m/n/9 =3,  \TU/MalgunGothic(0)/m/n/9 진 로 준 비 \TU/lmtt/m/n/9 =1.5,  
+\TU/MalgunGothic(0)/m/n/9 진 로 태 도 \TU/lmtt/m/n/9 =2.5))[] 
+[386] [387] [388] [389] [390] [391] [392] [393] [394] [395] [396] [397]
+[398] [399]
+Underfull \vbox (badness 10000) has occurred while \output is active [400]
+Overfull \hbox (63.10602pt too wide) in paragraph at lines 23291--23291
+ []\TU/lmtt/m/n/9 result <- plspm_dULS_modelfit(pls_model = edt_pls, blocks = e
+dblock, bootstrap = 1000, ci = 0.95)[] 
+[401] [402]
+Underfull \vbox (badness 10000) has occurred while \output is active [403]
+[404] [405] [406]
+Underfull \vbox (badness 10000) has occurred while \output is active [407]
+[408] [409] [410] [411] [412] [413] [414] [415] [416]
+Underfull \vbox (badness 10000) has occurred while \output is active [417]
+[418] [419] [420] [421] [422] [423] [424] [425] [426]
+Overfull \hbox (105.63104pt too wide) in paragraph at lines 24799--24799
+ []\TU/lmtt/m/n/9 result_df2 <- plspm_indicator_test(Data = jut7c, path_matrix 
+= jutpath1, blocks = jut_blocks, grp = "P01")[] 
+[427] [428] [429] [430]
+Underfull \vbox (badness 10000) has occurred while \output is active [431]
+[432] [433]
+Overfull \hbox (58.38107pt too wide) in paragraph at lines 25190--25190
+ []                 \TU/lmtt/m/n/9 0.105477650, -0.002753995, 0.676655529, 0.12
+2144566, 0.589330650, 0.495479322),[] 
+
+Overfull \hbox (34.75607pt too wide) in paragraph at lines 25192--25192
+ []                  \TU/lmtt/m/n/9 0.10992051, -0.01008222, 0.67780527, 0.1513
+2543, 0.56312717, 0.50757755),[] 
+
+Overfull \hbox (30.03107pt too wide) in paragraph at lines 25194--25194
+ []                  \TU/lmtt/m/n/9 0.06968826, 0.06507903, 0.07760527, 0.08440
+236, 0.08723293, 0.07856694),[] 
+
+Overfull \hbox (67.83105pt too wide) in paragraph at lines 25196--25196
+ []                 \TU/lmtt/m/n/9 -0.025566471, -0.147788188, 0.519959683, -0.
+008629516, 0.392664443, 0.351774130),[] 
+
+Underfull \vbox (badness 10000) has occurred while \output is active [434]
+[435] [436] [437]
+Overfull \hbox (129.25627pt too wide) in paragraph at lines 25438--25438
+ []\TU/lmtt/m/n/9 jutpls_boot <- list(model = list(gens = list(lvs_names = c(" 
+\TU/MalgunGothic(0)/m/n/9 자 기 효 능 감 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n
+/9 진 로 동 기 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 진 로 태 도 \TU/lmtt/m/n/9
+ ", " \TU/MalgunGothic(0)/m/n/9 진 로 준 비 \TU/lmtt/m/n/9 "))))[] 
+
+Overfull \hbox (105.63118pt too wide) in paragraph at lines 25445--25445
+ []\TU/lmtt/m/n/9 result_named <- plspm_ind_push(jutpls_boot, set = c( \TU/Malg
+unGothic(0)/m/n/9 진 로 동 기 \TU/lmtt/m/n/9 =2,  \TU/MalgunGothic(0)/m/n/9 자 기 효 능
+ 감 \TU/lmtt/m/n/9 =3,  \TU/MalgunGothic(0)/m/n/9 진 로 준 비 \TU/lmtt/m/n/9 =1.5,  
+\TU/MalgunGothic(0)/m/n/9 진 로 태 도 \TU/lmtt/m/n/9 =2.5))[] 
+[438]
+Overfull \hbox (129.25627pt too wide) in paragraph at lines 25494--25494
+ []\TU/lmtt/m/n/9 jutpls_boot <- list(model = list(gens = list(lvs_names = c(" 
+\TU/MalgunGothic(0)/m/n/9 자 기 효 능 감 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n
+/9 진 로 동 기 \TU/lmtt/m/n/9 ", " \TU/MalgunGothic(0)/m/n/9 진 로 태 도 \TU/lmtt/m/n/9
+ ", " \TU/MalgunGothic(0)/m/n/9 진 로 준 비 \TU/lmtt/m/n/9 "))))[] 
+
+Overfull \hbox (115.08118pt too wide) in paragraph at lines 25501--25501
+ []\TU/lmtt/m/n/9 result_named <- plspm_ind_spread(jutpls_boot, set = c( \TU/Ma
+lgunGothic(0)/m/n/9 진 로 동 기 \TU/lmtt/m/n/9 =2,  \TU/MalgunGothic(0)/m/n/9 자 기 효
+ 능 감 \TU/lmtt/m/n/9 =3,  \TU/MalgunGothic(0)/m/n/9 진 로 준 비 \TU/lmtt/m/n/9 =1.5,
+  \TU/MalgunGothic(0)/m/n/9 진 로 태 도 \TU/lmtt/m/n/9 =2.5))[] 
+[439] [440] [441] [442] [443]
+Overfull \hbox (26.16089pt too wide) in paragraph at lines 25840--25842
+[]\TU/lmr/m/n/10 decimal value indicating the tolerance criterion for the itera
+tions (tol=0.000001).
+[444] [445] [446] [447] [448] [449] [450]
+Underfull \vbox (badness 10000) has occurred while \output is active [451]
+[452] [453] [454] [455] [456]
+Underfull \vbox (badness 10000) has occurred while \output is active [457]
+[458] [459] [460] [461] [462] [463] [464]
+Overfull \hbox (275.7316pt too wide) in paragraph at lines 27063--27063
+ []\TU/lmtt/m/n/9 # p.adjust()  \TU/MalgunGothic(0)/m/n/9 함 수 \TU/lmtt/m/n/9 : 
+R \TU/MalgunGothic(0)/m/n/9 에 서   제 공 하 는   함 수 로 \TU/lmtt/m/n/9 ,  \TU/MalgunG
+othic(0)/m/n/9 선 택 된   보 정   방 법 에   맞 춰  \TU/lmtt/m/n/9 p-value \TU/MalgunGoth
+ic(0)/m/n/9 를   보 정 한 다 \TU/lmtt/m/n/9 . p.adjust()  \TU/MalgunGothic(0)/m/n/9 
+함 수 는   다 양 한   다 중   비 교   보 정   방 법 을   지 원 한 다 \TU/lmtt/m/n/9 .[] 
+
+Underfull \vbox (badness 10000) has occurred while \output is active [465]
+Overfull \hbox (11.131pt too wide) in paragraph at lines 27144--27144
+ []  \TU/lmtt/m/n/9 rownames = c("Support", "Advising", "Tutoring", "Value", "S
+atisfaction", "Loyalty"),[] 
+
+Overfull \hbox (11.131pt too wide) in paragraph at lines 27145--27145
+ []  \TU/lmtt/m/n/9 colnames = c("Support", "Advising", "Tutoring", "Value", "S
+atisfaction", "Loyalty"),[] 
+
+Overfull \hbox (11.131pt too wide) in paragraph at lines 27159--27159
+ []  \TU/lmtt/m/n/9 rownames = c("Support", "Advising", "Tutoring", "Value", "S
+atisfaction", "Loyalty"),[] 
+
+Overfull \hbox (11.131pt too wide) in paragraph at lines 27160--27160
+ []  \TU/lmtt/m/n/9 colnames = c("Support", "Advising", "Tutoring", "Value", "S
+atisfaction", "Loyalty"),[] 
+[466] [467] [468] [469] [470]
+Underfull \vbox (badness 10000) has occurred while \output is active [471]
+[472] [473] [474] [475]
+Underfull \vbox (badness 10000) has occurred while \output is active [476]
+[477] [478]
+Underfull \vbox (badness 10000) has occurred while \output is active [479]
+[480]
+Overfull \hbox (110.35605pt too wide) in paragraph at lines 28041--28041
+ []\TU/lmtt/m/n/9 result_df <- plspm_permutation_test(Data = jut7c, path_matrix
+ = jutpath1, blocks = jut_blocks, grp = "P01")[] 
+[481]
+Overfull \hbox (30.031pt too wide) in paragraph at lines 28091--28091
+ []\TU/lmtt/m/n/9 result <- plspm_permutation_test_multi(data, path_matrix, blo
+cks, "Species", n_perm = 100)[] 
+[482]
+Overfull \hbox (48.93118pt too wide) in paragraph at lines 28143--28143
+ []                           \TU/lmtt/m/n/9 intIS = interlist(c("IMAG", 1, 2, 
+3), c("SAT", 1, 2, 3))) %>% str()[] 
+
+Overfull \hbox (6.40616pt too wide) in paragraph at lines 28160--28160
+ []                           \TU/lmtt/m/n/9 interlist(c("IMAG", 1, 2, 3), c("S
+AT", 1, 2, 3))) %>%str()[] 
+[483] [484] [485]
+Overfull \hbox (26.16089pt too wide) in paragraph at lines 28327--28329
+[]\TU/lmr/m/n/10 decimal value indicating the tolerance criterion for the itera
+tions (tol=0.000001).
+[486]
+Underfull \vbox (badness 10000) has occurred while \output is active [487]
+Overfull \hbox (11.13107pt too wide) in paragraph at lines 28444--28444
+ []                     \TU/lmtt/m/n/9 indicator_prod = list(intIE = interlist(
+"IMAG",1,2, "EXPE",3,4)))[] 
+[488] [489] [490] [491] [492] [493]
+Overfull \hbox (1.68109pt too wide) in paragraph at lines 28793--28793
+ []                  \TU/lmtt/m/n/9 sizeLat=4, sizeMan=3, sizeMan2= 2, edge.lab
+el.cex=0.5, rotation=1)[] 
+[494] [495]
+Overfull \hbox (91.45613pt too wide) in paragraph at lines 28940--28940
+ []    \TU/lmtt/m/n/9 indicator_spread <-  plspm_ind_spread(jutpls_boot, set= c
+( \TU/MalgunGothic(0)/m/n/9 자 기 효 능 감 \TU/lmtt/m/n/9 =4, \TU/MalgunGothic(0)/m/
+n/9 진 로 태 도 \TU/lmtt/m/n/9 =3,  \TU/MalgunGothic(0)/m/n/9 진 로 동 기 \TU/lmtt/m/n/
+9 =3)))%>%[] 
+
+Underfull \vbox (badness 10000) has occurred while \output is active [496]
+[497] [498]
+Overfull \hbox (58.3812pt too wide) in paragraph at lines 29130--29130
+ []\TU/lmtt/m/n/9 ##  \TU/MalgunGothic(0)/m/n/9 출 처  \TU/lmtt/m/n/9 meta-analay
+sis  \TU/MalgunGothic(0)/m/n/9 경 로 분 석 모 델  \TU/lmtt/m/n/9 1 \TU/MalgunGothic(0
+)/m/n/9 단 계  \TU/lmtt/m/n/9 -  \TU/MalgunGothic(0)/m/n/9 상 관 행 렬 추 정  \TU/lmtt/
+m/n/9 correlation using metaSEM| \TU/MalgunGothic(0)/m/n/9 자 유 자 재 \TU/lmtt/m/n
+/9 Paper[] 
+
+Underfull \vbox (badness 10000) has occurred while \output is active [499]
+[500] [501] [502]
+Overfull \hbox (195.40614pt too wide) in paragraph at lines 29344--29344
+ []\TU/lmtt/m/n/9 df <- tibble::tibble(R = 0.205678, adj.R = 0.204123, F = 195.
+456, p = 3.67e-222, dof = 6, AIC = 10028.1234, BIC = 10080.9876)[] 
+[503] [504] [505]
+Overfull \hbox (133.98128pt too wide) in paragraph at lines 29496--29496
+ []  \TU/lmtt/m/n/9 pairwise = c("30 \TU/MalgunGothic(0)/m/n/9 분 이 상 \TU/lmtt/m
+/n/9 _20-30 \TU/MalgunGothic(0)/m/n/9 분 \TU/lmtt/m/n/9 ", "30 \TU/MalgunGothic(
+0)/m/n/9 분 이 상 \TU/lmtt/m/n/9 _10-20 \TU/MalgunGothic(0)/m/n/9 분 \TU/lmtt/m/n/9
+ ", "30 \TU/MalgunGothic(0)/m/n/9 분 이 상 \TU/lmtt/m/n/9 _5-10 \TU/MalgunGothic(0
+)/m/n/9 분 \TU/lmtt/m/n/9 ", "30 \TU/MalgunGothic(0)/m/n/9 분 이 상 \TU/lmtt/m/n/9 
+_5 \TU/MalgunGothic(0)/m/n/9 분 이 내 \TU/lmtt/m/n/9 ", "20-30 \TU/MalgunGothic(0)
+/m/n/9 분 \TU/lmtt/m/n/9 _10-20 \TU/MalgunGothic(0)/m/n/9 분 \TU/lmtt/m/n/9 ",[] 
+
+
+Overfull \hbox (110.35626pt too wide) in paragraph at lines 29497--29497
+ []               \TU/lmtt/m/n/9 "20-30 \TU/MalgunGothic(0)/m/n/9 분 \TU/lmtt/m/
+n/9 _5-10 \TU/MalgunGothic(0)/m/n/9 분 \TU/lmtt/m/n/9 ", "20-30 \TU/MalgunGothic
+(0)/m/n/9 분 \TU/lmtt/m/n/9 _5 \TU/MalgunGothic(0)/m/n/9 분 이 내 \TU/lmtt/m/n/9 ",
+ "10-20 \TU/MalgunGothic(0)/m/n/9 분 \TU/lmtt/m/n/9 _5-10 \TU/MalgunGothic(0)/m/
+n/9 분 \TU/lmtt/m/n/9 ", "10-20 \TU/MalgunGothic(0)/m/n/9 분 \TU/lmtt/m/n/9 _5 \T
+U/MalgunGothic(0)/m/n/9 분 이 내 \TU/lmtt/m/n/9 ", "5-10 \TU/MalgunGothic(0)/m/n/9
+ 분 \TU/lmtt/m/n/9 _5 \TU/MalgunGothic(0)/m/n/9 분 이 내 \TU/lmtt/m/n/9 "),[] 
+
+Overfull \hbox (124.53104pt too wide) in paragraph at lines 29500--29500
+ []  \TU/lmtt/m/n/9 p.value = c(5.83e-45, 1.09e-61, 8.37e-78, 7.50e-98, 2.33e-3
+, 4.85e-9, 9.66e-21, 3.76e-3, 2.44e-11, 6.30e-5),[] 
+[506] [507]
+Overfull \hbox (30.0311pt too wide) in paragraph at lines 29624--29624
+ []\TU/lmtt/m/n/9 # vec <- c(53, 45, 45, 38, 36, 28, 38, 28, 41, 55, 39, 29, 31
+, 35, 37, 34, 34, 35, 58, 46)[] 
+
+Overfull \hbox (77.28111pt too wide) in paragraph at lines 29627--29627
+ []\TU/lmtt/m/n/9 new_vec <- recode_sep_vec(vec, list("20 \TU/MalgunGothic(0)/m
+/n/9 대 \TU/lmtt/m/n/9 " = 20:29, "30 \TU/MalgunGothic(0)/m/n/9 대 \TU/lmtt/m/n/9
+ " = 30:39, "40 \TU/MalgunGothic(0)/m/n/9 대 \TU/lmtt/m/n/9 " = 40:49, "50 \TU/M
+algunGothic(0)/m/n/9 대 \TU/lmtt/m/n/9 " = 50:59))[] 
+[508] [509] [510] [511] [512] [513] [514] [515] [516] [517] [518] [519]
+[520] [521] [522] [523]
+Overfull \hbox (171.94289pt too wide) in paragraph at lines 30528--30529
+[]\TU/lmr/m/n/10 = ’all’ is res, ’Fixed_effect’,’Random_effect’,’ICC’, ’Confide
+nceInterval_95’,’Satterthwaite_method’,’FIT’,’APA’ 
+
+Overfull \hbox (15.85597pt too wide) in paragraph at lines 30570--30570
+ []\TU/lmtt/m/n/9 SEM212::lme_report(apa=TRUE, fit_more = F)  #default FALSE, i
+t is show that AIC and BIC[] 
+[524]
+Overfull \hbox (1.68092pt too wide) in paragraph at lines 30615--30615
+ []\TU/lmtt/m/n/9 manova(cbind(mb,bh,bl,nh)~ epoch, data=Skulls) %>%report_mano
+va(type="summmary_aov")[] 
+
+Overfull \hbox (20.58092pt too wide) in paragraph at lines 30621--30621
+ []\TU/lmtt/m/n/9 manova(cbind(mb,bh,bl,nh)~ epoch, data=Skulls) %>%report_mano
+va(type="Hotelling_Lawley")[] 
+
+Overfull \hbox (30.03091pt too wide) in paragraph at lines 30625--30625
+ []\TU/lmtt/m/n/9 manova(cbind(mb,bh,bl,nh)~ epoch, data=Skulls) %>%report_mano
+va(type="Multivariate_Tests")[] 
+
+Overfull \hbox (25.30595pt too wide) in paragraph at lines 30640--30640
+ []\TU/lmtt/m/n/9 manova(cbind(tear, gloss, opacity) ~ rate * additive, data=Y)
+%>%report_manova(type="all")[] 
+[525]
+Overfull \hbox (19.53088pt too wide) in paragraph at lines 30669--30669
+ []\TU/lmtt/m/n/10 report_stat(data, type = "normality", digits = 3, trans = FA
+LSE, show = "data")[] 
+[526] [527]
+Overfull \hbox (1373.57083pt too wide) in paragraph at lines 30830--30831
+[]\TU/lmr/m/n/10 Vector of maximum scale values (one for each vadata:image/png;
+base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAbElEQVR4Xs2RQQrAMAgEfZgf
+7W9LAguybljJpR3wEse5JOL3ZObDb4x1loDhHbBOFU6i2Ddnw2KNiXcdAXygJlwE8OFVBHDgKrLgSIn
+N4WMe9iXiqIVsTMjH7z/GhNTEibOxQswcYIWYOR/zAjBJfiXh3jZ6AAAAAElFTkSuQmCCriable),
+[528] [529] [530]
+Overfull \hbox (25.30597pt too wide) in paragraph at lines 30949--30949
+ []\TU/lmtt/m/n/9 # Example 7: Using []Sepal.Length[] from iris (continuous val
+ues), inappropriate for Likert[] 
+[531] [532] [533]
+Underfull \vbox (badness 10000) has occurred while \output is active [534]
+[535] [536] [537] [538] [539] [540] [541] [542] [543]
+Overfull \hbox (11.13107pt too wide) in paragraph at lines 31746--31746
+ []\TU/lmtt/m/n/9 Rsave(Kge_jbs, file = "my_custom_name")  #  \TU/MalgunGothic(
+0)/m/n/9 사 용 자   지 정   파 일   이 름 \TU/lmtt/m/n/9 : my_custom_name.RData[] 
+[544] [545]
+Overfull \hbox (25.30609pt too wide) in paragraph at lines 31870--31870
+ []\TU/lmtt/m/n/9 data2 <- data.frame(a = rnorm(5), b = rnorm(5), c = rnorm(5),
+ d = rnorm(5), e = rnorm(5))[] 
+[546] [547] [548] [549] [550] [551] [552] [553] [554] [555] [556] [557]
+[558] [559] [560] [561] [562] [563] [564] [565] [566] [567] [568] [569]
+[570] [571] [572] [573] [574] [575] [576] [577] [578] [579] [580] [581]
+[582] [583]
+Overfull \hbox (1.681pt too wide) in paragraph at lines 34187--34187
+ []\TU/lmtt/m/n/9 aroian_sobel_test_general(a = c(0.2, 0.3, 0.4, 0.5), SE = c(0
+.05, 0.04, 0.03, 0.02))[] 
+
+Overfull \hbox (6.406pt too wide) in paragraph at lines 34188--34188
+ []\TU/lmtt/m/n/9 Goodman_sobel_test_general(a = c(0.2, 0.3, 0.4, 0.5), SE = c(
+0.05, 0.04, 0.03, 0.02))[] 
+[584] [585] [586] [587] [588] [589] [590] [591] [592] [593] [594] [595]
+[596] [597] [598] [599] [600] [601]
+Overfull \hbox (6.40594pt too wide) in paragraph at lines 35267--35267
+ []\TU/lmtt/m/n/9 Mtcars$cyl  = factor(Mtcars$cyl, levels=c(4,6,8), labels= c("
+cyl-4","cyl-6","cyl-8"))[] 
+
+Overfull \hbox (6.40596pt too wide) in paragraph at lines 35285--35285
+ []\TU/lmtt/m/n/9 Mtcars %>% table_freq("vs","am","cyl", angle=90, reorder = TR
+UE, type="g")+ylim(0,14)[] 
+[602] [603] [604] [605]
+Underfull \vbox (badness 10000) has occurred while \output is active [606]
+[607] [608] [609] [610]
+Overfull \hbox (1.68097pt too wide) in paragraph at lines 35783--35783
+ []\TU/lmtt/m/n/9 mtcars %>%select(am, cyl) %>% table() %>%data.frame() %>%to_t
+able()%>%add_ratio_df()[] 
+[611] [612] [613]
+Overfull \hbox (6.40602pt too wide) in paragraph at lines 36005--36005
+ []\TU/lmtt/m/n/9 ttest_df(data = mtcars, dv_var = "mpg", iv_vars = c("am", "vs
+"), sig=T, unite_t=TRUE)[] 
+
+Overfull \hbox (6.40602pt too wide) in paragraph at lines 36007--36007
+ []\TU/lmtt/m/n/9 ttest_df(data = mtcars, dv_var = "mpg", iv_vars = c("am", "vs
+"), sig=T, unite_p=TRUE)[] 
+[614] [615]
+Overfull \hbox (23.4649pt too wide) in paragraph at lines 36105--36106
+[]\TU/lmr/m/n/10 type option default is ’all’. and ’var.test’, ’var.test.report
+’, ’t.test’,’t.test.report’,
+[616]
+Overfull \hbox (1.68094pt too wide) in paragraph at lines 36139--36139
+ []\TU/lmtt/m/n/9 t_test_report(mtcars, iv="vs",dv="mpg",xlab="transmission", y
+lab= "males per galon")[] 
+[617]
+Overfull \hbox (6.40598pt too wide) in paragraph at lines 36197--36197
+ []  \TU/lmtt/m/n/9 "H(H)" = c("1.1477347(***)", "0.5743712(***)", "1.4060606(*
+**)", "0.8624314(***)"),[] 
+[618]
+Overfull \hbox (6.40598pt too wide) in paragraph at lines 36286--36286
+ []  \TU/lmtt/m/n/9 "H(H)" = c("1.1477347(***)", "0.5743712(***)", "1.4060606(*
+**)", "0.8624314(***)"),[] 
+[619] [620] [621] [622] [623] [624] [625]
+Overfull \hbox (15.85608pt too wide) in paragraph at lines 36717--36717
+ []                \TU/lmtt/m/n/9 "SRMR <0.08", "GFI >0.95", "CFI >0.95", "TLI 
+>0.90", "lower", "lower"),[] 
+[626] [627] [628] [629]
+Overfull \hbox (9.03088pt too wide) in paragraph at lines 36955--36955
+ []\TU/lmtt/m/n/10 wald_test_df(data, row1 = 2, row2 = 3, rname1 = "", rname2 =
+ "", sel = "row")[] 
+[630]
+Overfull \hbox (44.20605pt too wide) in paragraph at lines 36991--36991
+ []\TU/lmtt/m/n/9 lm(mpg ~ hp + wt + drat, mtcars) %>% wald_test_df(sel = "term
+", rname1 = "hp", rname2 = "wt")[] 
+[631] [632]
+Overfull \hbox (6.40602pt too wide) in paragraph at lines 37127--37127
+ []\TU/lmtt/m/n/9 data <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = rno
+rm(100), y = rnorm(100))[] 
+
+Overfull \hbox (96.18105pt too wide) in paragraph at lines 37144--37144
+ []\TU/lmtt/m/n/9 result_custom <- wald_test_general(model, c(1, -1, 1), test =
+ "F", vcov_func = custom_vcov, full = TRUE)[] 
+[633]
+Overfull \hbox (6.40602pt too wide) in paragraph at lines 37197--37197
+ []\TU/lmtt/m/n/9 data <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = rno
+rm(100), y = rnorm(100))[] 
+
+Overfull \hbox (124.53111pt too wide) in paragraph at lines 37201--37201
+ []\TU/lmtt/m/n/9 result <- wald_test_general_df(model, "x1 - x2 + x3 = 0", "x1
+ - x2 = 0", c(1, -1, 1), test = "F", full = TRUE)[] 
+[634]
+Overfull \hbox (6.40602pt too wide) in paragraph at lines 37257--37257
+ []\TU/lmtt/m/n/9 data <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = rno
+rm(100), y = rnorm(100))[] 
+[635]
+Overfull \hbox (53.656pt too wide) in paragraph at lines 37270--37270
+ []\TU/lmtt/m/n/9 result_custom <- wald_test_general_mat(model, c(1, -1, 1), te
+st = "F", vcov_func = custom_vcov)[] 
+[636]
+Overfull \hbox (6.40602pt too wide) in paragraph at lines 37330--37330
+ []\TU/lmtt/m/n/9 data <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = rno
+rm(100), y = rnorm(100))[] 
+
+Overfull \hbox (2.40483pt too wide) in paragraph at lines 37362--37367
+[]\TU/lmr/m/n/10 A dataframe containing pairwise Wald test results. The output 
+includes: - ‘var_comparison‘:
+[637] [638] [639] [640] [641]
+Underfull \vbox (badness 10000) has occurred while \output is active [642]
+[643] [644] [645] (Rd2.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ )
+(see the transcript file for additional information)
+Output written on Rd2.pdf (645 pages).
+Transcript written on Rd2.log.

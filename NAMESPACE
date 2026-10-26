@@ -553,59 +553,67 @@ import(Hmisc)
 import(VIM)
 import(mice)
 importFrom(broom,tidy)
-importFrom(dplyr,filter)
-importFrom(dplyr,select)
+importFrom(dplyr,
+  filter,
+  select
+)
 importFrom(grDevices,x11)
-importFrom(graphics,abline)
-importFrom(graphics,barplot)
-importFrom(graphics,hist)
-importFrom(graphics,legend)
-importFrom(graphics,lines)
-importFrom(graphics,mosaicplot)
-importFrom(graphics,pairs)
-importFrom(graphics,par)
-importFrom(graphics,stars)
-importFrom(graphics,text)
+importFrom(graphics,
+  abline,
+  barplot,
+  hist,
+  legend,
+  lines,
+  mosaicplot,
+  pairs,
+  par,
+  stars,
+  text
+)
 importFrom(magrittr,"%>%")
-importFrom(stats,AIC)
-importFrom(stats,BIC)
-importFrom(stats,addmargins)
-importFrom(stats,aggregate)
-importFrom(stats,anova)
-importFrom(stats,aov)
-importFrom(stats,ave)
-importFrom(stats,bartlett.test)
-importFrom(stats,binom.test)
-importFrom(stats,chisq.test)
-importFrom(stats,coef)
-importFrom(stats,complete.cases)
-importFrom(stats,confint)
-importFrom(stats,cor)
-importFrom(stats,density)
-importFrom(stats,df)
-importFrom(stats,filter)
-importFrom(stats,fisher.test)
-importFrom(stats,formula)
-importFrom(stats,na.omit)
-importFrom(stats,p.adjust)
-importFrom(stats,pairwise.table)
-importFrom(stats,pchisq)
-importFrom(stats,pnorm)
-importFrom(stats,pt)
-importFrom(stats,qchisq)
-importFrom(stats,qnorm)
-importFrom(stats,qt)
-importFrom(stats,sd)
-importFrom(stats,shapiro.test)
-importFrom(stats,summary.aov)
-importFrom(stats,t.test)
-importFrom(stats,uniroot)
-importFrom(stats,var)
-importFrom(stats,var.test)
-importFrom(stats,vcov)
-importFrom(stats,xtabs)
+importFrom(stats,
+  AIC,
+  BIC,
+  addmargins,
+  aggregate,
+  anova,
+  aov,
+  ave,
+  bartlett.test,
+  binom.test,
+  chisq.test,
+  coef,
+  complete.cases,
+  confint,
+  cor,
+  density,
+  df,
+  filter,
+  fisher.test,
+  formula,
+  na.omit,
+  p.adjust,
+  pairwise.table,
+  pchisq,
+  pnorm,
+  pt,
+  qchisq,
+  qnorm,
+  qt,
+  sd,
+  shapiro.test,
+  summary.aov,
+  t.test,
+  uniroot,
+  var,
+  var.test,
+  vcov,
+  xtabs
+)
 importFrom(tibble,tibble)
-importFrom(utils,browseURL)
-importFrom(utils,combn)
-importFrom(utils,head)
-importFrom(utils,read.table)
+importFrom(utils,
+  browseURL,
+  combn,
+  head,
+  read.table
+)

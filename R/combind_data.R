@@ -8,7 +8,7 @@
 #' @return matrix
 #'
 
-#'
+#' @examples
 #'  \dontrun{
 #'
 #' # Example data
