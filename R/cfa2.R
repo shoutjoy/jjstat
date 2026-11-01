@@ -161,7 +161,7 @@ cfa2 <- function(x,
 
   # 01. Fit measures (동일)
   fit.indices <- c("chisq","pvalue","df","rmsea","gfi","agfi","srmr","cfi","tli","nfi","aic","bic")
-  fitMeasures_vec <- round(fitMeasures(x, fit.indices), 3)
+  fitMeasures_vec <- round(lavaan::fitMeasures(x, fit.indices), 3)
   fitMeasures <- as.data.frame(fitMeasures_vec)
   fitMeasures$critera <- c("","*p.value >= 0.05","_chisq/df <= 3(<5(ok)","*RMSEA< 0.05(or 0.08)",
                            "*GFI >= 0.95","_AGFI>= 0.90","*SRMR < 0.08","*CFI >= 0.95",
@@ -176,8 +176,8 @@ cfa2 <- function(x,
                  caption="FitMeasure and criterian (*) satisfy (Kline, 2016)")
 
   # robust/general block 그대로 유지
-  if (length(fitMeasures(x)) == length(fitMeasures(x))) {
-    fitdata_00 <- fitMeasures(x, c("chisq","df","pvalue",
+  if (TRUE) { # standard fit indices; robust indices not auto-selected
+    fitdata_00 <- lavaan::fitMeasures(x, c("chisq","df","pvalue",
                                    "rmsea","rmsea.ci.lower","rmsea.ci.upper","rmsea.pvalue",
                                    "srmr","gfi","cfi","tli","aic","bic"))
     criteria_data_00 <- c("Chisq","df","p > .05","RMSEA < .05","90%CI.L","90%CI.U","p <= .05",
@@ -185,7 +185,7 @@ cfa2 <- function(x,
     modelfitdata <- cbind.data.frame(criterian = criteria_data_00,
                                      Value = round(fitdata_00,3))
   } else {
-    fitdata <- fitMeasures(x, c("chisq","df","pvalue","rmsea","rmsea.ci.lower","rmsea.ci.upper","rmsea.pvalue",
+    fitdata <- lavaan::fitMeasures(x, c("chisq","df","pvalue","rmsea","rmsea.ci.lower","rmsea.ci.upper","rmsea.pvalue",
                                 "srmr","gfi","cfi","tli","aic","bic",
                                 "chisq.scaled","df.scaled","pvalue.scaled","chisq.scaling.factor",
                                 "cfi.robust","tli.robust","rmsea.robust","rmsea.ci.lower.robust",
@@ -259,37 +259,34 @@ cfa2 <- function(x,
   meas <- .meas_map(x)
   singles <- .singles(meas)   # character vector of latent names with k == 1
 
-  # 03. Reliability/Convergent (단일지표 제외, 직접 계산)
-  # model-implied item correlation
-  cor_ov <- lavInspect(x, "cor.ov")
-  if (is.list(cor_ov)) cor_ov <- cor_ov[[1]]
-
+  # 03. Reliability / Convergent validity
+  # Use semTools::reliability() to match raw Cronbach alpha,
+  # omega3 (legacy CR definition), and avevar.
   lv_stats <- .lv_counts(meas) %>%
-    dplyr::filter(k >= 2) %>%        # exclude singles
+    dplyr::filter(k >= 2) %>%
     dplyr::pull(Latent)
 
-  # build table: alpha, CR, AVE
-  alpha_list <- list(); crave_list <- list()
-  for (lv in lv_stats){
-    items <- meas %>% dplyr::filter(Latent == lv) %>% dplyr::pull(Item)
-    lambda <- meas %>% dplyr::filter(Latent == lv) %>% dplyr::pull(lambda)
-    # alpha from implied correlation of items
-    C <- cor_ov[items, items, drop=FALSE]
-    alpha_val <- .alpha_from_cor(C)
-    tmp <- .cr_ave_from_lambda(lambda)
-    alpha_list[[lv]] <- alpha_val
-    crave_list[[lv]] <- tmp
-  }
-
-  if (length(lv_stats) == 0){
-    alpha_AVE_CR_0 <- data.frame(Cronbach=numeric(0), CR=numeric(0), AVE=numeric(0))
-  } else {
+  if (length(lv_stats) == 0L) {
     alpha_AVE_CR_0 <- data.frame(
-      Cronbach = unlist(alpha_list)[lv_stats],
-      CR = vapply(lv_stats, function(s) crave_list[[s]]["CR"], numeric(1)),
-      AVE = vapply(lv_stats, function(s) crave_list[[s]]["AVE"], numeric(1))
+      Cronbach = numeric(0), CR = numeric(0), AVE = numeric(0)
     )
-    rownames(alpha_AVE_CR_0) <- lv_stats
+  } else {
+    rel <- suppressWarnings(semTools::reliability(x, return.total = FALSE))
+    required_rows <- c("alpha", "omega3", "avevar")
+    if (!is.matrix(rel) || !all(required_rows %in% rownames(rel))) {
+      stop("Unexpected semTools::reliability() result: alpha/omega3/avevar missing")
+    }
+    missing_lv <- setdiff(lv_stats, colnames(rel))
+    if (length(missing_lv)) {
+      stop("Reliability output missing latent factors: ",
+           paste(missing_lv, collapse = ", "))
+    }
+    alpha_AVE_CR_0 <- data.frame(
+      Cronbach = as.numeric(rel["alpha", lv_stats]),
+      CR = as.numeric(rel["omega3", lv_stats]),
+      AVE = as.numeric(rel["avevar", lv_stats]),
+      row.names = lv_stats
+    )
   }
 
   FL.1 <- alpha_AVE_CR_0 %>%
@@ -323,18 +320,30 @@ cfa2 <- function(x,
   lv.cor <- .drop_latents_square(lv.cor, singles)
   sqrt.AVE <- .drop_latents_square(as.matrix(sqrt.AVE), singles)
 
-  lv.cor1 <- lv.cor; diag(lv.cor1) <- 0
+  # Fornell-Larcker: compare sqrt(AVE) against the maximum
+  # absolute correlation with any OTHER latent variable.
+  if (length(lv_stats) > 0L) {
+    lv.cor <- lv.cor[lv_stats, lv_stats, drop = FALSE]
+  }
+  lv.cor1 <- lv.cor
+  diag(lv.cor1) <- 0
   rho1 <- as.data.frame(lv.cor1)
-  rho1[lower.tri(rho1)==FALSE] <- 0
-  rho1$max <- apply(rho1, 1, max)
-  rho1 <- rho1 %>% mutate(max = apply(rho1,1,max), lv = rownames(rho1))
-  sqrt.AVE <- as.data.frame(sqrt.AVE); sqrt.AVE$lv <- rownames(sqrt.AVE)
-
-  diff_0 <- merge(x = rho1[,c("max","lv")], y = sqrt.AVE, by = "lv", all = TRUE, sort = FALSE)
-  diff <- merge(x = rho1[,-(ncol(rho1)-1)], y = diff_0, by = "lv", all = TRUE, sort = FALSE)
-  diff$delta <- diff[,(ncol(diff))] - diff[,(ncol(diff)-1)]
-  diff$sig <- ifelse(diff$delta >= 0, "*", "ns")
-  FornellNacker <- diff[, c(-(ncol(diff)-1))]
+  rho1$max <- if (nrow(lv.cor1) > 1L) {
+    apply(abs(lv.cor1), 1, max)
+  } else {
+    rep(NA_real_, nrow(lv.cor1))
+  }
+  rho1$lv <- rownames(rho1)
+  sqrt.AVE <- data.frame(
+    lv = lv_stats,
+    sqrt.AVE = sqrt(alpha_AVE_CR_0[lv_stats, "AVE"]),
+    row.names = NULL
+  )
+  diff <- merge(rho1, sqrt.AVE, by = "lv", all.x = TRUE, sort = FALSE)
+  diff$delta <- diff$sqrt.AVE - diff$max
+  diff$sig <- ifelse(is.na(diff$delta), "NA",
+                     ifelse(diff$delta > 0, "*", "ns"))
+  FornellNacker <- diff[, setdiff(names(diff), "delta"), drop = FALSE]
 
   validity <- FornellNacker %>% cut_print() %>%
     knitr::kable(digits=3, format=format,
