@@ -273,6 +273,7 @@ export(markdown_table)
 export(mat_text_arrange)
 export(mcnemar_test)
 export(md)
+export(md_console)
 export(meanCentering)
 export(meanCentering_df)
 export(mean_apa)
@@ -555,6 +556,7 @@ export(ztest_df)
 importFrom(broom,tidy)
 importFrom(dplyr,
   filter,
+  mutate,
   select
 )
 importFrom(grDevices,x11)
