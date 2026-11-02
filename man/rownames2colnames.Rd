@@ -2,35 +2,64 @@
 % Please edit documentation in R/rownames2colnames.R
 \name{rownames2colnames}
 \alias{rownames2colnames}
-\title{rownames2colnames}
+\title{Convert Row Names to a Column and Vice Versa}
 \usage{
-rownames2colnames(df, reverse = FALSE)
+rownames2colnames(df, colname = NULL, reverse = FALSE)
 }
 \arguments{
-\item{df}{df}
+\item{df}{A data frame to be converted.}
 
-\item{reverse}{reverse = FALSE}
+\item{colname}{Character or NULL. Name of the new column
+when reverse = FALSE. Default NULL uses "rownames".
+When reverse = TRUE, specifies the column to use
+as row names. Default NULL uses the first column.}
+
+\item{reverse}{Logical. If FALSE (default), converts
+row names into a column. If TRUE, converts a column
+into row names and removes that column.}
 }
 \value{
-df
+A data frame with converted row or column names.
 }
 \description{
-rownames2colnames
+Converts row names of a data frame into a new column,
+or restores a column as row names.
+}
+\details{
+When reverse = FALSE, the original row names are
+preserved in a new column.
+When reverse = TRUE, the selected column must contain
+unique, non-missing, non-empty values.
 }
 \examples{
-\dontrun{
-#'
-
-# 예시 데이터프레임
+# Example 1: Create sample data
 df <- data.frame(a = 1:3, b = 4:6)
 rownames(df) <- c("row1", "row2", "row3")
 
-# rownames를 colnames로 변환
-new_df <- rownames2colnames(df)
-print(new_df)
+# Example 2: Default column name
+rownames2colnames(df)
 
-# colnames를 rownames로 변환
-df_with_colnames_as_rownames <- rownames2colnames(new_df, reverse = TRUE)
-print(df_with_colnames_as_rownames)
-}
+# Example 3: Custom column name
+rownames2colnames(df, colname = "Factor")
+
+# Example 4: Korean column name
+rownames2colnames(df, colname = "요인")
+
+# Example 5: Restore original row names
+new_df <- rownames2colnames(df, colname = "Factor")
+rownames2colnames(new_df, reverse = TRUE)
+
+# Example 6: Specify reverse column
+rownames2colnames(new_df,
+                  colname = "Factor",
+                  reverse = TRUE)
+
+# Example 7: Using mtcars
+rownames2colnames(mtcars, colname = "Car")
+
+# Example 8: Round-trip conversion
+df2 <- rownames2colnames(df, colname = "ID")
+df3 <- rownames2colnames(df2, reverse = TRUE)
+identical(df, df3)
+
 }

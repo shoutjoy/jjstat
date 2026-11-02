@@ -2,60 +2,69 @@
 % Please edit documentation in R/nice_table.R
 \name{nice_table}
 \alias{nice_table}
-\title{같은 것이 반복되면 ""처리}
+\title{Create a Nice Table by Removing Consecutive Duplicate Values}
 \usage{
-nice_table(data, exclude = NULL)
+nice_table(data, col = NULL, exclude = NULL)
 }
 \arguments{
-\item{data}{data}
+\item{data}{A data frame to be formatted.}
 
-\item{exclude}{not adapt col}
+\item{col}{NULL, numeric, or character vector.
+Columns to process. NULL selects all columns.
+Supports column names, indices, and ranges such as
+"Var:subfactor".}
+
+\item{exclude}{NULL, numeric, or character vector.
+Columns to exclude from processing.
+Supports the same selection syntax as col.}
 }
 \value{
-data ressult
+A data frame with consecutive duplicate values
+  replaced by empty strings in selected columns.
+  Unselected columns remain unchanged.
 }
 \description{
-같은 것이 반복되면 ""처리
+Replaces consecutive duplicate values with empty strings ("")
+in selected columns of a data frame.
+Useful for formatting statistical tables and research reports.
+}
+\details{
+Only consecutive duplicate values are replaced.
+Non-consecutive repeated values are retained.
+Numeric and factor columns selected for processing
+are converted to character.
+Missing values are preserved.
 }
 \examples{
-
-\dontrun{
-#'
-# Example usage
-data <- data.frame(
-  Var = c("a", "a", "a", "a", "a", "a", "a", "b",
-  "b", "b", "b", "b", "c", "c", "c", "c"),
-  alpha_95.CI = c("alpha = 0.855, 95\%CI[0.8, 0.9]",
-  "alpha = 0.855, 95\%CI[0.8, 0.9]",
-                  "alpha = 0.855, 95\%CI[0.8, 0.9]",
-                  "alpha = 0.855, 95\%CI[0.8, 0.9]",
-                  "alpha = 0.855, 95\%CI[0.8, 0.9]",
-                  "alpha = 0.855, 95\%CI[0.8, 0.9]",
-                  "alpha = 0.855, 95\%CI[0.8, 0.9]",
-                  "alpha = 0.805, 95\%CI[0.74, 0.86]",
-                  "alpha = 0.805, 95\%CI[0.74, 0.86]",
-                  "alpha = 0.805, 95\%CI[0.74, 0.86]",
-                  "alpha = 0.805, 95\%CI[0.74, 0.86]",
-                  "alpha = 0.805, 95\%CI[0.74, 0.86]",
-                  "alpha = 0.534, 95\%CI[0.36, 0.67]",
-                  "alpha = 0.534, 95\%CI[0.36, 0.67]",
-                  "alpha = 0.534, 95\%CI[0.36, 0.67]",
-                  "alpha = 0.534, 95\%CI[0.36, 0.67]"),
-  subfactor = c("B02", "B14", "B10", "B04", "B01", "B15",
-   "B03", "B09", "B25", "B07", "B06", "B05", "B17",
-   "B18", "B21", "B22"),
-  cronbach_alpha = c(0.8175800, 0.8192332,
-  0.8375942, 0.8163753, 0.8505183, 0.8488448,
-   0.8445658, 0.7607713, 0.7494337,
-                     0.7534147, 0.7620378,
-                      0.8099670, 0.4376783,
-                       0.5111512, 0.4434714, 0.4554295)
+df <- data.frame(
+  Var = c("a", "a", "a", "b", "b", "c"),
+  alpha = c(.85, .85, .85, .80, .80, .53),
+  item = c("B01", "B02", "B03", "B04", "B05", "B06"),
+  score = c(1, 1, 2, 2, 3, 3)
 )
 
-# Apply the function to the data
-nice_table(data)
+# Example 1: All columns
+nice_table(df)
 
-}
+# Example 2: Select one column
+nice_table(df, col = "Var")
 
+# Example 3: Select multiple columns
+nice_table(df, col = c("Var", "alpha"))
+
+# Example 4: Select columns by position
+nice_table(df, col = c(1, 2))
+
+# Example 5: Select a column range
+nice_table(df, col = "Var:alpha")
+
+# Example 6: Exclude columns
+nice_table(df, exclude = "item")
+
+# Example 7: Select and exclude
+nice_table(df, col = 1:3, exclude = 2)
+
+# Example 8: Keep numeric score unchanged
+nice_table(df, col = "Var")
 
 }
