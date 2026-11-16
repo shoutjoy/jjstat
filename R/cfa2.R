@@ -6,11 +6,64 @@
 #' @param cex text size
 #' @param hjust on text value gap
 #' @param val.size text size
-#' @param dis.sort item sort
-#' @param rename item validiation new name apply
-#' @param var_name new text name default NULL
+#' @param dis.sort Logical. For loading bars, \code{FALSE} (default) preserves the
+#'   measurement order returned in \code{variable_order}; \code{TRUE}
+#'   sorts the original item names lexicographically (e.g., Q1, Q10, Q2).
+#'   With \code{FALSE}, legend entries follow the first appearance of each
+#'   latent factor in the model; with \code{TRUE}, they are sorted by name.
+#'   Sorting does not require renaming and is independent of display labels.
+#' @param rename Logical. If \code{TRUE}, use \code{var_name} as display names
+#'   in the loading table and bar plot. This does not control item order.
+#' @param var_name Display names in the original measurement order, with one
+#'   non-missing name per loading row. Ignored when \code{rename = FALSE}.
 #' @param digits value rounding
-#' @param type result type
+#' @param type Character string selecting the result (case-sensitive):
+#'   \describe{
+#'     \item{\code{all}}{Default: a list of model syntax, fit tables, loadings,
+#'       reliability, validity, latent paths, loading bars, and variable order.}
+#'     \item{\code{raw}, \code{data.frame}}{A list of unformatted fit, loading,
+#'       convergent/discriminant validity, HTMT and latent-path data, plus the plot.}
+#'     \item{\code{model}}{Model syntax extracted from the fitted model.}
+#'     \item{\code{modelfit}}{Fit indices with criteria, as a data frame.}
+#'     \item{\code{modelfit_paper}}{Publication-oriented fit summary in raw format.}
+#'     \item{\code{modelfit2}}{Formatted model-fit table.}
+#'     \item{\code{loadings}, \code{item}, \code{indicator}}{Loading data with
+#'       estimates, standard errors, standardized loadings, tests and acceptance labels.}
+#'     \item{\code{loadings_bar}}{A ggplot of standardized loadings. Only this
+#'       output skips fit, reliability and validity calculations when \code{web = FALSE}.}
+#'     \item{\code{alpha}}{Cronbach alpha, composite reliability and their checks.}
+#'     \item{\code{CR_AVE}, \code{Convergent}}{Cronbach alpha, composite
+#'       reliability (omega3) and average variance extracted (AVE). If omega3
+#'       exceeds 1, CR is recalculated from standardized loadings as
+#'       \eqn{(\sum \lambda)^2 / ((\sum \lambda)^2 + \sum(1 - \lambda^2))}.
+#'       Conversion details appear below affected web tables and in the
+#'       \code{CR_adjustments} attribute of the full/raw result and convergent data.
+#'       Invalid standardized loadings or denominators yield NA instead.}
+#'     \item{\code{item_CR_AVE}}{Combined loading, CR and AVE table.}
+#'     \item{\code{item_CR_AVE_web}}{Combined loading, CR and AVE table via web().}
+#'     \item{\code{fl_criteria}, \code{Discriminant}}{Fornell-Larcker
+#'       discriminant-validity data (latent correlations and square root of AVE).}
+#'     \item{\code{htmt}, \code{HTMT}}{HTMT matrix after excluding single-item
+#'       factors before calculation. At least two multi-item factors are required;
+#'       otherwise returns NULL with an explanation in the full result.}
+#'     \item{\code{str_cor}}{Regression/covariance estimates and significance data.}
+#'   }
+#' @param web Logical, default \code{TRUE}. If \code{TRUE}, always render
+#'   the complete \code{type = "all"} result in a local web page, regardless
+#'   of \code{type}. The page provides HTML/Markdown downloads and a copy
+#'   button on each table (shown on hover or keyboard focus), code copying, and
+#'   PNG downloads for the loading plot and two \code{semPaths2()} model diagrams
+#'   at the bottom: unstandardized (\code{whatLabels = "est"}) and fully
+#'   standardized (\code{whatLabels = "std"}) coefficients.
+#'   Use \code{web = FALSE} to return a selected R result without opening a page.
+#'   No server is needed.
+#'   The full result is returned invisibly with its path in \code{attr(result, "web_file")}.
+#' @param path_args Named list of overrides passed to \code{semPaths2()} for
+#'   the web diagram. Defaults include \code{sizeMan = 5}, \code{sizeMan2 = 2},
+#'   \code{sizeLat = 6}, \code{sizeLat2 = 3}, and \code{curve = 3}.
+#'   Image dimensions adapt to the number of observed and latent variables.
+#'   Both diagrams share these settings; \code{whatLabels} is set separately
+#'   to \code{"est"} and \code{"std"} for the two coefficient versions.
 #' @param htmt_cut htmt_cut is default =1.
 #' if you want roburst option htmt_cut =0.9
 #' @param htmt2 TRUE using htmt2
@@ -31,63 +84,59 @@
 #'
 #' fit1 <- sem(model1, data = PoliticalDemocracy)
 #'
-#' # 기본 사용법: 전체 결과 출력
+#' # 1. 기본 사용법: 전체 결과를 웹페이지로 출력
+#' # 기본값: web = TRUE, dis.sort = FALSE
+#' # 막대와 범례는 분석 결과의 변수/요인 순서를 유지합니다.
 #' cfa2(fit1)
 #'
-#' # 특정 결과(res)만 출력 예시
-#' cfa2(fit1, res = "modelfit")        # 모델 적합도
-#' cfa2(fit1, res = "loadings")        # 요인적재량 테이블
-#' cfa2(fit1, res = "alpha")           # 신뢰도(Cronbach alpha)
-#' cfa2(fit1, res = "CR_AVE")          # 수렴타당도(CR, AVE)
-#' cfa2(fit1, res = "Discriminant")    # 판별타당도 (Fornell-Larcker 기준)
-#' cfa2(fit1, res = "htmt", dataset = PoliticalDemocracy, model = model1)  # HTMT 지표
-#' cfa2(fit1, res = "str_cor")         # 잠재변수 간 경로 유의성
+#' # 2. 확인적요인분석 절차: 특정 결과를 R 객체로 받기
+#' # res가 아닌 type을 사용하고, web = FALSE를 지정합니다.
+#' cfa2(fit1, type = "modelfit",     web = FALSE) # 모델 적합도
+#' cfa2(fit1, type = "loadings",     web = FALSE) # 지표타당도: 요인적재량
+#' cfa2(fit1, type = "alpha",        web = FALSE) # 신뢰도: Cronbach alpha, CR
+#' cfa2(fit1, type = "CR_AVE",       web = FALSE) # 수렴타당도: CR, AVE
+#' cfa2(fit1, type = "Discriminant", web = FALSE) # Fornell-Larcker 판별타당도
+#' cfa2(fit1, type = "htmt",         web = FALSE) # HTMT 판별타당도 (Henseler et al., 2015)
+#' cfa2(fit1, type = "str_cor",      web = FALSE) # 잠재변수 간 경로/공분산 유의성
+#' # HTMT는 단일 문항 요인을 계산 전에 제외합니다.
+#' # dataset/model 인수를 추가할 필요 없이 fit1에서 데이터를 추출합니다.
+#' cfa2(fit1, type = "htmt", htmt2 = TRUE, htmt_cut = 0.85, web = FALSE)
 #'
-#' # 시각화 결과: 요인적재량 바그래프 출력
-#' cfa2(fit1, res = "loadings_bar")
+#' # 3. 웹 보고서 기능
+#' result <- cfa2(fit1, web = TRUE)
+#' # 상단: 전체 보고서를 .html 또는 .md로 다운로드
+#' # 각 표: 마우스를 올리거나 키보드로 이동하면 표 복사 버튼 표시
+#' # 모델 구문 및 도형 R 코드: 코드 복사 버튼 제공
+#' # 적재량 막대그래프: PNG 다운로드
+#' # 보고서 하단: 비표준화/표준화 모델 도형과 각각의 PNG 다운로드
+#' # 웹 출력에서도 전체 결과는 result에 저장됩니다.
+#' result$variable_order
+#' attr(result, "web_file") # 생성된 HTML 파일 경로
 #'
-#' # 사용자 정의 변수명 적용(rename + var_name)
-#' new_names <- c("Indicator1", "Indicator2", "Indicator3",
-#'                "Democracy1", "Democracy2", "Democracy3", "Democracy4",
-#'                "Democracy5", "Democracy6", "Democracy7", "Democracy8")
+#' # 도형 크기와 곡률 조절: 두 계수 도형에 공통 적용
+#' cfa2(fit1, web = TRUE, path_args = list(
+#'   sizeMan = 5, sizeMan2 = 2, sizeLat = 6, sizeLat2 = 3, curve = 3
+#' ))
+#' # web = TRUE이면 type 지정과 관계없이 전체 결과를 웹페이지로 출력합니다.
 #'
-#' # 그래프의 색을 바꾸고 싶은 경우
-#' cfa2(fit, type = "loadings_bar") +
-#' scale_fill_grey()
-
-#' # rename = TRUE일 경우에만 var_name이 반영됨
+#' # 4. 막대그래프만 R에서 받기 (기본: 분석 순서, 범례도 요인 순서)
+#' cfa2(fit1, type = "loadings_bar", web = FALSE)
+#' # 원래 변수명과 범례를 이름순으로 정렬하려는 경우
+#' cfa2(fit1, type = "loadings_bar", dis.sort = TRUE, web = FALSE)
+#' # 색상 변경
+#' cfa2(fit1, type = "loadings_bar", web = FALSE) + ggplot2::scale_fill_grey()
+#'
+#' # 5. 표시 이름을 바꿀 때만 rename = TRUE 사용
+#' # 이름은 result$variable_order의 순서에 맞춰 지정합니다.
+#' new_names <- paste0("Indicator", seq_along(result$variable_order))
 #' cfa2(fit1, rename = TRUE, var_name = new_names)
+#' # rename = FALSE이면 var_name은 무시되며 정렬에는 영향을 주지 않습니다.
 #'
-#' # rename = FALSE일 경우 var_name은 무시됨
-#' cfa2(fit1, rename = FALSE, var_name = new_names)
-#'
-#' # 다양한 출력 포맷 지정
-#' cfa2(fit1, format = "markdown")
-#' cfa2(fit1, format = "html") %>% kableExtra::kable_minimal(full_width = FALSE)
-#'
-#' # 모델 간 비교
-#' model2 <- "
-#'   ind60 =~ x1 + x2 + x3
-#'   dem60 =~ y1 + y2 + y3 + y4
-#'   dem65 =~ y5 + y6 + y7 + y8
-#'   dem60 ~ ind60
-#'   dem65 ~ ind60 + dem60
-#' "
-#' fit2 <- sem(model2, data = PoliticalDemocracy)
-#' CompareFit_diff(fit1, fit2)
-#'
-#' # AVE 직접 확인
-#' AVE(fit1)
-#' AVE(fit2)
-#'
-#' # 통합 요약 테이블 출력 (CR, AVE 포함)
-#' library(dplyr)
-#' full_join(
-#'   cfa2(fit1, type = "item") %>% dplyr::select(-Accept, -p),
-#'   cfa2(fit1, type = "Convergent") %>% row2col("Latent") %>%
-#'     dplyr::select(-Cronbach) %>% Round(3),
-#'   by = "Latent"
-#' ) %>% nice_table()
+#' # 6. 전체 R 결과 및 원본 데이터 받기
+#' all_results <- cfa2(fit1, web = FALSE)
+#' raw_results <- cfa2(fit1, type = "raw", web = FALSE)
+#' # 특정 표를 HTML로 변환하기
+#' knitr::kable(cfa2(fit1, type = "loadings", web = FALSE), format = "html")
 #' }
 
 
@@ -102,14 +151,69 @@ cfa2 <- function(x,
                  angle=90,
                  cex=11, hjust=0.9,
                  val.size=4,
-                 dis.sort=TRUE,
+                 dis.sort=FALSE,
                  rename=FALSE,
                  var_name=NA,
                  digits=3,
-                 type = "all"){
+                 type = "all",
+                 web = TRUE,
+                 path_args = list()){
 
-  library(dplyr); library(knitr); library(lavaan)
-  library(tibble); library(semPlot); library(ggplot2)
+  if (!is.logical(web) || length(web) != 1L || is.na(web)) {
+    stop("web must be TRUE or FALSE.")
+  }
+  if (!is.list(path_args) ||
+      (length(path_args) && (is.null(names(path_args)) ||
+                            anyNA(names(path_args)) || any(names(path_args) == "") ||
+                            anyDuplicated(names(path_args))))) {
+    stop("path_args must be a named list with unique argument names.")
+  }
+  if (isTRUE(web)) type <- "all"
+
+  library(dplyr); library(lavaan); library(ggplot2)
+
+  # A loading plot only needs parameter estimates. In particular, do not run
+  # ordinal reliability integration or fit measures for this output.
+  dataplot0 <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
+    dplyr::filter(op=="=~") %>%
+    mutate(stars = ifelse(pvalue < .001,"***",
+                          ifelse(pvalue < .01,"**",
+                                 ifelse(pvalue < .05,"*","")))) %>%
+    mutate(label = ifelse(std.all>0.7,"Yes(Good)",
+                          ifelse(std.all>0.5,"Yes(fair)","No"))) %>%
+    dplyr::select(Latent=lhs, Item=rhs, Est=est, S.E.=se, cr=z, Sig.=stars, p=pvalue, std=std.all, beta_Accept=label)
+  dataplot <- dataplot0 %>% dplyr::select(Item, Latent, std)
+  varnames_check <- dataplot0[,"Item"]
+  if (!is.logical(dis.sort) || length(dis.sort) != 1L || is.na(dis.sort)) {
+    stop("dis.sort must be TRUE or FALSE.")
+  }
+  # Decide order from original item identities, before applying display names.
+  item_order <- unique(varnames_check)
+  if (isTRUE(dis.sort)) item_order <- sort(item_order)
+  if (isTRUE(rename)) {
+    if (length(var_name) != nrow(dataplot) || anyNA(var_name)) {
+      stop("var_name must contain one non-missing name per loading row.")
+    }
+    dataplot$Item <- as.character(var_name)
+  }
+  display_order <- unique(dataplot$Item[match(item_order, varnames_check)])
+
+  legend_order <- if (isTRUE(dis.sort)) sort(unique(dataplot$Latent)) else unique(dataplot$Latent)
+  gg <- ggplot(dataplot, aes(x=Item, y=std, fill=Latent)) +
+    scale_x_discrete(limits = display_order) +
+    scale_fill_discrete(breaks = legend_order) +
+    geom_bar(stat="identity", position='dodge') +
+    geom_hline(yintercept = cut , color= "darkred", linetype = 2) +
+    geom_hline(yintercept = cut-0.2, color= "gray40") +
+    ggtitle("Factor loadings") +
+    theme_bw() +
+    geom_text(aes(label=round(std,2)), vjust=-.3, size=val.size) +
+    ylim(0, 1.1) +
+    theme(axis.text.x = element_text(angle=angle, size = cex, hjust = hjust, face="bold"))
+
+  if (identical(type, "loadings_bar")) return(gg)
+
+  library(knitr); library(tibble); library(semPlot)
   library(kableExtra); library(tidyverse)
   options(scipen = 100, knitr.kable.NA="")
 
@@ -233,28 +337,6 @@ cfa2 <- function(x,
                    caption="02 Indicator Validity(1): Factor Loadings (Bagozzi & Yi, 1988)")
   }
 
-  dataplot0 <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
-    dplyr::filter(op=="=~") %>%
-    mutate(stars = ifelse(pvalue < .001,"***",
-                          ifelse(pvalue < .01,"**",
-                                 ifelse(pvalue < .05,"*","")))) %>%
-    mutate(label = ifelse(std.all>0.7,"Yes(Good)",
-                          ifelse(std.all>0.5,"Yes(fair)","No"))) %>%
-    dplyr::select(Latent=lhs, Item=rhs, Est=est, S.E.=se, cr=z, Sig.=stars, p=pvalue, std=std.all, beta_Accept=label)
-  dataplot <- dataplot0 %>% dplyr::select(Item, Latent, std)
-  varnames_check <- dataplot0[,"Item"]
-  if (isTRUE(rename)) dataplot$Item <- var_name
-
-  gg <- ggplot(dataplot, aes(x=Item, y=std, fill=Latent)) +
-    geom_bar(stat="identity", position='dodge') +
-    geom_hline(yintercept = cut , color= "darkred", linetype = 2) +
-    geom_hline(yintercept = cut-0.2, color= "gray40") +
-    ggtitle("Factor loadings") +
-    theme_bw() +
-    geom_text(aes(label=round(std,2)), vjust=-.3, size=val.size) +
-    ylim(0, 1.1) +
-    theme(axis.text.x = element_text(angle=angle, size = cex, hjust = hjust, face="bold"))
-
   # [NEW] ---------- build measurement map & singles ----------
   meas <- .meas_map(x)
   singles <- .singles(meas)   # character vector of latent names with k == 1
@@ -289,6 +371,27 @@ cfa2 <- function(x,
     )
   }
 
+  cr_result <- .cfa2_cr_fallback(alpha_AVE_CR_0, meas)
+  alpha_AVE_CR_0 <- cr_result$values
+  cr_adjustments <- cr_result$adjustments
+  cr_notes <- character()
+  if (nrow(cr_adjustments)) {
+    attr(alpha_AVE_CR_0, "CR_adjustments") <- cr_adjustments
+    number <- function(value) formatC(value, format = "f", digits = digits)
+    cr_notes <- vapply(seq_len(nrow(cr_adjustments)), function(i) {
+      change <- cr_adjustments[i, ]
+      if (is.finite(change$adjusted_CR)) {
+        paste0("CR 계산 전환: ", change$Latent, " — 기존 omega3 = ",
+          number(change$original_CR), " > 1이므로 단순 표준화 CR 공식 ",
+          "[(Σλ)² / {(Σλ)² + Σ(1−λ²)}]으로 재계산했습니다. 적용 CR = ",
+          number(change$adjusted_CR), ". 반올림 전 표준화 적재량을 사용하며 오차공분산은 반영하지 않습니다.")
+      } else {
+        paste0("CR 계산 전환 시도: ", change$Latent, " — 기존 omega3 = ",
+          number(change$original_CR), " > 1. ", change$status, " CR은 NA로 표시합니다.")
+      }
+    }, character(1))
+  }
+
   FL.1 <- alpha_AVE_CR_0 %>%
     mutate(alpha_Check = dplyr::case_when(
       is.na(Cronbach) ~ "NA",
@@ -298,6 +401,7 @@ cfa2 <- function(x,
     ),
     CR_Check = dplyr::case_when(
       is.na(CR)       ~ "NA",
+      !is.finite(CR) | CR < 0 | CR > 1 ~ "Invalid",
       CR > 0.7        ~ "(>0.7) *",
       TRUE            ~ "Reject"
     )) %>%
@@ -349,23 +453,31 @@ cfa2 <- function(x,
     knitr::kable(digits=3, format=format,
                  caption="04 Discriminant Validity: rho < sqrt(AVE) (Fornell & Larcker, 1981)")
 
-  # 05. HTMT (단일지표 제외)
-  htmt2_mat <- tryCatch({
-    lav_htmt(x, cut = htmt_cut, htmt2 = htmt2 , digits = digits)
-  }, error = function(e) NULL)
+  # Exclude single-item factors BEFORE lav_htmt computes monotrait correlations.
+  htmt_blocks <- lapply(unique(meas$Latent), function(lv) unique(meas$Item[meas$Latent == lv]))
+  names(htmt_blocks) <- unique(meas$Latent)
+  htmt_blocks <- htmt_blocks[lengths(htmt_blocks) >= 2L]
+  htmt_note <- if (length(singles)) {
+    paste0("Single-item factors excluded: ", paste(singles, collapse = ", "), ".")
+  } else ""
+  htmt_error <- NULL
+  htmt2_mat <- if (length(htmt_blocks) >= 2L) {
+    tryCatch({
+      lav_htmt(data = lav_return_data(x), blocks = htmt_blocks,
+               cut = htmt_cut, htmt2 = htmt2, digits = digits)
+    }, error = function(e) {
+      htmt_error <<- conditionMessage(e)
+      NULL
+    })
+  } else NULL
 
-  if (!is.null(htmt2_mat)){
-    # drop singles rows/cols
-    rn <- rownames(htmt2_mat); cn <- colnames(htmt2_mat)
-    if (!is.null(rn) && !is.null(cn)){
-      keep_r <- setdiff(rn, singles); keep_c <- setdiff(cn, singles)
-      htmt2_mat <- htmt2_mat[keep_r, keep_c, drop=FALSE]
-    }
-    htmt <- htmt2_mat %>%
-      knitr::kable(format=format, digits = digits,
-                   caption="HTMT (Henseler, Ringle & Sarstedt, 2015) — threshold < 0.90 (robust: 0.85)")
+  if (!is.null(htmt2_mat)) {
+    htmt <- knitr::kable(htmt2_mat, format = format, digits = digits,
+      caption = paste("HTMT (Henseler, Ringle & Sarstedt, 2015) — threshold < 0.90 (robust: 0.85)", htmt_note))
+  } else if (length(htmt_blocks) < 2L) {
+    htmt <- paste("HTMT requires at least two multi-item factors.", htmt_note)
   } else {
-    htmt <- "HTMT not computed (lav_htmt not available or failed)."
+    htmt <- paste("HTMT not computed:", htmt_error, htmt_note)
   }
 
   # 06. latent 경로/공분산 유의성
@@ -420,6 +532,49 @@ cfa2 <- function(x,
     lv.cor.sig = lv.cor.sig0
   )
 
+  if (nrow(cr_adjustments)) {
+    attr(all.reuslt, "CR_adjustments") <- cr_adjustments
+    attr(raw, "CR_adjustments") <- cr_adjustments
+  }
+
+  if (isTRUE(web)) {
+    web_loadings <- factorloading_0
+    if (isTRUE(rename)) {
+      web_loadings$Indicator <- var_name
+      web_loadings <- web_loadings[, c("Latent", "Item", "Indicator", "Est",
+                                      "SE", "std", "Z", "p", "Accept")]
+    }
+    report_tables <- list(
+      "01 Fit criteria" = fitMeasures,
+      "02 Model fit" = modelfitdata,
+      "03 Model fit for paper" = modelfit_paper(modelfitdata, format = "raw"),
+      "04 Factor loadings" = web_loadings,
+      "05 Internal consistency" = FL.1,
+      "06 Convergent validity (CR / AVE)" = alpha_AVE_CR_0,
+      "07 Discriminant validity (Fornell-Larcker)" = FornellNacker,
+      "08 Discriminant validity (HTMT)" = htmt2_mat,
+      "09 Latent regression / covariance significance" = lv.cor.sig0,
+      "10 Item loadings / CR / AVE" = add_table
+    )
+    if (nzchar(htmt_note)) names(report_tables)[8] <- paste(names(report_tables)[8], "—", htmt_note)
+    fit_label <- paste(deparse(substitute(x)), collapse = " ")
+    diagram <- lapply(c("est", "std"), function(label_type) {
+      .cfa2_path_image(
+        x, path_args = utils::modifyList(path_args, list(whatLabels = label_type)),
+        fit_label = fit_label,
+        item_labels = if (isTRUE(rename)) stats::setNames(var_name, varnames_check) else NULL
+      )
+    })
+    names(diagram) <- c("unstandardized", "standardized")
+    table_notes <- stats::setNames(rep(list(cr_notes), 3L), names(report_tables)[c(5, 6, 10)])
+    report_file <- .cfa2_web_report(report_tables, model, gg,
+                                    varnames_check, digits = digits, diagram = diagram,
+                                    table_notes = table_notes)
+    attr(all.reuslt, "web_file") <- report_file
+    utils::browseURL(report_file)
+    return(invisible(all.reuslt))
+  }
+
   switch(type,
          all = all.reuslt,
          raw = raw,
@@ -446,6 +601,279 @@ cfa2 <- function(x,
   )
 }
 
+
+
+# Replace only CR estimates above one, using full-precision standardized loadings.
+.cfa2_cr_fallback <- function(values, measurement) {
+  changes <- data.frame(Latent = character(), original_CR = numeric(),
+                        adjusted_CR = numeric(), method = character(), status = character())
+  rows <- which(!is.na(values$CR) & values$CR > 1)
+  for (row in rows) {
+    latent <- rownames(values)[row]
+    lambda <- measurement$lambda[measurement$Latent == latent]
+    valid <- length(lambda) >= 2L && all(is.finite(lambda)) && all(abs(lambda) <= 1)
+    denominator <- if (valid) sum(lambda)^2 + sum(1 - lambda^2) else NA_real_
+    replacement <- if (is.finite(denominator) && denominator > 0) {
+      sum(lambda)^2 / denominator
+    } else NA_real_
+    if (!is.finite(replacement) || replacement < 0 || replacement > 1) replacement <- NA_real_
+    changes <- rbind(changes, data.frame(
+      Latent = latent, original_CR = values$CR[row], adjusted_CR = replacement,
+      method = "standardized_loadings_CR",
+      status = if (is.finite(replacement)) "converted" else
+        "표준화 적재량의 결측·1 초과 또는 분모 문제로 유효한 대체값을 계산할 수 없습니다."
+    ))
+    values$CR[row] <- replacement
+  }
+  list(values = values, adjustments = changes)
+}
+
+# Render semPaths2 on a dedicated device, preserving the caller's graphics device.
+.cfa2_path_image <- function(x, path_args = list(), fit_label = "fit", item_labels = NULL) {
+  sem_paths <- get0("semPaths2", mode = "function", inherits = TRUE)
+  if (is.null(sem_paths) && requireNamespace("jjstat", quietly = TRUE)) {
+    sem_paths <- getExportedValue("jjstat", "semPaths2")
+  }
+  if (is.null(sem_paths)) stop("semPaths2() is required for the model diagram.")
+  allowed <- setdiff(names(formals(sem_paths)), "lav_obj")
+  unknown <- setdiff(names(path_args), allowed)
+  if (length(unknown)) stop("Unknown semPaths2 argument(s): ", paste(unknown, collapse = ", "))
+  n_items <- length(lavaan::lavNames(x, "ov"))
+  n_latent <- length(lavaan::lavNames(x, "lv"))
+  width <- min(18, max(11, 10 + n_latent * .35))
+  height <- min(26, max(7, n_items * .38 + n_latent * .35))
+  args <- list(sizeMan = 5, sizeMan2 = 2, sizeLat = 6, sizeLat2 = 3,
+               curve = 3, rotation = 2, layout = "tree",
+               mar = c(3, 12, 3, 6), edge.label.cex = .85,
+               edge.label.position = .6, shapeLat = "ellipse")
+  # Use full names instead of semPaths2's default ten-character abbreviations.
+  labels <- semPlot::semPlotModel(x)@Vars$name
+  if (!is.null(item_labels)) {
+    index <- match(labels, names(item_labels))
+    labels[!is.na(index)] <- as.character(item_labels[index[!is.na(index)]])
+  }
+  args$nodeLabels <- labels
+  args <- utils::modifyList(args, path_args, keep.null = TRUE)
+  code_args <- vapply(names(args), function(name) {
+    paste0("  ", name, " = ", paste(deparse(args[[name]], width.cutoff = 80), collapse = "\n"))
+  }, character(1))
+  code <- paste0("semPaths2(\n  ", fit_label, ",\n", paste(code_args, collapse = ",\n"), "\n)")
+  png_file <- tempfile("cfa2-model-", fileext = ".png")
+  on.exit(unlink(png_file), add = TRUE)
+  render <- function() {
+    grDevices::png(png_file, width = width, height = height, units = "in", res = 150, bg = "white")
+    device <- grDevices::dev.cur()
+    on.exit(if (device %in% grDevices::dev.list()) grDevices::dev.off(device), add = TRUE)
+    do.call(sem_paths, c(list(lav_obj = x), args))
+    grDevices::dev.off(device)
+    knitr::image_uri(png_file)
+  }
+  # Keep the remaining report available when a particular model cannot be drawn.
+  result <- tryCatch(list(uri = render(), error = NULL),
+                     error = function(e) list(uri = NULL, error = conditionMessage(e)))
+  c(result, list(code = code, width = width, height = height, args = args))
+}
+
+# Internal standalone report renderer; kept here so source("R/cfa2.R") is enough.
+.cfa2_web_report <- function(tables, model, plot, variable_order, digits = 3,
+                              file = tempfile("cfa2-report-", fileext = ".html"),
+                              diagram = NULL, table_notes = list()) {
+  if (!requireNamespace("htmltools", quietly = TRUE)) {
+    stop("Install htmltools to use cfa2(web = TRUE).")
+  }
+  esc <- function(x) as.character(htmltools::htmlEscape(enc2utf8(as.character(x))))
+  code_block <- function(x) paste0("<pre><code>", esc(x), "</code></pre>")
+  # A fenced block longer than any backtick sequence in user-supplied syntax.
+  md_code <- function(x) {
+    runs <- regmatches(x, gregexpr("`+", x))[[1]]
+    fence <- paste(rep("`", max(c(2L, nchar(runs))) + 1L), collapse = "")
+    paste(fence, x, fence, sep = "\n")
+  }
+  model_text <- paste(as.character(model), collapse = "\n")
+  code_card <- function(title, text, id) paste0(
+    '<section class="code-card"><div class="table-heading"><h2>', esc(title), '</h2>',
+    '<div class="table-actions"><button type="button" class="copy-code" data-copy-target="',
+    id, '">코드 복사</button><span class="copy-status" role="status" aria-live="polite"></span>',
+    '</div></div><pre><code id="', id, '">', esc(text), '</code></pre></section>')
+  image_card <- function(title, uri, filename, alt) paste0(
+    '<section class="image-card"><div class="table-heading"><h2>', esc(title), '</h2>',
+    '<a class="download-image" href="', uri, '" download="', filename, '">PNG 다운로드</a>',
+    '</div><img class="report-plot" alt="', esc(alt), '" src="', uri, '"></section>')
+  sections <- code_card("Model", model_text, "model-code")
+  markdown <- c("# CFA / SEM Results", "", "## Model", "", md_code(model_text))
+  for (i in seq_along(tables)) {
+    title <- names(tables)[i]
+    data <- tables[[i]]
+    if (is.null(data)) {
+      sections <- c(sections, paste0("<section><h2>", esc(title),
+                    "</h2><p>Not computed / unavailable.</p></section>"))
+      markdown <- c(markdown, "", paste0("## ", title), "", "Not computed / unavailable.")
+      next
+    }
+    # knitr escapes cell HTML. Markdown needs explicit escaping of pipes and newlines.
+    md_data <- as.data.frame(data, stringsAsFactors = FALSE)
+    md_escape <- function(x) {
+      x <- gsub("&", "&amp;", as.character(x), fixed = TRUE)
+      x <- gsub("<", "&lt;", x, fixed = TRUE)
+      x <- gsub(">", "&gt;", x, fixed = TRUE)
+      x <- gsub("|", "&#124;", x, fixed = TRUE)
+      gsub("[\r\n]+", "<br>", x)
+    }
+    for (col in names(md_data)) {
+      if (!is.numeric(md_data[[col]])) md_data[[col]] <- md_escape(md_data[[col]])
+    }
+    names(md_data) <- md_escape(names(md_data))
+    rownames(md_data) <- md_escape(rownames(md_data))
+    html_table <- paste(knitr::kable(data, format = "html", digits = digits,
+                                     escape = TRUE), collapse = "\n")
+    md_table <- paste(knitr::kable(md_data, format = "pipe", digits = digits), collapse = "\n")
+    notes <- table_notes[[title]]
+    note_html <- if (length(notes)) paste0('<div class="table-note" role="note">',
+                         paste(esc(notes), collapse = "<br>"), '</div>') else ""
+    sections <- c(sections, paste0(
+      '<section class="table-card" aria-labelledby="table-title-', i, '">',
+      '<div class="table-heading"><h2 id="table-title-', i, '">', esc(title), '</h2>',
+      '<div class="table-actions"><button type="button" class="copy-table" aria-label="',
+      esc(paste(title, "표 복사")), '">표 복사</button>',
+      '<span class="copy-status" role="status" aria-live="polite"></span></div></div>',
+      '<div class="table-scroll" tabindex="0">', html_table, '</div>', note_html, '</section>'))
+    markdown <- c(markdown, "", paste0("## ", title), "", md_table)
+    if (length(notes)) markdown <- c(markdown, "", paste0("> ", notes))
+  }
+  png_file <- tempfile("cfa2-loadings-", fileext = ".png")
+  on.exit(unlink(png_file), add = TRUE)
+  ggplot2::ggsave(png_file, plot = plot, width = max(9, length(unique(variable_order)) * .55),
+                 height = 5.5, dpi = 150, bg = "white", limitsize = FALSE)
+  image_uri <- knitr::image_uri(png_file)
+  sections <- c(sections, image_card("Factor loadings", image_uri,
+                                      "cfa2-factor-loadings.png", "Standardized factor loadings"),
+                  paste0('<section><h2>Variable order</h2>',
+                         code_block(paste(variable_order, collapse = ", ")), '</section>'))
+  markdown <- c(markdown, "", "## Factor loadings", "",
+                paste0("![Standardized factor loadings](", image_uri, ")"),
+                "", "## Variable order", "", md_code(paste(variable_order, collapse = ", ")))
+  # Keep both model diagrams at the end of HTML and Markdown reports.
+  if (!is.null(diagram)) {
+    if (!is.null(diagram$code)) diagram <- list(unstandardized = diagram)
+    for (mode in names(diagram)) {
+      current <- diagram[[mode]]
+      standardized <- identical(mode, "standardized")
+      title <- if (standardized) "Model diagram — Standardized (표준화 계수)" else
+                                "Model diagram — Unstandardized (비표준화 계수)"
+      alt <- if (standardized) "SEM path diagram with standardized coefficients" else
+                              "SEM path diagram with unstandardized coefficients"
+      filename <- paste0("cfa2-model-", mode, ".png")
+      if (!is.null(current$uri)) {
+        sections <- c(sections, image_card(title, current$uri, filename, alt))
+        markdown <- c(markdown, "", paste0("## ", title), "",
+                      paste0("![", alt, "](", current$uri, ")"))
+      } else {
+        sections <- c(sections, paste0('<section><h2>', esc(title), '</h2>',
+                       '<p>모델 도형을 그릴 수 없습니다: ', esc(current$error), '</p></section>'))
+        markdown <- c(markdown, "", paste0("## ", title), "", current$error)
+      }
+      sections <- c(sections, paste0('<details class="diagram-code"><summary>',
+                      esc(paste(title, "R 코드")), '</summary>',
+                      code_card("semPaths2 R code", current$code, paste0("diagram-code-", mode)), '</details>'))
+      markdown <- c(markdown, "", "### semPaths2 R code", "", md_code(current$code))
+    }
+  }
+  css <- r"---(
+:root{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#1e293b;background:#f1f5f9}
+*{box-sizing:border-box}body{margin:0}header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #dbe2ec;padding:18px max(24px,calc((100% - 1200px)/2));display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+h1{font-size:23px;margin:0 0 5px}header p{margin:0;color:#64748b;font-size:14px}main{max-width:1248px;margin:auto;padding:24px}section{background:#fff;border:1px solid #dbe2ec;border-radius:12px;padding:22px;margin-bottom:20px;min-width:0}
+h2{font-size:18px;margin:0 0 16px}.downloads,.table-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}button,.download-image{font:inherit;text-decoration:none;display:inline-block;cursor:pointer;border:1px solid #cbd5e1;border-radius:7px;padding:9px 14px;background:#fff;color:#1e293b}button:hover,.download-image:hover{background:#eff6ff;border-color:#2563eb}button:focus-visible,.download-image:focus-visible,[tabindex]:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}#download-html{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
+.table-heading{display:flex;justify-content:space-between;gap:16px;align-items:baseline;flex-wrap:wrap}.table-actions{min-height:40px}.copy-table{opacity:0;transition:opacity .15s}.table-card:hover .copy-table,.table-card:focus-within .copy-table{opacity:1}.copy-status{font-size:13px;color:#1d4ed8}.table-note{margin-top:14px;padding:12px 14px;border-left:4px solid #f59e0b;background:#fffbeb;font-size:13px;line-height:1.7;overflow-wrap:anywhere}.table-scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:10px 12px;border-bottom:1px solid #e2e8f0;white-space:nowrap}thead{background:#f8fafc}th{font-weight:600}tbody tr:hover{background:#f8fafc}pre{padding:16px;background:#f8fafc;white-space:pre-wrap;overflow-wrap:anywhere;border-radius:7px;font-size:14px;line-height:1.6}.report-plot{display:block;width:100%;height:auto}.image-card .table-heading{margin-bottom:16px}.code-card pre{max-height:360px;overflow:auto}.diagram-code{margin-bottom:20px}.diagram-code summary{cursor:pointer;padding:12px;font-weight:600}.diagram-code section{margin-top:8px}footer{padding:0 24px 24px;text-align:center;color:#64748b;font-size:13px}[hidden]{display:none!important}
+@media(hover:none){.copy-table{opacity:1}}@media(max-width:600px){main{padding:12px}section{padding:14px}header{padding:14px}.table-heading h2{width:100%;margin-bottom:0}}
+@media print{header{position:static}.downloads,.table-actions,.download-image,footer{display:none}main{padding:0}section{border:0;break-inside:avoid}.table-scroll{overflow:visible}table{font-size:10px}th,td{padding:5px;white-space:normal}}
+)---"
+  js <- r"---(
+(() => {
+  'use strict';
+  function download(name, content, type) {
+    const url = URL.createObjectURL(new Blob([content], {type}));
+    const link = document.createElement('a');
+    link.href = url; link.download = name; document.body.appendChild(link);
+    link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  document.getElementById('download-html').addEventListener('click', () => {
+    download('cfa2-results.html', '<!doctype html>\n' + document.documentElement.outerHTML, 'text/html;charset=utf-8');
+  });
+  document.getElementById('download-md').addEventListener('click', () => {
+    download('cfa2-results.md', document.getElementById('markdown-source').value, 'text/markdown;charset=utf-8');
+  });
+  function fallbackCopy(table, text, html) {
+    const selection = window.getSelection();
+    const saved = [];
+    for (let i = 0; i < selection.rangeCount; i++) saved.push(selection.getRangeAt(i).cloneRange());
+    const range = document.createRange(); range.selectNodeContents(table);
+    const copy = event => {
+      if (event.clipboardData) {
+        event.clipboardData.setData('text/plain', text);
+        if (html) event.clipboardData.setData('text/html', html); event.preventDefault();
+      }
+    };
+    document.addEventListener('copy', copy);
+    selection.removeAllRanges(); selection.addRange(range);
+    try { if (!document.execCommand('copy')) throw new Error('Copy unavailable'); }
+    finally {
+      document.removeEventListener('copy', copy); selection.removeAllRanges();
+      saved.forEach(item => selection.addRange(item));
+    }
+  }
+  document.querySelectorAll('.copy-code').forEach(button => {
+    button.addEventListener('click', async () => {
+      const code = document.getElementById(button.getAttribute('data-copy-target'));
+      const status = button.closest('.code-card').querySelector('.copy-status');
+      const text = code.textContent;
+      try {
+        let copied = false;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          try { await navigator.clipboard.writeText(text); copied = true; } catch (_) {}
+        }
+        if (!copied) fallbackCopy(code, text, null);
+        status.textContent = '코드 복사 완료';
+      } catch (_) { status.textContent = '코드를 복사할 수 없습니다. 코드를 선택해 복사해 주세요.'; }
+    });
+  });
+  document.querySelectorAll('.copy-table').forEach(button => {
+    button.addEventListener('click', async () => {
+      const card = button.closest('.table-card'); const table = card.querySelector('table');
+      const status = card.querySelector('.copy-status');
+      const text = Array.from(table.rows, row => Array.from(row.cells, cell =>
+        cell.innerText.replace(/[\t\r\n]+/g, ' ').trim()).join('\t')).join('\n');
+      const html = '<html><head><meta charset="utf-8"></head><body>' + table.outerHTML + '</body></html>';
+      try {
+        let copied = false;
+        if (navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) {
+          try {
+            await navigator.clipboard.write([new ClipboardItem({
+              'text/html': new Blob([html], {type:'text/html'}),
+              'text/plain': new Blob([text], {type:'text/plain'})
+            })]); copied = true;
+          } catch (_) { /* Local-file browsers may require the selection fallback. */ }
+        }
+        if (!copied) fallbackCopy(table, text, html);
+        status.textContent = '복사 완료';
+      } catch (_) { status.textContent = '복사할 수 없습니다. 표를 선택해 복사해 주세요.'; }
+    });
+  });
+})();
+)---"
+  html <- paste0('<!doctype html>\n<html lang="ko"><head><meta charset="utf-8">',
+    '<meta name="viewport" content="width=device-width,initial-scale=1">',
+    '<title>CFA / SEM Results</title><style>', css, '</style></head><body>',
+    '<header><div><h1>CFA / SEM Results</h1><p>표에 마우스를 올리면 복사 버튼이 나타납니다.</p></div>',
+    '<div class="downloads"><button type="button" id="download-html">HTML 다운로드</button>',
+    '<button type="button" id="download-md">Markdown (.md) 다운로드</button></div></header><main>',
+    paste(sections, collapse = "\n"), '</main>',
+    '<footer>jjstat · CFA / SEM report</footer>',
+    '<textarea id="markdown-source" hidden aria-hidden="true">',
+    esc(paste(markdown, collapse = "\n")), '</textarea>',
+    '<script>', js, '</script></body></html>')
+  writeLines(enc2utf8(html), file, useBytes = TRUE)
+  invisible(normalizePath(file, winslash = "/", mustWork = TRUE))
+}
 
 
 # #cfa2 CFA lavaan SEM----

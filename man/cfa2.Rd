@@ -14,11 +14,13 @@ cfa2(
   cex = 11,
   hjust = 0.9,
   val.size = 4,
-  dis.sort = TRUE,
+  dis.sort = FALSE,
   rename = FALSE,
   var_name = NA,
   digits = 3,
-  type = "all"
+  type = "all",
+  web = TRUE,
+  path_args = list()
 )
 }
 \arguments{
@@ -41,15 +43,70 @@ if you want roburst option htmt_cut =0.9}
 
 \item{val.size}{text size}
 
-\item{dis.sort}{item sort}
+\item{dis.sort}{Logical. For loading bars, \code{FALSE} (default) preserves the
+measurement order returned in \code{variable_order}; \code{TRUE}
+sorts the original item names lexicographically (e.g., Q1, Q10, Q2).
+With \code{FALSE}, legend entries follow the first appearance of each
+latent factor in the model; with \code{TRUE}, they are sorted by name.
+Sorting does not require renaming and is independent of display labels.}
 
-\item{rename}{item validiation new name apply}
+\item{rename}{Logical. If \code{TRUE}, use \code{var_name} as display names
+in the loading table and bar plot. This does not control item order.}
 
-\item{var_name}{new text name default NULL}
+\item{var_name}{Display names in the original measurement order, with one
+non-missing name per loading row. Ignored when \code{rename = FALSE}.}
 
 \item{digits}{value rounding}
 
-\item{type}{result type}
+\item{type}{Character string selecting the result (case-sensitive):
+\describe{
+  \item{\code{all}}{Default: a list of model syntax, fit tables, loadings,
+    reliability, validity, latent paths, loading bars, and variable order.}
+  \item{\code{raw}, \code{data.frame}}{A list of unformatted fit, loading,
+    convergent/discriminant validity, HTMT and latent-path data, plus the plot.}
+  \item{\code{model}}{Model syntax extracted from the fitted model.}
+  \item{\code{modelfit}}{Fit indices with criteria, as a data frame.}
+  \item{\code{modelfit_paper}}{Publication-oriented fit summary in raw format.}
+  \item{\code{modelfit2}}{Formatted model-fit table.}
+  \item{\code{loadings}, \code{item}, \code{indicator}}{Loading data with
+    estimates, standard errors, standardized loadings, tests and acceptance labels.}
+  \item{\code{loadings_bar}}{A ggplot of standardized loadings. Only this
+    output skips fit, reliability and validity calculations when \code{web = FALSE}.}
+  \item{\code{alpha}}{Cronbach alpha, composite reliability and their checks.}
+  \item{\code{CR_AVE}, \code{Convergent}}{Cronbach alpha, composite
+    reliability (omega3) and average variance extracted (AVE). If omega3
+    exceeds 1, CR is recalculated from standardized loadings as
+    \eqn{(\sum \lambda)^2 / ((\sum \lambda)^2 + \sum(1 - \lambda^2))}.
+    Conversion details appear below affected web tables and in the
+    \code{CR_adjustments} attribute of the full/raw result and convergent data.
+    Invalid standardized loadings or denominators yield NA instead.}
+  \item{\code{item_CR_AVE}}{Combined loading, CR and AVE table.}
+  \item{\code{item_CR_AVE_web}}{Combined loading, CR and AVE table via web().}
+  \item{\code{fl_criteria}, \code{Discriminant}}{Fornell-Larcker
+    discriminant-validity data (latent correlations and square root of AVE).}
+  \item{\code{htmt}, \code{HTMT}}{HTMT matrix after excluding single-item
+    factors before calculation. At least two multi-item factors are required;
+    otherwise returns NULL with an explanation in the full result.}
+  \item{\code{str_cor}}{Regression/covariance estimates and significance data.}
+}}
+
+\item{web}{Logical, default \code{TRUE}. If \code{TRUE}, always render
+the complete \code{type = "all"} result in a local web page, regardless
+of \code{type}. The page provides HTML/Markdown downloads and a copy
+button on each table (shown on hover or keyboard focus), code copying, and
+PNG downloads for the loading plot and two \code{semPaths2()} model diagrams
+at the bottom: unstandardized (\code{whatLabels = "est"}) and fully
+standardized (\code{whatLabels = "std"}) coefficients.
+Use \code{web = FALSE} to return a selected R result without opening a page.
+No server is needed.
+The full result is returned invisibly with its path in \code{attr(result, "web_file")}.}
+
+\item{path_args}{Named list of overrides passed to \code{semPaths2()} for
+the web diagram. Defaults include \code{sizeMan = 5}, \code{sizeMan2 = 2},
+\code{sizeLat = 6}, \code{sizeLat2 = 3}, and \code{curve = 3}.
+Image dimensions adapt to the number of observed and latent variables.
+Both diagrams share these settings; \code{whatLabels} is set separately
+to \code{"est"} and \code{"std"} for the two coefficient versions.}
 }
 \description{
 Create CFA result summary by lavaan sem estimated result By Park Joonghee Ph.D
@@ -69,61 +126,58 @@ model1 <- "
 
 fit1 <- sem(model1, data = PoliticalDemocracy)
 
-# 기본 사용법: 전체 결과 출력
+# 1. 기본 사용법: 전체 결과를 웹페이지로 출력
+# 기본값: web = TRUE, dis.sort = FALSE
+# 막대와 범례는 분석 결과의 변수/요인 순서를 유지합니다.
 cfa2(fit1)
 
-# 특정 결과(res)만 출력 예시
-cfa2(fit1, res = "modelfit")        # 모델 적합도
-cfa2(fit1, res = "loadings")        # 요인적재량 테이블
-cfa2(fit1, res = "alpha")           # 신뢰도(Cronbach alpha)
-cfa2(fit1, res = "CR_AVE")          # 수렴타당도(CR, AVE)
-cfa2(fit1, res = "Discriminant")    # 판별타당도 (Fornell-Larcker 기준)
-cfa2(fit1, res = "htmt", dataset = PoliticalDemocracy, model = model1)  # HTMT 지표
-cfa2(fit1, res = "str_cor")         # 잠재변수 간 경로 유의성
+# 2. 확인적요인분석 절차: 특정 결과를 R 객체로 받기
+# res가 아닌 type을 사용하고, web = FALSE를 지정합니다.
+cfa2(fit1, type = "modelfit",     web = FALSE) # 모델 적합도
+cfa2(fit1, type = "loadings",     web = FALSE) # 지표타당도: 요인적재량
+cfa2(fit1, type = "alpha",        web = FALSE) # 신뢰도: Cronbach alpha, CR
+cfa2(fit1, type = "CR_AVE",       web = FALSE) # 수렴타당도: CR, AVE
+cfa2(fit1, type = "Discriminant", web = FALSE) # Fornell-Larcker 판별타당도
+cfa2(fit1, type = "htmt",         web = FALSE) # HTMT 판별타당도 (Henseler et al., 2015)
+cfa2(fit1, type = "str_cor",      web = FALSE) # 잠재변수 간 경로/공분산 유의성
+# HTMT는 단일 문항 요인을 계산 전에 제외합니다.
+# dataset/model 인수를 추가할 필요 없이 fit1에서 데이터를 추출합니다.
+cfa2(fit1, type = "htmt", htmt2 = TRUE, htmt_cut = 0.85, web = FALSE)
 
-# 시각화 결과: 요인적재량 바그래프 출력
-cfa2(fit1, res = "loadings_bar")
+# 3. 웹 보고서 기능
+result <- cfa2(fit1, web = TRUE)
+# 상단: 전체 보고서를 .html 또는 .md로 다운로드
+# 각 표: 마우스를 올리거나 키보드로 이동하면 표 복사 버튼 표시
+# 모델 구문 및 도형 R 코드: 코드 복사 버튼 제공
+# 적재량 막대그래프: PNG 다운로드
+# 보고서 하단: 비표준화/표준화 모델 도형과 각각의 PNG 다운로드
+# 웹 출력에서도 전체 결과는 result에 저장됩니다.
+result$variable_order
+attr(result, "web_file") # 생성된 HTML 파일 경로
 
-# 사용자 정의 변수명 적용(rename + var_name)
-new_names <- c("Indicator1", "Indicator2", "Indicator3",
-               "Democracy1", "Democracy2", "Democracy3", "Democracy4",
-               "Democracy5", "Democracy6", "Democracy7", "Democracy8")
+# 도형 크기와 곡률 조절: 두 계수 도형에 공통 적용
+cfa2(fit1, web = TRUE, path_args = list(
+  sizeMan = 5, sizeMan2 = 2, sizeLat = 6, sizeLat2 = 3, curve = 3
+))
+# web = TRUE이면 type 지정과 관계없이 전체 결과를 웹페이지로 출력합니다.
 
-# 그래프의 색을 바꾸고 싶은 경우
-cfa2(fit, type = "loadings_bar") +
-scale_fill_grey()
-# rename = TRUE일 경우에만 var_name이 반영됨
+# 4. 막대그래프만 R에서 받기 (기본: 분석 순서, 범례도 요인 순서)
+cfa2(fit1, type = "loadings_bar", web = FALSE)
+# 원래 변수명과 범례를 이름순으로 정렬하려는 경우
+cfa2(fit1, type = "loadings_bar", dis.sort = TRUE, web = FALSE)
+# 색상 변경
+cfa2(fit1, type = "loadings_bar", web = FALSE) + ggplot2::scale_fill_grey()
+
+# 5. 표시 이름을 바꿀 때만 rename = TRUE 사용
+# 이름은 result$variable_order의 순서에 맞춰 지정합니다.
+new_names <- paste0("Indicator", seq_along(result$variable_order))
 cfa2(fit1, rename = TRUE, var_name = new_names)
+# rename = FALSE이면 var_name은 무시되며 정렬에는 영향을 주지 않습니다.
 
-# rename = FALSE일 경우 var_name은 무시됨
-cfa2(fit1, rename = FALSE, var_name = new_names)
-
-# 다양한 출력 포맷 지정
-cfa2(fit1, format = "markdown")
-cfa2(fit1, format = "html") \%>\% kableExtra::kable_minimal(full_width = FALSE)
-
-# 모델 간 비교
-model2 <- "
-  ind60 =~ x1 + x2 + x3
-  dem60 =~ y1 + y2 + y3 + y4
-  dem65 =~ y5 + y6 + y7 + y8
-  dem60 ~ ind60
-  dem65 ~ ind60 + dem60
-"
-fit2 <- sem(model2, data = PoliticalDemocracy)
-CompareFit_diff(fit1, fit2)
-
-# AVE 직접 확인
-AVE(fit1)
-AVE(fit2)
-
-# 통합 요약 테이블 출력 (CR, AVE 포함)
-library(dplyr)
-full_join(
-  cfa2(fit1, type = "item") \%>\% dplyr::select(-Accept, -p),
-  cfa2(fit1, type = "Convergent") \%>\% row2col("Latent") \%>\%
-    dplyr::select(-Cronbach) \%>\% Round(3),
-  by = "Latent"
-) \%>\% nice_table()
+# 6. 전체 R 결과 및 원본 데이터 받기
+all_results <- cfa2(fit1, web = FALSE)
+raw_results <- cfa2(fit1, type = "raw", web = FALSE)
+# 특정 표를 HTML로 변환하기
+knitr::kable(cfa2(fit1, type = "loadings", web = FALSE), format = "html")
 }
 }

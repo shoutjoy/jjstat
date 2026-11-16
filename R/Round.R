@@ -123,7 +123,7 @@ Round <- function(data, digits=3, type= "tibble", exclude = NULL){
 #'
 #'}
 #'
-#'
+#' # 코드 업데이트
 round2 = function(data, digits=2){
   # 데이터 타입에 따라 처리
   for (i in 1:ncol(data)) {

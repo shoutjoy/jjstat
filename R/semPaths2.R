@@ -86,7 +86,7 @@ semPaths2 = function(lav_obj, whatLabels = "est",
         shapeLat = shapeLat, border.width = border.width,
         groups = "lat", pastel = TRUE, edge.width = edge.width,
         curve = curve, asize = asize, nDigits = nDigits,
-        structual = structual, style = style, mar = mar)
+        structural = structual, style = style, mar = mar)
     } else {
       dia <- lav_obj %>% semPlot::semPaths(
         whatLabels = whatLabels, fade = FALSE, posCol = "black",
@@ -99,7 +99,7 @@ semPaths2 = function(lav_obj, whatLabels = "est",
         shapeLat = shapeLat, border.width = border.width,
         groups = "lat", pastel = TRUE, edge.width = edge.width,
         curve = curve, asize = asize, nDigits = nDigits,
-        structual = structual, nodeLabels = nodeLabels,
+        structural = structual, nodeLabels = nodeLabels,
         style = style, mar = mar)
     }
   } else {
@@ -114,7 +114,7 @@ semPaths2 = function(lav_obj, whatLabels = "est",
         sizeLat = sizeLat, sizeLat2 = sizeLat2,
         shapeLat = shapeLat, border.width = border.width,
         edge.width = edge.width, curve = curve, asize = asize,
-        nDigits = nDigits, structual = structual,
+        nDigits = nDigits, structural = structual,
         style = style, mar = mar)
     } else {
       dia <- lav_obj %>% semPlot::semPaths(
@@ -127,7 +127,7 @@ semPaths2 = function(lav_obj, whatLabels = "est",
         sizeLat = sizeLat, sizeLat2 = sizeLat2,
         shapeLat = shapeLat, border.width = border.width,
         edge.width = edge.width, curve = curve, asize = asize,
-        nDigits = nDigits, structual = structual,
+        nDigits = nDigits, structural = structual,
         nodeLabels = nodeLabels, style = style, mar = mar)
     }
   }

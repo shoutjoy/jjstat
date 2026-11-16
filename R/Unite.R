@@ -110,7 +110,7 @@ Unite <- function(data, col1, col2, Col=NULL, sep="", remove=TRUE) {
 #' result4 <- Unite_col(data, "Original", "sig", "New")
 #' print(result4)
 #' }
-Unite_col <- function(data, col1, col2, Col = NULL, sep = ",", remove = TRUE, left = "[", right = "]") {
+Unite_col <- function(data, col1, col2, Col = NULL, sep = ",",  left = "[", right = "]",remove = TRUE) {
   # Check if col1 and col2 are numeric
   if (is.numeric(col1) && is.numeric(col2)) {
     col1 <- names(data)[col1]

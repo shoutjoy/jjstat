@@ -10,9 +10,9 @@ Unite_col(
   col2,
   Col = NULL,
   sep = ",",
-  remove = TRUE,
   left = "[",
-  right = "]"
+  right = "]",
+  remove = TRUE
 )
 }
 \arguments{
@@ -26,11 +26,11 @@ Unite_col(
 
 \item{sep}{Separator string to use between the combined values (default = ",").}
 
-\item{remove}{Logical, whether to remove the original columns after uniting (default = TRUE).}
-
 \item{left}{String to add to the left side of the combined values (default = "[").}
 
 \item{right}{String to add to the right side of the combined values (default = "]").}
+
+\item{remove}{Logical, whether to remove the original columns after uniting (default = TRUE).}
 }
 \value{
 A data frame with the combined column.
