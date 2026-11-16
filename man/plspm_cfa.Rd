@@ -4,7 +4,7 @@
 \alias{plspm_cfa}
 \title{plspm CFA}
 \usage{
-plspm_cfa(plsres_boot, type = "all", axis_x = 1.2)
+plspm_cfa(plsres_boot, type = "all", axis_x = 1.2, web = TRUE)
 }
 \arguments{
 \item{plsres_boot}{bootstrap plspm data}
@@ -12,9 +12,14 @@ plspm_cfa(plsres_boot, type = "all", axis_x = 1.2)
 \item{type}{all, cfa1, cfa2, item, CRAVE, fl1981, htmt, f2. total_effect}
 
 \item{axis_x}{1.2 setting efffecbar text size}
+
+\item{web}{Logical; default TRUE opens a standalone HTML report with all
+results, regardless of type. FALSE returns the selected R result.}
 }
 \value{
-multiple data
+With web = FALSE, the result selected by type. With web = TRUE,
+  invisibly returns all results with the report path in attribute web_file.
+  The report supports table copying and HTML, Markdown and PNG downloads.
 }
 \description{
 plspm CFA
@@ -56,17 +61,17 @@ sat_blocks1
 satpls_boot = plspm_sem(satisfaction, sat_path, sat_blocks1, scaled = FALSE,
                         boot.val =TRUE, br=100)
 ##
-satpls_boot\%>\%plspm_cfa()
-satpls_boot\%>\%plspm_cfa("res")
+satpls_boot\%>\%plspm_cfa(web = TRUE)
+result <- plspm_cfa(satpls_boot, type = "CRAVE", web = FALSE)
+satpls_boot\%>\%plspm_cfa("res", web = FALSE)
 
-satpls_boot\%>\%plspm_cfa(type="cfa1")
-satpls_boot\%>\%plspm_cfa(type="cfa2")
-satpls_boot\%>\%plspm_cfa(type="cor")
-satpls_boot\%>\%plspm_cfa(type="model")
-satpls_boot\%>\%plspm_cfa(type="inner_model") \%>\%plspm_inner_model_sig()
-satpls_boot\%>\%plspm_cfa(type="outer_model")
-satpls_boot\%>\%plspm_cfa(type="effectbar")
-total
+satpls_boot\%>\%plspm_cfa(type="cfa1", web = FALSE)
+satpls_boot\%>\%plspm_cfa(type="cfa2", web = FALSE)
+satpls_boot\%>\%plspm_cfa(type="cor", web = FALSE)
+satpls_boot\%>\%plspm_cfa(type="model", web = FALSE)
+satpls_boot\%>\%plspm_cfa(type="inner_model", web = FALSE) \%>\%plspm_inner_model_sig()
+satpls_boot\%>\%plspm_cfa(type="outer_model", web = FALSE)
+satpls_boot\%>\%plspm_cfa(type="effect_bar", web = FALSE)
 }
 
 
