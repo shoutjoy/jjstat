@@ -5,3 +5,12 @@
 ^\.gitignore$
 ^\.RData$
 ^\.Rhistory$
+^artifacts$
+^verification$
+^docs$
+^tools$
+^\.korean_manual_build.*$
+^\.Rd2pdf.*$
+^manual_build\.log$
+^jjstat_.*_Korean\.pdf$
+^push\.py$

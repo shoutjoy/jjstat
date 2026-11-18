@@ -1,0 +1,17 @@
+<!doctype html><html lang="ko" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>R AI · Markdown & PV</title><link rel="stylesheet" href="ui/panel.css"></head><body>
+<header>
+<div class="brand"><strong id="app-title">R AI</strong><span id="connection"></span></div>
+<button id="composer-toggle" aria-expanded="false" aria-controls="composer" title="질문 입력 열기/접기">+ 질문</button>
+<label class="mini-model" title="사용할 모델 ID">모델 <input id="model" autocomplete="off" placeholder="저장 모델"></label>
+<div class="document-tools"><div role="tablist" aria-label="응답 보기"><button id="tab-pv" role="tab" aria-selected="true" aria-controls="pv-panel" class="selected" title="PV 미리보기">PV</button><button id="tab-md" role="tab" aria-selected="false" aria-controls="md-panel" title="Markdown 원문">MD</button></div></div>
+<span id="activity" role="status" title="요청 상태">준비</span>
+<button id="info-toggle" aria-expanded="false" aria-controls="response-info">+ 정보</button>
+<button id="stop-response" disabled title="응답 중지">중지</button>
+<div class="menu-anchor"><button id="menu-toggle" aria-expanded="false" aria-controls="toolbar-menu" title="복사·다운로드·기록 메뉴">⋯ 메뉴</button>
+<div id="toolbar-menu" hidden><button id="copy-all" disabled>PV 전체 복사</button><button id="copy-md" disabled>MD 복사</button><button id="download-md" disabled>MD 다운로드</button><button id="current-response" hidden>현재 응답으로</button><button id="new-question">새 질문</button><button id="continue-response" disabled>이어서 작성</button><button id="history-toggle">질문 히스토리</button><button id="theme-toggle" aria-pressed="false">다크 모드</button></div></div>
+</header>
+<div id="workspace"><aside id="history" hidden><div class="aside-title"><strong>저장된 질문</strong><div><button id="history-refresh">새로고침</button><button id="history-close" title="기록 접기">×</button></div></div><p class="hint">질문과 응답을 이 컴퓨터에 저장합니다.</p><div id="history-list"></div></aside><main>
+<section id="composer" hidden><label class="question-label" for="prompt">질문 <small>여러 줄 입력 · Ctrl+Enter 실행 · 아래 모서리로 크기 조절</small></label><textarea id="prompt" rows="5" maxlength="30000" placeholder="새 질문을 입력하세요"></textarea><div class="composer-actions"><span id="draft-note">버튼을 눌러야 요청을 시작합니다.</span><button id="composer-close">접기</button><button id="ask" class="primary">질문 실행</button></div></section>
+<section id="response-info" class="status-box" hidden><section id="question" hidden></section><div id="status">준비</div></section><div id="notice" aria-live="polite"></div>
+<section id="pv-panel" role="tabpanel" aria-labelledby="tab-pv"><iframe id="answer" sandbox="allow-same-origin" title="렌더링된 PV 응답"></iframe></section><section id="md-panel" role="tabpanel" aria-labelledby="tab-md" hidden><textarea id="markdown" readonly spellcheck="false" aria-label="Markdown 원문"></textarea></section>
+</main></div><script src="config.js"></script><script src="katex/katex.min.js"></script><script src="ui/vendor.js"></script><script src="ui/panel.js"></script></body></html>

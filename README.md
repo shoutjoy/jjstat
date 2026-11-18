@@ -474,3 +474,19 @@ CRAN 등록을 위한 단계별 작업은 [process.md](process.md)에 정리되�
 ## 라이선스
 
 이 패키지는 GPL-3 라이선스를 따릅니다.
+
+
+## AI 분석 보조 기능
+
+Ollama, LM Studio, Google AI Studio, Lemonade, LG EXAONE를 지원합니다.
+
+```r
+library(jjstat)
+exaone_setting()  # API 키 입력 후 설정 저장
+results |> exaone("분석결과를 설명해줘")
+results |> exaone_window()
+```
+
+[AI 사용 안내](inst/doc/AI_GUIDE.md) · [EXAONE 설정](inst/doc/AI_EXAONE.md)
+
+RStudio 밖에서는 질문 함수에 `viewer=FALSE`를 지정합니다. 별도 질문창은 RStudio 없이도 사용할 수 있습니다. EXAONE의 주소와 모델은 기본 설정되며 API 키만 필요합니다. 실제 키는 공유 코드에 저장하지 마십시오.

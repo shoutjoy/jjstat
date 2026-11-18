@@ -1,0 +1,1 @@
+import mermaid from "mermaid";import purify from "dompurify";window.AIVendor={mermaid,purify};

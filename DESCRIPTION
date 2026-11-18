@@ -4,8 +4,10 @@ Title: Statistical Analysis Tools for Writing Papers
 Version: 0.1.9
 Author: Park Joonghee
 Maintainer: The package maintainer <shoutjoy@hanmail.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Statistical analysis and reporting tools for research papers,
+    with optional AI-assisted interpretation through Ollama, LM Studio,
+    Google AI Studio, Lemonade, and LG EXAONE. Includes streaming Markdown
+    reports and independent question windows.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -21,7 +23,12 @@ Imports:
   rlang,
   stringr,
   tibble (>= 3.2.1),
-  tidyr
+  tidyr,
+  jsonlite,
+  processx,
+  commonmark,
+  tools,
+  later
 Suggests:
   agricolae,
   ca,
@@ -70,7 +77,10 @@ Suggests:
   semPlot,
   semptools,
   VIM,
-  mice
+  mice,
+  rstudioapi,
+  tcltk
+SystemRequirements: curl
 Depends:
     R (>= 4.1.0),
     tidyverse,

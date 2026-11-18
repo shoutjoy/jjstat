@@ -1,0 +1,1 @@
+const path=require('path');process.chdir(__dirname);require('esbuild').build({entryPoints:['entry.js'],bundle:true,minify:true,format:'iife',target:'es2020',outfile:path.resolve('../../../inst/assets/ui/vendor.js'),legalComments:'inline'}).catch(e=>{console.error(e);process.exit(1)});

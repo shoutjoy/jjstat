@@ -1,0 +1,7 @@
+Sys.setlocale('LC_CTYPE','Korean_Korea.utf8');for(f in list.files('R',pattern='^ai_.*[.]R$',full.names=TRUE))source(f,encoding='UTF-8');.ai_math_assets<-normalizePath('inst/assets/katex',winslash='/')
+cases<-c('**(\uad04\ud638)**\uc774\ub2e4','**"\ub530\uc634\ud45c"**\uc774\uba70','**;;,.:!?@#%&+=/[]{}< >|**\ub05d','**[\ub9c1\ud06c](https://example.org)**\uc774\ub2e4','**`a | b`**\uc774\ub2e4','**$t(20) = 2.31$**\uc774\ub2e4','**\ubcc4*\ud45c**\uc774\ub2e4','***\uad75\uc740 \uae30\uc6b8\uc784***','`**literal**`','```r\n"**literal**"\n```','    **literal**')
+for(x in cases)cat(x,'=>',.ai_markdown_html(x),'\n')
+stopifnot(grepl('<strong>\\(\uad04\ud638\\)</strong>\uc774\ub2e4',.ai_markdown_html(cases[1])))
+h<-.ai_markdown_html('| \ubcc0\uc218 |\n|---|\n| **A|B** |');stopifnot(length(gregexpr('<td>',h,fixed=TRUE)[[1]])==1L,grepl('<strong>A|B</strong>',h,fixed=TRUE))
+stopifnot(!grepl('<strong>',.ai_markdown_html('```r\n"**literal**"\n```'),fixed=TRUE))
+cat('PASS: punctuation bold, adjacent Korean, nested math/code/link, table pipe and literal code\n')
